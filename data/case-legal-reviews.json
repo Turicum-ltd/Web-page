@@ -1,0 +1,12 @@
+[
+  {
+    "caseId": "case-in-001",
+    "status": "pending",
+    "lawyerName": "Atlas QA",
+    "summary": "AI review is not complete yet, so legal review should be treated as preliminary only.",
+    "comments": "Smoke-test legal review save; signature remains blocked.",
+    "approvedForSignature": false,
+    "createdAt": "2026-03-17T11:15:41.142Z",
+    "updatedAt": "2026-03-17T11:15:41.142Z"
+  }
+]

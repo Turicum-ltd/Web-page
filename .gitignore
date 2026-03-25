@@ -1,0 +1,17 @@
+.next
+node_modules
+tsconfig.tsbuildinfo
+.DS_Store
+.playwright-cli
+dist
+output
+.env.local
+.env.local.bak.*
+.env
+.env.production
+.env.production.local
+storage
+data/borrower-intro-call-requests.json
+data/investor-sessions.json
+pm2.log
+npm-debug.log*

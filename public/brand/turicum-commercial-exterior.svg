@@ -1,0 +1,85 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="240" y1="60" x2="1380" y2="980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1B2433"/>
+      <stop offset="0.55" stop-color="#0F1722"/>
+      <stop offset="1" stop-color="#0A111A"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9FC5FF" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#3C6EA8" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#D8E7FF" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#87B9FF" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1100" fill="url(#bg)"/>
+  <path d="M0 910C180 850 330 832 472 846C648 864 760 942 937 954C1125 968 1308 884 1600 818V1100H0V910Z" fill="#0B121B"/>
+  <path d="M0 848C187 793 341 782 508 810C677 839 817 907 1005 910C1223 913 1370 835 1600 772" stroke="rgba(173,208,255,0.12)" stroke-width="2"/>
+
+  <g opacity="0.96">
+    <rect x="210" y="304" width="208" height="510" rx="8" fill="#111B27" stroke="rgba(201,224,255,0.18)"/>
+    <rect x="450" y="214" width="266" height="600" rx="8" fill="#0F1824" stroke="rgba(201,224,255,0.22)"/>
+    <rect x="772" y="150" width="308" height="664" rx="8" fill="#101A26" stroke="rgba(201,224,255,0.22)"/>
+    <rect x="1110" y="260" width="242" height="554" rx="8" fill="#111B27" stroke="rgba(201,224,255,0.18)"/>
+  </g>
+
+  <g opacity="0.95">
+    <rect x="238" y="332" width="152" height="26" fill="url(#glass)"/>
+    <rect x="238" y="382" width="152" height="26" fill="url(#glass)"/>
+    <rect x="238" y="432" width="152" height="26" fill="url(#glass)"/>
+    <rect x="238" y="482" width="152" height="26" fill="url(#glass)"/>
+    <rect x="238" y="532" width="152" height="26" fill="url(#glass)"/>
+    <rect x="238" y="582" width="152" height="26" fill="url(#glass)"/>
+    <rect x="238" y="632" width="152" height="26" fill="url(#glass)"/>
+    <rect x="238" y="682" width="152" height="26" fill="url(#glass)"/>
+  </g>
+
+  <g opacity="0.95">
+    <rect x="484" y="246" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="292" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="338" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="384" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="430" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="476" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="522" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="568" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="614" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="660" width="198" height="24" fill="url(#glass)"/>
+    <rect x="484" y="706" width="198" height="24" fill="url(#glass)"/>
+  </g>
+
+  <g opacity="0.98">
+    <rect x="808" y="182" width="236" height="22" fill="url(#accent)"/>
+    <rect x="808" y="224" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="266" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="308" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="350" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="392" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="434" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="476" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="518" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="560" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="602" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="644" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="686" width="236" height="22" fill="url(#glass)"/>
+    <rect x="808" y="728" width="236" height="22" fill="url(#glass)"/>
+  </g>
+
+  <g opacity="0.94">
+    <rect x="1140" y="294" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="340" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="386" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="432" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="478" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="524" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="570" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="616" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="662" width="182" height="24" fill="url(#glass)"/>
+    <rect x="1140" y="708" width="182" height="24" fill="url(#glass)"/>
+  </g>
+
+  <path d="M122 912H1478" stroke="rgba(226,240,255,0.16)" stroke-width="3"/>
+  <rect x="132" y="900" width="1336" height="18" rx="9" fill="rgba(9,14,22,0.78)"/>
+</svg>

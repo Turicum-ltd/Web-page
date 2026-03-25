@@ -1,0 +1,188 @@
+[
+  {
+    "id": "765935f4-7c23-4861-ae72-488f77d7daa6",
+    "caseId": "case-in-001",
+    "accessToken": "3469d18243bf475fad0f3b4c0d7c2fdf",
+    "portalTitle": "Greenwood Loan Placeholder Pack borrower intake",
+    "borrowerName": "Taylor Brooks",
+    "borrowerEmail": "taylor.brooks@example.com",
+    "portalStatus": "submitted",
+    "assignedForms": [
+      "commercial_loan_application",
+      "guarantor_authorization",
+      "lender_fee_agreement"
+    ],
+    "submittedForms": [
+      "commercial_loan_application",
+      "guarantor_authorization",
+      "lender_fee_agreement"
+    ],
+    "signatureRequests": [
+      {
+        "id": "16f3a2d3-4830-4d09-ab89-5faf16850e0d",
+        "formCode": "lender_fee_agreement",
+        "title": "Lender fee agreement intake",
+        "provider": "google_workspace",
+        "status": "prepared",
+        "recipientName": "Taylor Brooks",
+        "recipientEmail": "taylor.brooks@example.com",
+        "note": "Use FL_loan_case08_GHLLC-Closing-Instructions-Letter_executed as the starting paper for closing_instructions on IN-LOAN-001. Prepared directly from the saved Atlas legal template.",
+        "providerRequestId": "gw-draft-d65dfbbf-979793",
+        "providerTemplateId": "fl-loan-2000-n-federal-hwy-delray-beach-fl-33483-comm-loan-fl-loan-case08-ghllc-closing-instructions-letter-executed",
+        "providerUrl": "/library/templates/FL%7Cloan%7Cclosing_instructions",
+        "googleDriveFolderId": "1q4vYTQYi3KJOpexu3G0spEHr9plNdeen",
+        "providerStatus": "prepared",
+        "lastSyncedAt": "2026-03-16T09:39:39.802Z",
+        "createdAt": "2026-03-16T09:39:39.802Z",
+        "events": [
+          {
+            "id": "1457ca5f-3b2c-4927-81e7-3250ec77ff3e",
+            "type": "prepared",
+            "at": "2026-03-16T09:39:39.802Z",
+            "summary": "Prepared Lender fee agreement intake for google workspace",
+            "metadata": {
+              "providerRequestId": "gw-draft-d65dfbbf-979793"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sig-demo-greenwood-fee",
+        "formCode": "lender_fee_agreement",
+        "title": "Lender fee agreement intake",
+        "provider": "google_workspace",
+        "status": "prepared",
+        "recipientName": "Taylor Brooks",
+        "recipientEmail": "taylor.brooks@example.com",
+        "note": "Demo request prepared for borrower/lender walkthrough.",
+        "providerRequestId": "gw-demo-request-greenwood-001",
+        "providerTemplateId": "gw-demo-template-fee-001",
+        "providerUrl": "https://workspace.google.com/",
+        "googleDriveFolderId": "greenwood-demo-folder",
+        "providerStatus": "prepared",
+        "lastSyncedAt": "2026-03-15T20:54:55.408Z",
+        "createdAt": "2026-03-15T20:54:55.409Z",
+        "events": [
+          {
+            "id": "sig-event-demo-greenwood-1",
+            "type": "prepared",
+            "at": "2026-03-15T20:54:55.409Z",
+            "summary": "Prepared Google Workspace signature request for demo walkthrough"
+          }
+        ]
+      }
+    ],
+    "formResponses": {
+      "commercial_loan_application": {
+        "primaryBorrowerName": "Taylor Brooks",
+        "primaryEmail": "taylor.brooks@example.com",
+        "primaryCell": "317-555-0182",
+        "requestedAmount": "$790,000",
+        "loanPurpose": "refinance",
+        "propertyAddress": "Greenwood mixed-use retail center",
+        "businessName": "Brooks Property Holdings LLC",
+        "revenueTrend": "stable",
+        "profitabilityTrend": "improving",
+        "coBorrowerName": "",
+        "primaryMaritalStatus": "",
+        "presentAddress": "",
+        "formerAddress": "",
+        "employerName": "",
+        "employerTitle": "",
+        "employerPhone": "",
+        "yearsOnJob": "",
+        "yearsInProfession": "",
+        "personalIncomeAnnual": "",
+        "personalExpensesAnnual": "",
+        "declarationsSummary": "",
+        "county": "",
+        "unitCount": "",
+        "propertyType": "",
+        "purchasePrice": "",
+        "cashOutUse": "",
+        "vestingTitle": "",
+        "entityType": "",
+        "businessType": "",
+        "primaryContactName": "",
+        "businessPhone": "",
+        "businessTaxId": "",
+        "website": "",
+        "natureOfBusiness": ""
+      },
+      "guarantor_authorization": {
+        "guarantorName": "Taylor Brooks",
+        "guarantorEmail": "taylor.brooks@example.com",
+        "guarantorOneName": "Taylor Brooks",
+        "guarantorTwoName": "",
+        "authorizationConfirmed": true,
+        "creditInvestigationConfirmed": true,
+        "submittedByName": "Taylor Brooks",
+        "submittedAt": "2026-03-17"
+      },
+      "lender_fee_agreement": {
+        "borrowerEntity": "Brooks Property Holdings LLC",
+        "guarantorName": "Taylor Brooks",
+        "requestedLoanAmount": "$790,000",
+        "subjectProperty": "Greenwood mixed-use retail center",
+        "county": "",
+        "indicativeRate": "",
+        "lenderFee": "",
+        "adminProcessingFee": "",
+        "termMonths": "",
+        "commitmentFee": "",
+        "signerName": "Taylor Brooks",
+        "signerCell": "",
+        "signerEmail": "taylor.brooks@example.com",
+        "termsReviewed": true,
+        "alternateStructuresAcknowledged": false
+      }
+    },
+    "createdAt": "2026-03-15T20:06:35.497Z",
+    "updatedAt": "2026-03-17T11:21:33.725Z"
+  },
+  {
+    "id": "3fa83c1b-0a14-45c7-995a-7c62091d0b78",
+    "caseId": "case-fl-001",
+    "accessToken": "1fcb5f720a4e4340ab41e2132435a288",
+    "portalTitle": "Palm Beach borrower packet",
+    "borrowerName": "Jamie Example",
+    "borrowerEmail": "jamie@example.com",
+    "portalStatus": "in_progress",
+    "assignedForms": [
+      "commercial_loan_application",
+      "guarantor_authorization",
+      "lender_fee_agreement"
+    ],
+    "submittedForms": [
+      "commercial_loan_application"
+    ],
+    "signatureRequests": [
+      {
+        "id": "0d2f2149-030b-4bc1-bf49-af3db207f051",
+        "formCode": "guarantor_authorization",
+        "title": "Guarantor authorization to release information",
+        "provider": "google_workspace",
+        "status": "prepared",
+        "recipientName": "Jamie Example",
+        "recipientEmail": "jamie@example.com",
+        "note": "Send after underwriting review.",
+        "createdAt": "2026-03-15T18:57:46.429Z",
+        "providerStatus": "prepared",
+        "events": []
+      }
+    ],
+    "formResponses": {
+      "commercial_loan_application": {
+        "primaryBorrowerName": "Jamie Example",
+        "primaryEmail": "jamie@example.com",
+        "requestedAmount": "$265,000",
+        "loanPurpose": "purchase",
+        "propertyAddress": "West Palm Beach art studio",
+        "businessName": "Example Holdings LLC",
+        "revenueTrend": "stable"
+      }
+    },
+    "createdAt": "2026-03-15T17:55:54.956Z",
+    "updatedAt": "2026-03-15T18:57:46.429Z"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "code": "term_sheet",
+    "label": "Term Sheet",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "commercial_application",
+    "label": "Commercial Application",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "borrower_authorization",
+    "label": "Borrower Authorization",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "promissory_note",
+    "label": "Promissory Note",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "mortgage",
+    "label": "Mortgage",
+    "default_category": "title_recorded"
+  },
+  {
+    "code": "mortgage_or_deed_of_trust",
+    "label": "Mortgage or Deed of Trust",
+    "default_category": "title_recorded"
+  },
+  {
+    "code": "mortgage_modification",
+    "label": "Mortgage Modification",
+    "default_category": "title_recorded"
+  },
+  {
+    "code": "purchase_agreement",
+    "label": "Purchase Agreement",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "option_agreement",
+    "label": "Option Agreement",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "lease_agreement",
+    "label": "Lease Agreement",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "warranty_deed",
+    "label": "Warranty Deed",
+    "default_category": "title_recorded"
+  },
+  {
+    "code": "closing_statement",
+    "label": "Closing Statement",
+    "default_category": "closing_settlement"
+  },
+  {
+    "code": "closing_package",
+    "label": "Closing Package",
+    "default_category": "closing_settlement"
+  },
+  {
+    "code": "closing_instructions",
+    "label": "Closing Instructions",
+    "default_category": "funding_escrow"
+  },
+  {
+    "code": "title_commitment",
+    "label": "Title Commitment",
+    "default_category": "title_recorded"
+  },
+  {
+    "code": "title_policy",
+    "label": "Title Policy",
+    "default_category": "title_recorded"
+  },
+  {
+    "code": "marked_up_title",
+    "label": "Marked-Up Title",
+    "default_category": "title_recorded"
+  },
+  {
+    "code": "jv_agreement",
+    "label": "JV Agreement",
+    "default_category": "entity_jv"
+  },
+  {
+    "code": "disposition_agreement",
+    "label": "Disposition Agreement",
+    "default_category": "entity_jv"
+  },
+  {
+    "code": "operating_agreement",
+    "label": "Operating Agreement",
+    "default_category": "entity_jv"
+  },
+  {
+    "code": "articles_of_organization",
+    "label": "Articles of Organization",
+    "default_category": "entity_jv"
+  },
+  {
+    "code": "insurance_certificate",
+    "label": "Insurance Certificate",
+    "default_category": "insurance_support"
+  },
+  {
+    "code": "payment_authorization",
+    "label": "Payment Authorization",
+    "default_category": "funding_escrow"
+  },
+  {
+    "code": "wiring_instructions",
+    "label": "Wiring Instructions",
+    "default_category": "funding_escrow"
+  },
+  {
+    "code": "acknowledgment",
+    "label": "Acknowledgment",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "affidavit",
+    "label": "Affidavit",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "contact_sheet",
+    "label": "Contact Sheet",
+    "default_category": "core_legal"
+  },
+  {
+    "code": "other",
+    "label": "Other",
+    "default_category": "archive"
+  }
+]

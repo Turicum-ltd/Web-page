@@ -1,0 +1,133 @@
+{
+  "state": "FL",
+  "version": "v1",
+  "enabled": true,
+  "support_level": "production",
+  "notes": "Strongest precedent library in extracted corpus, especially purchase and option-style closings.",
+  "supported_structures": ["loan", "purchase"],
+  "documents": [
+    {
+      "structure_type": "loan",
+      "document_type": "term_sheet",
+      "category": "core_legal",
+      "stage": "term_sheet",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "commercial_application",
+      "category": "core_legal",
+      "stage": "due_diligence",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "borrower_authorization",
+      "category": "core_legal",
+      "stage": "due_diligence",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "promissory_note",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "mortgage",
+      "category": "title_recorded",
+      "stage": "legal_review",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "closing_statement",
+      "category": "closing_settlement",
+      "stage": "closing",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "term_sheet",
+      "category": "core_legal",
+      "stage": "term_sheet",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "purchase_agreement",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "option_agreement",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "lease_agreement",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "jv_agreement",
+      "category": "entity_jv",
+      "stage": "legal_review",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "warranty_deed",
+      "category": "title_recorded",
+      "stage": "closing",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "closing_statement",
+      "category": "closing_settlement",
+      "stage": "closing",
+      "requirement_level": "required"
+    }
+  ],
+  "checklist_items": [
+    {
+      "code": "ids",
+      "label": "Collect IDs for guarantors and spouses if applicable",
+      "stage": "due_diligence",
+      "required_for": ["loan", "purchase"]
+    },
+    {
+      "code": "entity_docs",
+      "label": "Collect entity formation and authority documents",
+      "stage": "due_diligence",
+      "required_for": ["loan", "purchase"]
+    },
+    {
+      "code": "insurance",
+      "label": "Collect insurance certificate or declarations page",
+      "stage": "due_diligence",
+      "required_for": ["loan", "purchase"]
+    },
+    {
+      "code": "title_order",
+      "label": "Order and review title",
+      "stage": "packet_build",
+      "required_for": ["loan", "purchase"]
+    },
+    {
+      "code": "valuation",
+      "label": "Order valuation, BPO, appraisal, or desktop review",
+      "stage": "packet_build",
+      "required_for": ["loan", "purchase"]
+    }
+  ]
+}

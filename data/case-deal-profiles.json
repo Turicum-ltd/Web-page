@@ -1,0 +1,18 @@
+[
+  {
+    "caseId": "case-in-001",
+    "state": "IN",
+    "structureType": "loan",
+    "dealShape": "loan",
+    "lenderCount": 1,
+    "propertyType": "mixed_use",
+    "borrowerEntityType": "llc",
+    "titleHolderType": "llc",
+    "guarantorCount": 1,
+    "notaryRequirement": "depends",
+    "occupancySummary": "Mixed-use retail center with operating income and lease collateral considerations.",
+    "complexityNotes": "Use this as the seeded borrower-lender demo profile until real intake answers are captured.",
+    "createdAt": "2026-03-16T10:14:20.541Z",
+    "updatedAt": "2026-03-16T10:14:20.541Z"
+  }
+]

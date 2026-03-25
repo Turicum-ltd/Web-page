@@ -1,0 +1,38 @@
+[
+  {
+    "id": "case-fl-001",
+    "code": "FL-PUR-001",
+    "title": "Palm Beach Lease-Option Set",
+    "state": "FL",
+    "structureType": "purchase",
+    "status": "packet_in_progress",
+    "stage": "packet_build",
+    "propertySummary": "West Palm Beach art studio",
+    "requestedAmount": "$265,000",
+    "sourceType": "referral_partner"
+  },
+  {
+    "id": "case-tx-001",
+    "code": "TX-PUR-001",
+    "title": "Whitney Land Option Closing",
+    "state": "TX",
+    "structureType": "purchase",
+    "status": "legal_review",
+    "stage": "legal_review",
+    "propertySummary": "Hill County land parcel",
+    "requestedAmount": "$450,000",
+    "sourceType": "direct"
+  },
+  {
+    "id": "case-in-001",
+    "code": "IN-LOAN-001",
+    "title": "Greenwood Loan Placeholder Pack",
+    "state": "IN",
+    "structureType": "loan",
+    "status": "due_diligence_open",
+    "stage": "due_diligence",
+    "propertySummary": "Commercial group modification precedent",
+    "requestedAmount": "$790,000",
+    "sourceType": "referral_partner"
+  }
+]

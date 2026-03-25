@@ -1,0 +1,37 @@
+[
+  {
+    "caseId": "case-in-001",
+    "status": "in_review",
+    "summary": "Template selected. AI review should confirm clause fit, state-pack coverage, and any structure-specific gaps.",
+    "reviewerModel": "Atlas contract AI",
+    "notes": "",
+    "findings": [
+      {
+        "id": "focus-1",
+        "title": "AI review focus",
+        "detail": "Check whether operating-income collateral and rent assignment protections are covered.",
+        "severity": "high"
+      },
+      {
+        "id": "focus-2",
+        "title": "AI review focus",
+        "detail": "Check occupancy-specific provisions against: Mixed-use retail center with operating income and lease collateral considerations.",
+        "severity": "medium"
+      },
+      {
+        "id": "clause-1",
+        "title": "Clause check",
+        "detail": "Assignment of rents, operating covenants, tenant / lease representations",
+        "severity": "medium"
+      },
+      {
+        "id": "clause-2",
+        "title": "Clause check",
+        "detail": "Guaranty coverage for 1 guarantor(s), including joint/several liability if intended",
+        "severity": "medium"
+      }
+    ],
+    "createdAt": "2026-03-17T11:14:46.873Z",
+    "updatedAt": "2026-03-17T11:14:46.873Z"
+  }
+]

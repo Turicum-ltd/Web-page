@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Atlas State Pack",
+  "type": "object",
+  "required": [
+    "state",
+    "version",
+    "enabled",
+    "support_level",
+    "supported_structures",
+    "documents",
+    "checklist_items"
+  ],
+  "properties": {
+    "state": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "support_level": {
+      "type": "string",
+      "enum": ["production", "provisional", "draft"]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "supported_structures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["loan", "purchase"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "structure_type",
+          "document_type",
+          "category",
+          "stage",
+          "requirement_level"
+        ],
+        "properties": {
+          "structure_type": {
+            "type": "string",
+            "enum": ["loan", "purchase"]
+          },
+          "document_type": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "requirement_level": {
+            "type": "string",
+            "enum": ["required", "optional", "placeholder"]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "checklist_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "label", "stage"],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "required_for": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["loan", "purchase"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

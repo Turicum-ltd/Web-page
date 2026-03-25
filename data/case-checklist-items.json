@@ -1,0 +1,74 @@
+[
+  {
+    "id": "chk-fl-001",
+    "caseId": "case-fl-001",
+    "code": "ids",
+    "label": "Collect IDs for guarantors and spouses if applicable",
+    "stage": "due_diligence",
+    "status": "received",
+    "requiredFor": [
+      "loan",
+      "purchase"
+    ]
+  },
+  {
+    "id": "chk-fl-002",
+    "caseId": "case-fl-001",
+    "code": "entity_docs",
+    "label": "Collect entity formation and authority documents",
+    "stage": "due_diligence",
+    "status": "reviewed",
+    "requiredFor": [
+      "loan",
+      "purchase"
+    ]
+  },
+  {
+    "id": "chk-fl-003",
+    "caseId": "case-fl-001",
+    "code": "title_order",
+    "label": "Order and review title",
+    "stage": "packet_build",
+    "status": "requested",
+    "requiredFor": [
+      "loan",
+      "purchase"
+    ]
+  },
+  {
+    "id": "chk-tx-001",
+    "caseId": "case-tx-001",
+    "code": "ids",
+    "label": "Collect IDs for guarantors and spouses if applicable",
+    "stage": "due_diligence",
+    "status": "received",
+    "requiredFor": [
+      "loan",
+      "purchase"
+    ]
+  },
+  {
+    "id": "chk-tx-002",
+    "caseId": "case-tx-001",
+    "code": "title_order",
+    "label": "Order and review title",
+    "stage": "packet_build",
+    "status": "reviewed",
+    "requiredFor": [
+      "loan",
+      "purchase"
+    ]
+  },
+  {
+    "id": "chk-in-001",
+    "caseId": "case-in-001",
+    "code": "ids",
+    "label": "Collect IDs for guarantors and spouses if applicable",
+    "stage": "due_diligence",
+    "status": "requested",
+    "requiredFor": [
+      "loan",
+      "purchase"
+    ]
+  }
+]

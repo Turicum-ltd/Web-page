@@ -1,0 +1,3048 @@
+@import "@xyflow/react/dist/style.css";
+
+:root {
+  --bg: #0a0e14;
+  --surface: #12171f;
+  --surface-strong: #1a1f2a;
+  --surface-ink: rgba(18, 23, 31, 0.92);
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --line: #30363d;
+  --line-strong: #3d444d;
+  --accent: #2f81f7;
+  --accent-strong: #58a6ff;
+  --accent-soft: rgba(47, 129, 247, 0.12);
+  --success: #3fb950;
+  --warning: #ffc145;
+  --danger: #ff6b6b;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.28);
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --max-width: 1600px;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, rgba(47, 129, 247, 0.08), transparent 24%),
+    radial-gradient(circle at right 18%, rgba(163, 113, 247, 0.06), transparent 18%);
+  opacity: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+  padding: 18px 20px 56px;
+  position: relative;
+  z-index: 1;
+}
+
+.shell {
+  display: grid;
+  gap: 18px;
+}
+
+.hero,
+.panel,
+.metric,
+.callout,
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-root-shell {
+  gap: 20px;
+}
+
+.turicum-marketing-hero {
+  gap: 24px;
+}
+
+.turicum-classic-hero {
+  gap: 18px;
+  background: linear-gradient(180deg, rgba(19, 24, 34, 0.98), rgba(11, 16, 24, 0.98));
+}
+
+.turicum-classic-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.turicum-classic-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.turicum-brand-descriptor {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.turicum-classic-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.turicum-classic-links a {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.turicum-classic-links a:hover {
+  color: var(--text);
+}
+
+.turicum-classic-nav-cta {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(88, 166, 255, 0.18);
+  background: rgba(88, 166, 255, 0.12);
+  color: var(--text) !important;
+}
+
+.turicum-classic-hero-main {
+  display: grid;
+  gap: 12px;
+  max-width: 64ch;
+}
+
+.turicum-classic-lede {
+  max-width: 54ch;
+  font-size: 0.95rem;
+}
+
+.turicum-classic-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-hero-tags {
+  margin-top: -4px;
+}
+
+.turicum-marketing-hero-grid {
+  align-items: stretch;
+}
+
+.turicum-hero-brief {
+  display: grid;
+  align-content: start;
+}
+
+.turicum-hero-photo-card {
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-hero-photo {
+  min-height: 300px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-size: cover;
+  background-position: center;
+}
+
+.turicum-hero-summary {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(20, 26, 35, 0.96), rgba(13, 18, 26, 0.96));
+}
+
+.turicum-hero-summary-compact {
+  gap: 10px;
+  padding: 16px;
+}
+
+.turicum-role-grid {
+  align-items: stretch;
+}
+
+.turicum-role-card {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  background: linear-gradient(180deg, rgba(22, 28, 38, 0.96), rgba(14, 19, 28, 0.96));
+}
+
+.turicum-sequence-panel {
+  gap: 20px;
+}
+
+.turicum-investor-panel {
+  gap: 18px;
+  background: linear-gradient(180deg, rgba(18, 25, 36, 0.98), rgba(12, 17, 26, 0.98));
+}
+
+.turicum-investor-proof-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-investor-proof-card {
+  background: linear-gradient(180deg, rgba(25, 32, 44, 0.96), rgba(16, 22, 32, 0.96));
+}
+
+.turicum-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.turicum-topbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.turicum-topbar-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.turicum-topbar-links a {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.turicum-topbar-links a:hover {
+  color: var(--text);
+}
+
+.turicum-marketing-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-classic-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-classic-hero-grid {
+  align-items: stretch;
+  gap: 14px;
+}
+
+
+.turicum-stat-panel {
+  background: linear-gradient(180deg, rgba(27, 34, 45, 0.95), rgba(18, 24, 34, 0.95));
+  border: 1px solid rgba(88, 166, 255, 0.12);
+}
+
+.turicum-audience-panel {
+  background: linear-gradient(180deg, rgba(24, 30, 41, 0.92), rgba(18, 24, 34, 0.92));
+}
+
+.turicum-contact-panel {
+  background: linear-gradient(180deg, rgba(19, 25, 34, 0.96), rgba(13, 18, 26, 0.96));
+}
+
+.turicum-steps-grid-wide {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.hero-grid,
+.three-up,
+.two-up,
+.metric-grid,
+.pill-row,
+.status-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.hero-grid {
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.95fr);
+}
+
+.three-up {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.two-up {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.status-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.turicum-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-home-footer {
+  display: grid;
+  gap: 8px;
+  margin-top: -4px;
+  padding: 2px 6px 0;
+}
+
+.turicum-feature-card {
+  background: linear-gradient(180deg, rgba(27, 34, 45, 0.95), rgba(18, 24, 34, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.turicum-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.compact-grid {
+  margin-top: 16px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.15;
+  font-family: var(--font-display);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(1.55rem, 2.35vw, 2.2rem);
+  max-width: 15ch;
+}
+
+h2 {
+  font-size: clamp(1.05rem, 1.8vw, 1.45rem);
+}
+
+h3 {
+  font-size: 0.92rem;
+  letter-spacing: 0;
+}
+
+p {
+  margin: 0;
+  color: color-mix(in srgb, var(--text) 88%, black 12%);
+  line-height: 1.48;
+  font-size: 0.92rem;
+}
+
+small {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+strong {
+  color: var(--text);
+}
+
+.muted,
+.helper {
+  color: var(--muted);
+}
+
+.helper {
+  font-size: 0.92rem;
+}
+
+.panel {
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.panel.lead {
+  background: linear-gradient(180deg, rgba(22, 28, 37, 0.98), rgba(18, 23, 31, 0.98));
+}
+
+.panel.subtle {
+  background: rgba(26, 31, 42, 0.78);
+  box-shadow: var(--shadow-soft);
+}
+
+.subpanel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(26, 31, 42, 0.78);
+}
+
+.stack-sm {
+  display: grid;
+  gap: 6px;
+}
+
+.metric {
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+  background: var(--surface-strong);
+}
+
+.metric .value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.turicum-step-card {
+  position: relative;
+  padding-top: 52px;
+  background: linear-gradient(180deg, rgba(25, 31, 42, 0.95), rgba(17, 22, 31, 0.95));
+}
+
+.turicum-step-number {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.15);
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.pill-row {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.pill {
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+}
+
+.pill strong {
+  color: var(--text);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.table-wrap {
+  overflow: hidden;
+  background: var(--surface);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+td strong a,
+td a,
+.helper a,
+.muted a {
+  color: var(--accent-strong);
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.badge,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge.production {
+  background: rgba(63, 185, 80, 0.14);
+  color: var(--success);
+}
+
+.badge.provisional,
+.badge.ready_to_share,
+.badge.sent {
+  background: rgba(255, 193, 69, 0.14);
+  color: var(--warning);
+}
+
+.badge.draft,
+.badge.declined {
+  background: rgba(255, 107, 107, 0.14);
+  color: var(--danger);
+}
+
+.badge.required,
+.badge.signed,
+.badge.submitted,
+.badge.closed {
+  background: rgba(63, 185, 80, 0.14);
+  color: var(--success);
+}
+
+.badge.optional,
+.badge.in_progress,
+.badge.prepared,
+.tag {
+  background: rgba(47, 129, 247, 0.14);
+  color: var(--accent);
+}
+
+.badge.placeholder {
+  background: rgba(255, 107, 107, 0.14);
+  color: var(--danger);
+}
+
+.callout {
+  padding: 20px 22px;
+  border-left: 3px solid var(--accent);
+  background: rgba(47, 129, 247, 0.08);
+}
+
+.atlas-review-callout {
+  border-left-color: rgba(122, 196, 255, 0.8);
+  background:
+    linear-gradient(180deg, rgba(20, 34, 52, 0.92), rgba(17, 25, 38, 0.92)),
+    rgba(47, 129, 247, 0.08);
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.list li {
+  padding-left: 18px;
+  position: relative;
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav a {
+  padding: 9px 13px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+  min-height: 46px;
+}
+
+.turicum-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.turicum-wordmark {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.turicum-wordmark svg {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.turicum-wordmark-compact svg {
+  width: 224px;
+  height: 48px;
+}
+
+.hero-brand-lockup {
+  margin-bottom: 14px;
+}
+
+.atlas-review-hero {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(109, 168, 255, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(16, 23, 34, 0.96), rgba(11, 17, 25, 0.98));
+  border-color: rgba(88, 166, 255, 0.18);
+}
+
+.turicum-mark-frame {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(116, 192, 255, 0.34);
+  background: linear-gradient(180deg, rgba(18, 31, 49, 0.96), rgba(9, 17, 27, 0.96));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 10px 24px rgba(0,0,0,0.24);
+}
+
+.turicum-mark-compact .turicum-mark-frame {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+}
+
+.turicum-mark-t,
+.turicum-mark-l {
+  position: absolute;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.turicum-mark-t {
+  left: 10px;
+  top: 7px;
+  color: #eff5fa;
+  font-size: 1.15rem;
+}
+
+.turicum-mark-l {
+  right: 8px;
+  bottom: 6px;
+  color: #78c1ff;
+  font-size: 1.05rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select,
+.field textarea,
+.form-actions button,
+.secondary-button {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  color: var(--text);
+  font: inherit;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 14px 16px;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.checkbox-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.checkbox-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+}
+
+.checkbox-item input {
+  width: auto;
+  margin-top: 3px;
+}
+
+.checkbox-item span {
+  display: grid;
+  gap: 4px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-actions button,
+.secondary-button {
+  width: auto;
+  padding: 12px 16px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.form-actions button {
+  background: var(--accent);
+  color: #f8fbff;
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-strong);
+  color: var(--text);
+}
+
+.secondary-button.is-active,
+.form-actions button.is-active {
+  border-color: rgba(47, 129, 247, 0.55);
+  background: rgba(47, 129, 247, 0.16);
+  color: #f0f6fc;
+  box-shadow: inset 0 0 0 1px rgba(47, 129, 247, 0.18);
+}
+
+.portal-link-box {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--line);
+  background: rgba(18, 23, 31, 0.78);
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.92rem;
+  word-break: break-word;
+}
+
+.progress-shell {
+  display: grid;
+  gap: 10px;
+}
+
+.progress-bar {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(47, 129, 247, 0.12);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #2f81f7 0%, #58a6ff 100%);
+}
+
+.status-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-soft);
+}
+
+.tag-row,
+.table-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.table-actions form {
+  margin: 0;
+}
+
+.table-actions .secondary-button {
+  padding: 10px 14px;
+}
+
+code {
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.92em;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 10px;
+  max-width: 56ch;
+}
+
+.hero-copy p {
+  max-width: 52ch;
+}
+
+.turicum-marketing-lede {
+  max-width: 62ch;
+  font-size: 1rem;
+}
+
+.hero-aside {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+}
+
+.atlas-review-aside {
+  background:
+    linear-gradient(180deg, rgba(16, 22, 31, 0.96), rgba(12, 17, 24, 0.96)),
+    var(--surface-strong);
+  border-color: rgba(88, 166, 255, 0.16);
+}
+
+.dashboard-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.band-card {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(10, 14, 20, 0.42);
+}
+
+.atlas-review-band-card {
+  background: linear-gradient(180deg, rgba(14, 22, 31, 0.94), rgba(10, 15, 23, 0.94));
+  border-color: rgba(88, 166, 255, 0.14);
+}
+
+.page-note {
+  max-width: 68ch;
+}
+
+.timeline-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-list li {
+  display: grid;
+  gap: 3px;
+  padding: 0 0 0 18px;
+  position: relative;
+}
+
+.timeline-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(47, 129, 247, 0.14);
+}
+
+.kicker-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.turicum-proof-strip-inline {
+  margin-top: 2px;
+}
+
+.turicum-hero-facts-compact {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-hero-facts-compact .turicum-hero-fact {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.turicum-hero-facts-compact .turicum-hero-fact:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.atlas-review-rail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.atlas-review-stat {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(88, 166, 255, 0.16);
+  background: linear-gradient(180deg, rgba(16, 23, 32, 0.96), rgba(10, 15, 23, 0.94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.atlas-review-stat span {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.atlas-review-stat strong {
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.atlas-review-panel {
+  border-color: rgba(88, 166, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(19, 26, 36, 0.96), rgba(16, 22, 31, 0.96)),
+    var(--surface);
+}
+
+.atlas-review-rule-panel {
+  background:
+    linear-gradient(180deg, rgba(17, 24, 33, 0.96), rgba(12, 18, 26, 0.96)),
+    var(--surface);
+}
+
+.atlas-review-card {
+  border-color: rgba(88, 166, 255, 0.13);
+  background:
+    linear-gradient(180deg, rgba(18, 25, 35, 0.96), rgba(14, 19, 28, 0.96)),
+    var(--surface-strong);
+}
+
+.atlas-external-card {
+  gap: 14px;
+}
+
+.atlas-external-card strong {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.atlas-review-metric {
+  border-color: rgba(88, 166, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(17, 24, 33, 0.96), rgba(13, 19, 27, 0.96)),
+    var(--surface-strong);
+}
+
+.atlas-blocker-strip {
+  gap: 18px;
+  border-color: rgba(255, 193, 69, 0.2);
+  background:
+    radial-gradient(circle at top left, rgba(255, 193, 69, 0.08), transparent 26%),
+    linear-gradient(180deg, rgba(24, 22, 17, 0.96), rgba(17, 18, 22, 0.96));
+}
+
+.atlas-blocker-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 193, 69, 0.22);
+  background: linear-gradient(180deg, rgba(29, 27, 19, 0.96), rgba(19, 19, 22, 0.96));
+  box-shadow: var(--shadow-soft);
+}
+
+.atlas-blocker-card.tone-danger {
+  border-color: rgba(255, 107, 107, 0.28);
+  background: linear-gradient(180deg, rgba(36, 20, 22, 0.96), rgba(21, 17, 22, 0.96));
+}
+
+.atlas-blocker-card.tone-info {
+  border-color: rgba(88, 166, 255, 0.24);
+  background: linear-gradient(180deg, rgba(17, 26, 38, 0.96), rgba(13, 18, 27, 0.96));
+}
+
+.atlas-flow-shell {
+  padding: 0;
+  overflow: hidden;
+}
+
+.atlas-flow-topbar {
+  padding: 18px 18px 0;
+}
+
+.atlas-flow-summary-band {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(15, 19, 26, 0.95), rgba(13, 18, 24, 0.94));
+}
+
+.atlas-flow-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: 14px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(11, 15, 21, 0.92);
+}
+
+.atlas-flow-view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.atlas-flow-view-tab {
+  display: grid;
+  gap: 3px;
+  min-width: 140px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(19, 25, 34, 0.92);
+  color: var(--text);
+  text-align: left;
+}
+
+.atlas-flow-view-tab span {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.atlas-flow-view-tab-active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(20, 32, 49, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.18);
+}
+
+.atlas-flow-search {
+  align-self: end;
+}
+
+.atlas-flow-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 720px;
+}
+
+.atlas-flow-layout-with-inspector {
+  grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.72fr);
+}
+
+.atlas-flow-canvas-wrap {
+  display: grid;
+  grid-template-rows: minmax(500px, 1fr) minmax(240px, auto);
+  border-right: 1px solid var(--line);
+}
+
+.atlas-flow-canvas {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  background: radial-gradient(circle at top left, rgba(26, 39, 56, 0.35), transparent 28%), linear-gradient(180deg, rgba(18, 23, 31, 0.98), rgba(10, 14, 20, 0.96));
+}
+
+.atlas-flow-canvas .react-flow {
+  position: relative;
+  z-index: 1;
+}
+
+.atlas-flow-stages {
+  position: absolute;
+  top: 18px;
+  left: 14px;
+  right: 14px;
+  height: 78px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.atlas-flow-stage {
+  position: absolute;
+  top: 0;
+  height: 62px;
+  border-radius: 16px;
+  border: 1px solid rgba(125, 148, 178, 0.18);
+  background: linear-gradient(180deg, rgba(28, 38, 52, 0.96), rgba(14, 20, 28, 0.92)); box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.06);
+}
+
+.atlas-flow-stage-label {
+  position: absolute;
+  top: 19px;
+  left: 16px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(231, 238, 246, 0.84);
+}
+
+.atlas-flow-swimlanes {
+  position: absolute;
+  inset: 108px 14px 12px;
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.atlas-flow-swimlane {
+  position: relative;
+  border-radius: 22px;
+  border: 1px dashed rgba(125, 148, 178, 0.18);
+  background: linear-gradient(135deg, rgba(255,255,255,0.024), rgba(255,255,255,0.012));
+}
+
+.atlas-flow-swimlane-atlas {
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.07), rgba(88, 166, 255, 0.015));
+}
+
+.atlas-flow-swimlane-borrower {
+  background: linear-gradient(135deg, rgba(103, 219, 165, 0.06), rgba(103, 219, 165, 0.012));
+}
+
+.atlas-flow-swimlane-investor {
+  background: linear-gradient(135deg, rgba(194, 151, 255, 0.07), rgba(194, 151, 255, 0.014));
+}
+
+.atlas-flow-swimlane-label {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(231, 238, 246, 0.82);
+}
+
+.atlas-flow-register {
+  padding: 16px 18px 18px;
+  background: rgba(12, 16, 22, 0.98);
+  border-top: 1px solid var(--line);
+}
+
+.atlas-flow-register-list {
+  display: grid;
+  gap: 10px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.atlas-flow-register-item {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.92);
+  color: var(--text);
+  text-align: left;
+}
+
+.atlas-flow-register-item p {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.atlas-flow-register-item-active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(19, 30, 44, 0.96);
+}
+
+.atlas-flow-register-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.atlas-flow-register-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.14);
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.atlas-flow-inspector {
+  padding: 18px;
+  background: var(--surface);
+}
+
+.atlas-flow-inspector-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.atlas-flow-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.atlas-flow-card strong {
+  display: block;
+  line-height: 1.28;
+  font-size: 0.95rem;
+}
+
+.atlas-flow-card p {
+  font-size: 0.8rem;
+  line-height: 1.38;
+  color: var(--muted);
+}
+
+.atlas-flow-card-compact {
+  gap: 8px;
+}
+
+.atlas-flow-card-compact strong {
+  font-size: 0.91rem;
+}
+
+.atlas-flow-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.atlas-flow-card-top-tight {
+  align-items: flex-start;
+}
+
+.atlas-flow-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.atlas-flow-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border: 1px solid rgba(88, 166, 255, 0.25);
+  background: rgba(88, 166, 255, 0.1);
+  color: var(--text);
+}
+
+.atlas-flow-chip-lane {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.atlas-flow-chip-stage {
+  border-color: rgba(88, 166, 255, 0.22);
+  background: rgba(88, 166, 255, 0.12);
+  color: var(--accent-strong);
+}
+
+.atlas-flow-chip-muted {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+}
+
+.atlas-flow-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.atlas-flow-related-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.atlas-flow-related-card {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.92);
+  color: var(--text);
+  text-align: left;
+}
+
+.atlas-flow-related-card p {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.atlas-flow-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.atlas-flow-lane,
+.atlas-flow-status {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.atlas-flow-node {
+  border-radius: 18px;
+  border: 1px solid rgba(125, 148, 178, 0.22) !important;
+  background: rgba(15, 21, 29, 0.98) !important;
+  color: var(--text);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+}
+
+.atlas-flow-node .react-flow__handle {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  background: rgba(127, 183, 255, 0.82);
+}
+
+.atlas-flow-canvas .react-flow__edge-path {
+  stroke: rgba(88, 166, 255, 0.28);
+  stroke-width: 1.6px;
+}
+
+.atlas-flow-canvas .react-flow__edge.selected .react-flow__edge-path {
+  stroke: rgba(88, 166, 255, 0.58);
+}
+
+.atlas-flow-node .react-flow__node-default {
+  background: transparent;
+}
+
+.atlas-flow-node-muted {
+  opacity: 0.38;
+}
+
+.atlas-flow-node-core {
+  border-left: 3px solid var(--accent) !important;
+}
+
+.atlas-flow-node-review {
+  border-left: 3px solid var(--warning) !important;
+}
+
+.atlas-flow-node-decision {
+  border-left: 3px solid #a371f7 !important;
+}
+
+.atlas-flow-node-external {
+  border-left: 3px solid var(--success) !important;
+}
+
+.atlas-flow-status-core {
+  color: var(--accent-strong);
+}
+
+.atlas-flow-status-review {
+  color: var(--warning);
+}
+
+.atlas-flow-status-decision {
+  color: #c297ff;
+}
+
+.atlas-flow-status-external {
+  color: var(--success);
+}
+
+.atlas-flow-legend {
+  display: flex;
+  gap: 8px;
+  background: rgba(18, 23, 31, 0.88);
+  border: 1px solid rgba(125, 148, 178, 0.22);
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+
+.atlas-flow-step-index {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.12);
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 920px) {
+  .atlas-flow-layout,
+  .atlas-flow-layout-with-inspector {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-classic-nav,
+  .turicum-topbar,
+  .hero-grid,
+  .three-up,
+  .two-up,
+  .metric-grid,
+  .turicum-marketing-stats,
+  .turicum-classic-stats,
+  .turicum-feature-grid,
+  .turicum-steps-grid,
+  .turicum-steps-grid-wide,
+  .turicum-classic-hero-grid,
+  .turicum-showcase-stack,
+  .turicum-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-classic-nav,
+  .turicum-topbar {
+    align-items: flex-start;
+  }
+
+  .turicum-classic-links,
+  .turicum-topbar-links {
+    justify-content: flex-start;
+  }
+
+  .atlas-flow-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas-flow-canvas {
+    min-height: 560px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+.flow-print-page {
+  width: min(100%, 1200px);
+}
+
+.flow-print-hero-aside {
+  display: grid;
+  gap: 14px;
+}
+
+.flow-print-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flow-print-panel {
+  gap: 18px;
+}
+
+.flow-print-sequence {
+  display: grid;
+  gap: 14px;
+}
+
+.flow-print-step,
+.flow-print-role-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+.flow-print-step-top,
+.flow-print-role-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.flow-print-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.14);
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.flow-print-detail-grid,
+.flow-print-role-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.flow-print-detail-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.flow-print-role-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compact-list {
+  gap: 4px;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    color: #111827;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  main,
+  .flow-print-page {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .no-print,
+  .nav,
+  .hero-aside .form-actions,
+  .flow-print-actions {
+    display: none !important;
+  }
+
+  .hero,
+  .panel,
+  .metric,
+  .callout,
+  .table-wrap,
+  .flow-print-step,
+  .flow-print-role-card {
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border-color: #d1d5db !important;
+  }
+
+  .helper,
+  .eyebrow,
+  .atlas-flow-chip-muted,
+  .atlas-flow-lane,
+  .atlas-flow-status {
+    color: #4b5563 !important;
+  }
+
+  p,
+  strong,
+  h1,
+  h2,
+  h3,
+  li {
+    color: #111827 !important;
+  }
+
+  .flow-print-panel,
+  .flow-print-step,
+  .flow-print-role-card,
+  .callout {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .flow-print-role-section {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .flow-print-role-grid,
+  .flow-print-detail-grid,
+  .dashboard-band {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+.flow-print-links {
+  flex-wrap: wrap;
+}
+
+.flow-print-brand-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.flow-print-brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.flow-print-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(13, 22, 34, 0.92);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+}
+
+.flow-print-brand-badge .turicum-wordmark img {
+  width: 240px;
+  height: auto;
+}
+
+.flow-print-brand-meta {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.flow-print-summary-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+.flow-print-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.flow-print-preset-row .secondary-button.active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(20, 32, 49, 0.96);
+}
+
+.flow-print-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  padding: 8px 4px 0;
+}
+
+@media (max-width: 920px) {
+  .flow-print-brand-row,
+  .flow-print-brand-lockup,
+  .flow-print-footer {
+    flex-direction: column;
+  }
+
+  .flow-print-detail-grid,
+  .flow-print-role-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .flow-print-brand-meta,
+  .flow-print-footer {
+    color: #4b5563 !important;
+  }
+}
+
+
+.flow-print-format-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.flow-print-compact-panel {
+  gap: 20px;
+}
+
+.flow-print-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.flow-print-lane-column {
+  display: grid;
+  gap: 10px;
+}
+
+.flow-print-lane-head {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+.flow-print-lane-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.flow-print-compact-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+@media (max-width: 1100px) {
+  .flow-print-compact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media print {
+  .flow-print-page-compact .flow-print-compact-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .flow-print-page-compact .flow-print-compact-card,
+  .flow-print-page-compact .flow-print-lane-head {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+.flow-print-diagram-panel {
+  gap: 18px;
+}
+
+.flow-print-diagram-wrap {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(15, 19, 26, 0.98), rgba(10, 14, 20, 0.96));
+}
+
+.flow-print-diagram-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.flow-print-diagram-lane {
+  fill: rgba(255, 255, 255, 0.025);
+  stroke: rgba(130, 149, 173, 0.18);
+  stroke-width: 1;
+}
+
+.flow-print-diagram-lane-label {
+  fill: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flow-print-diagram-edge {
+  fill: none;
+  stroke: rgba(125, 148, 178, 0.88);
+  stroke-width: 2.25;
+}
+
+.flow-print-diagram-step-index {
+  fill: #7fb7ff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flow-print-diagram-node-title {
+  fill: #f5f7fb;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.flow-print-diagram-node-meta {
+  fill: rgba(225, 232, 241, 0.76);
+  font-size: 12px;
+}
+
+.flow-print-diagram-status {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media print {
+  .flow-print-diagram-wrap {
+    background: #ffffff !important;
+    border-color: #d1d5db !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .flow-print-diagram-lane {
+    fill: #f8fafc !important;
+    stroke: #cbd5e1 !important;
+  }
+
+  .flow-print-diagram-lane-label {
+    fill: #475569 !important;
+  }
+
+  .flow-print-diagram-edge {
+    stroke: #64748b !important;
+  }
+
+  .flow-print-diagram-step-index {
+    fill: #1d4ed8 !important;
+  }
+
+  .flow-print-diagram-node-title,
+  .flow-print-diagram-node-meta,
+  .flow-print-diagram-status {
+    fill: #111827 !important;
+  }
+}
+
+.atlas-flow-shell-presentation .atlas-flow-topbar {
+  padding-bottom: 18px;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-canvas-wrap {
+  border-right: 0;
+  grid-template-rows: minmax(580px, 1fr);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-canvas {
+  min-height: 700px;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-legend {
+  background: rgba(14, 20, 28, 0.7);
+  border-color: rgba(125, 148, 178, 0.14);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-stage {
+  border-color: rgba(88, 166, 255, 0.28);
+  background: linear-gradient(180deg, rgba(36, 50, 69, 0.98), rgba(16, 24, 34, 0.94));
+  box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.12), 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-stage-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.11em;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-node {
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.26);
+}
+
+.atlas-flow-card-presentation p {
+  color: rgba(226, 234, 244, 0.76);
+}
+
+.atlas-flow-mode-toggle {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.atlas-flow-mode-toggle .secondary-button.active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(20, 32, 49, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.18);
+}
+
+.atlas-flow-canvas .react-flow__edge {
+  filter: drop-shadow(0 0 6px rgba(88, 166, 255, 0.08));
+}
+
+.atlas-flow-topbar-copy {
+  max-width: 44rem;
+}
+
+.atlas-flow-legend-strong {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(88, 166, 255, 0.18);
+  background: rgba(12, 18, 25, 0.84);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+
+.atlas-flow-stage {
+  height: 88px;
+  padding: 12px 14px 12px 16px;
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.atlas-flow-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 10px 8px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.atlas-flow-stage-index {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 237, 243, 0.58);
+}
+
+.atlas-flow-stage-label {
+  position: static;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+}
+
+.atlas-flow-stage-helper {
+  font-size: 0.73rem;
+  line-height: 1.3;
+  color: rgba(214, 224, 235, 0.7);
+  max-width: 17ch;
+}
+
+.atlas-flow-stage-origination {
+  background: linear-gradient(180deg, rgba(31, 52, 85, 0.98), rgba(16, 26, 39, 0.95));
+}
+.atlas-flow-stage-origination::after { background: linear-gradient(90deg, rgba(88,166,255,0.95), rgba(88,166,255,0.28)); }
+
+.atlas-flow-stage-validation {
+  background: linear-gradient(180deg, rgba(52, 58, 86, 0.98), rgba(22, 24, 37, 0.95));
+}
+.atlas-flow-stage-validation::after { background: linear-gradient(90deg, rgba(166, 139, 255, 0.95), rgba(166,139,255,0.28)); }
+
+.atlas-flow-stage-promotion {
+  background: linear-gradient(180deg, rgba(22, 72, 59, 0.98), rgba(14, 35, 30, 0.95));
+}
+.atlas-flow-stage-promotion::after { background: linear-gradient(90deg, rgba(103,219,165,0.95), rgba(103,219,165,0.28)); }
+
+.atlas-flow-stage-legal {
+  background: linear-gradient(180deg, rgba(86, 57, 22, 0.98), rgba(38, 25, 14, 0.95));
+}
+.atlas-flow-stage-legal::after { background: linear-gradient(90deg, rgba(255,193,69,0.95), rgba(255,193,69,0.28)); }
+
+.atlas-flow-stage-execution {
+  background: linear-gradient(180deg, rgba(61, 46, 91, 0.98), rgba(28, 20, 43, 0.95));
+}
+.atlas-flow-stage-execution::after { background: linear-gradient(90deg, rgba(194,151,255,0.95), rgba(194,151,255,0.28)); }
+
+.atlas-flow-stage-servicing {
+  background: linear-gradient(180deg, rgba(33, 63, 78, 0.98), rgba(18, 30, 38, 0.95));
+}
+.atlas-flow-stage-servicing::after { background: linear-gradient(90deg, rgba(94,234,212,0.95), rgba(94,234,212,0.28)); }
+
+.atlas-flow-stage-exit {
+  background: linear-gradient(180deg, rgba(88, 39, 39, 0.98), rgba(40, 18, 18, 0.95));
+}
+.atlas-flow-stage-exit::after { background: linear-gradient(90deg, rgba(255,107,107,0.95), rgba(255,107,107,0.28)); }
+
+.atlas-flow-swimlane {
+  border-style: solid;
+}
+
+.atlas-flow-swimlane-label {
+  top: 14px;
+  left: 18px;
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+}
+
+.atlas-flow-swimlane-helper {
+  position: absolute;
+  top: 34px;
+  left: 18px;
+  font-size: 0.74rem;
+  color: rgba(223, 231, 239, 0.52);
+}
+
+.atlas-flow-card {
+  gap: 9px;
+}
+
+.atlas-flow-card strong {
+  font-size: 0.98rem;
+}
+
+.atlas-flow-card-compact strong {
+  font-size: 0.95rem;
+}
+
+.atlas-flow-card-presentation strong {
+  font-size: 1rem;
+}
+
+.atlas-flow-card-presentation p {
+  font-size: 0.78rem;
+  line-height: 1.42;
+}
+
+.atlas-flow-chip-lane-atlas {
+  border-color: rgba(88, 166, 255, 0.32);
+  background: rgba(88, 166, 255, 0.12);
+  color: #b7d3ff;
+}
+
+.atlas-flow-chip-lane-borrower {
+  border-color: rgba(88, 166, 255, 0.18);
+  background: rgba(40, 94, 166, 0.12);
+  color: #c7dcff;
+}
+
+.atlas-flow-chip-lane-investor {
+  border-color: rgba(103, 219, 165, 0.28);
+  background: rgba(28, 97, 69, 0.14);
+  color: #bff2dc;
+}
+
+.atlas-flow-node {
+  border-width: 1px !important;
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.24);
+}
+
+.atlas-flow-node .react-flow__handle {
+  width: 9px;
+  height: 9px;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-canvas {
+  min-height: 760px;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-stage {
+  height: 96px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-stage-label {
+  font-size: 0.84rem;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-stage-helper {
+  color: rgba(232, 238, 245, 0.76);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-node {
+  box-shadow: 0 26px 48px rgba(0, 0, 0, 0.3);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-legend-strong {
+  background: rgba(11, 17, 24, 0.66);
+  backdrop-filter: blur(10px);
+}
+
+.atlas-flow-canvas .react-flow__edge {
+  filter: drop-shadow(0 0 7px rgba(88, 166, 255, 0.1));
+}
+
+.atlas-flow-canvas .react-flow__edge-textbg {
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.22));
+}
+
+.atlas-flow-canvas .react-flow__edge-text {
+  font-family: var(--font-display);
+}
+
+.atlas-flow-overview-rail {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px 18px 0;
+  background: linear-gradient(180deg, rgba(10, 14, 20, 0.72), rgba(10, 14, 20, 0));
+}
+
+.atlas-flow-overview-stage-card {
+  display: grid;
+  gap: 4px;
+  min-height: 84px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(125, 148, 178, 0.18);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+}
+
+.atlas-flow-overview-stage-card strong {
+  font-size: 0.84rem;
+  letter-spacing: 0.03em;
+}
+
+.atlas-flow-overview-stage-card span:last-child {
+  font-size: 0.73rem;
+  line-height: 1.3;
+  color: rgba(227, 234, 242, 0.7);
+}
+
+.atlas-flow-overview-stage-index {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 237, 243, 0.58);
+}
+
+.atlas-flow-overview-stage-card-origination {
+  background: linear-gradient(180deg, rgba(31, 52, 85, 0.98), rgba(16, 26, 39, 0.95));
+}
+.atlas-flow-overview-stage-card-validation {
+  background: linear-gradient(180deg, rgba(52, 58, 86, 0.98), rgba(22, 24, 37, 0.95));
+}
+.atlas-flow-overview-stage-card-promotion {
+  background: linear-gradient(180deg, rgba(22, 72, 59, 0.98), rgba(14, 35, 30, 0.95));
+}
+.atlas-flow-overview-stage-card-legal {
+  background: linear-gradient(180deg, rgba(86, 57, 22, 0.98), rgba(38, 25, 14, 0.95));
+}
+.atlas-flow-overview-stage-card-execution {
+  background: linear-gradient(180deg, rgba(61, 46, 91, 0.98), rgba(28, 20, 43, 0.95));
+}
+.atlas-flow-overview-stage-card-servicing {
+  background: linear-gradient(180deg, rgba(33, 63, 78, 0.98), rgba(18, 30, 38, 0.95));
+}
+.atlas-flow-overview-stage-card-exit {
+  background: linear-gradient(180deg, rgba(88, 39, 39, 0.98), rgba(40, 18, 18, 0.95));
+}
+
+.atlas-flow-shell-presentation .atlas-flow-canvas-wrap {
+  grid-template-rows: auto minmax(640px, 1fr);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-legend-strong {
+  margin-top: 94px;
+}
+
+.atlas-flow-shell-presentation .react-flow__controls,
+.atlas-flow-shell-presentation .react-flow__minimap {
+  display: none !important;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-stages {
+  opacity: 0.42;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-swimlanes {
+  opacity: 0.84;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-overview-rail {
+  border-bottom: 1px solid rgba(88, 166, 255, 0.08);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-overview-stage-card {
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.2);
+}
+
+.atlas-flow-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(88, 166, 255, 0.09), transparent 20%),
+    radial-gradient(circle at 52% 28%, rgba(103, 219, 165, 0.07), transparent 22%),
+    radial-gradient(circle at 78% 18%, rgba(194, 151, 255, 0.08), transparent 18%),
+    linear-gradient(90deg, rgba(88, 166, 255, 0.035) 0%, rgba(88, 166, 255, 0.035) 33.33%, transparent 33.33%, transparent 66.66%, rgba(103, 219, 165, 0.03) 66.66%, rgba(103, 219, 165, 0.03) 100%);
+  z-index: 0;
+}
+
+.atlas-flow-swimlane {
+  border-width: 1px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
+}
+
+.atlas-flow-swimlane::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  border-radius: 22px 0 0 22px;
+  opacity: 0.85;
+}
+
+.atlas-flow-swimlane-atlas::before {
+  background: linear-gradient(180deg, rgba(88,166,255,0.95), rgba(88,166,255,0.18));
+}
+
+.atlas-flow-swimlane-borrower::before {
+  background: linear-gradient(180deg, rgba(120,181,255,0.92), rgba(120,181,255,0.14));
+}
+
+.atlas-flow-swimlane-investor::before {
+  background: linear-gradient(180deg, rgba(103,219,165,0.92), rgba(103,219,165,0.14));
+}
+
+.atlas-flow-shell-presentation .atlas-flow-canvas {
+  background:
+    linear-gradient(180deg, rgba(14, 19, 27, 0.98), rgba(8, 12, 18, 0.98)),
+    radial-gradient(circle at top left, rgba(88, 166, 255, 0.12), transparent 28%);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-canvas::before {
+  opacity: 1;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-swimlane {
+  border-color: rgba(125, 148, 178, 0.2);
+  background: linear-gradient(135deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+}
+
+.atlas-flow-shell-presentation .atlas-flow-swimlane-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  color: rgba(235, 241, 247, 0.82);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-swimlane-helper {
+  color: rgba(223, 231, 239, 0.64);
+}
+
+.atlas-flow-overview-stage-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.atlas-flow-overview-stage-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(239, 244, 250, 0.88);
+}
+
+.atlas-flow-overview-stage-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.atlas-flow-overview-stage-meta span {
+  font-size: 0.67rem;
+  color: rgba(234, 241, 247, 0.72);
+}
+
+.atlas-flow-shell-presentation .atlas-flow-node {
+  border-color: rgba(125, 148, 178, 0.28) !important;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-card-presentation {
+  gap: 10px;
+}
+
+.atlas-flow-shell-presentation .atlas-flow-chip-stage {
+  background: rgba(88, 166, 255, 0.16);
+}
+
+.turicum-team-panel {
+  background: rgba(23, 28, 38, 0.9);
+}
+
+.turicum-team-note {
+  text-align: center;
+  padding-top: 6px;
+}
+
+.turicum-team-note a {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.section-head.compact {
+  margin-bottom: 1rem;
+}
+
+.turicum-team-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.turicum-credibility-list {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.turicum-public-shell {
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-body: "Avenir Next", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+}
+
+.turicum-public-shell .hero,
+.turicum-public-shell .panel,
+.turicum-public-shell .metric {
+  border-color: rgba(178, 194, 215, 0.11);
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.26);
+}
+
+.turicum-public-shell h1 {
+  max-width: 16.5ch;
+  font-size: clamp(2.6rem, 4.35vw, 4.75rem);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+
+.turicum-public-shell h2 {
+  font-size: clamp(1.25rem, 2vw, 1.9rem);
+  letter-spacing: -0.02em;
+}
+
+.turicum-public-shell p,
+.turicum-public-shell .helper {
+  color: rgba(225, 232, 240, 0.82);
+}
+
+.turicum-public-shell .eyebrow {
+  letter-spacing: 0.16em;
+  color: rgba(198, 210, 225, 0.68);
+}
+
+.turicum-public-shell .secondary-button,
+.turicum-public-shell .form-actions button {
+  width: auto;
+  min-width: 0;
+  padding: 13px 20px;
+  background: rgba(17, 24, 34, 0.98);
+  border-color: rgba(189, 204, 223, 0.14);
+  box-shadow: none;
+  font-weight: 600;
+}
+
+.turicum-public-shell .secondary-button:hover,
+.turicum-public-shell .form-actions button:hover {
+  border-color: rgba(189, 204, 223, 0.28);
+  transform: translateY(-1px);
+}
+
+.turicum-public-shell .turicum-primary-button {
+  background: linear-gradient(180deg, rgba(240, 245, 251, 0.98), rgba(218, 228, 240, 0.96));
+  color: #0c1520;
+  border-color: rgba(255, 255, 255, 0.42);
+  font-weight: 700;
+}
+
+.turicum-public-shell .tag {
+  background: rgba(238, 245, 252, 0.07);
+  color: rgba(225, 235, 247, 0.88);
+  border: 1px solid rgba(210, 222, 236, 0.12);
+}
+
+.turicum-public-shell .turicum-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.turicum-public-shell .turicum-lane-tags {
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.turicum-public-shell .turicum-inline-actions form {
+  margin: 0;
+}
+
+.turicum-public-shell .turicum-inline-actions .secondary-button,
+.turicum-public-shell .turicum-inline-actions button {
+  width: auto;
+}
+
+.turicum-public-shell .turicum-classic-hero,
+.turicum-public-shell .turicum-public-hero {
+  padding: 18px 22px 16px;
+  background:
+    linear-gradient(180deg, rgba(19, 24, 34, 0.98), rgba(10, 15, 23, 0.99)),
+    radial-gradient(circle at top right, rgba(118, 164, 224, 0.16), transparent 30%);
+}
+
+.turicum-classic-hero-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.turicum-public-shell .panel {
+  backdrop-filter: blur(10px);
+}
+
+.turicum-public-hero-grid {
+  align-items: stretch;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+}
+
+.turicum-public-shell .turicum-classic-hero-main,
+.turicum-public-shell .hero-copy {
+  gap: 12px;
+}
+
+.turicum-public-aside {
+  display: grid;
+  grid-template-rows: minmax(320px, 1fr) auto;
+  gap: 14px;
+  min-height: 100%;
+}
+
+.turicum-aside-art {
+  min-height: 320px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 214, 235, 0.12);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.22);
+}
+
+.turicum-classic-hero-main-wide {
+  max-width: 72ch;
+}
+
+.turicum-public-shell .turicum-classic-lede,
+.turicum-public-shell .hero-copy > p:not(.eyebrow) {
+  max-width: 58ch;
+  font-size: 0.96rem;
+  line-height: 1.58;
+}
+
+.turicum-public-shell .turicum-classic-hero-main-wide .turicum-classic-lede {
+  max-width: 58ch;
+}
+
+.turicum-public-shell .turicum-hero-summary,
+.turicum-public-shell .turicum-aside-panel,
+.turicum-public-shell .turicum-public-card,
+.turicum-public-shell .turicum-role-card,
+.turicum-public-shell .turicum-process-strip {
+  background: linear-gradient(180deg, rgba(18, 25, 35, 0.96), rgba(12, 18, 27, 0.96));
+}
+
+.turicum-hero-note {
+  margin: 2px 0 0;
+  color: rgba(203, 214, 228, 0.72);
+  max-width: 56ch;
+}
+
+.turicum-hero-visual {
+  position: relative;
+  min-height: 320px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 214, 235, 0.12);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 18, 0.08), rgba(8, 12, 18, 0.58)),
+    linear-gradient(135deg, rgba(23, 34, 49, 0.95), rgba(11, 17, 26, 0.98));
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+}
+
+.turicum-hero-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 58% center;
+}
+
+.turicum-hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 11, 18, 0.08), rgba(7, 11, 18, 0.14) 28%, rgba(7, 11, 18, 0.72)),
+    linear-gradient(90deg, rgba(7, 11, 18, 0.46), rgba(7, 11, 18, 0.14) 30%, transparent 58%);
+  pointer-events: none;
+}
+
+.turicum-hero-visual-note {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(10, 16, 25, 0.68);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(197, 214, 235, 0.12);
+}
+
+.turicum-hero-visual-label {
+  color: rgba(198, 210, 225, 0.72);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-public-shell .turicum-role-grid,
+.turicum-public-shell .turicum-form-layout {
+  align-items: start;
+}
+
+.turicum-public-shell .turicum-role-grid {
+  margin-top: -4px;
+}
+
+.turicum-public-shell .turicum-role-card {
+  gap: 14px;
+  padding: 18px;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.turicum-public-shell .turicum-role-card:hover,
+.turicum-public-shell .turicum-role-card:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(214, 226, 242, 0.16);
+  box-shadow: 0 26px 52px rgba(0, 0, 0, 0.24);
+}
+
+.turicum-public-shell .turicum-role-card h2,
+.turicum-public-shell .turicum-proof-panel h2,
+.turicum-public-shell .turicum-investor-proof-panel h2 {
+  text-wrap: balance;
+}
+
+.turicum-public-shell .compact-list {
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-public-shell .compact-list li::before {
+  width: 6px;
+  height: 6px;
+  top: 0.78em;
+  background: rgba(128, 177, 241, 0.92);
+}
+
+.turicum-public-shell .turicum-compact-status-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-public-shell .status-card,
+.turicum-public-shell .turicum-nested-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(197, 214, 235, 0.1);
+  background: rgba(18, 25, 35, 0.92);
+}
+
+.turicum-public-shell .status-card {
+  gap: 10px;
+}
+
+.turicum-public-shell .turicum-step-card {
+  min-height: 0;
+  padding: 44px 16px 16px;
+  border: 1px solid rgba(197, 214, 235, 0.1);
+}
+
+.turicum-public-shell .field input,
+.turicum-public-shell .field select,
+.turicum-public-shell .field textarea {
+  background: rgba(14, 21, 31, 0.96);
+  border-color: rgba(189, 204, 223, 0.14);
+}
+
+.turicum-public-shell .field input:focus,
+.turicum-public-shell .field select:focus,
+.turicum-public-shell .field textarea:focus {
+  outline: 2px solid rgba(121, 176, 245, 0.28);
+  outline-offset: 1px;
+}
+
+.turicum-public-shell .turicum-home-footer {
+  padding: 4px 6px 0;
+}
+
+.turicum-support-grid {
+  align-items: start;
+}
+
+.turicum-support-grid .panel {
+  height: 100%;
+}
+
+.turicum-steps-grid-stack {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+  .turicum-public-shell .turicum-compact-status-grid,
+  .turicum-public-shell .turicum-steps-grid,
+  .turicum-support-grid,
+  .turicum-classic-hero-body {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-hero-visual {
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 920px) {
+  .turicum-public-shell .turicum-classic-nav,
+  .turicum-public-shell .turicum-classic-links {
+    gap: 10px;
+  }
+
+  .turicum-public-shell h1 {
+    max-width: none;
+    font-size: clamp(2rem, 9vw, 3.25rem);
+  }
+
+  .turicum-public-shell .turicum-inline-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .turicum-public-shell .turicum-inline-actions .secondary-button,
+  .turicum-public-shell .turicum-inline-actions button {
+    width: 100%;
+  }
+}
+
+
+.turicum-public-shell .turicum-classic-links {
+  align-items: center;
+}
+
+.turicum-public-shell .turicum-classic-links a:last-child {
+  color: rgba(198, 210, 225, 0.62);
+  border-left: 1px solid rgba(197, 214, 235, 0.12);
+  padding-left: 14px;
+  margin-left: 2px;
+}
+
+.turicum-public-shell .turicum-role-card {
+  grid-template-rows: auto 1fr auto;
+}
+
+.turicum-public-shell .compact-list li {
+  display: block;
+  min-height: 0;
+  padding-left: 18px;
+  line-height: 1.55;
+}
+
+.turicum-public-shell .compact-list li::before {
+  top: 0.72em;
+}
+
+.turicum-public-shell .turicum-role-card .form-actions,
+.turicum-public-shell .turicum-role-card .turicum-inline-actions {
+  margin-top: auto;
+}
+
+.turicum-public-shell .turicum-process-strip {
+  border-top: 1px solid rgba(214, 225, 238, 0.06);
+}
+
+.turicum-public-shell .turicum-step-card {
+  background: linear-gradient(180deg, rgba(20, 27, 37, 0.94), rgba(13, 19, 28, 0.98));
+}
+
+.turicum-public-shell .turicum-home-footer {
+  max-width: 76ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+.turicum-proof-grid {
+  align-items: stretch;
+}
+
+.turicum-proof-panel {
+  gap: 18px;
+}
+
+.turicum-public-shell .turicum-proof-panel .turicum-compact-status-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-public-shell .turicum-proof-panel .status-card {
+  min-height: 0;
+}
+
+.atlas-review-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.atlas-review-quick-actions .secondary-button,
+.atlas-review-quick-actions .turicum-primary-button {
+  min-width: 168px;
+}
+
+.turicum-investor-hero {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(109, 168, 255, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(14, 20, 30, 0.98), rgba(10, 14, 22, 0.98));
+  border-color: rgba(88, 166, 255, 0.16);
+}
+
+.turicum-investor-hero-grid {
+  align-items: stretch;
+}
+
+.turicum-investor-aside,
+.turicum-investor-member-aside {
+  gap: 14px;
+}
+
+.turicum-investor-art {
+  min-height: 300px;
+}
+
+.turicum-investor-signin-panel,
+.turicum-investor-proof-panel,
+.turicum-investor-matters-panel {
+  border-color: rgba(88, 166, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(17, 24, 34, 0.96), rgba(12, 17, 25, 0.96)),
+    var(--surface);
+}
+
+.turicum-tight-list {
+  gap: 12px;
+}
+
+.turicum-tight-list li {
+  line-height: 1.55;
+}
+
+.turicum-investor-stats {
+  grid-template-columns: 1fr;
+}
+
+.turicum-investor-member-note {
+  border-color: rgba(88, 166, 255, 0.16);
+  background: rgba(10, 15, 23, 0.72);
+}
+
+.turicum-investor-matters-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.turicum-investor-matter-card {
+  gap: 14px;
+  border-color: rgba(88, 166, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(18, 25, 35, 0.96), rgba(13, 18, 27, 0.96)),
+    var(--surface-strong);
+}
+
+.turicum-investor-matter-card strong {
+  line-height: 1.35;
+}
+
+
+.atlas-team-queue-panel {
+  border-color: rgba(88, 166, 255, 0.16);
+  background:
+    radial-gradient(circle at top left, rgba(88, 166, 255, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(16, 23, 33, 0.97), rgba(11, 17, 25, 0.97));
+}
+
+.atlas-team-queue-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.atlas-team-queue-card strong {
+  line-height: 1.35;
+}
+
+.turicum-public-shell .turicum-role-card,
+.turicum-public-shell .turicum-proof-panel,
+.turicum-public-shell .turicum-process-strip,
+.turicum-public-shell .turicum-investor-signin-panel,
+.turicum-public-shell .turicum-investor-proof-panel,
+.turicum-public-shell .turicum-investor-matters-panel {
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.2);
+}
+
+.turicum-public-shell .turicum-role-card,
+.turicum-public-shell .turicum-proof-panel,
+.turicum-public-shell .turicum-process-strip {
+  border-color: rgba(204, 218, 236, 0.1);
+}
+
+.turicum-public-shell .turicum-role-card strong,
+.turicum-public-shell .turicum-proof-panel strong,
+.turicum-public-shell .turicum-investor-proof-panel strong,
+.turicum-public-shell .turicum-investor-matter-card strong {
+  letter-spacing: -0.01em;
+}
+
+.turicum-public-shell .turicum-process-strip h2,
+.turicum-public-shell .turicum-proof-panel h2,
+.turicum-public-shell .turicum-investor-proof-panel h2 {
+  max-width: 20ch;
+}
+
+.turicum-public-shell .turicum-home-footer {
+  max-width: 72ch;
+  padding-top: 8px;
+}
+
+.turicum-public-shell .turicum-home-footer .helper {
+  color: rgba(203, 215, 229, 0.74);
+  font-size: 0.92rem;
+}
+
+.turicum-public-shell .turicum-aside-panel .helper,
+.turicum-public-shell .turicum-investor-member-note .helper {
+  color: rgba(209, 221, 234, 0.76);
+}
+
+
+.turicum-proof-strip-panel {
+  padding: 20px 24px;
+  background:
+    linear-gradient(180deg, rgba(17, 23, 33, 0.92), rgba(12, 18, 27, 0.96)),
+    radial-gradient(circle at top left, rgba(117, 170, 236, 0.08), transparent 26%);
+}
+
+.turicum-proof-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.turicum-proof-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(197, 214, 235, 0.12);
+  background: rgba(16, 23, 33, 0.82);
+  color: rgba(228, 236, 246, 0.88);
+  font-family: var(--font-display);
+  font-size: 0.79rem;
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+
+.turicum-four-up-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.turicum-why-panel {
+  gap: 18px;
+}
+
+.turicum-public-shell .hero-copy .kicker-row,
+.turicum-public-shell .turicum-classic-hero-main .kicker-row {
+  margin-top: 4px;
+}
+
+.turicum-public-shell .section-head.compact h2 {
+  max-width: 24ch;
+}
+
+.turicum-public-shell .section-head.compact {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 1100px) {
+  .turicum-four-up-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .turicum-four-up-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "caseId": "case-in-001",
+    "groupKey": "FL|loan|closing_instructions",
+    "precedentId": "fl-loan-2000-n-federal-hwy-delray-beach-fl-33483-comm-loan-fl-loan-case08-ghllc-closing-instructions-letter-executed",
+    "precedentTitle": "FL_loan_case08_GHLLC-Closing-Instructions-Letter_executed",
+    "documentType": "closing_instructions",
+    "state": "FL",
+    "structureType": "loan",
+    "googleDriveFolderId": "1q4vYTQYi3KJOpexu3G0spEHr9plNdeen",
+    "sourceFolderUrl": "https://drive.google.com/drive/folders/1q4vYTQYi3KJOpexu3G0spEHr9plNdeen?usp=drive_link",
+    "selectedAt": "2026-03-16T09:35:28.378Z",
+    "sourceRelativePath": "FL/Loan/2000_N_Federal_Hwy_Delray_Beach_FL_33483_Comm_Loan/FL_loan_case08_GHLLC-Closing-Instructions-Letter_executed.md",
+    "sourceCaseCode": "CASE08"
+  },
+  {
+    "caseId": "case-fl-001",
+    "groupKey": "FL|purchase|jv_agreement",
+    "precedentId": "fl-purchase-o14-pa-land-peace-river-6-fl-purchase-case03-jv-agreement-executed",
+    "precedentTitle": "FL_purchase_case03_JV-Agreement_executed",
+    "documentType": "jv_agreement",
+    "state": "FL",
+    "structureType": "purchase",
+    "sourceRelativePath": "FL/Purchase/O14_-_PA_Land_Peace_River_6/FL_purchase_case03_JV-Agreement_executed.md",
+    "sourceCaseCode": "CASE03",
+    "googleDriveFolderId": "1q4vYTQYi3KJOpexu3G0spEHr9plNdeen",
+    "sourceFolderUrl": "https://drive.google.com/drive/folders/1q4vYTQYi3KJOpexu3G0spEHr9plNdeen?usp=drive_link",
+    "selectedAt": "2026-03-16T11:16:28.378Z"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "caseId": "case-in-001",
+    "status": "escrow_setup",
+    "escrowProvider": "Greenwood Title + Escrow",
+    "escrowAccountLabel": "Greenwood loan closing escrow",
+    "reserveStructure": "Interest reserve plus basic tax and insurance holdback",
+    "reserveAmount": "$185,000",
+    "wireInstructionsReady": true,
+    "fundingMemo": "Escrow account is opened, reserve structure is drafted, and borrower/investor conditions need to clear before release.",
+    "releaseConditions": "Signed docs, final investor take-up, legal approval, and closing checklist cleared.",
+    "fundedAmount": "$0",
+    "createdAt": "2026-03-16T20:00:00.000Z",
+    "updatedAt": "2026-03-17T11:16:30.330Z"
+  }
+]

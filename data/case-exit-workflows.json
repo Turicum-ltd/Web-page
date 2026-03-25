@@ -1,0 +1,15 @@
+[
+  {
+    "caseId": "case-in-001",
+    "status": "not_started",
+    "exitType": "undecided",
+    "targetCloseDate": "",
+    "payoffAmount": "",
+    "rolloverVehicle": "",
+    "payoffStatementReady": false,
+    "exitSummary": "No exit path has been selected yet. Turicum should support payoff, refinance, extension, sale, or rollover.",
+    "investorCommunication": "Investors should receive the exit memo once payoff, extension, or rollover terms are real.",
+    "createdAt": "2026-03-16T20:00:00.000Z",
+    "updatedAt": "2026-03-17T11:18:00.447Z"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "caseId": "case-in-001",
+    "status": "setup",
+    "nextPaymentDate": "2026-04-15",
+    "monthlyPaymentAmount": "$68,500",
+    "reserveBalance": "$185,000",
+    "servicerNotes": "Servicing lane will activate after funding. The first investor update should go out after the first payment cycle posts.",
+    "investorDistributionSummary": "Servicing distributions have not started yet.",
+    "updates": [
+      {
+        "id": "update-1",
+        "periodLabel": "Month 1",
+        "paymentStatus": "scheduled",
+        "amountSummary": "Initial servicing cycle not yet posted",
+        "reserveSummary": "Reserve ledger to be confirmed after funding",
+        "occupancySummary": "No post-close occupancy update yet",
+        "narrative": "Turicum will track borrower payment, reserve balance, and the investor narrative each month."
+      },
+      {
+        "id": "update-2",
+        "periodLabel": "Month 2",
+        "paymentStatus": "scheduled",
+        "amountSummary": "Awaiting the first completed investor distribution cycle",
+        "reserveSummary": "Reserve plan follows the funding memo",
+        "occupancySummary": "Update once property reporting starts",
+        "narrative": "Use this lane for monthly investor updates after the deal funds."
+      }
+    ],
+    "createdAt": "2026-03-16T20:00:00.000Z",
+    "updatedAt": "2026-03-17T11:17:14.393Z"
+  }
+]

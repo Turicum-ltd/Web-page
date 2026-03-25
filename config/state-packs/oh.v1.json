@@ -1,0 +1,115 @@
+{
+  "state": "OH",
+  "version": "v1",
+  "enabled": true,
+  "support_level": "provisional",
+  "notes": "Phase 1 enabled through the common workflow and checklist model. Legal templates should be attached after state review.",
+  "supported_structures": ["loan", "purchase"],
+  "documents": [
+    {
+      "structure_type": "loan",
+      "document_type": "term_sheet",
+      "category": "core_legal",
+      "stage": "term_sheet",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "commercial_application",
+      "category": "core_legal",
+      "stage": "due_diligence",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "borrower_authorization",
+      "category": "core_legal",
+      "stage": "due_diligence",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "promissory_note",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "placeholder",
+      "notes": "Needs Ohio-reviewed template."
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "mortgage",
+      "category": "title_recorded",
+      "stage": "legal_review",
+      "requirement_level": "placeholder",
+      "notes": "Needs Ohio-reviewed recorded instrument template."
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "purchase_agreement",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "placeholder"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "option_agreement",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "placeholder"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "lease_agreement",
+      "category": "core_legal",
+      "stage": "legal_review",
+      "requirement_level": "placeholder"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "warranty_deed",
+      "category": "title_recorded",
+      "stage": "closing",
+      "requirement_level": "placeholder"
+    },
+    {
+      "structure_type": "loan",
+      "document_type": "closing_statement",
+      "category": "closing_settlement",
+      "stage": "closing",
+      "requirement_level": "required"
+    },
+    {
+      "structure_type": "purchase",
+      "document_type": "closing_statement",
+      "category": "closing_settlement",
+      "stage": "closing",
+      "requirement_level": "required"
+    }
+  ],
+  "checklist_items": [
+    {
+      "code": "ids",
+      "label": "Collect IDs for guarantors and spouses if applicable",
+      "stage": "due_diligence",
+      "required_for": ["loan", "purchase"]
+    },
+    {
+      "code": "entity_docs",
+      "label": "Collect entity formation and authority documents",
+      "stage": "due_diligence",
+      "required_for": ["loan", "purchase"]
+    },
+    {
+      "code": "title_order",
+      "label": "Order and review title",
+      "stage": "packet_build",
+      "required_for": ["loan", "purchase"]
+    },
+    {
+      "code": "valuation",
+      "label": "Order valuation, BPO, appraisal, or desktop review",
+      "stage": "packet_build",
+      "required_for": ["loan", "purchase"]
+    }
+  ]
+}

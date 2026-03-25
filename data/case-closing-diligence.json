@@ -1,0 +1,15 @@
+[
+  {
+    "caseId": "case-in-001",
+    "status": "pending",
+    "titleCompanyName": "",
+    "titleStatus": "pending",
+    "insuranceStatus": "pending",
+    "taxStatus": "pending",
+    "summary": "Title work, insurance, and tax diligence still need to be reviewed separately from document review.",
+    "comments": "",
+    "approvedForExecution": false,
+    "createdAt": "2026-03-17T00:00:00.000Z",
+    "updatedAt": "2026-03-17T00:00:00.000Z"
+  }
+]

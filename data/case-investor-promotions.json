@@ -1,0 +1,16 @@
+[
+  {
+    "caseId": "case-in-001",
+    "status": "gathering_borrower_info",
+    "headline": "IN loan opportunity",
+    "validationSummary": "Borrower and property diligence support investor outreach once the packet is complete.",
+    "investorSummary": "Validated for a lead investor structure, with flexibility to broaden the capital stack if investor demand supports it.",
+    "promotionNotes": "Prepare a concise investor memo that can win a single lead investor quickly.\r\nKeep the package ready for syndication if one investor does not take the full position.\r\nInvestor summary should show rent roll quality, occupancy, and in-place cash flow support.\r\nInclude guarantor support and recourse profile in the investor summary.\r\nInvestor summary should address this occupancy/collateral point: Mixed-use retail center with operating income and lease collateral considerations.\r\nInvestor packaging should explain this complexity clearly: Use this as the seeded borrower-lender example profile until real intake answers are captured.",
+    "leadInvestorName": "",
+    "targetInvestorCount": 1,
+    "finalInvestorCount": 0,
+    "finalStructure": "undecided",
+    "createdAt": "2026-03-17T11:14:01.337Z",
+    "updatedAt": "2026-03-17T11:14:01.337Z"
+  }
+]
