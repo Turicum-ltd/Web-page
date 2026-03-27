@@ -6,16 +6,16 @@ BASE_URL="${1:-http://localhost:3100}"
 node --input-type=module - "$BASE_URL" <<'NODE'
 const [baseUrl] = process.argv.slice(2);
 const routes = [
-  "/turicum",
-  "/turicum/portal",
-  "/turicum/team-login",
-  "/turicum/investors",
-  "/turicum/review",
-  "/turicum/cases",
-  "/turicum/flows",
-  "/turicum/library",
-  "/turicum/investor-handoff",
-  "/turicum/brand/turicum-wordmark.svg"
+  "/",
+  "/portal",
+  "/team-login",
+  "/investors",
+  "/review",
+  "/cases",
+  "/flows",
+  "/library",
+  "/investor-handoff",
+  "/brand/turicum-wordmark.svg"
 ];
 
 console.log(`Turicum cutover checks against ${baseUrl}`);

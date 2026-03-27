@@ -18,7 +18,7 @@ const displayFont = Cormorant_Garamond({
 
 function normalizeBasePath(input: string | undefined) {
   if (!input) {
-    return "/turicum";
+    return "";
   }
   const trimmed = input.trim();
   if (!trimmed || trimmed === "/") {
@@ -27,7 +27,7 @@ function normalizeBasePath(input: string | undefined) {
   return (trimmed.startsWith("/") ? trimmed : `/${trimmed}`).replace(/\/+$/, "");
 }
 
-const basePath = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.TURICUM_BASE_PATH ?? "/turicum");
+const basePath = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.TURICUM_BASE_PATH ?? "");
 const iconHref = `${basePath || ""}/icon.svg`;
 
 export const metadata: Metadata = {

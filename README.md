@@ -51,9 +51,9 @@ Turicum LLC runs against local JSON by default. To switch the repository layer t
 SUPABASE_URL=...
 SUPABASE_SERVICE_ROLE_KEY=...
 SUPABASE_STORAGE_BUCKET=turicum-documents
-TURICUM_BASE_PATH=/turicum
+TURICUM_BASE_PATH=
 APP_ORIGIN=https://turicum.us
-NEXT_PUBLIC_BASE_PATH=/turicum
+NEXT_PUBLIC_BASE_PATH=
 NEXT_PUBLIC_APP_ORIGIN=https://turicum.us
 ```
 
@@ -141,4 +141,4 @@ Mac Studio / OpenClaw deployment notes are in [docs/turicum/macstudio-openclaw-d
 
 1. Copy the whole `turicum-platform` repo folder to the target machine.
 2. Double-click [start-turicum.command](start-turicum.command) to run Turicum locally on port `3100`.
-3. If you want the legacy MarketShift-mounted version, double-click [start-turicum-marketshift.command](start-turicum-marketshift.command) instead.
+3. If you want the legacy MarketShift-mounted version under `/turicum`, double-click [start-turicum-marketshift.command](start-turicum-marketshift.command) instead.

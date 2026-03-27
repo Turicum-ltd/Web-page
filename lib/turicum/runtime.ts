@@ -13,7 +13,7 @@ function normalizeBasePath(input: string | undefined) {
 }
 
 function getConfiguredBasePath() {
-  return normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.TURICUM_BASE_PATH ?? '/turicum');
+  return normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.TURICUM_BASE_PATH ?? '');
 }
 
 export function getBasePath() {

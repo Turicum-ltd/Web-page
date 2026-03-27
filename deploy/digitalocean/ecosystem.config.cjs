@@ -9,8 +9,8 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: '3100',
-        TURICUM_BASE_PATH: '/turicum',
-        NEXT_PUBLIC_BASE_PATH: '/turicum',
+        TURICUM_BASE_PATH: '',
+        NEXT_PUBLIC_BASE_PATH: '',
         APP_ORIGIN: 'https://turicum.us',
         NEXT_PUBLIC_APP_ORIGIN: 'https://turicum.us'
       }

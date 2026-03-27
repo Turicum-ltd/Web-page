@@ -6,11 +6,11 @@ This note is the deployment handoff for moving the Turicum LLC platform from the
 
 The hosted shape should preserve the current split:
 
-- external landing page at `/turicum`
-- public-safe portal at `/turicum/portal`
-- investor-safe handoff at `/turicum/investor-handoff`
-- integrated review surface at `/turicum/review`
-- optional legacy alias at `/turicumold` pointing to `/turicum`
+- external landing page at `/`
+- public-safe portal at `/portal`
+- investor-safe handoff at `/investor-handoff`
+- integrated review surface at `/review`
+- optional legacy alias at `/turicumold` pointing to `/`
 - Google Drive for documents
 - Supabase as the long-term workflow-state target
 
@@ -27,9 +27,9 @@ This keeps the current application model intact while making it easier to cut ov
 
 ## Product surface logic
 
-### `/turicum` is the external-facing landing page
+### `/` is the external-facing landing page
 
-`/turicum` should be the public-facing Turicum entry point.
+`/` should be the public-facing Turicum entry point.
 
 It should make the product legible for:
 
@@ -39,9 +39,9 @@ It should make the product legible for:
 
 The root should explain the lifecycle clearly and route each audience to the right surface without reading like an internal dashboard.
 
-### `/turicum/review` is the integrated review surface
+### `/review` is the integrated review surface
 
-`/turicum/review` should remain the internal review page.
+`/review` should remain the internal review page.
 
 It carries:
 
@@ -50,9 +50,9 @@ It carries:
 - transfer readiness
 - links into protected casework and supporting surfaces
 
-### `/turicum/portal` is the public-safe portal
+### `/portal` is the public-safe portal
 
-`/turicum/portal` should explain the Turicum process clearly enough that each audience knows where they start without exposing internal controls.
+`/portal` should explain the Turicum process clearly enough that each audience knows where they start without exposing internal controls.
 
 #### Borrowers
 
@@ -71,7 +71,7 @@ Investors should understand:
 - the promoted deal determines whether the structure is one investor or several
 - investor updates continue through servicing and exit
 
-### `/turicum/investor-handoff` is the investor-safe summary surface
+### `/investor-handoff` is the investor-safe summary surface
 
 This route should remain investor-safe and avoid exposing internal workspace behavior.
 
@@ -84,7 +84,7 @@ It should explain:
 
 ### `/turicumold` is only a legacy alias
 
-If retained, `/turicumold` should resolve to `/turicum` through nginx or the external proxy layer. It should not be treated as the conceptual primary product surface anymore.
+If retained, `/turicumold` should resolve to `/` through nginx or the external proxy layer. It should not be treated as the conceptual primary product surface anymore.
 
 ## Documents vs workflow state
 
@@ -126,8 +126,8 @@ The interim wordmark remains easy to replace.
 
 Current shared assets:
 
-- `/turicum/brand/turicum-wordmark.svg`
-- `/turicum/brand/turicum-wordmark-compact.svg`
+- `/brand/turicum-wordmark.svg`
+- `/brand/turicum-wordmark-compact.svg`
 
 That means the final logo can replace the interim brand without rewriting multiple pages.
 
@@ -143,26 +143,26 @@ That means the final logo can replace the interim brand without rewriting multip
 
 ### Public surface
 
-- `/turicum`
+- `/`
   - public-facing Turicum landing page
-- `/turicum/portal`
+- `/portal`
   - app-backed Turicum LLC public portal
-- `/turicum/investor-handoff`
+- `/investor-handoff`
   - investor-safe summary page
 - `/turicumold`
-  - optional legacy alias to `/turicum`
+  - optional legacy alias to `/`
 
 ### Protected surface
 
-- `/turicum/review`
+- `/review`
   - integrated review surface
-- `/turicum/cases`
+- `/cases`
   - protected Turicum LLC workspace
 
 ### Reverse proxy
 
-- `nginx` or the existing MarketShift server forwards `/turicum` traffic to the app process
-- `/turicumold` can be preserved as an alias but should resolve to `/turicum`
+- `nginx` on `turicum.us` forwards root traffic to the app process
+- `/turicumold` can be preserved as an alias but should resolve to `/`
 
 ## Environment variables
 
@@ -171,8 +171,8 @@ Minimum expected environment:
 ```bash
 NODE_ENV=production
 PORT=3100
-TURICUM_BASE_PATH=/turicum
-NEXT_PUBLIC_BASE_PATH=/turicum
+TURICUM_BASE_PATH=
+NEXT_PUBLIC_BASE_PATH=
 APP_ORIGIN=https://turicum.us
 NEXT_PUBLIC_APP_ORIGIN=https://turicum.us
 ```
@@ -216,11 +216,11 @@ The deploy ecosystem file loads `/opt/turicum-platform/.env.production`, so the 
 
 ## Nginx outline
 
-Use a location block that preserves the `/turicum` route:
+Use a location block that serves the dedicated host from the app root:
 
 ```nginx
-location /turicum/ {
-  proxy_pass http://127.0.0.1:3100/turicum/;
+location / {
+  proxy_pass http://127.0.0.1:3100;
   proxy_http_version 1.1;
   proxy_set_header Host $host;
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -232,11 +232,7 @@ Keep the legacy public alias app-backed if you still want it:
 
 ```nginx
 location = /turicumold {
-  proxy_pass http://127.0.0.1:3100/turicum;
-  proxy_http_version 1.1;
-  proxy_set_header Host $host;
-  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header X-Forwarded-Proto $scheme;
+  return 302 /;
 }
 ```
 

@@ -4,7 +4,7 @@ This directory contains the production handoff files for moving Turicum LLC from
 
 ## Files
 
-- `nginx-turicum.conf`: reverse-proxy template preserving `/turicum`
+- `nginx-turicum.conf`: reverse-proxy template for the dedicated `turicum.us` host
 - `ecosystem.config.cjs`: PM2 app definition for the Turicum Next runtime
 - `.env.production.example`: baseline environment template for production
 
@@ -24,14 +24,14 @@ This directory contains the production handoff files for moving Turicum LLC from
 
 ## Route model
 
-- `/turicum`: public-facing Turicum landing page
-- `/turicum/portal`: public-safe portal
-- `/turicum/team-login`: internal staff sign-in
-- `/turicum/investor-handoff`: investor-safe summary surface
-- `/turicum/investors`: secure investor login portal
-- `/turicum/review`: integrated review surface
-- `/turicum/cases`, `/turicum/flows`, `/turicum/library`, `/turicum/state-packs`: protected team routes
-- `/turicumold`: optional legacy alias that should proxy to `/turicum`
+- `/`: public-facing Turicum landing page
+- `/portal`: public-safe portal
+- `/team-login`: internal staff sign-in
+- `/investor-handoff`: investor-safe summary surface
+- `/investors`: secure investor login portal
+- `/review`: integrated review surface
+- `/cases`, `/flows`, `/library`, `/state-packs`: protected team routes
+- `/turicumold`: optional legacy alias that should proxy to `/`
 
 ## Notes
 
