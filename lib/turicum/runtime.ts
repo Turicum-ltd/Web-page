@@ -45,8 +45,8 @@ export function buildAppUrl(source: Headers | Request, pathname: string) {
   const fullPath = `${getConfiguredBasePath()}${pathname}` || '/';
   const headers = source instanceof Headers ? source : source.headers;
   const requestUrl = source instanceof Request ? new URL(source.url) : null;
-  const forwardedHost = requestUrl?.host ?? headers.get('x-forwarded-host') ?? headers.get('host') ?? 'localhost:3000';
-  const forwardedProto = requestUrl?.protocol.replace(/:$/, '') ?? headers.get('x-forwarded-proto') ?? 'http';
+  const forwardedHost = headers.get('x-forwarded-host') ?? headers.get('host') ?? requestUrl?.host ?? 'localhost:3000';
+  const forwardedProto = headers.get('x-forwarded-proto') ?? requestUrl?.protocol.replace(/:$/, '') ?? 'http';
   const normalizedHost = forwardedHost.split(',')[0]?.trim().toLowerCase() || 'localhost:3000';
   const isLocalHost = /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)(:\d+)?$/.test(normalizedHost);
 
