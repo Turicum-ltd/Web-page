@@ -27,6 +27,7 @@ Avoid in v1:
 
 - set up project repo
 - set up auth and roles
+  - see `/docs/turicum/auth-access-migration-plan.md`
 - create base database schema
 - create document taxonomy
 - load starter state packs for `FL`, `TX`, `IN`, `OH`
