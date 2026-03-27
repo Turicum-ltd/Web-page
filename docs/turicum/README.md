@@ -1,6 +1,6 @@
 # Turicum LLC Project Foundation
 
-This folder captures the working product and implementation blueprint for `marketshift.net/turicum`, branded as Turicum LLC.
+This folder captures the working product and implementation blueprint for `turicum.us`, branded as Turicum LLC.
 
 The current target is a lean MVP for real-estate deal operations with:
 

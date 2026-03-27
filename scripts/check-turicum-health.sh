@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-BASE_URL="${1:-https://marketshift.net}"
+BASE_URL="${1:-https://turicum.us}"
 PATHS=(
   "/turicum"
   "/turicum/portal"

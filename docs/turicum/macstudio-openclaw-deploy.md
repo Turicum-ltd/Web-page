@@ -12,8 +12,8 @@ Deploy Turicum as its own app process first, then mount it into MarketShift afte
 
 Recommended order:
 
-1. `turicum.marketshift.net` or an internal hostname first
-2. then `marketshift.net/turicum`
+1. `turicum.us` or an internal hostname first
+2. use the legacy MarketShift-mounted path only if you intentionally still need it
 
 Turicum is now base-path aware, so it can be built with `TURICUM_BASE_PATH=/turicum` when you are ready to mount it under the main site.
 
@@ -63,9 +63,9 @@ Use:
 
 ```bash
 TURICUM_BASE_PATH=
-APP_ORIGIN=https://turicum.marketshift.net
+APP_ORIGIN=https://turicum.us
 NEXT_PUBLIC_BASE_PATH=
-NEXT_PUBLIC_APP_ORIGIN=https://turicum.marketshift.net
+NEXT_PUBLIC_APP_ORIGIN=https://turicum.us
 ```
 
 ### If running under `marketshift.net/turicum`

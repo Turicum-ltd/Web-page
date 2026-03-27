@@ -10,8 +10,8 @@ module.exports = {
         PORT: "3100",
         TURICUM_BASE_PATH: "/turicum",
         NEXT_PUBLIC_BASE_PATH: "/turicum",
-        APP_ORIGIN: "https://marketshift.net",
-        NEXT_PUBLIC_APP_ORIGIN: "https://marketshift.net"
+        APP_ORIGIN: "https://turicum.us",
+        NEXT_PUBLIC_APP_ORIGIN: "https://turicum.us"
       },
       instances: 1,
       exec_mode: "fork",

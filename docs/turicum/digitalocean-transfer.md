@@ -173,14 +173,14 @@ NODE_ENV=production
 PORT=3100
 TURICUM_BASE_PATH=/turicum
 NEXT_PUBLIC_BASE_PATH=/turicum
-APP_ORIGIN=https://marketshift.net
-NEXT_PUBLIC_APP_ORIGIN=https://marketshift.net
+APP_ORIGIN=https://turicum.us
+NEXT_PUBLIC_APP_ORIGIN=https://turicum.us
 ```
 
 Investor portal seed credentials:
 
 ```bash
-TURICUM_INVESTOR_REVIEW_EMAIL=investor@turicumllc.com
+TURICUM_INVESTOR_REVIEW_EMAIL=investor@turicum.us
 TURICUM_INVESTOR_REVIEW_PASSWORD=replace-me
 ```
 

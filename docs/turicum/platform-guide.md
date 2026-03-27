@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Turicum LLC is the operating layer for real-estate deal execution under `marketshift.net/turicum`.
+Turicum LLC is the operating layer for real-estate deal execution under `turicum.us`.
 
 It is designed to coordinate three lanes at once:
 
