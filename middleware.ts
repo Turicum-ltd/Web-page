@@ -29,6 +29,7 @@ function stripBasePath(pathname: string, basePath: string) {
 function isPublicTuricumPath(pathname: string) {
   return (
     pathname === "/" ||
+    pathname === "/landing" ||
     pathname.startsWith("/portal") ||
     pathname.startsWith("/investors") ||
     pathname.startsWith("/investor-handoff") ||
