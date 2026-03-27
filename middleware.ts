@@ -30,6 +30,7 @@ function isPublicTuricumPath(pathname: string) {
   return (
     pathname === "/" ||
     pathname === "/landing" ||
+    pathname === "/lander" ||
     pathname.startsWith("/portal") ||
     pathname.startsWith("/investors") ||
     pathname.startsWith("/investor-handoff") ||
