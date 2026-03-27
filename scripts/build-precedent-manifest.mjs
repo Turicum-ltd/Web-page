@@ -3,10 +3,10 @@ import path from "node:path";
 
 const root = process.cwd();
 const outputPath = path.join(root, "data", "precedents.json");
-const configPath = process.env.ATLAS_LEGAL_CORPUS_CONFIG || path.join(root, "config", "atlas-legal-corpus-sources.json");
+const configPath = process.env.TURICUM_LEGAL_CORPUS_CONFIG || path.join(root, "config", "turicum-legal-corpus-sources.json");
 
 const legacyCandidateRoots = [
-  "/Users/marcohilty/Library/CloudStorage/GoogleDrive-marco.hilty@gmail.com/My Drive/Atlas/Closing Process/06 Extracted Text",
+  "/Users/marcohilty/Library/CloudStorage/GoogleDrive-marco.hilty@gmail.com/My Drive/Turicum/Closing Process/06 Extracted Text",
   "/Users/marcohilty/Library/CloudStorage/GoogleDrive-marco.hilty@gmail.com/.shortcut-targets-by-id/1q4vYTQYi3KJOpexu3G0spEHr9plNdeen/03 01 2026 - Hard Money Company Relaunch/Closing Process/06 Extracted Text"
 ];
 

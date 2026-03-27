@@ -1,0 +1,516 @@
+{
+  "records": [
+    {
+      "id": "deal-intake",
+      "title": "Deal Intake",
+      "lane": "Turicum",
+      "summary": "Capture structure, state, target investor count, and notary path.",
+      "href": "/cases/new",
+      "notes": "Entry point for underwriting, investor packaging, and legal routing.",
+      "status": "core",
+      "position": {
+        "x": 40,
+        "y": 60
+      },
+      "actor": "Turicum ops",
+      "phase": "Setup",
+      "output": "Deal profile and initial contract plan",
+      "goal": "Turn deal facts into the underwriting brief, investor packaging assumptions, and legal workflow.",
+      "gates": [
+        "Property and entity facts complete",
+        "Expected investor count set",
+        "Notary path selected"
+      ],
+      "viewTags": [
+        "all",
+        "turicum"
+      ]
+    },
+    {
+      "id": "intake-workspace",
+      "title": "Intake Workspace",
+      "lane": "Borrower",
+      "summary": "Manage borrower packet collection first, then handle template handoff and draft prep.",
+      "href": "/cases",
+      "notes": "Main lender console after template selection.",
+      "status": "core",
+      "position": {
+        "x": 214.67745857246337,
+        "y": -65.07972354711112
+      },
+      "actor": "Turicum ops + borrower",
+      "phase": "Execution",
+      "output": "Borrower packet, draft queue, signature requests",
+      "goal": "Run the live case once the paper stack and investor structure are known: intake, document prep, and signature coordination.",
+      "gates": [
+        "Borrower contact saved",
+        "Required intake forms assigned",
+        "Chosen template saved to case"
+      ],
+      "viewTags": [
+        "all",
+        "borrower",
+        "turicum"
+      ]
+    },
+    {
+      "id": "borrower-portal",
+      "title": "Borrower Portal",
+      "lane": "Borrower",
+      "summary": "Borrower completes forms before investor promotion can be treated as final.",
+      "href": "/portal",
+      "notes": "External-facing intake surface.",
+      "status": "external",
+      "position": {
+        "x": 427.94334249456745,
+        "y": 86.6127071376832
+      },
+      "actor": "Borrower",
+      "phase": "Borrower intake",
+      "output": "Completed packet and signer readiness",
+      "goal": "Give the borrower one guided place to submit forms and see what is coming next.",
+      "gates": [
+        "Portal shared",
+        "Required intake forms assigned",
+        "All assigned forms submitted"
+      ],
+      "viewTags": [
+        "all",
+        "borrower"
+      ]
+    },
+    {
+      "id": "borrower-property-validation",
+      "title": "Borrower + Property Validation",
+      "lane": "Turicum",
+      "summary": "Validate the borrower, collateral, first-call facts, and screening placeholders before investors see the deal.",
+      "href": "/cases",
+      "notes": "This is the internal credit and valuation checkpoint that follows borrower packet collection and comes before capital-markets outreach.",
+      "status": "review",
+      "position": {
+        "x": 499.7424199990054,
+        "y": -160.10033303303067
+      },
+      "actor": "Turicum underwriting",
+      "phase": "Validation",
+      "output": "Validated borrower/property package",
+      "goal": "Confirm the borrower, property, and valuation package is strong enough to send to investors and drive the final capital structure.",
+      "gates": [
+        "Borrower packet complete",
+        "Supporting documents attached",
+        "Credit/background/criminal path recorded",
+        "Internal diligence cleared"
+      ],
+      "viewTags": [
+        "all",
+        "turicum"
+      ]
+    },
+    {
+      "id": "investor-promotion",
+      "title": "Investor Promotion",
+      "lane": "Investor",
+      "summary": "Summarize the fully collected borrower and underwriting package for investors and lock the final capital stack.",
+      "href": "/cases",
+      "notes": "Investor promotion should not be treated as complete until the borrower packet is in and the final investor structure is confirmed.",
+      "status": "decision",
+      "position": {
+        "x": 762.432047878818,
+        "y": -152.80418939657665
+      },
+      "actor": "Capital markets + investors",
+      "phase": "Placement",
+      "output": "Investor summary, take-up, and final investor count",
+      "goal": "Package the validated deal for investors and lock the final investor structure before final paper and execution routing.",
+      "gates": [
+        "Borrower packet complete",
+        "Validated borrower/property package ready",
+        "Final investor count confirmed"
+      ],
+      "viewTags": [
+        "all",
+        "investor",
+        "turicum"
+      ]
+    },
+    {
+      "id": "investor-workspace",
+      "title": "Investor Workspace",
+      "lane": "Investor",
+      "summary": "Investor-facing operating lane for promotion, updates, and exit communication.",
+      "href": "/investor-handoff",
+      "notes": "This is the ongoing investor relationship surface.",
+      "status": "external",
+      "position": {
+        "x": 940,
+        "y": 420
+      },
+      "actor": "Investors",
+      "phase": "Relationship",
+      "output": "Investor updates and visibility",
+      "goal": "Keep investors aligned from commitment through servicing and exit.",
+      "gates": [
+        "Promotion summary published",
+        "Investor structure locked",
+        "Monthly updates prepared"
+      ],
+      "viewTags": [
+        "all",
+        "investor"
+      ]
+    },
+    {
+      "id": "template-selection",
+      "title": "Template Selection",
+      "lane": "Turicum",
+      "summary": "Pick the lead precedent by state, structure, and final investor shape.",
+      "href": "/library/templates",
+      "notes": "Drive the case from an approved starting paper once the capital structure is known.",
+      "status": "core",
+      "position": {
+        "x": 953.3762633334991,
+        "y": 44.19168878768288
+      },
+      "actor": "Turicum legal ops",
+      "phase": "Drafting",
+      "output": "Chosen precedent attached to case",
+      "goal": "Select the most defensible starting paper for this deal shape, jurisdiction, and final investor stack.",
+      "gates": [
+        "State pack available",
+        "Document family selected",
+        "Investor structure confirmed"
+      ],
+      "viewTags": [
+        "all",
+        "turicum"
+      ]
+    },
+    {
+      "id": "contract-ai-review",
+      "title": "Contract AI Review",
+      "lane": "Turicum",
+      "summary": "Run clause, state-pack, and structure checks.",
+      "href": "/cases",
+      "notes": "Surface issues before counsel reviews.",
+      "status": "review",
+      "position": {
+        "x": 580,
+        "y": 280
+      },
+      "actor": "Turicum AI",
+      "phase": "Review",
+      "output": "Issue list and review memo",
+      "goal": "Catch missing clauses, structural mismatches, and state-pack gaps before legal sign-off.",
+      "gates": [
+        "Template chosen",
+        "Clause checklist generated"
+      ],
+      "viewTags": [
+        "all",
+        "turicum"
+      ]
+    },
+    {
+      "id": "legal-review",
+      "title": "Legal Review",
+      "lane": "Turicum",
+      "summary": "Lawyer comments, approval, and signature clearance.",
+      "href": "/cases",
+      "notes": "Human legal document-review gate.",
+      "status": "decision",
+      "position": {
+        "x": 760,
+        "y": 280
+      },
+      "actor": "Lawyer",
+      "phase": "Approval",
+      "output": "Approved paper stack or correction request",
+      "goal": "Create a hard human approval gate before any borrower-facing signature action.",
+      "gates": [
+        "AI review complete",
+        "Corrections resolved",
+        "Document review clearance granted"
+      ],
+      "viewTags": [
+        "all",
+        "turicum"
+      ]
+    },
+    {
+      "id": "closing-diligence",
+      "title": "Closing Diligence",
+      "lane": "Turicum",
+      "summary": "Clear title work, insurance, and tax in a separate diligence gate before execution.",
+      "href": "/cases",
+      "notes": "Title company and closing diligence gate.",
+      "status": "decision",
+      "position": {
+        "x": 1300,
+        "y": 60
+      },
+      "actor": "Turicum ops + title company",
+      "phase": "Approval",
+      "output": "Closing diligence clearance",
+      "goal": "Separate title, insurance, and tax diligence from document review so execution is only cleared when both gates are done.",
+      "gates": [
+        "Title company selected",
+        "Title work reviewed",
+        "Insurance cleared",
+        "Tax review cleared"
+      ],
+      "viewTags": [
+        "all",
+        "turicum"
+      ]
+    },
+    {
+      "id": "google-signature",
+      "title": "Google Signature",
+      "lane": "Borrower",
+      "summary": "Non-notary e-sign lane after legal approval.",
+      "href": "/cases",
+      "notes": "Execution lane once legal and diligence are clear.",
+      "status": "external",
+      "position": {
+        "x": 1300,
+        "y": 240
+      },
+      "actor": "Borrower + Turicum ops",
+      "phase": "Signature",
+      "output": "Tracked signature request and final signed docs",
+      "goal": "Send approved documents into the Google signature lane and track them through execution.",
+      "gates": [
+        "Legal approval",
+        "Closing diligence clear",
+        "Borrower packet complete",
+        "No notary required"
+      ],
+      "viewTags": [
+        "all",
+        "borrower",
+        "turicum"
+      ]
+    },
+    {
+      "id": "funding",
+      "title": "Funding",
+      "lane": "Turicum",
+      "summary": "Set up escrow, reserve policy, and release conditions before money moves.",
+      "href": "/cases",
+      "notes": "Post-close funding control surface.",
+      "status": "core",
+      "position": {
+        "x": 1480,
+        "y": 60
+      },
+      "actor": "Turicum ops + escrow",
+      "phase": "Funding",
+      "output": "Escrow setup and funded status",
+      "goal": "Move from approved paper into escrow, reserves, and final funding release.",
+      "gates": [
+        "Investor promotion complete",
+        "Legal approval complete",
+        "Closing diligence complete",
+        "Execution complete",
+        "Wire instructions ready"
+      ],
+      "viewTags": [
+        "all",
+        "turicum",
+        "investor"
+      ]
+    },
+    {
+      "id": "servicing",
+      "title": "Servicing + Updates",
+      "lane": "Investor",
+      "summary": "Track monthly payments, reserve balance, and investor updates after funding.",
+      "href": "/investor-handoff",
+      "notes": "Ongoing asset management lane.",
+      "status": "core",
+      "position": {
+        "x": 1660,
+        "y": 420
+      },
+      "actor": "Turicum servicing + investors",
+      "phase": "Servicing",
+      "output": "Monthly investor update cadence",
+      "goal": "Keep the post-close performance story visible month by month.",
+      "gates": [
+        "Funding complete",
+        "Payment schedule set",
+        "First update period prepared"
+      ],
+      "viewTags": [
+        "all",
+        "investor",
+        "turicum"
+      ]
+    },
+    {
+      "id": "exit",
+      "title": "Exit / Payoff / Rollover",
+      "lane": "Investor",
+      "summary": "Run payoff, extension, refinance, sale, or rollover as an explicit workflow.",
+      "href": "/investor-handoff",
+      "notes": "Lifecycle resolution lane.",
+      "status": "decision",
+      "position": {
+        "x": 1840,
+        "y": 420
+      },
+      "actor": "Turicum ops + investors",
+      "phase": "Resolution",
+      "output": "Resolved or rolled deal",
+      "goal": "Make the end of the deal as structured and visible as the beginning.",
+      "gates": [
+        "Exit path chosen",
+        "Investor communication drafted",
+        "Resolution docs prepared"
+      ],
+      "viewTags": [
+        "all",
+        "investor",
+        "turicum"
+      ]
+    },
+    {
+      "id": "notary-branch",
+      "title": "Notary / RON",
+      "lane": "Borrower",
+      "summary": "Separate path for notarized documents.",
+      "href": "/cases",
+      "notes": "Future branch for state-specific notarization workflows.",
+      "status": "decision",
+      "position": {
+        "x": 1480,
+        "y": 240
+      },
+      "actor": "Borrower + notary",
+      "phase": "Notary decision",
+      "output": "Escalated notarization workflow",
+      "goal": "Break notarized documents out of the normal e-sign lane so compliance is explicit.",
+      "gates": [
+        "Document requires notary",
+        "State path confirmed",
+        "RON or in-person path selected"
+      ],
+      "viewTags": [
+        "all",
+        "borrower",
+        "turicum"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "deal-intake",
+      "target": "intake-workspace",
+      "animated": false
+    },
+    {
+      "id": "e2",
+      "source": "intake-workspace",
+      "target": "borrower-portal",
+      "animated": false
+    },
+    {
+      "id": "e3",
+      "source": "borrower-portal",
+      "target": "borrower-property-validation",
+      "animated": true
+    },
+    {
+      "id": "e4",
+      "source": "borrower-property-validation",
+      "target": "investor-promotion",
+      "animated": false
+    },
+    {
+      "id": "e5",
+      "source": "investor-promotion",
+      "target": "investor-workspace",
+      "animated": false
+    },
+    {
+      "id": "e6",
+      "source": "investor-promotion",
+      "target": "template-selection",
+      "animated": true
+    },
+    {
+      "id": "e7",
+      "source": "template-selection",
+      "target": "contract-ai-review",
+      "animated": false
+    },
+    {
+      "id": "e8",
+      "source": "contract-ai-review",
+      "target": "legal-review",
+      "animated": false
+    },
+    {
+      "id": "e9",
+      "source": "legal-review",
+      "target": "closing-diligence",
+      "animated": false
+    },
+    {
+      "id": "e10",
+      "source": "closing-diligence",
+      "target": "google-signature",
+      "animated": false
+    },
+    {
+      "id": "e11",
+      "source": "closing-diligence",
+      "target": "notary-branch",
+      "animated": false
+    },
+    {
+      "id": "e12",
+      "source": "google-signature",
+      "target": "funding",
+      "animated": false
+    },
+    {
+      "id": "e13",
+      "source": "funding",
+      "target": "servicing",
+      "animated": false
+    },
+    {
+      "id": "e14",
+      "source": "servicing",
+      "target": "exit",
+      "animated": false
+    },
+    {
+      "id": "e15",
+      "source": "funding",
+      "target": "investor-workspace",
+      "animated": true
+    },
+    {
+      "id": "e16",
+      "source": "servicing",
+      "target": "investor-workspace",
+      "animated": true
+    },
+    {
+      "id": "e17",
+      "source": "exit",
+      "target": "investor-workspace",
+      "animated": true
+    },
+    {
+      "id": "e18",
+      "source": "notary-branch",
+      "target": "funding",
+      "animated": false
+    }
+  ],
+  "updatedAt": "2026-03-25T11:12:35.643Z"
+}

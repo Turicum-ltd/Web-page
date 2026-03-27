@@ -2,7 +2,7 @@
   {
     "caseId": "case-in-001",
     "status": "pending",
-    "lawyerName": "Atlas QA",
+    "lawyerName": "Turicum QA",
     "summary": "AI review is not complete yet, so legal review should be treated as preliminary only.",
     "comments": "Smoke-test legal review save; signature remains blocked.",
     "approvedForSignature": false,

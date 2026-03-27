@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { AtlasNav } from "@/components/atlas/nav";
-import { getCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { getBorrowerPortalByCaseId } from "@/lib/atlas/intake";
-import { withBasePath } from "@/lib/atlas/runtime";
+import { TuricumNav } from "@/components/turicum/nav";
+import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { getBorrowerPortalByCaseId } from "@/lib/turicum/intake";
+import { withBasePath } from "@/lib/turicum/runtime";
 import {
-  ATLAS_DEMO_BORROWER_TOKEN,
-  ATLAS_DEMO_CASE_CODE,
-  ATLAS_DEMO_CASE_ID,
-  ATLAS_DEMO_CASE_TITLE
-} from "@/lib/atlas/demo";
+  TURICUM_DEMO_BORROWER_TOKEN,
+  TURICUM_DEMO_CASE_CODE,
+  TURICUM_DEMO_CASE_ID,
+  TURICUM_DEMO_CASE_TITLE
+} from "@/lib/turicum/demo";
 
 export const dynamic = "force-dynamic";
 
@@ -26,12 +26,12 @@ function formatTimestamp(value: string | undefined) {
 }
 
 export default async function DemoPage() {
-  const lenderCaseHref = withBasePath(`/cases/${ATLAS_DEMO_CASE_ID}`);
-  const intakeHref = withBasePath(`/cases/${ATLAS_DEMO_CASE_ID}/intake`);
-  const borrowerHref = withBasePath(`/borrower/${ATLAS_DEMO_BORROWER_TOKEN}`);
+  const lenderCaseHref = withBasePath(`/cases/${TURICUM_DEMO_CASE_ID}`);
+  const intakeHref = withBasePath(`/cases/${TURICUM_DEMO_CASE_ID}/intake`);
+  const borrowerHref = withBasePath(`/borrower/${TURICUM_DEMO_BORROWER_TOKEN}`);
   const overviewHref = withBasePath("/review");
-  const legalSelection = await getCaseLegalSelection(ATLAS_DEMO_CASE_ID);
-  const portal = await getBorrowerPortalByCaseId(ATLAS_DEMO_CASE_ID);
+  const legalSelection = await getCaseLegalSelection(TURICUM_DEMO_CASE_ID);
+  const portal = await getBorrowerPortalByCaseId(TURICUM_DEMO_CASE_ID);
   const latestDraft = portal?.signatureRequests?.[0] ?? null;
 
   const lenderSteps = [
@@ -55,15 +55,15 @@ export default async function DemoPage() {
             <div className="hero-copy">
               <h1>Greenwood test flow.</h1>
               <p>
-                {ATLAS_DEMO_CASE_TITLE} · {ATLAS_DEMO_CASE_CODE}
+                {TURICUM_DEMO_CASE_TITLE} · {TURICUM_DEMO_CASE_CODE}
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
-                <div className="pill"><strong>Case:</strong> {ATLAS_DEMO_CASE_CODE}</div>
+                <div className="pill"><strong>Case:</strong> {TURICUM_DEMO_CASE_CODE}</div>
                 <div className="pill"><strong>Roles:</strong> lender + borrower</div>
-                <div className="pill"><strong>Security:</strong> /atlas protected</div>
+                <div className="pill"><strong>Security:</strong> /turicum protected</div>
               </div>
               <p className="helper">Run lender first. Then borrower.</p>
             </div>

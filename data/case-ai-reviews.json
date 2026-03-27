@@ -3,7 +3,7 @@
     "caseId": "case-in-001",
     "status": "in_review",
     "summary": "Template selected. AI review should confirm clause fit, state-pack coverage, and any structure-specific gaps.",
-    "reviewerModel": "Atlas contract AI",
+    "reviewerModel": "Turicum contract AI",
     "notes": "",
     "findings": [
       {

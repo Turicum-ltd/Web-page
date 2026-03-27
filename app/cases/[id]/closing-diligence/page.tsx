@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
-import { listCaseDocuments, isGoogleDriveUrl } from "@/lib/atlas/case-documents";
-import { getCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { assessDealProfile, getCaseDealProfile } from "@/lib/atlas/deal-intake";
-import { getCaseById } from "@/lib/atlas/cases";
-import { buildGoogleDriveFileHref, buildGoogleDriveFolderHref } from "@/lib/atlas/google-drive";
+import { TuricumNav } from "@/components/turicum/nav";
+import { listCaseDocuments, isGoogleDriveUrl } from "@/lib/turicum/case-documents";
+import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { assessDealProfile, getCaseDealProfile } from "@/lib/turicum/deal-intake";
+import { getCaseById } from "@/lib/turicum/cases";
+import { buildGoogleDriveFileHref, buildGoogleDriveFolderHref } from "@/lib/turicum/google-drive";
 import {
   getCaseClosingDiligence,
   getCaseLegalReview,
@@ -13,8 +13,8 @@ import {
   saveCaseClosingDiligence,
   type ClosingDiligenceStatus,
   type VendorReviewStatus
-} from "@/lib/atlas/review-workflow";
-import { withBasePath } from "@/lib/atlas/runtime";
+} from "@/lib/turicum/review-workflow";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
@@ -81,7 +81,7 @@ export default async function ClosingDiligencePage({
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Document review</p>
@@ -125,7 +125,7 @@ export default async function ClosingDiligencePage({
 
             <p className="eyebrow" style={{ marginTop: 16 }}>Turicum LLC-owned paper and follow-up</p>
             <ul className="list">
-              {buckets.atlasPreparedDocuments.length > 0 ? buckets.atlasPreparedDocuments.map((item) => (
+              {buckets.turicumPreparedDocuments.length > 0 ? buckets.turicumPreparedDocuments.map((item) => (
                 <li key={item.code}>
                   <strong>{item.label}:</strong> {item.reason}
                 </li>

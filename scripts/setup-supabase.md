@@ -16,4 +16,4 @@ SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
 ```
 
-Once those values exist, Atlas will automatically switch from local JSON fallback mode to Supabase mode.
+Once those values exist, Turicum will automatically switch from local JSON fallback mode to Supabase mode.

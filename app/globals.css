@@ -22,8 +22,8 @@
   --radius-md: 10px;
   --radius-sm: 8px;
   --max-width: 1600px;
-  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
-  --font-display: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --font-body: var(--font-ui), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-editorial), "Times New Roman", serif;
 }
 
 * {
@@ -119,10 +119,12 @@ main {
 
 .turicum-brand-descriptor {
   color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
+  opacity: 0.82;
 }
 
 .turicum-classic-links {
@@ -134,8 +136,10 @@ main {
 
 .turicum-classic-links a {
   color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.77rem;
+  font-weight: 560;
+  letter-spacing: 0.02em;
 }
 
 .turicum-classic-links a:hover {
@@ -153,7 +157,7 @@ main {
 .turicum-classic-hero-main {
   display: grid;
   gap: 12px;
-  max-width: 64ch;
+  max-width: 68ch;
 }
 
 .turicum-classic-lede {
@@ -368,35 +372,39 @@ main {
 .eyebrow {
   margin: 0;
   color: var(--muted);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 h1,
-h2,
-h3 {
+h2 {
   margin: 0;
-  line-height: 1.15;
+  line-height: 1.02;
   font-family: var(--font-display);
-  font-weight: 650;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 h1 {
-  font-size: clamp(1.55rem, 2.35vw, 2.2rem);
-  max-width: 15ch;
+  font-size: clamp(2.2rem, 4vw, 4.25rem);
+  max-width: 19ch;
+  text-wrap: balance;
 }
 
 h2 {
-  font-size: clamp(1.05rem, 1.8vw, 1.45rem);
+  font-size: clamp(1.4rem, 2.2vw, 2.3rem);
 }
 
 h3 {
-  font-size: 0.92rem;
-  letter-spacing: 0;
+  margin: 0;
+  line-height: 1.2;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -498,7 +506,7 @@ strong {
   border: 1px solid var(--line);
   background: var(--surface-strong);
   color: var(--muted);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.85rem;
 }
 
@@ -534,7 +542,7 @@ td {
 
 th {
   color: var(--muted);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -559,7 +567,7 @@ tbody tr:last-child td {
   justify-content: center;
   border-radius: 999px;
   padding: 6px 10px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -611,7 +619,7 @@ tbody tr:last-child td {
   background: rgba(47, 129, 247, 0.08);
 }
 
-.atlas-review-callout {
+.turicum-review-callout {
   border-left-color: rgba(122, 196, 255, 0.8);
   background:
     linear-gradient(180deg, rgba(20, 34, 52, 0.92), rgba(17, 25, 38, 0.92)),
@@ -654,7 +662,7 @@ tbody tr:last-child td {
   border-radius: 8px;
   border: 1px solid var(--line);
   background: var(--surface-strong);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.86rem;
 }
 
@@ -693,7 +701,7 @@ tbody tr:last-child td {
   margin-bottom: 14px;
 }
 
-.atlas-review-hero {
+.turicum-review-hero {
   overflow: hidden;
   background:
     radial-gradient(circle at top right, rgba(109, 168, 255, 0.14), transparent 28%),
@@ -720,9 +728,10 @@ tbody tr:last-child td {
 .turicum-mark-t,
 .turicum-mark-l {
   position: absolute;
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 600;
   line-height: 1;
+  letter-spacing: -0.03em;
 }
 
 .turicum-mark-t {
@@ -750,11 +759,11 @@ tbody tr:last-child td {
 }
 
 .field span {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -817,7 +826,7 @@ tbody tr:last-child td {
 .secondary-button {
   width: auto;
   padding: 12px 16px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
   cursor: pointer;
 }
@@ -913,7 +922,8 @@ code {
 
 .turicum-marketing-lede {
   max-width: 62ch;
-  font-size: 1rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
 }
 
 .hero-aside {
@@ -925,7 +935,7 @@ code {
   border: 1px solid var(--line);
 }
 
-.atlas-review-aside {
+.turicum-review-aside {
   background:
     linear-gradient(180deg, rgba(16, 22, 31, 0.96), rgba(12, 17, 24, 0.96)),
     var(--surface-strong);
@@ -945,7 +955,44 @@ code {
   background: rgba(10, 14, 20, 0.42);
 }
 
-.atlas-review-band-card {
+.turicum-aside-intro {
+  max-width: 34ch;
+}
+
+.turicum-aside-list {
+  display: grid;
+  gap: 12px;
+}
+
+.turicum-aside-item {
+  display: grid;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(210, 222, 236, 0.1);
+}
+
+.turicum-aside-item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.turicum-aside-label {
+  font-family: var(--font-body);
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(198, 210, 225, 0.62);
+}
+
+.turicum-aside-item p {
+  margin: 0;
+  color: rgba(225, 232, 240, 0.84);
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+
+.turicum-review-band-card {
   background: linear-gradient(180deg, rgba(14, 22, 31, 0.94), rgba(10, 15, 23, 0.94));
   border-color: rgba(88, 166, 255, 0.14);
 }
@@ -1009,13 +1056,13 @@ code {
   border-bottom: 0;
 }
 
-.atlas-review-rail {
+.turicum-review-rail {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
 }
 
-.atlas-review-stat {
+.turicum-review-stat {
   display: grid;
   gap: 4px;
   padding: 14px 16px;
@@ -1025,57 +1072,57 @@ code {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-.atlas-review-stat span {
+.turicum-review-stat span {
   color: var(--muted);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.atlas-review-stat strong {
+.turicum-review-stat strong {
   font-size: 1.65rem;
   line-height: 1;
 }
 
-.atlas-review-panel {
+.turicum-review-panel {
   border-color: rgba(88, 166, 255, 0.12);
   background:
     linear-gradient(180deg, rgba(19, 26, 36, 0.96), rgba(16, 22, 31, 0.96)),
     var(--surface);
 }
 
-.atlas-review-rule-panel {
+.turicum-review-rule-panel {
   background:
     linear-gradient(180deg, rgba(17, 24, 33, 0.96), rgba(12, 18, 26, 0.96)),
     var(--surface);
 }
 
-.atlas-review-card {
+.turicum-review-card {
   border-color: rgba(88, 166, 255, 0.13);
   background:
     linear-gradient(180deg, rgba(18, 25, 35, 0.96), rgba(14, 19, 28, 0.96)),
     var(--surface-strong);
 }
 
-.atlas-external-card {
+.turicum-external-card {
   gap: 14px;
 }
 
-.atlas-external-card strong {
+.turicum-external-card strong {
   font-size: 1rem;
   line-height: 1.35;
 }
 
-.atlas-review-metric {
+.turicum-review-metric {
   border-color: rgba(88, 166, 255, 0.12);
   background:
     linear-gradient(180deg, rgba(17, 24, 33, 0.96), rgba(13, 19, 27, 0.96)),
     var(--surface-strong);
 }
 
-.atlas-blocker-strip {
+.turicum-blocker-strip {
   gap: 18px;
   border-color: rgba(255, 193, 69, 0.2);
   background:
@@ -1083,7 +1130,7 @@ code {
     linear-gradient(180deg, rgba(24, 22, 17, 0.96), rgba(17, 18, 22, 0.96));
 }
 
-.atlas-blocker-card {
+.turicum-blocker-card {
   display: grid;
   gap: 10px;
   padding: 18px;
@@ -1093,26 +1140,26 @@ code {
   box-shadow: var(--shadow-soft);
 }
 
-.atlas-blocker-card.tone-danger {
+.turicum-blocker-card.tone-danger {
   border-color: rgba(255, 107, 107, 0.28);
   background: linear-gradient(180deg, rgba(36, 20, 22, 0.96), rgba(21, 17, 22, 0.96));
 }
 
-.atlas-blocker-card.tone-info {
+.turicum-blocker-card.tone-info {
   border-color: rgba(88, 166, 255, 0.24);
   background: linear-gradient(180deg, rgba(17, 26, 38, 0.96), rgba(13, 18, 27, 0.96));
 }
 
-.atlas-flow-shell {
+.turicum-flow-shell {
   padding: 0;
   overflow: hidden;
 }
 
-.atlas-flow-topbar {
+.turicum-flow-topbar {
   padding: 18px 18px 0;
 }
 
-.atlas-flow-summary-band {
+.turicum-flow-summary-band {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
@@ -1121,7 +1168,7 @@ code {
   background: linear-gradient(180deg, rgba(15, 19, 26, 0.95), rgba(13, 18, 24, 0.94));
 }
 
-.atlas-flow-toolbar {
+.turicum-flow-toolbar {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
   gap: 14px;
@@ -1130,13 +1177,13 @@ code {
   background: rgba(11, 15, 21, 0.92);
 }
 
-.atlas-flow-view-tabs {
+.turicum-flow-view-tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.atlas-flow-view-tab {
+.turicum-flow-view-tab {
   display: grid;
   gap: 3px;
   min-width: 140px;
@@ -1148,50 +1195,50 @@ code {
   text-align: left;
 }
 
-.atlas-flow-view-tab span {
+.turicum-flow-view-tab span {
   font-size: 0.78rem;
   color: var(--muted);
 }
 
-.atlas-flow-view-tab-active {
+.turicum-flow-view-tab-active {
   border-color: rgba(88, 166, 255, 0.55);
   background: rgba(20, 32, 49, 0.96);
   box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.18);
 }
 
-.atlas-flow-search {
+.turicum-flow-search {
   align-self: end;
 }
 
-.atlas-flow-layout {
+.turicum-flow-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   min-height: 720px;
 }
 
-.atlas-flow-layout-with-inspector {
+.turicum-flow-layout-with-inspector {
   grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.72fr);
 }
 
-.atlas-flow-canvas-wrap {
+.turicum-flow-canvas-wrap {
   display: grid;
   grid-template-rows: minmax(500px, 1fr) minmax(240px, auto);
   border-right: 1px solid var(--line);
 }
 
-.atlas-flow-canvas {
+.turicum-flow-canvas {
   position: relative;
   min-height: 620px;
   overflow: hidden;
   background: radial-gradient(circle at top left, rgba(26, 39, 56, 0.35), transparent 28%), linear-gradient(180deg, rgba(18, 23, 31, 0.98), rgba(10, 14, 20, 0.96));
 }
 
-.atlas-flow-canvas .react-flow {
+.turicum-flow-canvas .react-flow {
   position: relative;
   z-index: 1;
 }
 
-.atlas-flow-stages {
+.turicum-flow-stages {
   position: absolute;
   top: 18px;
   left: 14px;
@@ -1201,7 +1248,7 @@ code {
   z-index: 0;
 }
 
-.atlas-flow-stage {
+.turicum-flow-stage {
   position: absolute;
   top: 0;
   height: 62px;
@@ -1210,7 +1257,7 @@ code {
   background: linear-gradient(180deg, rgba(28, 38, 52, 0.96), rgba(14, 20, 28, 0.92)); box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.06);
 }
 
-.atlas-flow-stage-label {
+.turicum-flow-stage-label {
   position: absolute;
   top: 19px;
   left: 16px;
@@ -1221,7 +1268,7 @@ code {
   color: rgba(231, 238, 246, 0.84);
 }
 
-.atlas-flow-swimlanes {
+.turicum-flow-swimlanes {
   position: absolute;
   inset: 108px 14px 12px;
   display: grid;
@@ -1231,26 +1278,26 @@ code {
   z-index: 0;
 }
 
-.atlas-flow-swimlane {
+.turicum-flow-swimlane {
   position: relative;
   border-radius: 22px;
   border: 1px dashed rgba(125, 148, 178, 0.18);
   background: linear-gradient(135deg, rgba(255,255,255,0.024), rgba(255,255,255,0.012));
 }
 
-.atlas-flow-swimlane-atlas {
+.turicum-flow-swimlane-turicum {
   background: linear-gradient(135deg, rgba(88, 166, 255, 0.07), rgba(88, 166, 255, 0.015));
 }
 
-.atlas-flow-swimlane-borrower {
+.turicum-flow-swimlane-borrower {
   background: linear-gradient(135deg, rgba(103, 219, 165, 0.06), rgba(103, 219, 165, 0.012));
 }
 
-.atlas-flow-swimlane-investor {
+.turicum-flow-swimlane-investor {
   background: linear-gradient(135deg, rgba(194, 151, 255, 0.07), rgba(194, 151, 255, 0.014));
 }
 
-.atlas-flow-swimlane-label {
+.turicum-flow-swimlane-label {
   position: absolute;
   top: 16px;
   left: 18px;
@@ -1261,20 +1308,20 @@ code {
   color: rgba(231, 238, 246, 0.82);
 }
 
-.atlas-flow-register {
+.turicum-flow-register {
   padding: 16px 18px 18px;
   background: rgba(12, 16, 22, 0.98);
   border-top: 1px solid var(--line);
 }
 
-.atlas-flow-register-list {
+.turicum-flow-register-list {
   display: grid;
   gap: 10px;
   max-height: 280px;
   overflow: auto;
 }
 
-.atlas-flow-register-item {
+.turicum-flow-register-item {
   display: grid;
   gap: 8px;
   padding: 12px 14px;
@@ -1285,23 +1332,23 @@ code {
   text-align: left;
 }
 
-.atlas-flow-register-item p {
+.turicum-flow-register-item p {
   color: var(--muted);
   font-size: 0.84rem;
 }
 
-.atlas-flow-register-item-active {
+.turicum-flow-register-item-active {
   border-color: rgba(88, 166, 255, 0.55);
   background: rgba(19, 30, 44, 0.96);
 }
 
-.atlas-flow-register-top {
+.turicum-flow-register-top {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.atlas-flow-register-index {
+.turicum-flow-register-index {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1314,61 +1361,61 @@ code {
   font-weight: 700;
 }
 
-.atlas-flow-inspector {
+.turicum-flow-inspector {
   padding: 18px;
   background: var(--surface);
 }
 
-.atlas-flow-inspector-panel {
+.turicum-flow-inspector-panel {
   display: grid;
   gap: 14px;
 }
 
-.atlas-flow-card {
+.turicum-flow-card {
   display: grid;
   gap: 8px;
   min-width: 0;
 }
 
-.atlas-flow-card strong {
+.turicum-flow-card strong {
   display: block;
   line-height: 1.28;
   font-size: 0.95rem;
 }
 
-.atlas-flow-card p {
+.turicum-flow-card p {
   font-size: 0.8rem;
   line-height: 1.38;
   color: var(--muted);
 }
 
-.atlas-flow-card-compact {
+.turicum-flow-card-compact {
   gap: 8px;
 }
 
-.atlas-flow-card-compact strong {
+.turicum-flow-card-compact strong {
   font-size: 0.91rem;
 }
 
-.atlas-flow-card-top {
+.turicum-flow-card-top {
   display: flex;
   justify-content: space-between;
   gap: 8px;
   align-items: center;
 }
 
-.atlas-flow-card-top-tight {
+.turicum-flow-card-top-tight {
   align-items: flex-start;
 }
 
-.atlas-flow-meta-row {
+.turicum-flow-meta-row {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
 }
 
-.atlas-flow-chip {
+.turicum-flow-chip {
   display: inline-flex;
   align-items: center;
   padding: 3px 7px;
@@ -1380,35 +1427,35 @@ code {
   color: var(--text);
 }
 
-.atlas-flow-chip-lane {
+.turicum-flow-chip-lane {
   border-color: rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.06);
 }
 
-.atlas-flow-chip-stage {
+.turicum-flow-chip-stage {
   border-color: rgba(88, 166, 255, 0.22);
   background: rgba(88, 166, 255, 0.12);
   color: var(--accent-strong);
 }
 
-.atlas-flow-chip-muted {
+.turicum-flow-chip-muted {
   border-color: var(--line);
   background: rgba(255, 255, 255, 0.02);
   color: var(--muted);
 }
 
-.atlas-flow-detail-grid {
+.turicum-flow-detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.atlas-flow-related-grid {
+.turicum-flow-related-grid {
   display: grid;
   gap: 10px;
 }
 
-.atlas-flow-related-card {
+.turicum-flow-related-card {
   display: grid;
   gap: 6px;
   padding: 10px 12px;
@@ -1419,20 +1466,20 @@ code {
   text-align: left;
 }
 
-.atlas-flow-related-card p {
+.turicum-flow-related-card p {
   font-size: 0.82rem;
   color: var(--muted);
 }
 
-.atlas-flow-list {
+.turicum-flow-list {
   margin: 0;
   padding-left: 18px;
   display: grid;
   gap: 6px;
 }
 
-.atlas-flow-lane,
-.atlas-flow-status {
+.turicum-flow-lane,
+.turicum-flow-status {
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -1440,7 +1487,7 @@ code {
   color: var(--muted);
 }
 
-.atlas-flow-node {
+.turicum-flow-node {
   border-radius: 18px;
   border: 1px solid rgba(125, 148, 178, 0.22) !important;
   background: rgba(15, 21, 29, 0.98) !important;
@@ -1448,63 +1495,63 @@ code {
   box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
 }
 
-.atlas-flow-node .react-flow__handle {
+.turicum-flow-node .react-flow__handle {
   width: 8px;
   height: 8px;
   border: 0;
   background: rgba(127, 183, 255, 0.82);
 }
 
-.atlas-flow-canvas .react-flow__edge-path {
+.turicum-flow-canvas .react-flow__edge-path {
   stroke: rgba(88, 166, 255, 0.28);
   stroke-width: 1.6px;
 }
 
-.atlas-flow-canvas .react-flow__edge.selected .react-flow__edge-path {
+.turicum-flow-canvas .react-flow__edge.selected .react-flow__edge-path {
   stroke: rgba(88, 166, 255, 0.58);
 }
 
-.atlas-flow-node .react-flow__node-default {
+.turicum-flow-node .react-flow__node-default {
   background: transparent;
 }
 
-.atlas-flow-node-muted {
+.turicum-flow-node-muted {
   opacity: 0.38;
 }
 
-.atlas-flow-node-core {
+.turicum-flow-node-core {
   border-left: 3px solid var(--accent) !important;
 }
 
-.atlas-flow-node-review {
+.turicum-flow-node-review {
   border-left: 3px solid var(--warning) !important;
 }
 
-.atlas-flow-node-decision {
+.turicum-flow-node-decision {
   border-left: 3px solid #a371f7 !important;
 }
 
-.atlas-flow-node-external {
+.turicum-flow-node-external {
   border-left: 3px solid var(--success) !important;
 }
 
-.atlas-flow-status-core {
+.turicum-flow-status-core {
   color: var(--accent-strong);
 }
 
-.atlas-flow-status-review {
+.turicum-flow-status-review {
   color: var(--warning);
 }
 
-.atlas-flow-status-decision {
+.turicum-flow-status-decision {
   color: #c297ff;
 }
 
-.atlas-flow-status-external {
+.turicum-flow-status-external {
   color: var(--success);
 }
 
-.atlas-flow-legend {
+.turicum-flow-legend {
   display: flex;
   gap: 8px;
   background: rgba(18, 23, 31, 0.88);
@@ -1513,7 +1560,7 @@ code {
   padding: 8px 10px;
 }
 
-.atlas-flow-step-index {
+.turicum-flow-step-index {
   display: inline-flex;
   align-items: center;
   padding: 3px 8px;
@@ -1526,8 +1573,8 @@ code {
 }
 
 @media (max-width: 920px) {
-  .atlas-flow-layout,
-  .atlas-flow-layout-with-inspector {
+  .turicum-flow-layout,
+  .turicum-flow-layout-with-inspector {
     grid-template-columns: 1fr;
   }
 
@@ -1558,11 +1605,11 @@ code {
     justify-content: flex-start;
   }
 
-  .atlas-flow-layout {
+  .turicum-flow-layout {
     grid-template-columns: 1fr;
   }
 
-  .atlas-flow-canvas {
+  .turicum-flow-canvas {
     min-height: 560px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
@@ -1687,9 +1734,9 @@ code {
 
   .helper,
   .eyebrow,
-  .atlas-flow-chip-muted,
-  .atlas-flow-lane,
-  .atlas-flow-status {
+  .turicum-flow-chip-muted,
+  .turicum-flow-lane,
+  .turicum-flow-status {
     color: #4b5563 !important;
   }
 
@@ -1971,63 +2018,63 @@ code {
   }
 }
 
-.atlas-flow-shell-presentation .atlas-flow-topbar {
+.turicum-flow-shell-presentation .turicum-flow-topbar {
   padding-bottom: 18px;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-canvas-wrap {
+.turicum-flow-shell-presentation .turicum-flow-canvas-wrap {
   border-right: 0;
   grid-template-rows: minmax(580px, 1fr);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-canvas {
+.turicum-flow-shell-presentation .turicum-flow-canvas {
   min-height: 700px;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-legend {
+.turicum-flow-shell-presentation .turicum-flow-legend {
   background: rgba(14, 20, 28, 0.7);
   border-color: rgba(125, 148, 178, 0.14);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-stage {
+.turicum-flow-shell-presentation .turicum-flow-stage {
   border-color: rgba(88, 166, 255, 0.28);
   background: linear-gradient(180deg, rgba(36, 50, 69, 0.98), rgba(16, 24, 34, 0.94));
   box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.12), 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-stage-label {
+.turicum-flow-shell-presentation .turicum-flow-stage-label {
   font-size: 0.78rem;
   letter-spacing: 0.11em;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-node {
+.turicum-flow-shell-presentation .turicum-flow-node {
   box-shadow: 0 22px 42px rgba(0, 0, 0, 0.26);
 }
 
-.atlas-flow-card-presentation p {
+.turicum-flow-card-presentation p {
   color: rgba(226, 234, 244, 0.76);
 }
 
-.atlas-flow-mode-toggle {
+.turicum-flow-mode-toggle {
   display: inline-flex;
   gap: 8px;
 }
 
-.atlas-flow-mode-toggle .secondary-button.active {
+.turicum-flow-mode-toggle .secondary-button.active {
   border-color: rgba(88, 166, 255, 0.55);
   background: rgba(20, 32, 49, 0.96);
   box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.18);
 }
 
-.atlas-flow-canvas .react-flow__edge {
+.turicum-flow-canvas .react-flow__edge {
   filter: drop-shadow(0 0 6px rgba(88, 166, 255, 0.08));
 }
 
-.atlas-flow-topbar-copy {
+.turicum-flow-topbar-copy {
   max-width: 44rem;
 }
 
-.atlas-flow-legend-strong {
+.turicum-flow-legend-strong {
   display: inline-flex;
   gap: 8px;
   align-items: center;
@@ -2038,7 +2085,7 @@ code {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
 }
 
-.atlas-flow-stage {
+.turicum-flow-stage {
   height: 88px;
   padding: 12px 14px 12px 16px;
   display: grid;
@@ -2047,7 +2094,7 @@ code {
   overflow: hidden;
 }
 
-.atlas-flow-stage::after {
+.turicum-flow-stage::after {
   content: "";
   position: absolute;
   inset: auto 10px 8px;
@@ -2056,7 +2103,7 @@ code {
   background: rgba(255, 255, 255, 0.2);
 }
 
-.atlas-flow-stage-index {
+.turicum-flow-stage-index {
   font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -2064,66 +2111,66 @@ code {
   color: rgba(230, 237, 243, 0.58);
 }
 
-.atlas-flow-stage-label {
+.turicum-flow-stage-label {
   position: static;
   font-size: 0.82rem;
   letter-spacing: 0.1em;
 }
 
-.atlas-flow-stage-helper {
+.turicum-flow-stage-helper {
   font-size: 0.73rem;
   line-height: 1.3;
   color: rgba(214, 224, 235, 0.7);
   max-width: 17ch;
 }
 
-.atlas-flow-stage-origination {
+.turicum-flow-stage-origination {
   background: linear-gradient(180deg, rgba(31, 52, 85, 0.98), rgba(16, 26, 39, 0.95));
 }
-.atlas-flow-stage-origination::after { background: linear-gradient(90deg, rgba(88,166,255,0.95), rgba(88,166,255,0.28)); }
+.turicum-flow-stage-origination::after { background: linear-gradient(90deg, rgba(88,166,255,0.95), rgba(88,166,255,0.28)); }
 
-.atlas-flow-stage-validation {
+.turicum-flow-stage-validation {
   background: linear-gradient(180deg, rgba(52, 58, 86, 0.98), rgba(22, 24, 37, 0.95));
 }
-.atlas-flow-stage-validation::after { background: linear-gradient(90deg, rgba(166, 139, 255, 0.95), rgba(166,139,255,0.28)); }
+.turicum-flow-stage-validation::after { background: linear-gradient(90deg, rgba(166, 139, 255, 0.95), rgba(166,139,255,0.28)); }
 
-.atlas-flow-stage-promotion {
+.turicum-flow-stage-promotion {
   background: linear-gradient(180deg, rgba(22, 72, 59, 0.98), rgba(14, 35, 30, 0.95));
 }
-.atlas-flow-stage-promotion::after { background: linear-gradient(90deg, rgba(103,219,165,0.95), rgba(103,219,165,0.28)); }
+.turicum-flow-stage-promotion::after { background: linear-gradient(90deg, rgba(103,219,165,0.95), rgba(103,219,165,0.28)); }
 
-.atlas-flow-stage-legal {
+.turicum-flow-stage-legal {
   background: linear-gradient(180deg, rgba(86, 57, 22, 0.98), rgba(38, 25, 14, 0.95));
 }
-.atlas-flow-stage-legal::after { background: linear-gradient(90deg, rgba(255,193,69,0.95), rgba(255,193,69,0.28)); }
+.turicum-flow-stage-legal::after { background: linear-gradient(90deg, rgba(255,193,69,0.95), rgba(255,193,69,0.28)); }
 
-.atlas-flow-stage-execution {
+.turicum-flow-stage-execution {
   background: linear-gradient(180deg, rgba(61, 46, 91, 0.98), rgba(28, 20, 43, 0.95));
 }
-.atlas-flow-stage-execution::after { background: linear-gradient(90deg, rgba(194,151,255,0.95), rgba(194,151,255,0.28)); }
+.turicum-flow-stage-execution::after { background: linear-gradient(90deg, rgba(194,151,255,0.95), rgba(194,151,255,0.28)); }
 
-.atlas-flow-stage-servicing {
+.turicum-flow-stage-servicing {
   background: linear-gradient(180deg, rgba(33, 63, 78, 0.98), rgba(18, 30, 38, 0.95));
 }
-.atlas-flow-stage-servicing::after { background: linear-gradient(90deg, rgba(94,234,212,0.95), rgba(94,234,212,0.28)); }
+.turicum-flow-stage-servicing::after { background: linear-gradient(90deg, rgba(94,234,212,0.95), rgba(94,234,212,0.28)); }
 
-.atlas-flow-stage-exit {
+.turicum-flow-stage-exit {
   background: linear-gradient(180deg, rgba(88, 39, 39, 0.98), rgba(40, 18, 18, 0.95));
 }
-.atlas-flow-stage-exit::after { background: linear-gradient(90deg, rgba(255,107,107,0.95), rgba(255,107,107,0.28)); }
+.turicum-flow-stage-exit::after { background: linear-gradient(90deg, rgba(255,107,107,0.95), rgba(255,107,107,0.28)); }
 
-.atlas-flow-swimlane {
+.turicum-flow-swimlane {
   border-style: solid;
 }
 
-.atlas-flow-swimlane-label {
+.turicum-flow-swimlane-label {
   top: 14px;
   left: 18px;
   font-size: 0.76rem;
   letter-spacing: 0.12em;
 }
 
-.atlas-flow-swimlane-helper {
+.turicum-flow-swimlane-helper {
   position: absolute;
   top: 34px;
   left: 18px;
@@ -2131,94 +2178,94 @@ code {
   color: rgba(223, 231, 239, 0.52);
 }
 
-.atlas-flow-card {
+.turicum-flow-card {
   gap: 9px;
 }
 
-.atlas-flow-card strong {
+.turicum-flow-card strong {
   font-size: 0.98rem;
 }
 
-.atlas-flow-card-compact strong {
+.turicum-flow-card-compact strong {
   font-size: 0.95rem;
 }
 
-.atlas-flow-card-presentation strong {
+.turicum-flow-card-presentation strong {
   font-size: 1rem;
 }
 
-.atlas-flow-card-presentation p {
+.turicum-flow-card-presentation p {
   font-size: 0.78rem;
   line-height: 1.42;
 }
 
-.atlas-flow-chip-lane-atlas {
+.turicum-flow-chip-lane-turicum {
   border-color: rgba(88, 166, 255, 0.32);
   background: rgba(88, 166, 255, 0.12);
   color: #b7d3ff;
 }
 
-.atlas-flow-chip-lane-borrower {
+.turicum-flow-chip-lane-borrower {
   border-color: rgba(88, 166, 255, 0.18);
   background: rgba(40, 94, 166, 0.12);
   color: #c7dcff;
 }
 
-.atlas-flow-chip-lane-investor {
+.turicum-flow-chip-lane-investor {
   border-color: rgba(103, 219, 165, 0.28);
   background: rgba(28, 97, 69, 0.14);
   color: #bff2dc;
 }
 
-.atlas-flow-node {
+.turicum-flow-node {
   border-width: 1px !important;
   box-shadow: 0 22px 42px rgba(0, 0, 0, 0.24);
 }
 
-.atlas-flow-node .react-flow__handle {
+.turicum-flow-node .react-flow__handle {
   width: 9px;
   height: 9px;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-canvas {
+.turicum-flow-shell-presentation .turicum-flow-canvas {
   min-height: 760px;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-stage {
+.turicum-flow-shell-presentation .turicum-flow-stage {
   height: 96px;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 16px 34px rgba(0, 0, 0, 0.18);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-stage-label {
+.turicum-flow-shell-presentation .turicum-flow-stage-label {
   font-size: 0.84rem;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-stage-helper {
+.turicum-flow-shell-presentation .turicum-flow-stage-helper {
   color: rgba(232, 238, 245, 0.76);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-node {
+.turicum-flow-shell-presentation .turicum-flow-node {
   box-shadow: 0 26px 48px rgba(0, 0, 0, 0.3);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-legend-strong {
+.turicum-flow-shell-presentation .turicum-flow-legend-strong {
   background: rgba(11, 17, 24, 0.66);
   backdrop-filter: blur(10px);
 }
 
-.atlas-flow-canvas .react-flow__edge {
+.turicum-flow-canvas .react-flow__edge {
   filter: drop-shadow(0 0 7px rgba(88, 166, 255, 0.1));
 }
 
-.atlas-flow-canvas .react-flow__edge-textbg {
+.turicum-flow-canvas .react-flow__edge-textbg {
   filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.22));
 }
 
-.atlas-flow-canvas .react-flow__edge-text {
+.turicum-flow-canvas .react-flow__edge-text {
   font-family: var(--font-display);
 }
 
-.atlas-flow-overview-rail {
+.turicum-flow-overview-rail {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
@@ -2226,7 +2273,7 @@ code {
   background: linear-gradient(180deg, rgba(10, 14, 20, 0.72), rgba(10, 14, 20, 0));
 }
 
-.atlas-flow-overview-stage-card {
+.turicum-flow-overview-stage-card {
   display: grid;
   gap: 4px;
   min-height: 84px;
@@ -2236,18 +2283,18 @@ code {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
 }
 
-.atlas-flow-overview-stage-card strong {
+.turicum-flow-overview-stage-card strong {
   font-size: 0.84rem;
   letter-spacing: 0.03em;
 }
 
-.atlas-flow-overview-stage-card span:last-child {
+.turicum-flow-overview-stage-card span:last-child {
   font-size: 0.73rem;
   line-height: 1.3;
   color: rgba(227, 234, 242, 0.7);
 }
 
-.atlas-flow-overview-stage-index {
+.turicum-flow-overview-stage-index {
   font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -2255,58 +2302,58 @@ code {
   color: rgba(230, 237, 243, 0.58);
 }
 
-.atlas-flow-overview-stage-card-origination {
+.turicum-flow-overview-stage-card-origination {
   background: linear-gradient(180deg, rgba(31, 52, 85, 0.98), rgba(16, 26, 39, 0.95));
 }
-.atlas-flow-overview-stage-card-validation {
+.turicum-flow-overview-stage-card-validation {
   background: linear-gradient(180deg, rgba(52, 58, 86, 0.98), rgba(22, 24, 37, 0.95));
 }
-.atlas-flow-overview-stage-card-promotion {
+.turicum-flow-overview-stage-card-promotion {
   background: linear-gradient(180deg, rgba(22, 72, 59, 0.98), rgba(14, 35, 30, 0.95));
 }
-.atlas-flow-overview-stage-card-legal {
+.turicum-flow-overview-stage-card-legal {
   background: linear-gradient(180deg, rgba(86, 57, 22, 0.98), rgba(38, 25, 14, 0.95));
 }
-.atlas-flow-overview-stage-card-execution {
+.turicum-flow-overview-stage-card-execution {
   background: linear-gradient(180deg, rgba(61, 46, 91, 0.98), rgba(28, 20, 43, 0.95));
 }
-.atlas-flow-overview-stage-card-servicing {
+.turicum-flow-overview-stage-card-servicing {
   background: linear-gradient(180deg, rgba(33, 63, 78, 0.98), rgba(18, 30, 38, 0.95));
 }
-.atlas-flow-overview-stage-card-exit {
+.turicum-flow-overview-stage-card-exit {
   background: linear-gradient(180deg, rgba(88, 39, 39, 0.98), rgba(40, 18, 18, 0.95));
 }
 
-.atlas-flow-shell-presentation .atlas-flow-canvas-wrap {
+.turicum-flow-shell-presentation .turicum-flow-canvas-wrap {
   grid-template-rows: auto minmax(640px, 1fr);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-legend-strong {
+.turicum-flow-shell-presentation .turicum-flow-legend-strong {
   margin-top: 94px;
 }
 
-.atlas-flow-shell-presentation .react-flow__controls,
-.atlas-flow-shell-presentation .react-flow__minimap {
+.turicum-flow-shell-presentation .react-flow__controls,
+.turicum-flow-shell-presentation .react-flow__minimap {
   display: none !important;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-stages {
+.turicum-flow-shell-presentation .turicum-flow-stages {
   opacity: 0.42;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-swimlanes {
+.turicum-flow-shell-presentation .turicum-flow-swimlanes {
   opacity: 0.84;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-overview-rail {
+.turicum-flow-shell-presentation .turicum-flow-overview-rail {
   border-bottom: 1px solid rgba(88, 166, 255, 0.08);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-overview-stage-card {
+.turicum-flow-shell-presentation .turicum-flow-overview-stage-card {
   box-shadow: 0 18px 32px rgba(0, 0, 0, 0.2);
 }
 
-.atlas-flow-canvas::before {
+.turicum-flow-canvas::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -2319,12 +2366,12 @@ code {
   z-index: 0;
 }
 
-.atlas-flow-swimlane {
+.turicum-flow-swimlane {
   border-width: 1px;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
 }
 
-.atlas-flow-swimlane::before {
+.turicum-flow-swimlane::before {
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
@@ -2333,51 +2380,51 @@ code {
   opacity: 0.85;
 }
 
-.atlas-flow-swimlane-atlas::before {
+.turicum-flow-swimlane-turicum::before {
   background: linear-gradient(180deg, rgba(88,166,255,0.95), rgba(88,166,255,0.18));
 }
 
-.atlas-flow-swimlane-borrower::before {
+.turicum-flow-swimlane-borrower::before {
   background: linear-gradient(180deg, rgba(120,181,255,0.92), rgba(120,181,255,0.14));
 }
 
-.atlas-flow-swimlane-investor::before {
+.turicum-flow-swimlane-investor::before {
   background: linear-gradient(180deg, rgba(103,219,165,0.92), rgba(103,219,165,0.14));
 }
 
-.atlas-flow-shell-presentation .atlas-flow-canvas {
+.turicum-flow-shell-presentation .turicum-flow-canvas {
   background:
     linear-gradient(180deg, rgba(14, 19, 27, 0.98), rgba(8, 12, 18, 0.98)),
     radial-gradient(circle at top left, rgba(88, 166, 255, 0.12), transparent 28%);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-canvas::before {
+.turicum-flow-shell-presentation .turicum-flow-canvas::before {
   opacity: 1;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-swimlane {
+.turicum-flow-shell-presentation .turicum-flow-swimlane {
   border-color: rgba(125, 148, 178, 0.2);
   background: linear-gradient(135deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
 }
 
-.atlas-flow-shell-presentation .atlas-flow-swimlane-label {
+.turicum-flow-shell-presentation .turicum-flow-swimlane-label {
   font-size: 0.8rem;
   letter-spacing: 0.14em;
   color: rgba(235, 241, 247, 0.82);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-swimlane-helper {
+.turicum-flow-shell-presentation .turicum-flow-swimlane-helper {
   color: rgba(223, 231, 239, 0.64);
 }
 
-.atlas-flow-overview-stage-top {
+.turicum-flow-overview-stage-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
 
-.atlas-flow-overview-stage-badge {
+.turicum-flow-overview-stage-badge {
   display: inline-flex;
   align-items: center;
   padding: 4px 8px;
@@ -2391,27 +2438,27 @@ code {
   color: rgba(239, 244, 250, 0.88);
 }
 
-.atlas-flow-overview-stage-meta {
+.turicum-flow-overview-stage-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 4px;
 }
 
-.atlas-flow-overview-stage-meta span {
+.turicum-flow-overview-stage-meta span {
   font-size: 0.67rem;
   color: rgba(234, 241, 247, 0.72);
 }
 
-.atlas-flow-shell-presentation .atlas-flow-node {
+.turicum-flow-shell-presentation .turicum-flow-node {
   border-color: rgba(125, 148, 178, 0.28) !important;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-card-presentation {
+.turicum-flow-shell-presentation .turicum-flow-card-presentation {
   gap: 10px;
 }
 
-.atlas-flow-shell-presentation .atlas-flow-chip-stage {
+.turicum-flow-shell-presentation .turicum-flow-chip-stage {
   background: rgba(88, 166, 255, 0.16);
 }
 
@@ -2447,8 +2494,9 @@ code {
 }
 
 .turicum-public-shell {
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --font-body: "Avenir Next", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-ui), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: var(--font-ui), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  gap: 30px;
 }
 
 .turicum-public-shell .hero,
@@ -2459,15 +2507,18 @@ code {
 }
 
 .turicum-public-shell h1 {
-  max-width: 16.5ch;
-  font-size: clamp(2.6rem, 4.35vw, 4.75rem);
-  line-height: 0.96;
-  letter-spacing: -0.035em;
+  max-width: 15ch;
+  font-size: clamp(2.55rem, 4.2vw, 4.5rem);
+  line-height: 0.93;
+  letter-spacing: -0.055em;
+  font-weight: 800;
 }
 
 .turicum-public-shell h2 {
-  font-size: clamp(1.25rem, 2vw, 1.9rem);
-  letter-spacing: -0.02em;
+  font-size: clamp(1.22rem, 1.8vw, 1.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 750;
 }
 
 .turicum-public-shell p,
@@ -2476,8 +2527,9 @@ code {
 }
 
 .turicum-public-shell .eyebrow {
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   color: rgba(198, 210, 225, 0.68);
+  font-size: 0.68rem;
 }
 
 .turicum-public-shell .secondary-button,
@@ -2489,6 +2541,7 @@ code {
   border-color: rgba(189, 204, 223, 0.14);
   box-shadow: none;
   font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .turicum-public-shell .secondary-button:hover,
@@ -2508,6 +2561,7 @@ code {
   background: rgba(238, 245, 252, 0.07);
   color: rgba(225, 235, 247, 0.88);
   border: 1px solid rgba(210, 222, 236, 0.12);
+  letter-spacing: 0.08em;
 }
 
 .turicum-public-shell .turicum-inline-actions {
@@ -2529,6 +2583,229 @@ code {
 .turicum-public-shell .turicum-inline-actions .secondary-button,
 .turicum-public-shell .turicum-inline-actions button {
   width: auto;
+}
+
+.turicum-landing-hero {
+  position: relative;
+  margin: -18px -20px 0;
+  padding: 22px 0 30px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(13, 18, 27, 0.98), rgba(8, 12, 18, 0.98)),
+    radial-gradient(circle at 78% 12%, rgba(122, 166, 224, 0.16), transparent 26%);
+}
+
+.turicum-landing-hero::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: rgba(198, 210, 225, 0.12);
+}
+
+.turicum-page-rail {
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  padding-inline: clamp(22px, 4.2vw, 48px);
+}
+
+.turicum-page-flow {
+  display: grid;
+  gap: 30px;
+}
+
+.turicum-landing-hero .turicum-classic-nav {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(198, 210, 225, 0.12);
+}
+
+.turicum-landing-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(390px, 0.98fr);
+  gap: clamp(28px, 4vw, 52px);
+  align-items: end;
+  padding-top: clamp(28px, 5vw, 54px);
+}
+
+.turicum-landing-copy {
+  display: grid;
+  gap: 16px;
+  align-content: end;
+  max-width: 44rem;
+  padding-bottom: 6px;
+}
+
+.turicum-public-shell .turicum-landing-copy h1 {
+  max-width: 10.2ch;
+  font-size: clamp(2.9rem, 4.8vw, 5rem);
+  line-height: 0.91;
+  letter-spacing: -0.062em;
+}
+
+.turicum-public-shell .turicum-landing-copy .turicum-marketing-lede {
+  max-width: 35rem;
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+.turicum-hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 2px;
+  color: rgba(214, 224, 236, 0.74);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.turicum-hero-facts span {
+  position: relative;
+}
+
+.turicum-hero-facts span + span::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(214, 224, 236, 0.36);
+  transform: translateY(-50%);
+}
+
+.turicum-landing-visual {
+  display: grid;
+  gap: 12px;
+  justify-items: stretch;
+  align-self: start;
+}
+
+.turicum-landing-image {
+  min-height: clamp(380px, 48vw, 560px);
+  border-radius: 28px;
+  border: 1px solid rgba(198, 210, 225, 0.12);
+  background-size: cover;
+  box-shadow: 0 36px 84px rgba(0, 0, 0, 0.26);
+}
+
+.turicum-lane-intro {
+  display: grid;
+  grid-template-columns: minmax(110px, 150px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding-top: 4px;
+}
+
+.turicum-lane-intro p:last-child {
+  margin: 0;
+  max-width: 54rem;
+  color: rgba(225, 232, 240, 0.82);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.turicum-lanes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(198, 210, 225, 0.1);
+}
+
+.turicum-lane {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  padding-right: 18px;
+}
+
+.turicum-lane + .turicum-lane {
+  padding-left: 28px;
+  border-left: 1px solid rgba(198, 210, 225, 0.1);
+}
+
+.turicum-lane-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-lane-list li {
+  position: relative;
+  padding-left: 16px;
+  color: rgba(221, 230, 241, 0.84);
+  line-height: 1.55;
+}
+
+.turicum-lane-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(134, 183, 245, 0.88);
+  transform: translateY(-50%);
+}
+
+.turicum-foundation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(198, 210, 225, 0.1);
+}
+
+.turicum-foundation-block {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.turicum-foundation-list,
+.turicum-sequence-list {
+  display: grid;
+  gap: 0;
+}
+
+.turicum-foundation-item,
+.turicum-sequence-item {
+  display: grid;
+  gap: 8px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(198, 210, 225, 0.1);
+}
+
+.turicum-foundation-item:first-child,
+.turicum-sequence-item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.turicum-sequence-item {
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.turicum-sequence-item h3 {
+  margin: 0 0 6px;
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.turicum-sequence-item p {
+  margin: 0;
 }
 
 .turicum-public-shell .turicum-classic-hero,
@@ -2584,8 +2861,8 @@ code {
 .turicum-public-shell .turicum-classic-lede,
 .turicum-public-shell .hero-copy > p:not(.eyebrow) {
   max-width: 58ch;
-  font-size: 0.96rem;
-  line-height: 1.58;
+  font-size: 0.98rem;
+  line-height: 1.62;
 }
 
 .turicum-public-shell .turicum-classic-hero-main-wide .turicum-classic-lede {
@@ -2764,6 +3041,19 @@ code {
   .turicum-hero-visual {
     min-height: 260px;
   }
+
+  .turicum-landing-hero-grid,
+  .turicum-lanes,
+  .turicum-foundation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-lane + .turicum-lane {
+    border-left: 0;
+    border-top: 1px solid rgba(198, 210, 225, 0.1);
+    padding-left: 0;
+    padding-top: 22px;
+  }
 }
 
 @media (max-width: 920px) {
@@ -2785,6 +3075,16 @@ code {
   .turicum-public-shell .turicum-inline-actions .secondary-button,
   .turicum-public-shell .turicum-inline-actions button {
     width: 100%;
+  }
+
+  .turicum-landing-hero {
+    margin: -18px -20px 0;
+    padding: 18px 0 24px;
+  }
+
+  .turicum-lane-intro {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 }
 
@@ -2851,15 +3151,15 @@ code {
   min-height: 0;
 }
 
-.atlas-review-list {
+.turicum-review-list {
   display: grid;
   gap: 12px;
   margin: 0;
   padding-left: 20px;
 }
 
-.atlas-review-quick-actions .secondary-button,
-.atlas-review-quick-actions .turicum-primary-button {
+.turicum-review-quick-actions .secondary-button,
+.turicum-review-quick-actions .turicum-primary-button {
   min-width: 168px;
 }
 
@@ -2927,18 +3227,18 @@ code {
 }
 
 
-.atlas-team-queue-panel {
+.turicum-team-queue-panel {
   border-color: rgba(88, 166, 255, 0.16);
   background:
     radial-gradient(circle at top left, rgba(88, 166, 255, 0.08), transparent 24%),
     linear-gradient(180deg, rgba(16, 23, 33, 0.97), rgba(11, 17, 25, 0.97));
 }
 
-.atlas-team-queue-grid {
+.turicum-team-queue-grid {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.atlas-team-queue-card strong {
+.turicum-team-queue-card strong {
   line-height: 1.35;
 }
 
@@ -3008,7 +3308,7 @@ code {
   border: 1px solid rgba(197, 214, 235, 0.12);
   background: rgba(16, 23, 33, 0.82);
   color: rgba(228, 236, 246, 0.88);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 0.79rem;
   letter-spacing: 0.03em;
   text-transform: none;

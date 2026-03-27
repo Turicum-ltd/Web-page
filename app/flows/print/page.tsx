@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { FlowPrintActions } from "@/components/atlas/flow-print-actions";
-import { TuricumWordmark } from "@/components/atlas/turicum-wordmark";
-import { getAtlasFlowMap, type FlowRecord, type FlowView } from "@/lib/atlas/flow-map-store";
-import { withBasePath } from "@/lib/atlas/runtime";
+import { FlowPrintActions } from "@/components/turicum/flow-print-actions";
+import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
+import { getTuricumFlowMap, type FlowRecord, type FlowView } from "@/lib/turicum/flow-map-store";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
 const flowViews: { id: FlowView; label: string; helper: string }[] = [
-  { id: "atlas", label: "Turicum LLC", helper: "Internal underwriting, legal, funding, and control lane" },
+  { id: "turicum", label: "Turicum LLC", helper: "Internal underwriting, legal, funding, and control lane" },
   { id: "borrower", label: "Borrower", helper: "External collection and signature lane" },
   { id: "investor", label: "Investor", helper: "Promotion, updates, and exit lane" }
 ];
@@ -101,13 +101,13 @@ const PRINT_STAGE_ORDER = [
 ] as const;
 
 const PRINT_LANE_ACCENT: Record<string, string> = {
-  Atlas: "rgba(88, 166, 255, 0.9)",
+  Turicum: "rgba(88, 166, 255, 0.9)",
   Borrower: "rgba(120, 181, 255, 0.9)",
   Investor: "rgba(103, 219, 165, 0.9)"
 };
 
 function displayLaneLabel(lane: string) {
-  return lane === "Atlas" ? "Turicum LLC" : lane;
+  return lane === "Turicum" ? "Turicum LLC" : lane;
 }
 
 function sortRecords(records: FlowRecord[]) {
@@ -369,7 +369,7 @@ export default async function FlowPrintPage({ searchParams }: { searchParams?: S
   const params = searchParams ? await searchParams : {};
   const selectedView = normalizeView(params.view);
   const format = normalizeFormat(params.format);
-  const flowMap = await getAtlasFlowMap();
+  const flowMap = await getTuricumFlowMap();
   const ordered = sortRecords(
     selectedView === "all"
       ? flowMap.records
@@ -412,7 +412,7 @@ export default async function FlowPrintPage({ searchParams }: { searchParams?: S
             <div className="hero-copy">
               <div className="flow-print-summary-card">
                 <p className="eyebrow">Executive Summary</p>
-                <ul className="atlas-flow-list compact-list">
+                <ul className="turicum-flow-list compact-list">
                   <li>{ordered.length} mapped steps in scope.</li>
                   <li>{totalGates} approval or readiness gates must be cleared.</li>
                   <li>{decisionSteps} decision checkpoints require explicit human judgment.</li>
@@ -487,18 +487,18 @@ export default async function FlowPrintPage({ searchParams }: { searchParams?: S
                             <p className="eyebrow">Step {index + 1}</p>
                             <h3>{record.title}</h3>
                           </div>
-                          <span className={`atlas-flow-status atlas-flow-status-${record.status}`}>{record.status}</span>
+                          <span className={`turicum-flow-status turicum-flow-status-${record.status}`}>{record.status}</span>
                         </div>
                         <p className="helper">{record.summary}</p>
-                        <div className="atlas-flow-meta-row">
-                          <span className="atlas-flow-chip">{record.actor}</span>
-                          <span className="atlas-flow-chip atlas-flow-chip-muted">{record.phase}</span>
+                        <div className="turicum-flow-meta-row">
+                          <span className="turicum-flow-chip">{record.actor}</span>
+                          <span className="turicum-flow-chip turicum-flow-chip-muted">{record.phase}</span>
                         </div>
                         <p>{record.goal}</p>
                         {record.gates.length ? (
                           <div className="callout subtle">
                             <p className="eyebrow">Key gates</p>
-                            <ul className="atlas-flow-list compact-list">
+                            <ul className="turicum-flow-list compact-list">
                               {record.gates.slice(0, 3).map((gate) => (
                                 <li key={gate}>{gate}</li>
                               ))}
@@ -531,13 +531,13 @@ export default async function FlowPrintPage({ searchParams }: { searchParams?: S
                         <p className="eyebrow">{record.phase}</p>
                         <h3>{record.title}</h3>
                       </div>
-                      <span className={`atlas-flow-status atlas-flow-status-${record.status}`}>{record.status}</span>
+                      <span className={`turicum-flow-status turicum-flow-status-${record.status}`}>{record.status}</span>
                     </div>
                     <p className="helper">{record.summary}</p>
-                    <div className="atlas-flow-meta-row">
-                      <span className="atlas-flow-chip">{record.actor}</span>
-                      <span className="atlas-flow-chip atlas-flow-chip-muted">{displayLaneLabel(record.lane)}</span>
-                      <span className="atlas-flow-chip atlas-flow-chip-muted">{record.output}</span>
+                    <div className="turicum-flow-meta-row">
+                      <span className="turicum-flow-chip">{record.actor}</span>
+                      <span className="turicum-flow-chip turicum-flow-chip-muted">{displayLaneLabel(record.lane)}</span>
+                      <span className="turicum-flow-chip turicum-flow-chip-muted">{record.output}</span>
                     </div>
                     <div className="flow-print-detail-grid">
                       <div className="callout">
@@ -552,7 +552,7 @@ export default async function FlowPrintPage({ searchParams }: { searchParams?: S
                     {record.gates.length ? (
                       <div className="callout">
                         <p className="eyebrow">Gates</p>
-                        <ul className="atlas-flow-list">
+                        <ul className="turicum-flow-list">
                           {record.gates.map((gate) => (
                             <li key={gate}>{gate}</li>
                           ))}
@@ -590,15 +590,15 @@ export default async function FlowPrintPage({ searchParams }: { searchParams?: S
                                 <h3>{record.title}</h3>
                                 <p className="helper">{record.summary}</p>
                               </div>
-                              <span className={`atlas-flow-status atlas-flow-status-${record.status}`}>{record.status}</span>
+                              <span className={`turicum-flow-status turicum-flow-status-${record.status}`}>{record.status}</span>
                             </div>
-                            <div className="atlas-flow-meta-row">
-                              <span className="atlas-flow-chip">{record.actor}</span>
-                              <span className="atlas-flow-chip atlas-flow-chip-muted">{record.phase}</span>
+                            <div className="turicum-flow-meta-row">
+                              <span className="turicum-flow-chip">{record.actor}</span>
+                              <span className="turicum-flow-chip turicum-flow-chip-muted">{record.phase}</span>
                             </div>
                             <p>{record.goal}</p>
                             {record.gates.length ? (
-                              <ul className="atlas-flow-list compact-list">
+                              <ul className="turicum-flow-list compact-list">
                                 {record.gates.map((gate) => (
                                   <li key={gate}>{gate}</li>
                                 ))}

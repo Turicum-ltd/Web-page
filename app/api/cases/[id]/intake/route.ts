@@ -1,14 +1,14 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { getAssignedIntakeForms } from "@/lib/atlas/intake-forms";
+import { getAssignedIntakeForms } from "@/lib/turicum/intake-forms";
 import {
   getBorrowerPortalForCase,
   getBorrowerPortalNextSteps,
   getBorrowerPortalSummary,
   saveBorrowerPortalSetup
-} from "@/lib/atlas/intake";
-import type { BorrowerPortalSetupInput, IntakeFormCode } from "@/lib/atlas/types";
+} from "@/lib/turicum/intake";
+import type { BorrowerPortalSetupInput, IntakeFormCode } from "@/lib/turicum/types";
 
 export async function GET(
   _request: Request,

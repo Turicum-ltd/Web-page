@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getLatestLegalCorpusAnalysis } from "@/lib/atlas/legal-analysis";
+import { getLatestLegalCorpusAnalysis } from "@/lib/turicum/legal-analysis";
 
 export const dynamic = "force-dynamic";
 

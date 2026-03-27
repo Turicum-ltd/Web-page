@@ -1,11 +1,11 @@
-import { AtlasNav } from "@/components/atlas/nav";
+import { TuricumNav } from "@/components/turicum/nav";
 import {
   getCategoryLabel,
   getDocumentTypeLabel,
   getStageLabel,
   getStatePacks,
   getStructureDocuments
-} from "@/lib/atlas/state-packs";
+} from "@/lib/turicum/state-packs";
 
 export default function StatePacksPage() {
   const statePacks = getStatePacks();
@@ -24,7 +24,7 @@ export default function StatePacksPage() {
               </p>
             </div>
             <div className="panel">
-              <AtlasNav />
+              <TuricumNav />
               <p>
                 This view reads directly from <code>config/state-packs/*.json</code>, so the app
                 shape stays aligned with the planning artifacts.

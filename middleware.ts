@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { TEAM_SESSION_COOKIE, verifyTeamSessionToken } from "@/lib/atlas/team-auth";
+import { TEAM_SESSION_COOKIE, verifyTeamSessionToken } from "@/lib/turicum/team-auth";
 
 function normalizeBasePath(input: string | undefined) {
   if (!input) {
@@ -26,7 +26,7 @@ function stripBasePath(pathname: string, basePath: string) {
   return pathname.startsWith(`${basePath}/`) ? pathname.slice(basePath.length) : pathname;
 }
 
-function isPublicAtlasPath(pathname: string) {
+function isPublicTuricumPath(pathname: string) {
   return (
     pathname === "/" ||
     pathname.startsWith("/portal") ||
@@ -36,6 +36,7 @@ function isPublicAtlasPath(pathname: string) {
     pathname.startsWith("/brand") ||
     pathname.startsWith("/borrower") ||
     pathname.startsWith("/_next") ||
+    pathname === "/api/health" ||
     pathname === "/api/intro-call-requests" ||
     pathname.startsWith("/api/investor-auth/") ||
     pathname.startsWith("/api/team-auth/") ||
@@ -51,7 +52,7 @@ export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const normalizedPathname = stripBasePath(pathname, normalizeBasePath(request.nextUrl.basePath));
 
-  if (isPublicAtlasPath(normalizedPathname)) {
+  if (isPublicTuricumPath(normalizedPathname)) {
     return NextResponse.next();
   }
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TuricumReviewOverview } from "@/components/atlas/turicum-review-overview";
+import { TuricumReviewOverview } from "@/components/turicum/turicum-review-overview";
 
 export const dynamic = "force-dynamic";
 

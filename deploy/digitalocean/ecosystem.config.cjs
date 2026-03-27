@@ -8,8 +8,8 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: '3100',
-        ATLAS_BASE_PATH: '/atlas',
-        NEXT_PUBLIC_BASE_PATH: '/atlas',
+        TURICUM_BASE_PATH: '/turicum',
+        NEXT_PUBLIC_BASE_PATH: '/turicum',
         APP_ORIGIN: 'https://marketshift.net',
         NEXT_PUBLIC_APP_ORIGIN: 'https://marketshift.net'
       }

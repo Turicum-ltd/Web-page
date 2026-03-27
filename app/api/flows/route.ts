@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import { getAtlasFlowMap, saveAtlasFlowMap } from "@/lib/atlas/flow-map-store";
+import { getTuricumFlowMap, saveTuricumFlowMap } from "@/lib/turicum/flow-map-store";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const flowMap = await getAtlasFlowMap();
+  const flowMap = await getTuricumFlowMap();
   return NextResponse.json(flowMap);
 }
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const next = await saveAtlasFlowMap({
+  const next = await saveTuricumFlowMap({
     records: body.records ?? [],
     edges: body.edges ?? []
   });

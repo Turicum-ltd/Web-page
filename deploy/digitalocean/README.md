@@ -4,7 +4,7 @@ This directory contains the production handoff files for moving Turicum LLC from
 
 ## Files
 
-- `nginx-turicum.conf`: reverse-proxy template preserving `/atlas`
+- `nginx-turicum.conf`: reverse-proxy template preserving `/turicum`
 - `ecosystem.config.cjs`: PM2 app definition for the Turicum Next runtime
 - `.env.production.example`: baseline environment template for production
 
@@ -20,14 +20,14 @@ This directory contains the production handoff files for moving Turicum LLC from
 
 ## Route model
 
-- `/atlas`: public-facing Turicum landing page
-- `/atlas/portal`: public-safe portal
-- `/atlas/team-login`: internal staff sign-in
-- `/atlas/investor-handoff`: investor-safe summary surface
-- `/atlas/investors`: secure investor login portal
-- `/atlas/review`: integrated review surface
-- `/atlas/cases`, `/atlas/flows`, `/atlas/library`, `/atlas/state-packs`: protected team routes
-- `/atlasold`: optional legacy alias that should proxy to `/atlas`
+- `/turicum`: public-facing Turicum landing page
+- `/turicum/portal`: public-safe portal
+- `/turicum/team-login`: internal staff sign-in
+- `/turicum/investor-handoff`: investor-safe summary surface
+- `/turicum/investors`: secure investor login portal
+- `/turicum/review`: integrated review surface
+- `/turicum/cases`, `/turicum/flows`, `/turicum/library`, `/turicum/state-packs`: protected team routes
+- `/turicumold`: optional legacy alias that should proxy to `/turicum`
 
 ## Notes
 

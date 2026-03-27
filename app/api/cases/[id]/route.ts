@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCaseById, listCaseChecklistItems } from "@/lib/atlas/cases";
+import { getCaseById, listCaseChecklistItems } from "@/lib/turicum/cases";
 
 export async function GET(
   _request: Request,

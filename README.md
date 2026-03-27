@@ -4,10 +4,10 @@ Lean MVP foundation for a state-aware real-estate deal and closing platform.
 
 ## Documentation
 
-- Platform guide: [docs/atlas/platform-guide.md](docs/atlas/platform-guide.md)
-- Turicum LLC docs index: [docs/atlas/README.md](docs/atlas/README.md)
-- DigitalOcean transfer: [docs/atlas/digitalocean-transfer.md](docs/atlas/digitalocean-transfer.md)
-- GitHub transfer prep: [docs/atlas/github-transfer-prep.md](docs/atlas/github-transfer-prep.md)
+- Platform guide: [docs/turicum/platform-guide.md](docs/turicum/platform-guide.md)
+- Turicum LLC docs index: [docs/turicum/README.md](docs/turicum/README.md)
+- DigitalOcean transfer: [docs/turicum/digitalocean-transfer.md](docs/turicum/digitalocean-transfer.md)
+- GitHub transfer prep: [docs/turicum/github-transfer-prep.md](docs/turicum/github-transfer-prep.md)
 
 ## Current Scope
 
@@ -50,14 +50,14 @@ Turicum LLC runs against local JSON by default. To switch the repository layer t
 ```bash
 SUPABASE_URL=...
 SUPABASE_SERVICE_ROLE_KEY=...
-SUPABASE_STORAGE_BUCKET=atlas-documents
-ATLAS_BASE_PATH=/atlas
+SUPABASE_STORAGE_BUCKET=turicum-documents
+TURICUM_BASE_PATH=/turicum
 APP_ORIGIN=https://marketshift.net
-NEXT_PUBLIC_BASE_PATH=/atlas
+NEXT_PUBLIC_BASE_PATH=/turicum
 NEXT_PUBLIC_APP_ORIGIN=https://marketshift.net
 ```
 
-`SUPABASE_STORAGE_BUCKET` is optional. If omitted, Turicum LLC uses `atlas-documents`.
+`SUPABASE_STORAGE_BUCKET` is optional. If omitted, Turicum LLC uses `turicum-documents`.
 
 The app will automatically use Supabase for case reads and writes when both credential values are present.
 
@@ -76,9 +76,9 @@ Quick setup notes are in [scripts/setup-supabase.md](scripts/setup-supabase.md).
 
 - `app/`: Next.js routes
 - `components/`: shared UI
-- `lib/atlas/`: domain types, config loaders, repositories
+- `lib/turicum/`: domain types, config loaders, repositories
 - `config/state-packs/`: machine-readable state pack definitions
-- `docs/atlas/`: product and implementation docs
+- `docs/turicum/`: product and implementation docs
 - `supabase/`: SQL schema and seed files
 
 ## Current App Routes
@@ -132,13 +132,13 @@ Turicum LLC currently supports:
 Create a deployment bundle with:
 
 ```bash
-./scripts/package-atlas.sh
+./scripts/package-turicum.sh
 ```
 
-Mac Studio / OpenClaw deployment notes are in [docs/atlas/macstudio-openclaw-deploy.md](docs/atlas/macstudio-openclaw-deploy.md).
+Mac Studio / OpenClaw deployment notes are in [docs/turicum/macstudio-openclaw-deploy.md](docs/turicum/macstudio-openclaw-deploy.md).
 
 ## Simplest Move
 
-1. Copy the whole `atlas-platform` repo folder to the target machine.
-2. Double-click [start-atlas.command](start-atlas.command) to run Atlas locally on port `3100`.
-3. If you want `marketshift.net/atlas`, double-click [start-atlas-marketshift.command](start-atlas-marketshift.command) instead.
+1. Copy the whole `turicum-platform` repo folder to the target machine.
+2. Double-click [start-turicum.command](start-turicum.command) to run Turicum locally on port `3100`.
+3. If you want `marketshift.net/turicum`, double-click [start-turicum-marketshift.command](start-turicum-marketshift.command) instead.

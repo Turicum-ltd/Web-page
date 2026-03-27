@@ -1,13 +1,13 @@
 import { notFound, redirect } from "next/navigation";
-import { getCaseById } from "@/lib/atlas/cases";
-import { withBasePath } from "@/lib/atlas/runtime";
+import { getCaseById } from "@/lib/turicum/cases";
+import { withBasePath } from "@/lib/turicum/runtime";
 import {
   collectIntakeFormResponse,
   countAnsweredFields,
   getAssignedIntakeForms,
   type IntakeFieldDefinition,
   type IntakeFormDefinition
-} from "@/lib/atlas/intake-forms";
+} from "@/lib/turicum/intake-forms";
 import {
   getBorrowerPortalByToken,
   getBorrowerPortalNextSteps,
@@ -15,8 +15,8 @@ import {
   getFormProgressSummary,
   getSignatureRequestsForForm,
   submitBorrowerPortalForm
-} from "@/lib/atlas/intake";
-import type { IntakeFormCode, IntakeFormResponse } from "@/lib/atlas/types";
+} from "@/lib/turicum/intake";
+import type { IntakeFormCode, IntakeFormResponse } from "@/lib/turicum/types";
 
 export const dynamic = "force-dynamic";
 

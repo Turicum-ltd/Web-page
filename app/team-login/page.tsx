@@ -2,8 +2,8 @@ export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { TuricumWordmark } from "@/components/atlas/turicum-wordmark";
-import { withBasePath, withConfiguredBasePath } from "@/lib/atlas/runtime";
+import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
+import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
 
 export const metadata: Metadata = {
   title: "Turicum Team | Sign In",

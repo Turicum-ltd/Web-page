@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
-import { assessDealProfile, getCaseDealProfile } from "@/lib/atlas/deal-intake";
-import { getCaseInvestorPromotion, saveCaseInvestorPromotion, type InvestorPromotionStatus, type InvestorStructure } from "@/lib/atlas/investor-promotion";
-import { getBorrowerPortalForCase, getBorrowerPortalSummary, getBorrowerPromotionReadinessForCase } from "@/lib/atlas/intake";
-import { withBasePath } from "@/lib/atlas/runtime";
-import { getCaseById } from "@/lib/atlas/cases";
+import { TuricumNav } from "@/components/turicum/nav";
+import { assessDealProfile, getCaseDealProfile } from "@/lib/turicum/deal-intake";
+import { getCaseInvestorPromotion, saveCaseInvestorPromotion, type InvestorPromotionStatus, type InvestorStructure } from "@/lib/turicum/investor-promotion";
+import { getBorrowerPortalForCase, getBorrowerPortalSummary, getBorrowerPromotionReadinessForCase } from "@/lib/turicum/intake";
+import { withBasePath } from "@/lib/turicum/runtime";
+import { getCaseById } from "@/lib/turicum/cases";
 
 export const dynamic = "force-dynamic";
 
@@ -108,7 +108,7 @@ export default async function InvestorPromotionPage({ params }: { params: Promis
               <p>Package the validated deal for investors, record market response, and lock the final investor structure before legal and execution move forward.</p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Borrower packet</p>

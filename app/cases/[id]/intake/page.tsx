@@ -1,11 +1,11 @@
 import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
-import { clearCaseLegalSelection, getCaseLegalSelection, saveCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { buildAppUrl, withBasePath } from "@/lib/atlas/runtime";
-import { getCaseById, isSupabaseConfigured } from "@/lib/atlas/cases";
-import { getAssignedIntakeForms, getIntakeForms } from "@/lib/atlas/intake-forms";
+import { TuricumNav } from "@/components/turicum/nav";
+import { clearCaseLegalSelection, getCaseLegalSelection, saveCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { buildAppUrl, withBasePath } from "@/lib/turicum/runtime";
+import { getCaseById, isSupabaseConfigured } from "@/lib/turicum/cases";
+import { getAssignedIntakeForms, getIntakeForms } from "@/lib/turicum/intake-forms";
 import {
   createSignatureRequest,
   getBorrowerPortalForCase,
@@ -18,11 +18,11 @@ import {
   getSignatureRequestsForForm,
   saveBorrowerPortalSetup,
   updateSignatureRequestStatus
-} from "@/lib/atlas/intake";
-import type { IntakeFormCode, SignatureRequestStatus } from "@/lib/atlas/types";
-import { getCaseClosingDiligence, getCaseLegalReview } from "@/lib/atlas/review-workflow";
-import { getCaseDealProfile } from "@/lib/atlas/deal-intake";
-import { getCaseInvestorPromotion } from "@/lib/atlas/investor-promotion";
+} from "@/lib/turicum/intake";
+import type { IntakeFormCode, SignatureRequestStatus } from "@/lib/turicum/types";
+import { getCaseClosingDiligence, getCaseLegalReview } from "@/lib/turicum/review-workflow";
+import { getCaseDealProfile } from "@/lib/turicum/deal-intake";
+import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
 
 export const dynamic = "force-dynamic";
 
@@ -367,7 +367,7 @@ export default async function CaseIntakePage({
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Case</p>

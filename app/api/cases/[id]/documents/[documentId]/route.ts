@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCaseDocumentById, isExternalDocumentReference, readCaseDocumentBinary } from "@/lib/atlas/case-documents";
+import { getCaseDocumentById, isExternalDocumentReference, readCaseDocumentBinary } from "@/lib/turicum/case-documents";
 
 export async function GET(
   _request: Request,

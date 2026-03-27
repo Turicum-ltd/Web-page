@@ -3,12 +3,12 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { TuricumWordmark } from "@/components/atlas/turicum-wordmark";
-import { listCases } from "@/lib/atlas/cases";
-import { getInvestorUserForSessionToken, INVESTOR_SESSION_COOKIE } from "@/lib/atlas/investor-auth";
-import { getCaseInvestorPromotion } from "@/lib/atlas/investor-promotion";
-import { getCaseServicingRecord } from "@/lib/atlas/lifecycle";
-import { withBasePath, withConfiguredBasePath } from "@/lib/atlas/runtime";
+import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
+import { listCases } from "@/lib/turicum/cases";
+import { getInvestorUserForSessionToken, INVESTOR_SESSION_COOKIE } from "@/lib/turicum/investor-auth";
+import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
+import { getCaseServicingRecord } from "@/lib/turicum/lifecycle";
+import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
 
 export const metadata: Metadata = {
   title: "Turicum Investors | First-Lien Asset-Based Lending",
@@ -223,14 +223,14 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
                 </form>
               </div>
             </div>
-            <div className="hero-aside atlas-review-aside turicum-investor-member-aside">
-              <div className="atlas-review-rail turicum-investor-stats">
-                <div className="atlas-review-stat">
+            <div className="hero-aside turicum-review-aside turicum-investor-member-aside">
+              <div className="turicum-review-rail turicum-investor-stats">
+                <div className="turicum-review-stat">
                   <span>Visible matters</span>
                   <strong>{visibleCases.length}</strong>
                   <small>promotion or servicing active</small>
                 </div>
-                <div className="atlas-review-stat">
+                <div className="turicum-review-stat">
                   <span>Portal email</span>
                   <strong>{investorUser.email}</strong>
                   <small>secure access credential</small>

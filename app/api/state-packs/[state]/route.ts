@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getStatePackByCode } from "@/lib/atlas/state-packs";
+import { getStatePackByCode } from "@/lib/turicum/state-packs";
 
 export async function GET(
   _request: Request,

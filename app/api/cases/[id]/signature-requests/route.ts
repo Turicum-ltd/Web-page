@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { createSignatureRequest, getBorrowerPortalForCase } from "@/lib/atlas/intake";
-import type { CreateSignatureRequestInput, IntakeFormCode } from "@/lib/atlas/types";
+import { createSignatureRequest, getBorrowerPortalForCase } from "@/lib/turicum/intake";
+import type { CreateSignatureRequestInput, IntakeFormCode } from "@/lib/turicum/types";
 
 function normalizeFormCode(value: string | undefined): IntakeFormCode | null {
   return value === "commercial_loan_application" ||

@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
-import { assessDealProfile, getCaseDealProfile } from "@/lib/atlas/deal-intake";
-import { getCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { getCaseById } from "@/lib/atlas/cases";
+import { TuricumNav } from "@/components/turicum/nav";
+import { assessDealProfile, getCaseDealProfile } from "@/lib/turicum/deal-intake";
+import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { getCaseById } from "@/lib/turicum/cases";
 import {
   buildSuggestedAiFindings,
   getCaseAiReview,
   saveCaseAiReview,
   type AiReviewStatus
-} from "@/lib/atlas/review-workflow";
-import { withBasePath } from "@/lib/atlas/runtime";
+} from "@/lib/turicum/review-workflow";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
@@ -74,7 +74,7 @@ export default async function ContractAiReviewPage({
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Status</p>

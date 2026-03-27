@@ -2,11 +2,11 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import type { Metadata } from "next";
-import { TuricumWordmark } from "@/components/atlas/turicum-wordmark";
-import { listCases } from "@/lib/atlas/cases";
-import { getCaseInvestorPromotion } from "@/lib/atlas/investor-promotion";
-import { getCaseServicingRecord } from "@/lib/atlas/lifecycle";
-import { withBasePath } from "@/lib/atlas/runtime";
+import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
+import { listCases } from "@/lib/turicum/cases";
+import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
+import { getCaseServicingRecord } from "@/lib/turicum/lifecycle";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const metadata: Metadata = {
   title: "Turicum Investors | Investor Materials",

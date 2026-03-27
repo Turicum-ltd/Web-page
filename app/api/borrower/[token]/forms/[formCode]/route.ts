@@ -1,9 +1,9 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { getIntakeForm } from "@/lib/atlas/intake-forms";
-import { getBorrowerPortalByToken, submitBorrowerPortalForm } from "@/lib/atlas/intake";
-import type { IntakeFormCode, IntakeFormResponse } from "@/lib/atlas/types";
+import { getIntakeForm } from "@/lib/turicum/intake-forms";
+import { getBorrowerPortalByToken, submitBorrowerPortalForm } from "@/lib/turicum/intake";
+import type { IntakeFormCode, IntakeFormResponse } from "@/lib/turicum/types";
 
 function normalizeFormCode(value: string): IntakeFormCode | null {
   return value === "commercial_loan_application" ||

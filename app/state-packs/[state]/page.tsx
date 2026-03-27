@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
+import { TuricumNav } from "@/components/turicum/nav";
 import {
   getCategoryLabel,
   getDocumentTypeLabel,
@@ -7,8 +7,8 @@ import {
   getStatePackByCode,
   getStructureDocuments,
   summarizePack
-} from "@/lib/atlas/state-packs";
-import type { StructureType } from "@/lib/atlas/types";
+} from "@/lib/turicum/state-packs";
+import type { StructureType } from "@/lib/turicum/types";
 
 const structures: StructureType[] = ["loan", "purchase"];
 
@@ -39,7 +39,7 @@ export default async function StatePackDetailPage({
               <p>{statePack.notes}</p>
             </div>
             <div className="panel">
-              <AtlasNav />
+              <TuricumNav />
               <div className="pill-row">
                 <div className="pill">
                   <strong>Support:</strong> {statePack.support_level}

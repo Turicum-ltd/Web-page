@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { createBorrowerIntroCallRequest } from "@/lib/atlas/borrower-intro-requests";
-import { buildAppUrl } from "@/lib/atlas/runtime";
+import { createBorrowerIntroCallRequest } from "@/lib/turicum/borrower-intro-requests";
+import { buildAppUrl } from "@/lib/turicum/runtime";
 
 export async function POST(request: Request) {
   try {

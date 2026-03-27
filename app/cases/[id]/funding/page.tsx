@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
-import { listCaseDocuments, isGoogleDriveUrl } from "@/lib/atlas/case-documents";
-import { getCaseById } from "@/lib/atlas/cases";
-import { getCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { getCaseDealProfile } from "@/lib/atlas/deal-intake";
-import { buildGoogleDriveFileHref, buildGoogleDriveFolderHref } from "@/lib/atlas/google-drive";
-import { getBorrowerPortalForCase, getBorrowerPromotionReadinessForCase, getExecutionReadiness } from "@/lib/atlas/intake";
-import { getCaseInvestorPromotion } from "@/lib/atlas/investor-promotion";
-import { getCaseFundingWorkflow, saveCaseFundingWorkflow, type FundingStatus } from "@/lib/atlas/lifecycle";
-import { getCaseClosingDiligence, getCaseLegalReview } from "@/lib/atlas/review-workflow";
-import { withBasePath } from "@/lib/atlas/runtime";
+import { TuricumNav } from "@/components/turicum/nav";
+import { listCaseDocuments, isGoogleDriveUrl } from "@/lib/turicum/case-documents";
+import { getCaseById } from "@/lib/turicum/cases";
+import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { getCaseDealProfile } from "@/lib/turicum/deal-intake";
+import { buildGoogleDriveFileHref, buildGoogleDriveFolderHref } from "@/lib/turicum/google-drive";
+import { getBorrowerPortalForCase, getBorrowerPromotionReadinessForCase, getExecutionReadiness } from "@/lib/turicum/intake";
+import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
+import { getCaseFundingWorkflow, saveCaseFundingWorkflow, type FundingStatus } from "@/lib/turicum/lifecycle";
+import { getCaseClosingDiligence, getCaseLegalReview } from "@/lib/turicum/review-workflow";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
@@ -127,7 +127,7 @@ export default async function FundingPage({ params }: { params: Promise<{ id: st
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Investor path</p>

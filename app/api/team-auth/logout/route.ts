@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { TEAM_SESSION_COOKIE } from "@/lib/atlas/team-auth";
-import { buildAppUrl } from "@/lib/atlas/runtime";
+import { TEAM_SESSION_COOKIE } from "@/lib/turicum/team-auth";
+import { buildAppUrl } from "@/lib/turicum/runtime";
 
 function shouldUseSecureCookie(request: Request) {
   const forwardedProto = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim().toLowerCase();

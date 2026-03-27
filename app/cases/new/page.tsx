@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
-import { createCase, isSupabaseConfigured } from "@/lib/atlas/cases";
+import { TuricumNav } from "@/components/turicum/nav";
+import { createCase, isSupabaseConfigured } from "@/lib/turicum/cases";
 import {
   dealShapeOptions,
   entityTypeOptions,
@@ -9,10 +9,10 @@ import {
   screeningPlanOptions,
   screeningStatusOptions,
   saveCaseDealProfile
-} from "@/lib/atlas/deal-intake";
-import { withBasePath } from "@/lib/atlas/runtime";
-import { getStatePacks } from "@/lib/atlas/state-packs";
-import type { StructureType } from "@/lib/atlas/types";
+} from "@/lib/turicum/deal-intake";
+import { withBasePath } from "@/lib/turicum/runtime";
+import { getStatePacks } from "@/lib/turicum/state-packs";
+import type { StructureType } from "@/lib/turicum/types";
 
 const sourceTypes = ["direct", "referral_partner", "mca", "investor", "other"] as const;
 const structures: StructureType[] = ["loan", "purchase"];
@@ -91,7 +91,7 @@ export default function NewCasePage() {
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="pill">
                   <strong>Mode:</strong> {isSupabaseConfigured() ? "Supabase" : "Local fallback"}

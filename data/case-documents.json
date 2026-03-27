@@ -8,7 +8,7 @@
     "title": "Closing Statement",
     "fileName": "closing-statement-sample.pdf",
     "mimeType": "application/pdf",
-    "storagePath": "/tmp/atlas-sample/closing-statement-sample.pdf",
+    "storagePath": "/tmp/turicum-sample/closing-statement-sample.pdf",
     "uploadedAt": "2026-03-14T14:00:00.000Z"
   },
   {
@@ -20,7 +20,7 @@
     "title": "Option Agreement",
     "fileName": "option-agreement-executed.pdf",
     "mimeType": "application/pdf",
-    "storagePath": "/tmp/atlas-sample/option-agreement-executed.pdf",
+    "storagePath": "/tmp/turicum-sample/option-agreement-executed.pdf",
     "uploadedAt": "2026-03-13T10:30:00.000Z"
   }
 ]

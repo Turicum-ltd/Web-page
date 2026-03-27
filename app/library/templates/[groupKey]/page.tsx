@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
-import { saveCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { listCases } from "@/lib/atlas/cases";
+import { TuricumNav } from "@/components/turicum/nav";
+import { saveCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { listCases } from "@/lib/turicum/cases";
 import {
   decodeLegalGroupKey,
   getLatestLegalCorpusAnalysis,
   getLegalGroupByKey
-} from "@/lib/atlas/legal-analysis";
-import { listPrecedents } from "@/lib/atlas/precedents";
-import { withBasePath } from "@/lib/atlas/runtime";
+} from "@/lib/turicum/legal-analysis";
+import { listPrecedents } from "@/lib/turicum/precedents";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
@@ -104,7 +104,7 @@ export default async function TemplateDetailPage({
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Lead score</p>

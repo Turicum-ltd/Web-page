@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 import {
   invalidateInvestorSession,
   INVESTOR_SESSION_COOKIE
-} from "@/lib/atlas/investor-auth";
-import { buildAppUrl } from "@/lib/atlas/runtime";
+} from "@/lib/turicum/investor-auth";
+import { buildAppUrl } from "@/lib/turicum/runtime";
 
 export async function POST(request: Request) {
   const cookieHeader = request.headers.get("cookie") ?? "";

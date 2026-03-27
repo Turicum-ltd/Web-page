@@ -1,18 +1,18 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { AtlasNav } from "@/components/atlas/nav";
+import { TuricumNav } from "@/components/turicum/nav";
 import {
   getCaseDealProfile,
   saveCaseDealProfile,
   screeningPlanOptions,
   screeningStatusOptions,
   validationStatusOptions
-} from "@/lib/atlas/deal-intake";
-import { listCaseDocuments, isGoogleDriveUrl } from "@/lib/atlas/case-documents";
-import { getCaseById } from "@/lib/atlas/cases";
-import { buildGoogleDriveFileHref, buildGoogleDriveFolderHref } from "@/lib/atlas/google-drive";
-import { getCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { withBasePath } from "@/lib/atlas/runtime";
+} from "@/lib/turicum/deal-intake";
+import { listCaseDocuments, isGoogleDriveUrl } from "@/lib/turicum/case-documents";
+import { getCaseById } from "@/lib/turicum/cases";
+import { buildGoogleDriveFileHref, buildGoogleDriveFolderHref } from "@/lib/turicum/google-drive";
+import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
@@ -88,7 +88,7 @@ export default async function ValidationPage({
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Validation</p>

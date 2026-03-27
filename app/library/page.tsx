@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { AtlasNav } from "@/components/atlas/nav";
-import { getLatestLegalCorpusAnalysis } from "@/lib/atlas/legal-analysis";
-import { withBasePath } from "@/lib/atlas/runtime";
-import { listPrecedents, summarizePrecedents } from "@/lib/atlas/precedents";
+import { TuricumNav } from "@/components/turicum/nav";
+import { getLatestLegalCorpusAnalysis } from "@/lib/turicum/legal-analysis";
+import { withBasePath } from "@/lib/turicum/runtime";
+import { listPrecedents, summarizePrecedents } from "@/lib/turicum/precedents";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +32,7 @@ export default function LibraryPage() {
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Corpus</p>

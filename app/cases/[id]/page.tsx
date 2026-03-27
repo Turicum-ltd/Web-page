@@ -1,17 +1,17 @@
 import { redirect } from "next/navigation";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { AtlasNav } from "@/components/atlas/nav";
-import { getCaseLegalSelection } from "@/lib/atlas/case-legal-selection";
-import { assessDealProfile, getCaseDealProfile } from "@/lib/atlas/deal-intake";
-import { getBorrowerPortalByCaseId, getBorrowerPromotionReadinessForCase, getExecutionReadiness } from "@/lib/atlas/intake";
-import { getCaseAiReview, getCaseClosingDiligence, getCaseLegalReview } from "@/lib/atlas/review-workflow";
-import { getCaseInvestorPromotion } from "@/lib/atlas/investor-promotion";
-import { getCaseExitWorkflow, getCaseFundingWorkflow, getCaseServicingRecord } from "@/lib/atlas/lifecycle";
-import { withBasePath } from "@/lib/atlas/runtime";
-import { createCaseDocument, createCaseDocumentReference, isGoogleDriveUrl, listCaseDocuments } from "@/lib/atlas/case-documents";
-import { getCaseById, isSupabaseConfigured, listCaseChecklistItems } from "@/lib/atlas/cases";
-import { getCategoryLabel, getDocumentTypes, getStageLabel } from "@/lib/atlas/state-packs";
+import { TuricumNav } from "@/components/turicum/nav";
+import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { assessDealProfile, getCaseDealProfile } from "@/lib/turicum/deal-intake";
+import { getBorrowerPortalByCaseId, getBorrowerPromotionReadinessForCase, getExecutionReadiness } from "@/lib/turicum/intake";
+import { getCaseAiReview, getCaseClosingDiligence, getCaseLegalReview } from "@/lib/turicum/review-workflow";
+import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
+import { getCaseExitWorkflow, getCaseFundingWorkflow, getCaseServicingRecord } from "@/lib/turicum/lifecycle";
+import { withBasePath } from "@/lib/turicum/runtime";
+import { createCaseDocument, createCaseDocumentReference, isGoogleDriveUrl, listCaseDocuments } from "@/lib/turicum/case-documents";
+import { getCaseById, isSupabaseConfigured, listCaseChecklistItems } from "@/lib/turicum/cases";
+import { getCategoryLabel, getDocumentTypes, getStageLabel } from "@/lib/turicum/state-packs";
 
 export const dynamic = "force-dynamic";
 
@@ -148,7 +148,7 @@ export default async function CaseDetailPage({
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="pill">
                   <strong>Stage:</strong> {getStageLabel(item.stage)}

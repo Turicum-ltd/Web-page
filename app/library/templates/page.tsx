@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { AtlasNav } from "@/components/atlas/nav";
-import { getLatestLegalCorpusAnalysis } from "@/lib/atlas/legal-analysis";
-import { withBasePath } from "@/lib/atlas/runtime";
+import { TuricumNav } from "@/components/turicum/nav";
+import { getLatestLegalCorpusAnalysis } from "@/lib/turicum/legal-analysis";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
@@ -54,7 +54,7 @@ export default async function TemplateSelectionPage({
                 <p>Run the OpenClaw legal corpus tool first so Turicum LLC can recommend templates by state and structure.</p>
               </div>
               <div className="panel">
-                <AtlasNav />
+                <TuricumNav />
                 <div className="form-actions">
                   <Link className="secondary-button" href={withBasePath("/library")}>Back to library</Link>
                 </div>
@@ -109,7 +109,7 @@ export default async function TemplateSelectionPage({
               </p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Mode</p>

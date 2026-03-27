@@ -1,0 +1,11 @@
+{
+  "turicumPlatformRoot": ".",
+  "corpusRoots": [],
+  "referenceRoots": [],
+  "googleDriveFolders": [
+    {
+      "label": "Turicum legal document source of truth",
+      "url": "https://drive.google.com/drive/folders/REPLACE_ME"
+    }
+  ]
+}

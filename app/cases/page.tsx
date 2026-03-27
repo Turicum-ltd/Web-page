@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { AtlasNav } from "@/components/atlas/nav";
-import { withBasePath } from "@/lib/atlas/runtime";
-import { listCases } from "@/lib/atlas/cases";
-import { getStageLabel, getStatePackByCode, summarizePack } from "@/lib/atlas/state-packs";
+import { TuricumNav } from "@/components/turicum/nav";
+import { withBasePath } from "@/lib/turicum/runtime";
+import { listCases } from "@/lib/turicum/cases";
+import { getStageLabel, getStatePackByCode, summarizePack } from "@/lib/turicum/state-packs";
 
 export default async function CasesPage() {
   const cases = await listCases();
@@ -23,7 +23,7 @@ export default async function CasesPage() {
               </p>
             </div>
             <div className="panel">
-              <AtlasNav />
+              <TuricumNav />
               <div className="nav">
                 <Link href={withBasePath("/cases/new")}>New case</Link>
               </div>

@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { AtlasNav } from "@/components/atlas/nav";
-import { FlowMap } from "@/components/atlas/flow-map";
-import { getAtlasFlowMap } from "@/lib/atlas/flow-map-store";
-import { withBasePath } from "@/lib/atlas/runtime";
+import { TuricumNav } from "@/components/turicum/nav";
+import { FlowMap } from "@/components/turicum/flow-map";
+import { getTuricumFlowMap } from "@/lib/turicum/flow-map-store";
+import { withBasePath } from "@/lib/turicum/runtime";
 
 export const dynamic = "force-dynamic";
 
 export default async function FlowsPage() {
-  const flowMap = await getAtlasFlowMap();
+  const flowMap = await getTuricumFlowMap();
 
   return (
     <main>
@@ -20,7 +20,7 @@ export default async function FlowsPage() {
               <p>See the deal across the three lanes that actually matter: Borrower, Turicum LLC, and Investor.</p>
             </div>
             <div className="hero-aside">
-              <AtlasNav />
+              <TuricumNav />
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Mode</p>
@@ -42,7 +42,7 @@ export default async function FlowsPage() {
                 <Link className="secondary-button" href={withBasePath("/flows/print")}>
                   Open print view
                 </Link>
-                <Link className="secondary-button" href={withBasePath("/flows/print?view=atlas")}>
+                <Link className="secondary-button" href={withBasePath("/flows/print?view=turicum")}>
                   Turicum LLC printout
                 </Link>
                 <Link className="secondary-button" href={withBasePath("/flows/print?view=investor")}>

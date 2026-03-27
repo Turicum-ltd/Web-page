@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createCase, listCases } from "@/lib/atlas/cases";
-import type { NewCaseInput } from "@/lib/atlas/types";
+import { createCase, listCases } from "@/lib/turicum/cases";
+import type { NewCaseInput } from "@/lib/turicum/types";
 
 export async function GET() {
   const items = await listCases();
