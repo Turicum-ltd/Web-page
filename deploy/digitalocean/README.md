@@ -12,11 +12,15 @@ This directory contains the production handoff files for moving Turicum LLC from
 
 1. Copy the application to `/opt/turicum-platform`
 2. Copy `.env.production.example` to `.env.production` and fill real values
-3. Run `npm install`
-4. Run `npm run build`
-5. Start the app with PM2 using `ecosystem.config.cjs`
-6. Run `scripts/check-digitalocean-cutover.sh http://localhost:3100`
-7. After nginx is in front, repeat route checks against the public origin
+3. Make sure `.env.production` includes the investor review seed values if you want the investor login portal enabled:
+   - `TURICUM_INVESTOR_REVIEW_EMAIL`
+   - `TURICUM_INVESTOR_REVIEW_PASSWORD`
+4. PM2 loads `/opt/turicum-platform/.env.production` automatically via `deploy/digitalocean/ecosystem.config.cjs`
+5. Run `npm install`
+6. Run `npm run build`
+7. Start the app with PM2 using `ecosystem.config.cjs`
+8. Run `scripts/check-digitalocean-cutover.sh http://localhost:3100`
+9. After nginx is in front, repeat route checks against the public origin
 
 ## Route model
 
@@ -35,3 +39,4 @@ This directory contains the production handoff files for moving Turicum LLC from
 - Use Supabase for shared workflow state when enabled.
 - The interim wordmark is asset-based, so the final logo can replace it without touching page code.
 - Rotate the default team and investor review credentials before production cutover.
+- `package.json` pins the app to Node 22 for production.

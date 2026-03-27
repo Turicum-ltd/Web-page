@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import {
   authenticateInvestorUser,
   createInvestorSession,
+  isInvestorAuthConfigured,
   INVESTOR_SESSION_COOKIE
 } from "@/lib/turicum/investor-auth";
 import { buildAppUrl } from "@/lib/turicum/runtime";
@@ -12,6 +13,12 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
+
+  if (!isInvestorAuthConfigured()) {
+    return NextResponse.redirect(buildAppUrl(request, "/investors?error=unavailable"), {
+      status: 303
+    });
+  }
 
   const user = await authenticateInvestorUser(email, password);
 

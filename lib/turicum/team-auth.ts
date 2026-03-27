@@ -9,8 +9,6 @@ function requireEnv(name: string) {
   return value;
 }
 
-const TEAM_SESSION_SECRET = requireEnv("TURICUM_TEAM_SESSION_SECRET");
-
 interface TeamAccount {
   email: string;
   password: string;
@@ -19,6 +17,10 @@ interface TeamAccount {
 function readOptionalEnv(name: string) {
   const value = process.env[name]?.trim();
   return value ? value : null;
+}
+
+function readTeamSessionSecret() {
+  return requireEnv("TURICUM_TEAM_SESSION_SECRET");
 }
 
 function buildTeamAccounts() {
@@ -47,8 +49,15 @@ function buildTeamAccounts() {
   return accounts;
 }
 
-const TEAM_ACCOUNTS = buildTeamAccounts();
-const TEAM_LOGIN_EMAIL = TEAM_ACCOUNTS[0]?.email ?? "";
+export function isTeamAuthConfigured() {
+  try {
+    readTeamSessionSecret();
+    buildTeamAccounts();
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 interface TeamSessionPayload {
   email: string;
@@ -91,7 +100,7 @@ function fromBase64Url(input: string) {
 async function signValue(value: string) {
   const key = await crypto.subtle.importKey(
     "raw",
-    new TextEncoder().encode(TEAM_SESSION_SECRET),
+    new TextEncoder().encode(readTeamSessionSecret()),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
@@ -101,8 +110,12 @@ async function signValue(value: string) {
 }
 
 export async function authenticateTeamUser(email: string, password: string) {
+  if (!isTeamAuthConfigured()) {
+    return false;
+  }
+
   const normalizedEmail = email.trim().toLowerCase();
-  return TEAM_ACCOUNTS.some((account) => account.email === normalizedEmail && account.password === password);
+  return buildTeamAccounts().some((account) => account.email === normalizedEmail && account.password === password);
 }
 
 export async function createTeamSessionToken(email: string) {
@@ -117,7 +130,7 @@ export async function createTeamSessionToken(email: string) {
 }
 
 export async function verifyTeamSessionToken(token: string | undefined) {
-  if (!token) {
+  if (!token || !isTeamAuthConfigured()) {
     return null;
   }
 
@@ -143,7 +156,5 @@ export async function verifyTeamSessionToken(token: string | undefined) {
 }
 
 export {
-  TEAM_ACCOUNTS,
-  TEAM_LOGIN_EMAIL,
   TEAM_SESSION_COOKIE
 };

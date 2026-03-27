@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 import {
   TEAM_SESSION_COOKIE,
   authenticateTeamUser,
-  createTeamSessionToken
+  createTeamSessionToken,
+  isTeamAuthConfigured
 } from "@/lib/turicum/team-auth";
 import { buildAppUrl } from "@/lib/turicum/runtime";
 
@@ -30,6 +31,13 @@ export async function POST(request: Request) {
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
   const nextPath = readNextPath(formData);
+
+  if (!isTeamAuthConfigured()) {
+    return NextResponse.redirect(
+      `${buildAppUrl(request, `/team-login?error=unavailable&next=${encodeURIComponent(nextPath)}`)}`,
+      { status: 303 }
+    );
+  }
 
   const authenticated = await authenticateTeamUser(email, password);
   if (!authenticated) {

@@ -86,6 +86,12 @@ export default async function TeamLoginPage({ searchParams }: { searchParams?: S
                 <p className="helper">Use one of the issued Turicum team email accounts and the shared internal password.</p>
               </div>
             ) : null}
+            {error === "unavailable" ? (
+              <div className="panel subtle">
+                <strong>Team sign-in is not configured on this deployment yet.</strong>
+                <p className="helper">Set the Turicum team auth environment variables, then try again.</p>
+              </div>
+            ) : null}
             {loggedOut ? (
               <div className="panel subtle">
                 <strong>You have been signed out.</strong>

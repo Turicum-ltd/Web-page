@@ -2,6 +2,9 @@
   "name": "turicum-platform",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,7 +15,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.99.1",
     "@xyflow/react": "^12.10.1",
-    "next": "^15.3.0",
+    "next": "^15.5.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

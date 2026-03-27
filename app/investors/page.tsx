@@ -157,6 +157,12 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
                   <p className="helper">Use the investor credentials issued by Turicum.</p>
                 </div>
               ) : null}
+              {error === "unavailable" ? (
+                <div className="panel subtle">
+                  <strong>Investor sign-in is not configured on this deployment yet.</strong>
+                  <p className="helper">Set the Turicum investor auth environment variables, then try again.</p>
+                </div>
+              ) : null}
               {loggedOut ? (
                 <div className="panel subtle">
                   <strong>You have been signed out.</strong>

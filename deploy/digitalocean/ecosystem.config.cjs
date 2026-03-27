@@ -3,6 +3,7 @@ module.exports = {
     {
       name: 'turicum-platform',
       cwd: '/opt/turicum-platform',
+      env_file: '/opt/turicum-platform/.env.production',
       script: 'npm',
       args: 'start',
       env: {

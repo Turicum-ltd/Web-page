@@ -177,6 +177,15 @@ APP_ORIGIN=https://marketshift.net
 NEXT_PUBLIC_APP_ORIGIN=https://marketshift.net
 ```
 
+Investor portal seed credentials:
+
+```bash
+TURICUM_INVESTOR_REVIEW_EMAIL=investor@turicumllc.com
+TURICUM_INVESTOR_REVIEW_PASSWORD=replace-me
+```
+
+If these values are omitted, the rest of the app can still build and run, but investor sign-in will show as unavailable until the credentials are added.
+
 If Supabase is enabled:
 
 ```bash
@@ -202,6 +211,8 @@ Recommended PM2 process:
 pm2 start deploy/digitalocean/ecosystem.config.cjs
 pm2 save
 ```
+
+The deploy ecosystem file loads `/opt/turicum-platform/.env.production`, so the production env file is the source of truth for runtime secrets on the VPS.
 
 ## Nginx outline
 

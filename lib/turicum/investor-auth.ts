@@ -19,8 +19,21 @@ function requireEnv(name: string) {
   return value;
 }
 
-export const SEEDED_INVESTOR_REVIEW_EMAIL = requireEnv("TURICUM_INVESTOR_REVIEW_EMAIL").toLowerCase();
-export const SEEDED_INVESTOR_REVIEW_PASSWORD = requireEnv("TURICUM_INVESTOR_REVIEW_PASSWORD");
+function readSeededInvestorReviewCredentials() {
+  return {
+    email: requireEnv("TURICUM_INVESTOR_REVIEW_EMAIL").toLowerCase(),
+    password: requireEnv("TURICUM_INVESTOR_REVIEW_PASSWORD")
+  };
+}
+
+export function isInvestorAuthConfigured() {
+  try {
+    readSeededInvestorReviewCredentials();
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 interface InvestorUserRecord {
   id: string;
@@ -100,22 +113,23 @@ function toSessionUser(user: InvestorUserRecord): InvestorSessionUser {
 }
 
 async function readUsers() {
+  const seededCredentials = readSeededInvestorReviewCredentials();
   const users = await readJsonFile<InvestorUserRecord[]>(USERS_PATH, []);
 
   const seededIndex = users.findIndex((item) => item.organization === "Turicum Investor Review");
   const seededUser: InvestorUserRecord = {
     id: seededIndex >= 0 ? users[seededIndex].id : randomUUID(),
-    email: SEEDED_INVESTOR_REVIEW_EMAIL,
+    email: seededCredentials.email,
     fullName: "Turicum Review Investor",
     organization: "Turicum Investor Review",
-    passwordHash: hashPassword(SEEDED_INVESTOR_REVIEW_PASSWORD),
+    passwordHash: hashPassword(seededCredentials.password),
     status: "active"
   };
 
   if (seededIndex >= 0) {
     const existing = users[seededIndex];
     const needsUpdate = existing.email !== seededUser.email
-      || !verifyPassword(SEEDED_INVESTOR_REVIEW_PASSWORD, existing.passwordHash)
+      || !verifyPassword(seededCredentials.password, existing.passwordHash)
       || existing.status !== "active";
 
     if (needsUpdate) {
@@ -148,6 +162,10 @@ async function writeSessions(items: InvestorSessionRecord[]) {
 }
 
 export async function authenticateInvestorUser(email: string, password: string) {
+  if (!isInvestorAuthConfigured()) {
+    return null;
+  }
+
   const normalizedEmail = email.trim().toLowerCase();
   const users = await readUsers();
   const user = users.find((item) => item.email === normalizedEmail && item.status === "active");
@@ -175,6 +193,10 @@ export async function createInvestorSession(userId: string) {
 }
 
 export async function getInvestorUserForSessionToken(token: string) {
+  if (!isInvestorAuthConfigured()) {
+    return null;
+  }
+
   const [sessions, users] = await Promise.all([readSessions(), readUsers()]);
   const session = sessions.find((item) => item.token === token);
 
