@@ -83,13 +83,18 @@ export default async function TeamLoginPage({ searchParams }: { searchParams?: S
             {error === "invalid" ? (
               <div className="panel subtle">
                 <strong>Sign-in details were not accepted.</strong>
-                <p className="helper">Use one of the issued Turicum team email accounts and the shared internal password.</p>
+                <p className="helper">
+                  Use one of the issued Turicum team accounts and its current password.
+                </p>
               </div>
             ) : null}
             {error === "unavailable" ? (
               <div className="panel subtle">
                 <strong>Team sign-in is not configured on this deployment yet.</strong>
-                <p className="helper">Set the Turicum team auth environment variables, then try again.</p>
+                <p className="helper">
+                  Configure Supabase staff auth for this deployment, or keep the temporary fallback
+                  team auth env vars in place during cutover.
+                </p>
               </div>
             ) : null}
             {loggedOut ? (
