@@ -4,6 +4,11 @@ import { randomUUID } from "node:crypto";
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
+import {
+  buildGoogleDriveStoragePath,
+  parseGoogleDriveReference,
+  resolveGoogleDriveHref
+} from "@/lib/turicum/google-drive";
 import { getDocumentType } from "@/lib/turicum/state-packs";
 import type { CaseDocumentRecord, CategoryCode } from "@/lib/turicum/types";
 
@@ -142,12 +147,15 @@ export function isExternalDocumentReference(storagePath: string) {
 }
 
 export function isGoogleDriveUrl(storagePath: string) {
-  try {
-    const url = new URL(storagePath);
-    return url.hostname === "drive.google.com" || url.hostname === "docs.google.com";
-  } catch {
-    return false;
+  return Boolean(parseGoogleDriveReference(storagePath));
+}
+
+export function resolveExternalDocumentHref(storagePath: string) {
+  if (!isExternalDocumentReference(storagePath)) {
+    return null;
   }
+
+  return resolveGoogleDriveHref(storagePath);
 }
 
 export async function listCaseDocuments(caseId: string): Promise<CaseDocumentRecord[]> {
@@ -249,12 +257,10 @@ export async function createCaseDocumentReference(input: {
     throw new Error(`Unknown document type: ${input.documentTypeCode}`);
   }
 
-  let referenceUrl: URL;
+  const reference = parseGoogleDriveReference(input.storagePath);
 
-  try {
-    referenceUrl = new URL(input.storagePath);
-  } catch {
-    throw new Error("A valid Google Drive or document URL is required.");
+  if (!reference) {
+    throw new Error("Only Google Drive and Google Docs links are allowed.");
   }
 
   const now = new Date().toISOString();
@@ -262,8 +268,12 @@ export async function createCaseDocumentReference(input: {
   const status = input.status ?? "uploaded";
   const title = input.title?.trim() || documentType.label;
   const fileName = input.fileName?.trim() || title;
-  const mimeType = input.mimeType?.trim() || "application/vnd.google-apps.document";
-  const storagePath = referenceUrl.toString();
+  const mimeType =
+    input.mimeType?.trim() ||
+    (reference.kind === "folder"
+      ? "application/vnd.google-apps.folder"
+      : "application/vnd.google-apps.document");
+  const storagePath = buildGoogleDriveStoragePath(reference);
   const caseId = input.caseId;
   const supabase = getSupabaseAdmin();
 

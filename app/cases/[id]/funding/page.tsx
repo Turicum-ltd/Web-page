@@ -326,7 +326,7 @@ export default async function FundingPage({ params }: { params: Promise<{ id: st
               {driveDocuments.slice(0, 4).map((document) => (
                 <li key={document.id}>
                   <strong>{document.title}:</strong>{" "}
-                  <a href={document.storagePath} target="_blank" rel="noreferrer">
+                  <a href={withBasePath(`/api/cases/${id}/documents/${document.id}`)} target="_blank" rel="noreferrer">
                     open linked Drive document
                   </a>
                 </li>

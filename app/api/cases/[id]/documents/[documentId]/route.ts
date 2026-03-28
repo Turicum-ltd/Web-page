@@ -1,5 +1,25 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { getCaseDocumentById, isExternalDocumentReference, readCaseDocumentBinary } from "@/lib/turicum/case-documents";
+import {
+  getCaseDocumentById,
+  isExternalDocumentReference,
+  readCaseDocumentBinary,
+  resolveExternalDocumentHref
+} from "@/lib/turicum/case-documents";
+import { resolveSupabaseStaffSessionFromCookies } from "@/lib/turicum/staff-supabase-auth";
+import { TEAM_SESSION_COOKIE, verifyTeamSessionToken } from "@/lib/turicum/team-auth";
+
+async function requireTeamDocumentAccess() {
+  const cookieStore = await cookies();
+  const staffProfile = await resolveSupabaseStaffSessionFromCookies(cookieStore);
+
+  if (staffProfile) {
+    return true;
+  }
+
+  const legacyToken = cookieStore.get(TEAM_SESSION_COOKIE)?.value;
+  return Boolean(await verifyTeamSessionToken(legacyToken));
+}
 
 export async function GET(
   _request: Request,
@@ -9,6 +29,12 @@ export async function GET(
     params: Promise<{ id: string; documentId: string }>;
   }
 ) {
+  const hasAccess = await requireTeamDocumentAccess();
+
+  if (!hasAccess) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id, documentId } = await params;
   const document = await getCaseDocumentById(id, documentId);
 
@@ -17,7 +43,13 @@ export async function GET(
   }
 
   if (isExternalDocumentReference(document.storagePath)) {
-    return NextResponse.redirect(document.storagePath);
+    const href = resolveExternalDocumentHref(document.storagePath);
+
+    if (!href) {
+      return NextResponse.json({ error: "External document host is not allowed" }, { status: 400 });
+    }
+
+    return NextResponse.redirect(href);
   }
 
   try {
