@@ -7,6 +7,7 @@ const links = [
   { href: withBasePath('/portal'), label: 'Borrower Intake' },
   { href: withBasePath('/investors'), label: 'Investor Portal' },
   { href: withBasePath('/review'), label: 'Review' },
+  { href: withBasePath('/access'), label: 'Access' },
   { href: withBasePath('/cases'), label: 'Cases' },
   { href: withBasePath('/flows'), label: 'Flows' },
   { href: withBasePath('/state-packs'), label: 'State Packs' },

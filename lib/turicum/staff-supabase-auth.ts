@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextResponse, type NextRequest } from "next/server";
 
 const STAFF_ROLES = ["staff_admin", "staff_ops", "staff_counsel"] as const;
@@ -127,6 +128,23 @@ function createCookieAdapter(
   };
 }
 
+function createSupabaseStaffReadClient(cookieStore: ReadonlyRequestCookies) {
+  const config = getSupabaseStaffAuthConfig();
+
+  if (!config) {
+    return null;
+  }
+
+  return createServerClient(config.url, config.publishableKey, {
+    cookies: createCookieAdapter(
+      () => cookieStore.getAll().map(({ name, value }) => ({ name, value })),
+      () => {
+        // Cookie writes happen in route handlers and middleware.
+      }
+    )
+  });
+}
+
 export function createSupabaseStaffRouteClient(request: NextRequest, response: NextResponse) {
   const config = getSupabaseStaffAuthConfig();
 
@@ -186,4 +204,24 @@ export async function resolveSupabaseStaffSession(request: NextRequest) {
   }
 
   return { response, profile };
+}
+
+export async function resolveSupabaseStaffSessionFromCookies(cookieStore: ReadonlyRequestCookies) {
+  const supabase = createSupabaseStaffReadClient(cookieStore);
+
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) {
+    return null;
+  }
+
+  const profile = await getStaffProfileByUserId(data.user.id);
+  if (!profile || !profile.isActive) {
+    return null;
+  }
+
+  return profile;
 }
