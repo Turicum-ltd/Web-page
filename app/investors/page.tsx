@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { listCases } from "@/lib/turicum/cases";
-import { getInvestorUserForSessionToken, INVESTOR_SESSION_COOKIE } from "@/lib/turicum/investor-auth";
 import { resolveSupabaseInvestorSessionFromCookies } from "@/lib/turicum/investor-supabase-auth";
 import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
 import { getCaseServicingRecord } from "@/lib/turicum/lifecycle";
@@ -64,11 +63,8 @@ function buildDistributionSummary(summary: string | undefined) {
 
 export default async function InvestorsPage({ searchParams }: { searchParams?: SearchParams }) {
   const params = (await searchParams) ?? {};
-  const cookieStore = await cookies();
-  const token = cookieStore.get(INVESTOR_SESSION_COOKIE)?.value;
-  const supabaseSession = await resolveSupabaseInvestorSessionFromCookies(cookieStore);
-  const legacyInvestorUser = token ? await getInvestorUserForSessionToken(token) : null;
-  const investorUser = supabaseSession.investor ?? legacyInvestorUser;
+  const supabaseSession = await resolveSupabaseInvestorSessionFromCookies(await cookies());
+  const investorUser = supabaseSession.investor;
   const grantedCaseIds = new Set(supabaseSession.grantedCaseIds);
   const heroArt = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80";
 
@@ -164,7 +160,7 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
               {error === "unavailable" ? (
                 <div className="panel subtle">
                   <strong>Investor sign-in is not configured on this deployment yet.</strong>
-                  <p className="helper">Configure Supabase investor auth for this deployment, or keep the temporary fallback investor auth env vars in place during cutover.</p>
+                  <p className="helper">Configure Supabase investor auth for this deployment so issued investor accounts can sign in.</p>
                 </div>
               ) : null}
               {loggedOut ? (

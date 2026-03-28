@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { TEAM_SESSION_COOKIE, verifyTeamSessionToken } from "@/lib/turicum/team-auth";
 import { resolveSupabaseStaffSession } from "@/lib/turicum/staff-supabase-auth";
 
 function normalizeBasePath(input: string | undefined) {
@@ -66,13 +65,6 @@ export async function middleware(request: NextRequest) {
     }
   } catch (error) {
     console.error("Turicum middleware Supabase session check failed", error);
-  }
-
-  const sessionToken = request.cookies.get(TEAM_SESSION_COOKIE)?.value;
-  const session = await verifyTeamSessionToken(sessionToken);
-
-  if (session) {
-    return NextResponse.next();
   }
 
   const loginUrl = new URL(`${request.nextUrl.basePath || ""}/team-login`, request.url);

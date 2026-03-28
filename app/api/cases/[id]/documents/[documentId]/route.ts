@@ -7,18 +7,11 @@ import {
   resolveExternalDocumentHref
 } from "@/lib/turicum/case-documents";
 import { resolveSupabaseStaffSessionFromCookies } from "@/lib/turicum/staff-supabase-auth";
-import { TEAM_SESSION_COOKIE, verifyTeamSessionToken } from "@/lib/turicum/team-auth";
 
 async function requireTeamDocumentAccess() {
   const cookieStore = await cookies();
   const staffProfile = await resolveSupabaseStaffSessionFromCookies(cookieStore);
-
-  if (staffProfile) {
-    return true;
-  }
-
-  const legacyToken = cookieStore.get(TEAM_SESSION_COOKIE)?.value;
-  return Boolean(await verifyTeamSessionToken(legacyToken));
+  return Boolean(staffProfile);
 }
 
 export async function GET(

@@ -92,8 +92,8 @@ export default async function TeamLoginPage({ searchParams }: { searchParams?: S
               <div className="panel subtle">
                 <strong>Team sign-in is not configured on this deployment yet.</strong>
                 <p className="helper">
-                  Configure Supabase staff auth for this deployment, or keep the temporary fallback
-                  team auth env vars in place during cutover.
+                  Configure Supabase staff auth for this deployment so issued Turicum staff accounts
+                  can sign in.
                 </p>
               </div>
             ) : null}

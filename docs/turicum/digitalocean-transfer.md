@@ -177,23 +177,17 @@ APP_ORIGIN=https://turicum.us
 NEXT_PUBLIC_APP_ORIGIN=https://turicum.us
 ```
 
-Investor portal seed credentials:
-
-```bash
-TURICUM_INVESTOR_REVIEW_EMAIL=investor@turicum.us
-TURICUM_INVESTOR_REVIEW_PASSWORD=replace-me
-```
-
-If these values are omitted, the rest of the app can still build and run, but investor sign-in will show as unavailable until the credentials are added.
-
 If Supabase is enabled:
 
 ```bash
 SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
 SUPABASE_STORAGE_BUCKET=turicum-documents
 ```
+
+Staff and investor sign-in now depend on Supabase accounts and matching `turicum_user_profiles` rows. Production should not rely on shared staff or investor password env vars.
 
 ## Build and runtime
 

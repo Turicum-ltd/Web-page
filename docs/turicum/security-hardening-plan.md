@@ -6,34 +6,28 @@ Turicum is now at the stage where product security and operator security need to
 
 ## Immediate Priorities
 
-1. Fix production Supabase credential drift.
-2. Complete the staff and investor Supabase Auth cutover.
-3. Remove legacy shared-password fallbacks.
-4. Rotate production secrets after cutover.
-5. Protect production delivery and admin surfaces.
+1. Rotate production secrets after the Supabase auth cutover.
+2. Protect production delivery and admin surfaces.
+3. Enable or correct RLS on exposed public tables.
+4. Create staging so auth and deploy changes stop landing in production first.
+5. Keep moving operational state out of local JSON fallback storage.
 
 ## Current Risks
 
-### 1. Shared-password fallback still exists
-
-- Staff login still has a legacy env-password fallback path.
-- This weakens revocation, auditability, and least privilege.
-- It also creates ambiguity about which auth path production is using.
-
-### 2. Production secret drift is too easy
+### 1. Production secret drift is too easy
 
 - Turicum has already hit production failures caused by invalid Supabase credentials.
 - The app currently depends on multiple Supabase env variables that must all point to the same project.
 - Invalid production secrets currently fail late, often only after an internal page loads.
 
-### 3. Production data access is broader than it should be
+### 2. Production data access is broader than it should be
 
 - Supabase public-schema tables need intentional RLS coverage.
 - Any exposed public table should either:
   - have RLS enabled with explicit policies, or
   - be moved out of the public API surface.
 
-### 4. Collaboration is growing faster than access controls
+### 3. Collaboration is growing faster than access controls
 
 - More people want to work on Turicum now.
 - Without branch protection, staging, and tighter operational roles, contributors can create production risk too easily.
@@ -51,7 +45,7 @@ Replace shared credentials with named users, scoped access, and revocation contr
 1. Keep staff on Supabase Auth only.
 2. Keep investors on Supabase Auth plus per-case grants.
 3. Keep borrowers on scoped invite links with expiry and revocation.
-4. Remove legacy `TURICUM_TEAM_*` and investor seeded-password fallbacks after live validation.
+4. Remove deprecated shared-password env vars from production after secret rotation.
 5. Add deactivate and revoke controls in `/access`.
 
 #### Success Criteria
@@ -163,8 +157,7 @@ Stop debugging production in production.
 
 1. Fix production Supabase credential validity.
 2. Validate `/review`, `/access`, and staff login against Supabase.
-3. Remove shared-password fallback paths.
-4. Rotate production secrets.
+3. Rotate production secrets.
 5. Enable or correct RLS on exposed public tables.
 6. Protect GitHub `main`.
 7. Add staging.
@@ -195,8 +188,8 @@ Stop debugging production in production.
 
 ### App
 
-- [ ] Remove legacy team-password fallback.
-- [ ] Remove legacy investor seeded-password fallback.
+- [x] Remove legacy team-password fallback.
+- [x] Remove legacy investor seeded-password fallback.
 - [ ] Add revoke/deactivate controls in `/access`.
 - [ ] Keep `/review` and `/access` on graceful failure paths until the internal data dependencies are fully stabilized.
 

@@ -12,9 +12,11 @@ This directory contains the production handoff files for moving Turicum LLC from
 
 1. Copy the application to `/opt/turicum-platform`
 2. Copy `.env.production.example` to `.env.production` and fill real values
-3. Make sure `.env.production` includes the investor review seed values if you want the investor login portal enabled:
-   - `TURICUM_INVESTOR_REVIEW_EMAIL`
-   - `TURICUM_INVESTOR_REVIEW_PASSWORD`
+3. Make sure `.env.production` includes the Supabase values for the canonical Turicum project:
+   - `SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
 4. PM2 loads `/opt/turicum-platform/.env.production` automatically via `deploy/digitalocean/ecosystem.config.cjs`
 5. Run `npm install`
 6. Run `npm run build`
@@ -38,5 +40,5 @@ This directory contains the production handoff files for moving Turicum LLC from
 - Keep documents in Google Drive.
 - Use Supabase for shared workflow state when enabled.
 - The interim wordmark is asset-based, so the final logo can replace it without touching page code.
-- Rotate the default team and investor review credentials before production cutover.
+- Staff and investor sign-in now depend on Supabase-issued accounts and role rows in `turicum_user_profiles`.
 - `package.json` pins the app to Node 22 for production.
