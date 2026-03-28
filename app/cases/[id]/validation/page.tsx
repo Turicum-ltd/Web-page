@@ -32,6 +32,7 @@ export default async function ValidationPage({
   }
 
   const currentDealProfile = dealProfile;
+  const caseDriveFolderHref = buildGoogleDriveFolderHref(caseItem.googleDriveFolderId || legalSelection?.googleDriveFolderId);
 
   async function saveValidation(formData: FormData) {
     "use server";
@@ -127,10 +128,10 @@ export default async function ValidationPage({
                   </a>
                 </li>
               ) : null}
-              {buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) ? (
+              {caseDriveFolderHref ? (
                 <li>
-                  <strong>Template folder:</strong>{" "}
-                  <a href={buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) ?? "#"} target="_blank" rel="noreferrer">
+                  <strong>Case folder:</strong>{" "}
+                  <a href={caseDriveFolderHref} target="_blank" rel="noreferrer">
                     open Drive folder
                   </a>
                 </li>
@@ -144,7 +145,7 @@ export default async function ValidationPage({
                 </li>
               ))}
               {!buildGoogleDriveFileHref(legalSelection?.googleDriveFileId) &&
-              !buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) &&
+              !caseDriveFolderHref &&
               driveDocuments.length === 0 ? (
                 <li>No Drive references are linked to this case yet.</li>
               ) : null}

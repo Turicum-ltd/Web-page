@@ -48,6 +48,7 @@ export default async function ClosingDiligencePage({
   const legalSelection = await getCaseLegalSelection(id);
   const driveDocuments = (await listCaseDocuments(id)).filter((document) => isGoogleDriveUrl(document.storagePath));
   const buckets = getClosingDiligenceDocumentBuckets(assessment);
+  const caseDriveFolderHref = buildGoogleDriveFolderHref(caseItem.googleDriveFolderId || legalSelection?.googleDriveFolderId);
 
   async function saveDiligence(formData: FormData) {
     "use server";
@@ -139,10 +140,10 @@ export default async function ClosingDiligencePage({
             <p className="eyebrow">Google Drive references</p>
             <h2>Keep title, insurance, and tax support one click away</h2>
             <ul className="list">
-              {buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) ? (
+              {caseDriveFolderHref ? (
                 <li>
                   <strong>Case folder:</strong>{" "}
-                  <a href={buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) ?? "#"} target="_blank" rel="noreferrer">
+                  <a href={caseDriveFolderHref} target="_blank" rel="noreferrer">
                     open Drive folder
                   </a>
                 </li>
@@ -163,7 +164,7 @@ export default async function ClosingDiligencePage({
                   </a>
                 </li>
               ))}
-              {!buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) &&
+              {!caseDriveFolderHref &&
               !buildGoogleDriveFileHref(legalSelection?.googleDriveFileId) &&
               driveDocuments.length === 0 ? (
                 <li>No Google Drive references are attached to this case yet.</li>

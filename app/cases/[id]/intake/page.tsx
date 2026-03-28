@@ -134,7 +134,7 @@ export default async function CaseIntakePage({
     : "";
   const caseDriveFolderHref = buildGoogleDriveFolderHref(currentCase.googleDriveFolderId);
   const activeDriveFolderHref = buildGoogleDriveFolderHref(
-    selectedTemplate.googleDriveFolderId || currentCase.googleDriveFolderId
+    currentCase.googleDriveFolderId || selectedTemplate.googleDriveFolderId
   );
   const selectedTemplateNote = selectedTemplate.precedentTitle
     ? `Use ${selectedTemplate.precedentTitle} as the starting paper for ${selectedTemplate.documentType || "the selected document family"} on ${caseItem.code}.`
@@ -247,7 +247,7 @@ export default async function CaseIntakePage({
       providerTemplateId: selectedTemplate.precedentId || undefined,
       providerUrl: selectedTemplateHref || undefined,
       googleDriveFileId: selectedTemplate.googleDriveFileId || savedTemplate?.googleDriveFileId,
-      googleDriveFolderId: selectedTemplate.googleDriveFolderId || undefined,
+      googleDriveFolderId: currentCase.googleDriveFolderId || selectedTemplate.googleDriveFolderId || undefined,
       providerStatus: "prepared"
     });
 
@@ -309,7 +309,7 @@ export default async function CaseIntakePage({
       providerTemplateId: String(formData.get("providerTemplateId") ?? ""),
       providerUrl: String(formData.get("providerUrl") ?? ""),
       googleDriveFileId: String(formData.get("googleDriveFileId") ?? ""),
-      googleDriveFolderId: String(formData.get("googleDriveFolderId") ?? "")
+      googleDriveFolderId: String(formData.get("googleDriveFolderId") ?? "").trim() || currentCase.googleDriveFolderId || ""
     });
 
     redirect(withBasePath(`/cases/${id}/intake`));
@@ -749,7 +749,7 @@ export default async function CaseIntakePage({
                   <input
                     name="googleDriveFolderId"
                     type="text"
-                    defaultValue={selectedTemplate.googleDriveFolderId}
+                    defaultValue={currentCase.googleDriveFolderId || selectedTemplate.googleDriveFolderId}
                     placeholder="Optional Drive folder for executed files"
                   />
                 </label>

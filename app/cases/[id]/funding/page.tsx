@@ -42,6 +42,7 @@ export default async function FundingPage({ params }: { params: Promise<{ id: st
   const closingDiligence = await getCaseClosingDiligence(id);
   const legalSelection = await getCaseLegalSelection(id);
   const driveDocuments = (await listCaseDocuments(id)).filter((document) => isGoogleDriveUrl(document.storagePath));
+  const caseDriveFolderHref = buildGoogleDriveFolderHref(caseItem.googleDriveFolderId || legalSelection?.googleDriveFolderId);
   const borrowerReadiness = portal ? await getBorrowerPromotionReadinessForCase(id, portal) : null;
   const executionReadiness =
     portal && dealProfile ? getExecutionReadiness(portal, dealProfile.notaryRequirement) : null;
@@ -299,11 +300,11 @@ export default async function FundingPage({ params }: { params: Promise<{ id: st
             <p className="eyebrow">Google Drive references</p>
             <h2>Docs ops should have on hand while funding</h2>
             <ul className="list">
-              {buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) ? (
+              {caseDriveFolderHref ? (
                 <li>
                   <strong>Case folder:</strong>{" "}
                   <a
-                    href={buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) ?? "#"}
+                    href={caseDriveFolderHref}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -331,7 +332,7 @@ export default async function FundingPage({ params }: { params: Promise<{ id: st
                   </a>
                 </li>
               ))}
-              {!buildGoogleDriveFolderHref(legalSelection?.googleDriveFolderId) &&
+              {!caseDriveFolderHref &&
               !buildGoogleDriveFileHref(legalSelection?.googleDriveFileId) &&
               driveDocuments.length === 0 ? (
                 <li>No Google Drive references are attached to this case yet.</li>
