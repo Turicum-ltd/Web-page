@@ -23,6 +23,8 @@ The design is intentionally extensible. State-specific legal and closing behavio
 
 - `platform-guide.md`: full platform overview, workflow map, data model direction, Google Drive strategy, and hosting model
 - `digitalocean-transfer.md`: VPS transfer plan for the Turicum LLC surface while keeping Google Drive as the document source of truth
+- `runbook.md`: operator guide for deploys, production checks, rollback, and incident response
+- `access-map.md`: system and role map for GitHub, DigitalOcean, Supabase, Google Drive, and user access
 - `state-pack-matrix.md`: business and legal requirements by state and structure
 - `pipeline-and-schema.md`: pipeline stages, statuses, entity model, and document taxonomy
 - `build-plan.md`: implementation order for a lean MVP
