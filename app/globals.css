@@ -2520,13 +2520,13 @@ code {
   --type-body-line: 1.68;
   --type-helper-size: 0.92rem;
   --type-helper-line: 1.58;
-  --type-h1-size: clamp(3rem, 4.9vw, 5.4rem);
+  --type-h1-size: clamp(2.65rem, 4.2vw, 4.5rem);
   --type-h1-line: 0.95;
   --type-h1-tracking: -0.045em;
-  --type-h2-size: clamp(1.45rem, 2.2vw, 2.15rem);
-  --type-h2-line: 1.05;
+  --type-h2-size: clamp(1.28rem, 1.8vw, 1.78rem);
+  --type-h2-line: 1.08;
   --type-h2-tracking: -0.028em;
-  --type-h3-size: 1.08rem;
+  --type-h3-size: 1rem;
   --type-h3-line: 1.28;
   gap: 30px;
 }
@@ -2683,9 +2683,9 @@ code {
 
 .turicum-public-shell .turicum-landing-copy h1 {
   max-width: 11ch;
-  font-size: clamp(3.1rem, 5.1vw, 5.35rem);
-  line-height: 0.94;
-  letter-spacing: -0.05em;
+  font-size: clamp(2.8rem, 4.4vw, 4.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.043em;
 }
 
 .turicum-public-shell .turicum-landing-copy .turicum-marketing-lede {
@@ -2764,7 +2764,7 @@ code {
 
 .turicum-section-intro h2,
 .turicum-landing-cta h2 {
-  max-width: 18ch;
+  max-width: 20ch;
 }
 
 .turicum-section-intro p:last-child,
@@ -2802,9 +2802,9 @@ code {
 .turicum-lane h3 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2vw, 2rem);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.28rem, 1.7vw, 1.62rem);
+  line-height: 1.08;
+  letter-spacing: -0.024em;
 }
 
 .turicum-lane-copy {
@@ -2869,9 +2869,9 @@ code {
 
 .turicum-process-step h3 {
   font-family: var(--font-display);
-  font-size: 1.26rem;
-  line-height: 1.08;
-  letter-spacing: -0.024em;
+  font-size: 1.08rem;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
 }
 
 .turicum-process-step p,
@@ -2901,14 +2901,17 @@ code {
 .turicum-landing-cta {
   display: grid;
   justify-items: center;
-  gap: 14px;
-  padding: 26px 0 0;
+  gap: 10px;
+  padding: 20px 0 0;
   text-align: center;
   border-top: 1px solid rgba(198, 210, 225, 0.08);
+  max-width: 34rem;
+  margin: 0 auto;
 }
 
 .turicum-landing-cta .turicum-inline-actions {
   justify-content: center;
+  margin-top: 2px;
 }
 
 .turicum-landing-cta .helper {
