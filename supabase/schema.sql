@@ -96,6 +96,7 @@ create table if not exists cases (
   estimated_value numeric,
   existing_debt numeric,
   summary text,
+  google_drive_folder_id text,
   opened_at timestamptz not null default now(),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()

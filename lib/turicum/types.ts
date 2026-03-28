@@ -109,6 +109,7 @@ export interface CaseRecord {
   propertySummary: string;
   requestedAmount: string;
   sourceType: string;
+  googleDriveFolderId?: string;
 }
 
 export interface NewCaseInput {

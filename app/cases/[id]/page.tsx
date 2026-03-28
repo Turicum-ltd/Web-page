@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { CaseDocumentIntake } from "@/components/turicum/case-document-intake";
 import { TuricumNav } from "@/components/turicum/nav";
@@ -11,8 +11,9 @@ import { getCaseAiReview, getCaseClosingDiligence, getCaseLegalReview } from "@/
 import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
 import { getCaseExitWorkflow, getCaseFundingWorkflow, getCaseServicingRecord } from "@/lib/turicum/lifecycle";
 import { withBasePath } from "@/lib/turicum/runtime";
+import { buildGoogleDriveFolderHref } from "@/lib/turicum/google-drive";
 import { createCaseDocument, createCaseDocumentReference, isGoogleDriveUrl, listCaseDocuments } from "@/lib/turicum/case-documents";
-import { getCaseById, isSupabaseConfigured, listCaseChecklistItems } from "@/lib/turicum/cases";
+import { getCaseById, isSupabaseConfigured, listCaseChecklistItems, updateCaseGoogleDriveFolder } from "@/lib/turicum/cases";
 import { getCategoryLabel, getDocumentTypes, getStageLabel } from "@/lib/turicum/state-packs";
 import { resolveSupabaseStaffSessionFromCookies } from "@/lib/turicum/staff-supabase-auth";
 
@@ -44,6 +45,10 @@ function formatTimestamp(value: string | undefined) {
   }
 
   return date.toLocaleString();
+}
+
+function buildInitialActionState(mode: "drive" | "upload") {
+  return { status: "idle" as const, message: "", mode };
 }
 
 export default async function CaseDetailPage({
@@ -86,6 +91,7 @@ export default async function CaseDetailPage({
   const legalSelectionHref = legalSelection
     ? withBasePath(`/library/templates/${encodeURIComponent(legalSelection.groupKey)}`)
     : withBasePath("/library/templates");
+  const caseDriveFolderHref = buildGoogleDriveFolderHref(item.googleDriveFolderId);
 
   async function submitDocumentEntry(
     _previousState: { status: "idle" | "success" | "error"; message: string; mode: "drive" | "upload" },
@@ -180,6 +186,23 @@ export default async function CaseDetailPage({
     }
   }
 
+  async function saveCaseDriveFolder(formData: FormData) {
+    "use server";
+
+    const cookieStore = await cookies();
+    const staffProfile = await resolveSupabaseStaffSessionFromCookies(cookieStore);
+
+    if (!staffProfile) {
+      redirect(withBasePath("/team-login"));
+    }
+
+    const driveFolderInput = String(formData.get("googleDriveFolderId") ?? "");
+    await updateCaseGoogleDriveFolder(id, driveFolderInput);
+    revalidatePath(`/cases/${id}`);
+    revalidatePath(`/cases/${id}/intake`);
+    redirect(withBasePath(`/cases/${id}`));
+  }
+
   return (
     <main>
       <div className="shell">
@@ -249,6 +272,34 @@ export default async function CaseDetailPage({
             <p className="eyebrow">Summary</p>
             <h2>Deal context</h2>
             <p>{item.propertySummary || "No property summary yet."}</p>
+          </div>
+
+          <div className="panel">
+            <p className="eyebrow">Case Drive Workspace</p>
+            <h2>Attach the main folder once and reuse it everywhere</h2>
+            <p>
+              Set the primary Google Drive folder for this case here. Turicum can then point intake,
+              validation, and document work back to the same workspace instead of relying on pasted links.
+            </p>
+            <form action={saveCaseDriveFolder} className="form-grid">
+              <label className="field">
+                <span>Case Google Drive folder</span>
+                <input
+                  name="googleDriveFolderId"
+                  type="text"
+                  defaultValue={item.googleDriveFolderId ?? ""}
+                  placeholder="Drive folder ID or full Google Drive folder URL"
+                />
+              </label>
+              <div className="form-actions">
+                <button type="submit">Save case Drive folder</button>
+                {caseDriveFolderHref ? (
+                  <a className="secondary-button" href={caseDriveFolderHref} target="_blank" rel="noreferrer">
+                    Open case Drive folder
+                  </a>
+                ) : null}
+              </div>
+            </form>
           </div>
 
           <div className="panel">
@@ -660,7 +711,7 @@ export default async function CaseDetailPage({
           </table>
         </section>
 
-        <section className="two-up">
+        <section className="three-up">
           <div className="panel">
             <p className="eyebrow">Document Intake</p>
             <h2>Add the next document without leaving the case</h2>

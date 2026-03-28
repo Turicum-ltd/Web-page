@@ -29,6 +29,7 @@ interface StoredCaseRecord {
   propertySummary: string;
   requestedAmount: string;
   sourceType: string;
+  googleDriveFolderId?: string;
 }
 
 interface StoredCaseChecklistItemRecord extends CaseChecklistItemRecord {}
@@ -163,7 +164,8 @@ function mapSupabaseRow(row: Record<string, unknown>): CaseRecord {
             maximumFractionDigits: 0
           })
         : "$0",
-    sourceType: String(row.source_type ?? "")
+    sourceType: String(row.source_type ?? ""),
+    googleDriveFolderId: typeof row.google_drive_folder_id === "string" ? row.google_drive_folder_id : undefined
   };
 }
 
@@ -183,7 +185,7 @@ export async function listCases(): Promise<CaseRecord[]> {
     const { data, error } = await supabase
       .from(CASES_TABLE)
       .select(
-        "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type"
+        "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type, google_drive_folder_id"
       )
       .order("created_at", { ascending: false });
 
@@ -218,7 +220,7 @@ export async function getCaseById(caseId: string): Promise<CaseRecord | null> {
     const { data, error } = await supabase
       .from(CASES_TABLE)
       .select(
-        "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type"
+        "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type, google_drive_folder_id"
       )
       .eq("id", caseId)
       .maybeSingle();
@@ -383,18 +385,19 @@ export async function createCase(input: NewCaseInput): Promise<CaseRecord> {
 
   if (!supabase) {
     const cases = await readLocalCases();
-    const newCase: StoredCaseRecord = {
-      id: randomUUID(),
-      code,
-      title,
-      state: cleanedState,
+      const newCase: StoredCaseRecord = {
+        id: randomUUID(),
+        code,
+        title,
+        state: cleanedState,
       structureType,
       status: "lead",
-      stage: "lead_intake",
-      propertySummary,
-      requestedAmount,
-      sourceType
-    };
+        stage: "lead_intake",
+        propertySummary,
+        requestedAmount,
+        sourceType,
+        googleDriveFolderId: undefined
+      };
 
     cases.unshift(newCase);
     await writeLocalCases(cases);
@@ -428,10 +431,11 @@ export async function createCase(input: NewCaseInput): Promise<CaseRecord> {
       status: "lead",
       summary: propertySummary,
       requested_amount: numericAmount,
-      state_pack_id: matchingPack?.id ?? null
+      state_pack_id: matchingPack?.id ?? null,
+      google_drive_folder_id: null
     })
     .select(
-      "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type"
+      "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type, google_drive_folder_id"
     )
     .single();
 
@@ -446,6 +450,45 @@ export async function createCase(input: NewCaseInput): Promise<CaseRecord> {
       matchingPack.id,
       supabase
     );
+  }
+
+  return mapSupabaseRow(data as Record<string, unknown>);
+}
+
+export async function updateCaseGoogleDriveFolder(caseId: string, googleDriveFolderId?: string | null) {
+  const normalizedFolderId = googleDriveFolderId?.trim() || undefined;
+  const supabase = getSupabaseAdmin();
+
+  if (!supabase) {
+    const cases = await readLocalCases();
+    const index = cases.findIndex((item) => item.id === caseId);
+
+    if (index === -1) {
+      throw new Error("Case not found.");
+    }
+
+    cases[index] = {
+      ...cases[index],
+      googleDriveFolderId: normalizedFolderId
+    };
+
+    await writeLocalCases(cases);
+    return cases[index];
+  }
+
+  const { data, error } = await supabase
+    .from(CASES_TABLE)
+    .update({
+      google_drive_folder_id: normalizedFolderId ?? null
+    })
+    .eq("id", caseId)
+    .select(
+      "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type, google_drive_folder_id"
+    )
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to update case Drive folder in Supabase: ${error.message}`);
   }
 
   return mapSupabaseRow(data as Record<string, unknown>);

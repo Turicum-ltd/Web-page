@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { TuricumNav } from "@/components/turicum/nav";
 import { clearCaseLegalSelection, getCaseLegalSelection, saveCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
+import { buildGoogleDriveFolderHref, buildGoogleDriveFileHref } from "@/lib/turicum/google-drive";
 import { buildAppUrl, withBasePath } from "@/lib/turicum/runtime";
 import { getCaseById, isSupabaseConfigured } from "@/lib/turicum/cases";
 import { getAssignedIntakeForms, getIntakeForms } from "@/lib/turicum/intake-forms";
@@ -52,36 +53,6 @@ function normalizeSignatureStatus(value: FormDataEntryValue | null): SignatureRe
     : value === "draft"
       ? "draft"
       : "prepared";
-}
-
-function buildGoogleDriveHref(folderOrFileId: string | undefined) {
-  if (!folderOrFileId) {
-    return null;
-  }
-
-  const trimmed = folderOrFileId.trim();
-  if (!trimmed) {
-    return null;
-  }
-
-  return trimmed.startsWith('http://') || trimmed.startsWith('https://')
-    ? trimmed
-    : `https://drive.google.com/drive/folders/${trimmed}`;
-}
-
-function buildGoogleDriveFileHref(fileId: string | undefined) {
-  if (!fileId) {
-    return null;
-  }
-
-  const trimmed = fileId.trim();
-  if (!trimmed) {
-    return null;
-  }
-
-  return trimmed.startsWith("http://") || trimmed.startsWith("https://")
-    ? trimmed
-    : `https://drive.google.com/file/d/${trimmed}/view`;
 }
 
 function readSearchParam(value: string | string[] | undefined) {
@@ -161,6 +132,10 @@ export default async function CaseIntakePage({
   const selectedTemplateHref = selectedTemplate.groupKey
     ? withBasePath(`/library/templates/${encodeURIComponent(selectedTemplate.groupKey)}`)
     : "";
+  const caseDriveFolderHref = buildGoogleDriveFolderHref(currentCase.googleDriveFolderId);
+  const activeDriveFolderHref = buildGoogleDriveFolderHref(
+    selectedTemplate.googleDriveFolderId || currentCase.googleDriveFolderId
+  );
   const selectedTemplateNote = selectedTemplate.precedentTitle
     ? `Use ${selectedTemplate.precedentTitle} as the starting paper for ${selectedTemplate.documentType || "the selected document family"} on ${caseItem.code}.`
     : "";
@@ -464,7 +439,21 @@ export default async function CaseIntakePage({
                 <strong>{isSupabaseConfigured() ? "Supabase" : "Local fallback"}</strong>
                 <p className="helper">Borrower portal packets currently persist in local JSON while cases stay live in Supabase.</p>
               </div>
+              <div className="status-card">
+                <p className="eyebrow">Case Drive folder</p>
+                <strong>{caseDriveFolderHref ? "attached" : "not set"}</strong>
+                <p className="helper">
+                  {caseDriveFolderHref ? "The main case workspace is ready for packet and diligence references." : "Attach the case Drive folder on the case detail page to anchor the workspace."}
+                </p>
+              </div>
             </div>
+            {caseDriveFolderHref ? (
+              <div className="form-actions" style={{ marginTop: 14 }}>
+                <a className="secondary-button" href={caseDriveFolderHref} target="_blank" rel="noreferrer">
+                  Open case Drive folder
+                </a>
+              </div>
+            ) : null}
           </div>
         </section>
 
@@ -653,8 +642,8 @@ export default async function CaseIntakePage({
                       <button type="submit" className="secondary-button">Clear saved template</button>
                     </form>
                   ) : null}
-                  {buildGoogleDriveHref(selectedTemplate.googleDriveFolderId) ? (
-                    <a className="secondary-button" href={buildGoogleDriveHref(selectedTemplate.googleDriveFolderId) ?? "#"} target="_blank" rel="noreferrer">
+                  {activeDriveFolderHref ? (
+                    <a className="secondary-button" href={activeDriveFolderHref} target="_blank" rel="noreferrer">
                       Open Drive folder
                     </a>
                   ) : null}
@@ -830,10 +819,10 @@ export default async function CaseIntakePage({
                           {request.googleDriveFolderId ? (
                             <div className="helper">
                               <strong>Drive:</strong> {request.googleDriveFolderId}
-                              {buildGoogleDriveHref(request.googleDriveFolderId) ? (
+                              {buildGoogleDriveFolderHref(request.googleDriveFolderId) ? (
                                 <>
                                   {' '}·{' '}
-                                  <a href={buildGoogleDriveHref(request.googleDriveFolderId) ?? '#'} target="_blank" rel="noreferrer">Open Drive folder</a>
+                                  <a href={buildGoogleDriveFolderHref(request.googleDriveFolderId) ?? '#'} target="_blank" rel="noreferrer">Open Drive folder</a>
                                 </>
                               ) : null}
                             </div>
