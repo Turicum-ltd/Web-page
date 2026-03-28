@@ -1,7 +1,7 @@
 import "server-only";
 
 import { randomUUID } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   getBorrowerPortalInviteByToken,
@@ -62,6 +62,7 @@ function normalizeSignatureRequests(requests: SignatureRequestRecord[] | undefin
 }
 
 async function readBorrowerPortals(): Promise<StoredBorrowerPortalRecord[]> {
+  await ensureBorrowerPortalsFile();
   const raw = await readFile(BORROWER_PORTALS_PATH, "utf8");
   return (JSON.parse(raw) as StoredBorrowerPortalRecord[]).map((portal) => ({
     ...portal,
@@ -70,7 +71,21 @@ async function readBorrowerPortals(): Promise<StoredBorrowerPortalRecord[]> {
 }
 
 async function writeBorrowerPortals(items: StoredBorrowerPortalRecord[]) {
+  await ensureBorrowerPortalsFile();
   await writeFile(BORROWER_PORTALS_PATH, JSON.stringify(items, null, 2) + "\n", "utf8");
+}
+
+async function ensureBorrowerPortalsFile() {
+  try {
+    await readFile(BORROWER_PORTALS_PATH, "utf8");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw error;
+    }
+
+    await mkdir(path.dirname(BORROWER_PORTALS_PATH), { recursive: true });
+    await writeFile(BORROWER_PORTALS_PATH, "[]\n", "utf8");
+  }
 }
 
 function defaultAssignedForms(): IntakeFormCode[] {
