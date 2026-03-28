@@ -94,9 +94,9 @@ export function TuricumPortalOverview() {
             <div className="turicum-landing-hero-grid">
               <div className="turicum-landing-copy">
                 <p className="eyebrow">Turicum Asset-Based Lending</p>
-                <h1>Asset-based real estate lending for fast-moving borrowers and first-lien-focused investors.</h1>
+                <h1>Asset-based real estate lending for decisive borrowers and first-lien-focused investors.</h1>
                 <p className="turicum-marketing-lede">
-                  Purchase, bridge, and refinance loans move through a direct borrower path. Investors enter a separate lane built around first-lien structure, promoted opportunities, and disciplined servicing visibility.
+                  Purchase, bridge, and refinance loans move through a direct borrower path. Investors enter a separate lane built around promoted opportunities, first-lien structure, and disciplined servicing visibility.
                 </p>
                 <div className="form-actions turicum-inline-actions">
                   <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal")}>
@@ -114,35 +114,39 @@ export function TuricumPortalOverview() {
               </div>
 
               <div className="turicum-landing-visual">
-              <div
-                className="turicum-landing-image"
-                style={{
-                  backgroundImage: `linear-gradient(180deg, rgba(8, 12, 18, 0.06), rgba(8, 12, 18, 0.44)), url(${landingHeroArt})`,
-                  backgroundPosition: "58% center"
-                }}
-                aria-hidden="true"
-              />
+                <div
+                  className="turicum-landing-image"
+                  style={{
+                    backgroundImage: `linear-gradient(180deg, rgba(8, 12, 18, 0.08), rgba(8, 12, 18, 0.46)), url(${landingHeroArt})`,
+                    backgroundPosition: "58% center"
+                  }}
+                  aria-hidden="true"
+                />
+                <div className="turicum-landing-caption">
+                  <span className="eyebrow">Private-credit discipline</span>
+                  <p>Fast borrower intake outside. Structured underwriting and protected investor visibility inside.</p>
+                </div>
+              </div>
             </div>
-          </div>
           </div>
         </section>
 
         <div className="turicum-page-rail turicum-page-flow">
-          <section className="turicum-lane-intro">
-            <p className="eyebrow">Two lanes</p>
+          <section className="turicum-section-intro">
+            <p className="eyebrow">Two clear lanes</p>
+            <h2>One public borrower path. One investor lane. No marketplace clutter.</h2>
             <p>
-              Borrowers start with fit, speed, and a direct call. Investors review a cleaner promoted lane built around first-lien structure and servicing visibility.
+              The public site should feel concise and high-trust: explain the fit, show the structure,
+              and move the right person into the right lane.
             </p>
           </section>
 
-          <section className="turicum-lanes">
+          <section className="turicum-lanes-split">
             {audienceLanes.map((lane) => (
               <article key={lane.title} className="turicum-lane">
-                <div className="stack-sm">
-                  <p className="eyebrow">{lane.eyebrow}</p>
-                  <h2>{lane.title}</h2>
-                  <p className="helper">{lane.description}</p>
-                </div>
+                <p className="eyebrow">{lane.eyebrow}</p>
+                <h3>{lane.title}</h3>
+                <p className="turicum-lane-copy">{lane.description}</p>
                 <ul className="turicum-lane-list">
                   {lane.bullets.map((bullet) => (
                     <li key={bullet}>{bullet}</li>
@@ -162,41 +166,44 @@ export function TuricumPortalOverview() {
             ))}
           </section>
 
-          <section className="turicum-foundation-grid">
-            <section className="turicum-foundation-block">
-              <p className="eyebrow">Why Turicum</p>
-              <h2>Built to keep the public story clean and the underwriting story disciplined.</h2>
-              <div className="turicum-foundation-list">
-                {whyTuricum.map((item) => (
-                  <article key={item.title} className="turicum-foundation-item">
-                    <strong>{item.title}</strong>
-                    <p className="helper">{item.description}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            <section id="how-it-works" className="turicum-foundation-block">
+          <section id="how-it-works" className="turicum-process-section">
+            <div className="turicum-section-intro compact">
               <p className="eyebrow">How it works</p>
               <h2>A simple path from first call to closing, with a separate promoted lane for investors.</h2>
-              <div className="turicum-sequence-list">
-                {publicSequence.map((step) => (
-                  <div key={step.label} className="turicum-sequence-item">
-                    <div className="turicum-step-number">{step.label}</div>
-                    <div>
-                      <h3>{step.title}</h3>
-                      <p className="helper">{step.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+            </div>
+            <div className="turicum-process-steps">
+              {publicSequence.map((step) => (
+                <article key={step.label} className="turicum-process-step">
+                  <span className="turicum-step-number">{step.label}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </article>
+              ))}
+            </div>
+            <p className="turicum-process-note">
+              {whyTuricum[2]?.description}
+            </p>
           </section>
 
-          <div className="turicum-home-footer">
-            <p className="helper">Borrowers can review the fit and request a first call. Investors can review the lane and then enter the secure portal.</p>
-            <p className="helper turicum-team-note">Team sign-in for the protected staff layer is available <Link href={withBasePath("/team-login")}>here</Link>.</p>
-          </div>
+          <section className="turicum-landing-cta">
+            <p className="eyebrow">Start in the right lane</p>
+            <h2>Borrowers begin with fit. Investors begin with the promoted lane.</h2>
+            <p>
+              Keep the public promise concise, keep the internal workflow protected, and keep investor
+              visibility disciplined.
+            </p>
+            <div className="form-actions turicum-inline-actions">
+              <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal")}>
+                Borrower path
+              </Link>
+              <Link className="secondary-button" href={withBasePath("/investors")}>
+                Investor portal
+              </Link>
+            </div>
+            <p className="helper turicum-team-note">
+              Team sign-in for the protected staff layer is available <Link href={withBasePath("/team-login")}>here</Link>.
+            </p>
+          </section>
         </div>
       </div>
     </main>
