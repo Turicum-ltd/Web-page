@@ -429,3 +429,43 @@ export async function grantInvestorCaseAccess(input: {
     throw new Error(`Failed to grant investor access: ${error.message}`);
   }
 }
+
+export async function setUserProfileActiveState(input: {
+  userId: string;
+  isActive: boolean;
+}) {
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase
+    .from("turicum_user_profiles")
+    .update({ is_active: input.isActive })
+    .eq("user_id", input.userId);
+
+  if (error) {
+    throw new Error(`Failed to update Turicum user status: ${error.message}`);
+  }
+}
+
+export async function revokeInvestorCaseAccess(grantId: string) {
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase
+    .from("turicum_case_access_grants")
+    .delete()
+    .eq("id", grantId);
+
+  if (error) {
+    throw new Error(`Failed to revoke investor access: ${error.message}`);
+  }
+}
+
+export async function revokeBorrowerInvite(inviteId: string) {
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase
+    .from("turicum_borrower_portal_invites")
+    .update({ revoked_at: new Date().toISOString() })
+    .eq("id", inviteId)
+    .is("revoked_at", null);
+
+  if (error) {
+    throw new Error(`Failed to revoke borrower invite: ${error.message}`);
+  }
+}

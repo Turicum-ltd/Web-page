@@ -9,6 +9,9 @@ import {
   createOrUpdateStaffUser,
   getAccessAdminSnapshot,
   grantInvestorCaseAccess,
+  revokeBorrowerInvite,
+  revokeInvestorCaseAccess,
+  setUserProfileActiveState,
   type StaffRole
 } from "@/lib/turicum/access-admin";
 import { resolveSupabaseStaffSessionFromCookies } from "@/lib/turicum/staff-supabase-auth";
@@ -33,6 +36,8 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
   if (!staffSession || staffSession.role !== "staff_admin") {
     redirect(withBasePath("/review"));
   }
+
+  const adminUserId = staffSession.userId;
 
   const params = (await searchParams) ?? {};
   const status = readString(params.status);
@@ -85,6 +90,41 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
 
     revalidatePath(withBasePath("/access"));
     redirect(withBasePath("/access?status=grant-saved"));
+  }
+
+  async function toggleUserStatus(formData: FormData) {
+    "use server";
+
+    const userId = String(formData.get("userId") ?? "");
+    const nextIsActive = String(formData.get("nextIsActive") ?? "") === "true";
+
+    if (userId === adminUserId && !nextIsActive) {
+      redirect(withBasePath("/access?status=self-blocked"));
+    }
+
+    await setUserProfileActiveState({
+      userId,
+      isActive: nextIsActive
+    });
+
+    revalidatePath(withBasePath("/access"));
+    redirect(withBasePath(`/access?status=${nextIsActive ? "user-activated" : "user-deactivated"}`));
+  }
+
+  async function revokeGrant(formData: FormData) {
+    "use server";
+
+    await revokeInvestorCaseAccess(String(formData.get("grantId") ?? ""));
+    revalidatePath(withBasePath("/access"));
+    redirect(withBasePath("/access?status=grant-revoked"));
+  }
+
+  async function revokeInvite(formData: FormData) {
+    "use server";
+
+    await revokeBorrowerInvite(String(formData.get("inviteId") ?? ""));
+    revalidatePath(withBasePath("/access"));
+    redirect(withBasePath("/access?status=invite-revoked"));
   }
 
   return (
@@ -146,6 +186,16 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                   ? "Investor account saved."
                   : status === "grant-saved"
                     ? "Investor case grant saved."
+                    : status === "user-deactivated"
+                      ? "User deactivated."
+                      : status === "user-activated"
+                        ? "User reactivated."
+                        : status === "grant-revoked"
+                          ? "Investor case grant revoked."
+                          : status === "invite-revoked"
+                            ? "Borrower invite revoked."
+                            : status === "self-blocked"
+                              ? "You cannot deactivate your own admin account here."
                     : "Access update saved."}
             </strong>
             <p className="helper">The access tables and account metadata have been refreshed.</p>
@@ -279,6 +329,12 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                     {invite.revokedAt ? " · revoked" : ""}
                     {invite.claimedAt ? " · claimed" : ""}
                   </span>
+                  {!invite.revokedAt ? (
+                    <form action={revokeInvite} className="form-actions" style={{ marginTop: 8 }}>
+                      <input type="hidden" name="inviteId" value={invite.id} />
+                      <button type="submit">Revoke invite</button>
+                    </form>
+                  ) : null}
                 </li>
               ))}
               {snapshot.borrowerInvites.length === 0 ? (
@@ -302,8 +358,10 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                   <tr>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Status</th>
                     <th>Name</th>
                     <th>Last sign-in</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -311,8 +369,16 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                     <tr key={user.userId}>
                       <td>{user.email}</td>
                       <td>{user.role}</td>
+                      <td>{user.isActive ? "active" : "inactive"}</td>
                       <td>{user.fullName ?? "not set"}</td>
                       <td>{user.lastSignInAt ? new Date(user.lastSignInAt).toLocaleString("en-US") : "never"}</td>
+                      <td>
+                        <form action={toggleUserStatus}>
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value={user.isActive ? "false" : "true"} />
+                          <button type="submit">{user.isActive ? "Deactivate" : "Reactivate"}</button>
+                        </form>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -333,7 +399,9 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                   <tr>
                     <th>Email</th>
                     <th>Organization</th>
+                    <th>Status</th>
                     <th>Last sign-in</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -341,7 +409,15 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                     <tr key={user.userId}>
                       <td>{user.email}</td>
                       <td>{user.organization ?? "not set"}</td>
+                      <td>{user.isActive ? "active" : "inactive"}</td>
                       <td>{user.lastSignInAt ? new Date(user.lastSignInAt).toLocaleString("en-US") : "never"}</td>
+                      <td>
+                        <form action={toggleUserStatus}>
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value={user.isActive ? "false" : "true"} />
+                          <button type="submit">{user.isActive ? "Deactivate" : "Reactivate"}</button>
+                        </form>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -363,6 +439,10 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                     {grant.caseTitle}
                     {grant.expiresAt ? ` · expires ${new Date(grant.expiresAt).toLocaleString("en-US")}` : " · no expiry"}
                   </span>
+                  <form action={revokeGrant} className="form-actions" style={{ marginTop: 8 }}>
+                    <input type="hidden" name="grantId" value={grant.id} />
+                    <button type="submit">Revoke grant</button>
+                  </form>
                 </li>
               ))}
               {snapshot.investorGrants.length === 0 ? (
