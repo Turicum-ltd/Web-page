@@ -2578,25 +2578,27 @@ code {
 .turicum-public-shell .form-actions button {
   width: auto;
   min-width: 0;
-  padding: 13px 20px;
-  background: rgba(15, 21, 31, 0.88);
-  border-color: rgba(189, 204, 223, 0.12);
+  padding: 12px 19px;
+  background: rgba(21, 28, 39, 0.72);
+  border-color: rgba(206, 218, 234, 0.16);
   box-shadow: none;
   font-weight: 600;
-  letter-spacing: 0;
+  letter-spacing: 0.01em;
 }
 
 .turicum-public-shell .secondary-button:hover,
 .turicum-public-shell .form-actions button:hover {
-  border-color: rgba(189, 204, 223, 0.28);
+  border-color: rgba(222, 232, 244, 0.3);
   transform: translateY(-1px);
+  background: rgba(24, 31, 43, 0.82);
 }
 
 .turicum-public-shell .turicum-primary-button {
-  background: linear-gradient(180deg, rgba(240, 245, 251, 0.98), rgba(218, 228, 240, 0.96));
-  color: #0c1520;
-  border-color: rgba(255, 255, 255, 0.42);
+  background: linear-gradient(180deg, rgba(246, 249, 252, 0.98), rgba(228, 235, 243, 0.96));
+  color: #0e1621;
+  border-color: rgba(255, 255, 255, 0.56);
   font-weight: 700;
+  box-shadow: 0 10px 24px rgba(5, 8, 13, 0.18);
 }
 
 .turicum-public-shell .tag {
@@ -2633,8 +2635,8 @@ code {
   padding: 22px 0 38px;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(12, 17, 25, 0.99), rgba(7, 11, 18, 0.99)),
-    radial-gradient(circle at 78% 12%, rgba(122, 166, 224, 0.12), transparent 24%);
+    linear-gradient(180deg, rgba(16, 22, 31, 0.985), rgba(11, 16, 24, 0.985)),
+    radial-gradient(circle at 78% 12%, rgba(122, 166, 224, 0.1), transparent 24%);
 }
 
 .turicum-landing-hero::before {
@@ -2659,8 +2661,52 @@ code {
 .turicum-landing-hero .turicum-classic-nav {
   position: relative;
   z-index: 1;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(198, 210, 225, 0.12);
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(198, 210, 225, 0.1);
+}
+
+.turicum-public-shell .turicum-classic-brand {
+  gap: 14px;
+}
+
+.turicum-public-shell .turicum-brand-descriptor {
+  color: rgba(208, 219, 233, 0.58);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+}
+
+.turicum-public-shell .turicum-classic-links {
+  gap: 14px;
+}
+
+.turicum-public-shell .turicum-classic-links a {
+  position: relative;
+  color: rgba(214, 224, 236, 0.68);
+  font-size: 0.78rem;
+  font-weight: 560;
+  letter-spacing: 0.015em;
+  text-decoration: none;
+}
+
+.turicum-public-shell .turicum-classic-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: rgba(230, 238, 247, 0.45);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 180ms ease;
+}
+
+.turicum-public-shell .turicum-classic-links a:hover {
+  color: rgba(238, 243, 249, 0.92);
+}
+
+.turicum-public-shell .turicum-classic-links a:hover::after {
+  transform: scaleX(1);
 }
 
 .turicum-landing-hero-grid {
@@ -2732,9 +2778,9 @@ code {
   inset: 0;
   min-height: clamp(400px, 50vw, 620px);
   border-radius: 30px;
-  border: 1px solid rgba(198, 210, 225, 0.12);
+  border: 1px solid rgba(198, 210, 225, 0.1);
   background-size: cover;
-  box-shadow: 0 34px 74px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 28px 58px rgba(0, 0, 0, 0.18);
 }
 
 .turicum-landing-caption {
@@ -2771,7 +2817,7 @@ code {
 .turicum-landing-cta p:not(.eyebrow):not(.helper) {
   margin: 0;
   max-width: 36rem;
-  color: rgba(225, 232, 240, 0.8);
+  color: rgba(221, 230, 240, 0.76);
 }
 
 .turicum-section-intro.compact {
@@ -2876,7 +2922,7 @@ code {
 
 .turicum-process-step p,
 .turicum-process-note {
-  color: rgba(221, 230, 241, 0.8);
+  color: rgba(219, 228, 239, 0.75);
 }
 
 .turicum-process-note {
