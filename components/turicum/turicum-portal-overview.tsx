@@ -18,9 +18,9 @@ const audienceLanes = [
   },
   {
     eyebrow: "For investors",
-    title: "Access promoted first-lien asset-based real estate debt.",
+    title: "Review promoted first-lien real estate opportunities.",
     description:
-      "A dedicated capital-partner lane with promoted opportunities, first-lien visibility, and disciplined servicing updates after promotion.",
+      "A dedicated capital-partner lane for promoted opportunities, first-lien structure, and disciplined servicing updates after promotion.",
     bullets: [
       "10% return structure",
       "First-lien collateral focus",
@@ -187,10 +187,10 @@ export function TuricumPortalOverview() {
 
           <section className="turicum-landing-cta">
             <p className="eyebrow">Start in the right lane</p>
-            <h2>Borrowers begin with fit. Investors begin with the promoted lane.</h2>
+            <h2>Choose the right lane from the start.</h2>
             <p>
-              Keep the public promise concise, keep the internal workflow protected, and keep investor
-              visibility disciplined.
+              Borrowers start with fit and speed. Investors enter the promoted lane once a matter is
+              ready for capital.
             </p>
             <div className="form-actions turicum-inline-actions">
               <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal")}>
