@@ -2,6 +2,7 @@ import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
 import { listCases } from "@/lib/turicum/cases";
+import { getBorrowerPortalForCase, saveBorrowerPortalSetup } from "@/lib/turicum/intake";
 import type { CaseRecord } from "@/lib/turicum/types";
 
 export type StaffRole = "staff_admin" | "staff_ops" | "staff_counsel";
@@ -468,4 +469,26 @@ export async function revokeBorrowerInvite(inviteId: string) {
   if (error) {
     throw new Error(`Failed to revoke borrower invite: ${error.message}`);
   }
+}
+
+export async function createOrUpdateBorrowerInvite(input: {
+  caseId: string;
+  borrowerName: string;
+  borrowerEmail: string;
+  portalTitle?: string;
+}) {
+  const portal = await getBorrowerPortalForCase(input.caseId);
+
+  if (!portal) {
+    throw new Error("Borrower portal case not found.");
+  }
+
+  const updated = await saveBorrowerPortalSetup(input.caseId, {
+    borrowerName: input.borrowerName.trim(),
+    borrowerEmail: normalizeEmail(input.borrowerEmail),
+    portalTitle: input.portalTitle?.trim() || portal.portalTitle,
+    assignedForms: portal.assignedForms
+  });
+
+  return updated;
 }

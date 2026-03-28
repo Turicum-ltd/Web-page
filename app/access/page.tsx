@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { TuricumNav } from "@/components/turicum/nav";
 import {
+  createOrUpdateBorrowerInvite,
   createOrUpdateInvestorUser,
   createOrUpdateStaffUser,
   getAccessAdminSnapshot,
@@ -41,6 +42,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
 
   const params = (await searchParams) ?? {};
   const status = readString(params.status);
+  const borrowerToken = readString(params.borrowerToken);
   let accessAdminError: string | null = null;
   let snapshot = null as Awaited<ReturnType<typeof getAccessAdminSnapshot>> | null;
 
@@ -90,6 +92,24 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
 
     revalidatePath(withBasePath("/access"));
     redirect(withBasePath("/access?status=grant-saved"));
+  }
+
+  async function saveBorrowerInvite(formData: FormData) {
+    "use server";
+
+    const portal = await createOrUpdateBorrowerInvite({
+      caseId: String(formData.get("caseId") ?? ""),
+      borrowerName: String(formData.get("borrowerName") ?? ""),
+      borrowerEmail: String(formData.get("borrowerEmail") ?? ""),
+      portalTitle: String(formData.get("portalTitle") ?? "")
+    });
+
+    revalidatePath(withBasePath("/access"));
+    redirect(
+      withBasePath(
+        `/access?status=borrower-saved&borrowerToken=${encodeURIComponent(portal.accessToken)}`
+      )
+    );
   }
 
   async function toggleUserStatus(formData: FormData) {
@@ -194,11 +214,23 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                           ? "Investor case grant revoked."
                           : status === "invite-revoked"
                             ? "Borrower invite revoked."
+                            : status === "borrower-saved"
+                              ? "Borrower invite created."
                             : status === "self-blocked"
                               ? "You cannot deactivate your own admin account here."
                     : "Access update saved."}
             </strong>
-            <p className="helper">The access tables and account metadata have been refreshed.</p>
+            <p className="helper">
+              The access tables and account metadata have been refreshed.
+              {status === "borrower-saved" && borrowerToken ? (
+                <>
+                  {" "}Share the borrower portal here:{" "}
+                  <a href={withBasePath(`/borrower/${borrowerToken}`)}>
+                    {withBasePath(`/borrower/${borrowerToken}`)}
+                  </a>
+                </>
+              ) : null}
+            </p>
           </section>
         ) : null}
 
@@ -316,7 +348,47 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             <div className="section-head">
               <div>
                 <p className="eyebrow">Borrower links</p>
-                <h2>Borrower invite ledger</h2>
+                <h2>Create the first borrower invite and track the ledger</h2>
+              </div>
+            </div>
+            <form action={saveBorrowerInvite} className="form-grid">
+              <label className="field">
+                <span>Case</span>
+                <select name="caseId" required defaultValue="">
+                  <option value="" disabled>
+                    Select a case
+                  </option>
+                  {snapshot.cases.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.code} · {item.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="field">
+                <span>Borrower name</span>
+                <input name="borrowerName" type="text" required />
+              </label>
+              <label className="field">
+                <span>Borrower email</span>
+                <input name="borrowerEmail" type="email" required />
+              </label>
+              <label className="field">
+                <span>Portal title</span>
+                <input name="portalTitle" type="text" placeholder="Optional custom title" />
+              </label>
+              <div className="form-actions">
+                <button type="submit">Create borrower invite</button>
+              </div>
+            </form>
+            <p className="helper">
+              This initializes the borrower portal if needed, stores the borrower contact, and syncs
+              the invite into the Supabase ledger.
+            </p>
+            <div className="section-head" style={{ marginTop: 24 }}>
+              <div>
+                <p className="eyebrow">Borrower ledger</p>
+                <h2>Current borrower invite records</h2>
               </div>
             </div>
             <ul className="list compact-list">
