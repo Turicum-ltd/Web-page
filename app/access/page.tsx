@@ -36,7 +36,15 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
 
   const params = (await searchParams) ?? {};
   const status = readString(params.status);
-  const snapshot = await getAccessAdminSnapshot();
+  let accessAdminError: string | null = null;
+  let snapshot = null as Awaited<ReturnType<typeof getAccessAdminSnapshot>> | null;
+
+  try {
+    snapshot = await getAccessAdminSnapshot();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown access admin error.";
+    accessAdminError = message;
+  }
 
   async function saveStaffUser(formData: FormData) {
     "use server";
@@ -98,23 +106,36 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
               <div className="dashboard-band">
                 <div className="band-card">
                   <p className="eyebrow">Staff</p>
-                  <strong>{snapshot.staffUsers.length}</strong>
+                  <strong>{snapshot?.staffUsers.length ?? "—"}</strong>
                   <p className="helper">named internal accounts</p>
                 </div>
                 <div className="band-card">
                   <p className="eyebrow">Investors</p>
-                  <strong>{snapshot.investorUsers.length}</strong>
+                  <strong>{snapshot?.investorUsers.length ?? "—"}</strong>
                   <p className="helper">portal identities</p>
                 </div>
                 <div className="band-card">
                   <p className="eyebrow">Borrower invites</p>
-                  <strong>{snapshot.borrowerInvites.length}</strong>
+                  <strong>{snapshot?.borrowerInvites.length ?? "—"}</strong>
                   <p className="helper">tracked external links</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+        {accessAdminError ? (
+          <section className="panel subtle">
+            <strong>Access admin could not load on this deployment yet.</strong>
+            <p className="helper">
+              {accessAdminError}
+            </p>
+            <p className="helper">
+              Check that `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, and the
+              publishable key are present on the live deployment, then redeploy.
+            </p>
+          </section>
+        ) : null}
 
         {status ? (
           <section className="panel subtle">
@@ -131,6 +152,8 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
           </section>
         ) : null}
 
+        {!snapshot ? null : (
+          <>
         <section className="two-up">
           <div className="panel lead">
             <div className="section-head">
@@ -348,6 +371,8 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             </ul>
           </div>
         </section>
+          </>
+        )}
       </div>
     </main>
   );
