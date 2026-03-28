@@ -3,6 +3,11 @@ import "server-only";
 import { randomUUID } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import {
+  getBorrowerPortalInviteByToken,
+  isBorrowerInviteActive,
+  syncBorrowerPortalInvite
+} from "@/lib/turicum/borrower-invite-access";
 import { getCaseById } from "@/lib/turicum/cases";
 import { listCaseDocuments } from "@/lib/turicum/case-documents";
 import { countAnsweredFields, getIntakeForm, getIntakeForms } from "@/lib/turicum/intake-forms";
@@ -230,6 +235,7 @@ export async function getBorrowerPortalForCase(caseId: string): Promise<Borrower
   const portal = createBlankPortal(caseRecord);
   items.unshift(portal);
   await writeBorrowerPortals(items);
+  await syncBorrowerPortalInvite(portal);
   return portal;
 }
 
@@ -237,7 +243,22 @@ export async function getBorrowerPortalByToken(
   accessToken: string
 ): Promise<BorrowerPortalRecord | null> {
   const items = await readBorrowerPortals();
-  return items.find((item) => item.accessToken === accessToken) ?? null;
+  const portal = items.find((item) => item.accessToken === accessToken) ?? null;
+
+  if (!portal) {
+    return null;
+  }
+
+  const invite = await getBorrowerPortalInviteByToken(accessToken);
+  if (invite && !isBorrowerInviteActive(invite)) {
+    return null;
+  }
+
+  if (!invite && portal.borrowerEmail.trim()) {
+    await syncBorrowerPortalInvite(portal);
+  }
+
+  return portal;
 }
 
 export async function getBorrowerPortalByCaseId(
@@ -283,6 +304,7 @@ export async function saveBorrowerPortalSetup(
 
   items[index] = updated;
   await writeBorrowerPortals(items);
+  await syncBorrowerPortalInvite(updated);
   return updated;
 }
 
@@ -329,6 +351,7 @@ export async function submitBorrowerPortalForm(
 
   items[index] = updated;
   await writeBorrowerPortals(items);
+  await syncBorrowerPortalInvite(updated);
   return updated;
 }
 
@@ -381,6 +404,7 @@ export async function createSignatureRequest(
 
   items[index] = updated;
   await writeBorrowerPortals(items);
+  await syncBorrowerPortalInvite(updated);
   return request;
 }
 
@@ -435,6 +459,7 @@ export async function updateSignatureRequestStatus(
 
   items[index] = updated;
   await writeBorrowerPortals(items);
+  await syncBorrowerPortalInvite(updated);
   return updated;
 }
 
