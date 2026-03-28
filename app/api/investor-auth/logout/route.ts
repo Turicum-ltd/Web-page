@@ -1,13 +1,17 @@
 export const dynamic = "force-dynamic";
 
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import {
   invalidateInvestorSession,
   INVESTOR_SESSION_COOKIE
 } from "@/lib/turicum/investor-auth";
+import {
+  createSupabaseInvestorRouteClient,
+  isSupabaseInvestorAuthConfigured
+} from "@/lib/turicum/investor-supabase-auth";
 import { buildAppUrl } from "@/lib/turicum/runtime";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const cookieHeader = request.headers.get("cookie") ?? "";
   const token = cookieHeader
     .split(";")
@@ -22,6 +26,16 @@ export async function POST(request: Request) {
   const response = NextResponse.redirect(buildAppUrl(request, "/investors?logged_out=1"), {
     status: 303
   });
+
+  if (isSupabaseInvestorAuthConfigured()) {
+    try {
+      const supabase = createSupabaseInvestorRouteClient(request, response);
+      await supabase?.auth.signOut();
+    } catch (error) {
+      console.error("Turicum Supabase investor sign-out failed", error);
+    }
+  }
+
   response.cookies.set({
     name: INVESTOR_SESSION_COOKIE,
     value: "",

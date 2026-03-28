@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { listCases } from "@/lib/turicum/cases";
 import { getInvestorUserForSessionToken, INVESTOR_SESSION_COOKIE } from "@/lib/turicum/investor-auth";
+import { resolveSupabaseInvestorSessionFromCookies } from "@/lib/turicum/investor-supabase-auth";
 import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
 import { getCaseServicingRecord } from "@/lib/turicum/lifecycle";
 import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
@@ -65,7 +66,10 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
   const params = (await searchParams) ?? {};
   const cookieStore = await cookies();
   const token = cookieStore.get(INVESTOR_SESSION_COOKIE)?.value;
-  const investorUser = token ? await getInvestorUserForSessionToken(token) : null;
+  const supabaseSession = await resolveSupabaseInvestorSessionFromCookies(cookieStore);
+  const legacyInvestorUser = token ? await getInvestorUserForSessionToken(token) : null;
+  const investorUser = supabaseSession.investor ?? legacyInvestorUser;
+  const grantedCaseIds = new Set(supabaseSession.grantedCaseIds);
   const heroArt = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80";
 
   if (!investorUser) {
@@ -154,13 +158,13 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
               {error === "invalid" ? (
                 <div className="panel subtle">
                   <strong>Sign-in details were not accepted.</strong>
-                  <p className="helper">Use the investor credentials issued by Turicum.</p>
+                  <p className="helper">Use the investor account issued by Turicum for this portal.</p>
                 </div>
               ) : null}
               {error === "unavailable" ? (
                 <div className="panel subtle">
                   <strong>Investor sign-in is not configured on this deployment yet.</strong>
-                  <p className="helper">Set the Turicum investor auth environment variables, then try again.</p>
+                  <p className="helper">Configure Supabase investor auth for this deployment, or keep the temporary fallback investor auth env vars in place during cutover.</p>
                 </div>
               ) : null}
               {loggedOut ? (
@@ -199,8 +203,9 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
     }))
   );
   const visibleCases = featuredCases.filter(
-    ({ promotion, servicing }) =>
-      Boolean(promotion?.status && promotion.status !== "pending") || Boolean(servicing)
+    ({ item, promotion, servicing }) =>
+      (supabaseSession.investor ? grantedCaseIds.has(item.id) : true) &&
+      (Boolean(promotion?.status && promotion.status !== "pending") || Boolean(servicing))
   );
 
   return (
