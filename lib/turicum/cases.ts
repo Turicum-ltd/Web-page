@@ -1,7 +1,7 @@
 import "server-only";
 
 import { randomUUID } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import type {
@@ -15,6 +15,8 @@ import { getStatePackByCode } from "@/lib/turicum/state-packs";
 const ROOT = process.cwd();
 const CASES_PATH = path.join(ROOT, "data", "cases.json");
 const CASE_CHECKLIST_ITEMS_PATH = path.join(ROOT, "data", "case-checklist-items.json");
+const CASES_TABLE = "cases";
+const CASE_CHECKLIST_ITEMS_TABLE = "case_checklist_items";
 
 interface StoredCaseRecord {
   id: string;
@@ -71,7 +73,29 @@ function isRecoverableSupabaseError(error: unknown) {
   );
 }
 
+function isMissingSupabaseTableError(message: string, tableName: string) {
+  const normalized = message.toLowerCase();
+  return (
+    (normalized.includes("could not find the table") && normalized.includes(tableName)) ||
+    (normalized.includes("relation") && normalized.includes(tableName) && normalized.includes("does not exist"))
+  );
+}
+
+async function ensureJsonFile(filePath: string) {
+  try {
+    await readFile(filePath, "utf8");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw error;
+    }
+
+    await mkdir(path.dirname(filePath), { recursive: true });
+    await writeFile(filePath, "[]\n", "utf8");
+  }
+}
+
 async function readLocalCases(): Promise<StoredCaseRecord[]> {
+  await ensureJsonFile(CASES_PATH);
   const raw = await readFile(CASES_PATH, "utf8");
   return JSON.parse(raw) as StoredCaseRecord[];
 }
@@ -81,6 +105,7 @@ async function writeLocalCases(cases: StoredCaseRecord[]) {
 }
 
 async function readLocalCaseChecklistItems(): Promise<StoredCaseChecklistItemRecord[]> {
+  await ensureJsonFile(CASE_CHECKLIST_ITEMS_PATH);
   const raw = await readFile(CASE_CHECKLIST_ITEMS_PATH, "utf8");
   return JSON.parse(raw) as StoredCaseChecklistItemRecord[];
 }
@@ -156,13 +181,17 @@ export async function listCases(): Promise<CaseRecord[]> {
 
   try {
     const { data, error } = await supabase
-      .from("cases")
+      .from(CASES_TABLE)
       .select(
         "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type"
       )
       .order("created_at", { ascending: false });
 
     if (error) {
+      if (isMissingSupabaseTableError(error.message, CASES_TABLE)) {
+        const cases = await readLocalCases();
+        return cases.sort((a, b) => a.code.localeCompare(b.code)).reverse();
+      }
       throw new Error(`Failed to load cases from Supabase: ${error.message}`);
     }
 
@@ -187,7 +216,7 @@ export async function getCaseById(caseId: string): Promise<CaseRecord | null> {
 
   try {
     const { data, error } = await supabase
-      .from("cases")
+      .from(CASES_TABLE)
       .select(
         "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type"
       )
@@ -195,6 +224,10 @@ export async function getCaseById(caseId: string): Promise<CaseRecord | null> {
       .maybeSingle();
 
     if (error) {
+      if (isMissingSupabaseTableError(error.message, CASES_TABLE)) {
+        const cases = await readLocalCases();
+        return cases.find((item) => item.id === caseId) ?? null;
+      }
       throw new Error(`Failed to load case from Supabase: ${error.message}`);
     }
 
@@ -219,7 +252,7 @@ export async function listCaseChecklistItems(caseId: string): Promise<CaseCheckl
 
   try {
     const { data, error } = await supabase
-      .from("case_checklist_items")
+      .from(CASE_CHECKLIST_ITEMS_TABLE)
       .select(
         "id, case_id, status, state_pack_checklist_item:state_pack_checklist_item_id (code, label, stage, required_for)"
       )
@@ -227,6 +260,10 @@ export async function listCaseChecklistItems(caseId: string): Promise<CaseCheckl
       .order("created_at", { ascending: true });
 
     if (error) {
+      if (isMissingSupabaseTableError(error.message, CASE_CHECKLIST_ITEMS_TABLE)) {
+        const items = await readLocalCaseChecklistItems();
+        return items.filter((item) => item.caseId === caseId);
+      }
       throw new Error(`Failed to load checklist items from Supabase: ${error.message}`);
     }
 
