@@ -1,6 +1,8 @@
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { CaseDocumentIntake } from "@/components/turicum/case-document-intake";
 import { TuricumNav } from "@/components/turicum/nav";
 import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
 import { assessDealProfile, getCaseDealProfile } from "@/lib/turicum/deal-intake";
@@ -12,6 +14,7 @@ import { withBasePath } from "@/lib/turicum/runtime";
 import { createCaseDocument, createCaseDocumentReference, isGoogleDriveUrl, listCaseDocuments } from "@/lib/turicum/case-documents";
 import { getCaseById, isSupabaseConfigured, listCaseChecklistItems } from "@/lib/turicum/cases";
 import { getCategoryLabel, getDocumentTypes, getStageLabel } from "@/lib/turicum/state-packs";
+import { resolveSupabaseStaffSessionFromCookies } from "@/lib/turicum/staff-supabase-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -84,55 +87,97 @@ export default async function CaseDetailPage({
     ? withBasePath(`/library/templates/${encodeURIComponent(legalSelection.groupKey)}`)
     : withBasePath("/library/templates");
 
-  async function submitDocument(formData: FormData) {
+  async function submitDocumentEntry(
+    _previousState: { status: "idle" | "success" | "error"; message: string; mode: "drive" | "upload" },
+    formData: FormData
+  ) {
     "use server";
 
-    const file = formData.get("file");
+    const mode: "drive" | "upload" = formData.get("entryMode") === "upload" ? "upload" : "drive";
 
-    if (!(file instanceof File)) {
-      throw new Error("A file is required.");
+    try {
+      const cookieStore = await cookies();
+      const staffProfile = await resolveSupabaseStaffSessionFromCookies(cookieStore);
+
+      if (!staffProfile) {
+        return {
+          status: "error" as const,
+          message: "Your staff session expired. Sign in again before adding documents.",
+          mode
+        };
+      }
+
+      if (mode === "upload") {
+        const file = formData.get("file");
+
+        if (!(file instanceof File) || file.size === 0) {
+          return {
+            status: "error" as const,
+            message: "Choose a file before submitting the upload.",
+            mode
+          };
+        }
+
+        await createCaseDocument({
+          caseId: id,
+          documentTypeCode: String(formData.get("documentTypeCode") ?? ""),
+          category: String(formData.get("category") ?? "core_legal") as Parameters<
+            typeof createCaseDocument
+          >[0]["category"],
+          status: String(formData.get("status") ?? "uploaded") as Parameters<
+            typeof createCaseDocument
+          >[0]["status"],
+          file
+        });
+
+        revalidatePath(`/cases/${id}`);
+
+        return {
+          status: "success" as const,
+          message: `Uploaded ${file.name} into the case file set.`,
+          mode
+        };
+      }
+
+      const driveUrl = String(formData.get("driveUrl") ?? "").trim();
+
+      if (!driveUrl) {
+        return {
+          status: "error" as const,
+          message: "Paste a Google Drive or Google Docs link before submitting.",
+          mode
+        };
+      }
+
+      await createCaseDocumentReference({
+        caseId: id,
+        documentTypeCode: String(formData.get("documentTypeCode") ?? ""),
+        category: String(formData.get("category") ?? "core_legal") as Parameters<
+          typeof createCaseDocumentReference
+        >[0]["category"],
+        status: String(formData.get("status") ?? "uploaded") as Parameters<
+          typeof createCaseDocumentReference
+        >[0]["status"],
+        title: String(formData.get("title") ?? ""),
+        fileName: String(formData.get("fileName") ?? ""),
+        mimeType: "application/vnd.google-apps.document",
+        storagePath: driveUrl
+      });
+
+      revalidatePath(`/cases/${id}`);
+
+      return {
+        status: "success" as const,
+        message: "Google Drive document linked to this case.",
+        mode
+      };
+    } catch (error) {
+      return {
+        status: "error" as const,
+        message: error instanceof Error ? error.message : "Document intake failed. Try again.",
+        mode
+      };
     }
-
-    await createCaseDocument({
-      caseId: id,
-      documentTypeCode: String(formData.get("documentTypeCode") ?? ""),
-      category: String(formData.get("category") ?? "core_legal") as Parameters<
-        typeof createCaseDocument
-      >[0]["category"],
-      status: String(formData.get("status") ?? "uploaded") as Parameters<
-        typeof createCaseDocument
-      >[0]["status"],
-      file
-    });
-
-    redirect(withBasePath(`/cases/${id}`));
-  }
-
-  async function linkDriveDocument(formData: FormData) {
-    "use server";
-
-    const driveUrl = String(formData.get("driveUrl") ?? "").trim();
-
-    if (!driveUrl) {
-      throw new Error("A Google Drive link is required.");
-    }
-
-    await createCaseDocumentReference({
-      caseId: id,
-      documentTypeCode: String(formData.get("documentTypeCode") ?? ""),
-      category: String(formData.get("category") ?? "core_legal") as Parameters<
-        typeof createCaseDocumentReference
-      >[0]["category"],
-      status: String(formData.get("status") ?? "uploaded") as Parameters<
-        typeof createCaseDocumentReference
-      >[0]["status"],
-      title: String(formData.get("title") ?? ""),
-      fileName: String(formData.get("fileName") ?? ""),
-      mimeType: "application/vnd.google-apps.document",
-      storagePath: driveUrl
-    });
-
-    redirect(withBasePath(`/cases/${id}`));
   }
 
   return (
@@ -618,123 +663,13 @@ export default async function CaseDetailPage({
         <section className="two-up">
           <div className="panel">
             <p className="eyebrow">Document Intake</p>
-            <h2>Keep files in Drive or upload them here</h2>
+            <h2>Add the next document without leaving the case</h2>
             <p>
-              Use the Google Drive option when the file already lives in your existing Drive folders.
-              Use direct upload only when a file is not already stored there.
+              Keep the operator in one place. Choose whether the file already lives in Google Drive or needs a direct upload,
+              then save it into the packet with inline confirmation.
             </p>
 
-            <div className="two-up">
-              <form action={linkDriveDocument} className="form-grid">
-                <label className="field">
-                  <span>Document Type</span>
-                  <select name="documentTypeCode" defaultValue="closing_statement">
-                    {documentTypes.map((documentType) => (
-                      <option key={documentType.code} value={documentType.code}>
-                        {documentType.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <div className="two-up">
-                  <label className="field">
-                    <span>Category</span>
-                    <select name="category" defaultValue="core_legal">
-                      <option value="core_legal">Core Legal</option>
-                      <option value="closing_settlement">Closing - Settlement</option>
-                      <option value="title_recorded">Title - Recorded</option>
-                      <option value="entity_jv">Entity - JV</option>
-                      <option value="funding_escrow">Funding - Escrow</option>
-                      <option value="insurance_support">Insurance - Support</option>
-                      <option value="market_data">Photos - Market Data</option>
-                      <option value="archive">Archive</option>
-                    </select>
-                  </label>
-
-                  <label className="field">
-                    <span>Status</span>
-                    <select name="status" defaultValue="uploaded">
-                      <option value="uploaded">uploaded</option>
-                      <option value="under_review">under_review</option>
-                      <option value="approved">approved</option>
-                      <option value="signed">signed</option>
-                      <option value="recorded">recorded</option>
-                      <option value="final">final</option>
-                    </select>
-                  </label>
-                </div>
-
-                <label className="field">
-                  <span>Google Drive Link</span>
-                  <input name="driveUrl" type="url" placeholder="https://drive.google.com/..." required />
-                </label>
-
-                <label className="field">
-                  <span>Display Title</span>
-                  <input name="title" type="text" placeholder="Optional title shown in Turicum LLC" />
-                </label>
-
-                <label className="field">
-                  <span>File Label</span>
-                  <input name="fileName" type="text" placeholder="Optional file name label" />
-                </label>
-
-                <div className="form-actions">
-                  <button type="submit">Link Google Drive file</button>
-                </div>
-              </form>
-
-              <form action={submitDocument} className="form-grid">
-                <label className="field">
-                  <span>Document Type</span>
-                  <select name="documentTypeCode" defaultValue="closing_statement">
-                    {documentTypes.map((documentType) => (
-                      <option key={documentType.code} value={documentType.code}>
-                        {documentType.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <div className="two-up">
-                  <label className="field">
-                    <span>Category</span>
-                    <select name="category" defaultValue="core_legal">
-                      <option value="core_legal">Core Legal</option>
-                      <option value="closing_settlement">Closing - Settlement</option>
-                      <option value="title_recorded">Title - Recorded</option>
-                      <option value="entity_jv">Entity - JV</option>
-                      <option value="funding_escrow">Funding - Escrow</option>
-                      <option value="insurance_support">Insurance - Support</option>
-                      <option value="market_data">Photos - Market Data</option>
-                      <option value="archive">Archive</option>
-                    </select>
-                  </label>
-
-                  <label className="field">
-                    <span>Status</span>
-                    <select name="status" defaultValue="uploaded">
-                      <option value="uploaded">uploaded</option>
-                      <option value="under_review">under_review</option>
-                      <option value="approved">approved</option>
-                      <option value="signed">signed</option>
-                      <option value="recorded">recorded</option>
-                      <option value="final">final</option>
-                    </select>
-                  </label>
-                </div>
-
-                <label className="field">
-                  <span>File</span>
-                  <input name="file" type="file" required />
-                </label>
-
-                <div className="form-actions">
-                  <button type="submit">Upload into Turicum LLC</button>
-                </div>
-              </form>
-            </div>
+            <CaseDocumentIntake documentTypes={documentTypes} action={submitDocumentEntry} />
           </div>
 
           <div className="panel">

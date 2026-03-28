@@ -872,6 +872,16 @@ tbody tr:last-child td {
   box-shadow: inset 0 0 0 1px rgba(47, 129, 247, 0.18);
 }
 
+.turicum-form-callout-success {
+  border-left-color: var(--success);
+  background: rgba(63, 185, 80, 0.1);
+}
+
+.turicum-form-callout-error {
+  border-left-color: var(--danger);
+  background: rgba(255, 107, 107, 0.1);
+}
+
 .portal-link-box {
   padding: 16px;
   border-radius: var(--radius-md);
