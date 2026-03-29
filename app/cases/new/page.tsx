@@ -1,3 +1,4 @@
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { TuricumNav } from "@/components/turicum/nav";
@@ -21,6 +22,12 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 function readString(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
+}
+
+function rethrowRedirectError(error: unknown) {
+  if (isRedirectError(error)) {
+    throw error;
+  }
 }
 
 export default async function NewCasePage({ searchParams }: { searchParams?: SearchParams }) {
@@ -99,6 +106,7 @@ export default async function NewCasePage({ searchParams }: { searchParams?: Sea
 
       redirect(withBasePath(`/cases/${createdCase.id}?status=case-opened`));
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Case could not be opened.";
       redirect(withBasePath(`/cases/new?status=error&message=${encodeURIComponent(errorMessage)}`));
     }

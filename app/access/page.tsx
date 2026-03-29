@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -29,6 +30,12 @@ const staffRoleOptions: Array<{ value: StaffRole; label: string }> = [
   { value: "staff_ops", label: "Staff ops" },
   { value: "staff_counsel", label: "Staff counsel" }
 ];
+
+function rethrowRedirectError(error: unknown) {
+  if (isRedirectError(error)) {
+    throw error;
+  }
+}
 
 export default async function AccessAdminPage({ searchParams }: { searchParams?: SearchParams }) {
   const cookieStore = await cookies();
@@ -68,6 +75,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       revalidatePath(withBasePath("/access"));
       redirect(withBasePath("/access?status=staff-saved"));
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Staff account could not be saved.";
       redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
     }
@@ -86,6 +94,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       revalidatePath(withBasePath("/access"));
       redirect(withBasePath("/access?status=investor-saved"));
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Investor account could not be saved.";
       redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
     }
@@ -102,6 +111,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       revalidatePath(withBasePath("/access"));
       redirect(withBasePath("/access?status=grant-saved"));
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Investor case grant could not be saved.";
       redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
     }
@@ -124,6 +134,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
         )
       );
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Borrower invite could not be created.";
       redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
     }
@@ -148,6 +159,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       revalidatePath(withBasePath("/access"));
       redirect(withBasePath(`/access?status=${nextIsActive ? "user-activated" : "user-deactivated"}`));
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "User status could not be updated.";
       redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
     }
@@ -160,6 +172,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       revalidatePath(withBasePath("/access"));
       redirect(withBasePath("/access?status=grant-revoked"));
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Investor access could not be revoked.";
       redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
     }
@@ -172,6 +185,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       revalidatePath(withBasePath("/access"));
       redirect(withBasePath("/access?status=invite-revoked"));
     } catch (error) {
+      rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Borrower invite could not be revoked.";
       redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
     }
