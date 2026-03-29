@@ -18,6 +18,11 @@ import { getCategoryLabel, getDocumentTypes, getStageLabel } from "@/lib/turicum
 import { resolveSupabaseStaffSessionFromCookies } from "@/lib/turicum/staff-supabase-auth";
 
 export const dynamic = "force-dynamic";
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+function readString(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
 
 function buildGoogleDriveFileHref(fileId: string | undefined) {
   if (!fileId) {
@@ -52,11 +57,15 @@ function buildInitialActionState(mode: "drive" | "upload") {
 }
 
 export default async function CaseDetailPage({
-  params
+  params,
+  searchParams
 }: {
   params: Promise<{ id: string }>;
+  searchParams?: SearchParams;
 }) {
   const { id } = await params;
+  const routeParams = (await searchParams) ?? {};
+  const status = readString(routeParams.status);
   const item = await getCaseById(id);
 
   if (!item) {
@@ -210,7 +219,7 @@ export default async function CaseDetailPage({
     await updateCaseGoogleDriveFolder(id, driveFolderInput);
     revalidatePath(`/cases/${id}`);
     revalidatePath(`/cases/${id}/intake`);
-    redirect(withBasePath(`/cases/${id}`));
+    redirect(withBasePath(`/cases/${id}?status=drive-folder-saved`));
   }
 
   return (
@@ -245,6 +254,25 @@ export default async function CaseDetailPage({
             </div>
           </div>
         </section>
+
+        {status ? (
+          <section className={status === "error" ? "panel subtle turicum-form-callout-error" : "panel subtle turicum-form-callout-success"}>
+            <strong>
+              {status === "case-opened"
+                ? "Matter opened."
+                : status === "drive-folder-saved"
+                  ? "Case Drive folder saved."
+                  : "Case updated."}
+            </strong>
+            <p className="helper">
+              {status === "case-opened"
+                ? "The workspace is live. Next best steps are setting the case Drive folder, adding the first borrower, and attaching the initial documents."
+                : status === "drive-folder-saved"
+                  ? "Turicum will now prefer this folder across intake and downstream case workflows."
+                  : "The case detail page has been refreshed."}
+            </p>
+          </section>
+        ) : null}
 
         <section className="three-up">
           <div className="panel">

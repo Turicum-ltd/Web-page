@@ -43,6 +43,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
   const params = (await searchParams) ?? {};
   const status = readString(params.status);
   const borrowerToken = readString(params.borrowerToken);
+  const message = readString(params.message);
   let accessAdminError: string | null = null;
   let snapshot = null as Awaited<ReturnType<typeof getAccessAdminSnapshot>> | null;
 
@@ -55,61 +56,77 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
 
   async function saveStaffUser(formData: FormData) {
     "use server";
+    try {
+      await createOrUpdateStaffUser({
+        email: String(formData.get("email") ?? ""),
+        password: String(formData.get("password") ?? ""),
+        fullName: String(formData.get("fullName") ?? ""),
+        role: String(formData.get("role") ?? "staff_ops") as StaffRole,
+        organization: String(formData.get("organization") ?? "Turicum")
+      });
 
-    await createOrUpdateStaffUser({
-      email: String(formData.get("email") ?? ""),
-      password: String(formData.get("password") ?? ""),
-      fullName: String(formData.get("fullName") ?? ""),
-      role: String(formData.get("role") ?? "staff_ops") as StaffRole,
-      organization: String(formData.get("organization") ?? "Turicum")
-    });
-
-    revalidatePath(withBasePath("/access"));
-    redirect(withBasePath("/access?status=staff-saved"));
+      revalidatePath(withBasePath("/access"));
+      redirect(withBasePath("/access?status=staff-saved"));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Staff account could not be saved.";
+      redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   async function saveInvestorUser(formData: FormData) {
     "use server";
+    try {
+      await createOrUpdateInvestorUser({
+        email: String(formData.get("email") ?? ""),
+        password: String(formData.get("password") ?? ""),
+        fullName: String(formData.get("fullName") ?? ""),
+        organization: String(formData.get("organization") ?? "Turicum Investor")
+      });
 
-    await createOrUpdateInvestorUser({
-      email: String(formData.get("email") ?? ""),
-      password: String(formData.get("password") ?? ""),
-      fullName: String(formData.get("fullName") ?? ""),
-      organization: String(formData.get("organization") ?? "Turicum Investor")
-    });
-
-    revalidatePath(withBasePath("/access"));
-    redirect(withBasePath("/access?status=investor-saved"));
+      revalidatePath(withBasePath("/access"));
+      redirect(withBasePath("/access?status=investor-saved"));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Investor account could not be saved.";
+      redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   async function saveInvestorGrant(formData: FormData) {
     "use server";
+    try {
+      await grantInvestorCaseAccess({
+        email: String(formData.get("email") ?? ""),
+        caseId: String(formData.get("caseId") ?? "")
+      });
 
-    await grantInvestorCaseAccess({
-      email: String(formData.get("email") ?? ""),
-      caseId: String(formData.get("caseId") ?? "")
-    });
-
-    revalidatePath(withBasePath("/access"));
-    redirect(withBasePath("/access?status=grant-saved"));
+      revalidatePath(withBasePath("/access"));
+      redirect(withBasePath("/access?status=grant-saved"));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Investor case grant could not be saved.";
+      redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   async function saveBorrowerInvite(formData: FormData) {
     "use server";
+    try {
+      const portal = await createOrUpdateBorrowerInvite({
+        caseId: String(formData.get("caseId") ?? ""),
+        borrowerName: String(formData.get("borrowerName") ?? ""),
+        borrowerEmail: String(formData.get("borrowerEmail") ?? ""),
+        portalTitle: String(formData.get("portalTitle") ?? "")
+      });
 
-    const portal = await createOrUpdateBorrowerInvite({
-      caseId: String(formData.get("caseId") ?? ""),
-      borrowerName: String(formData.get("borrowerName") ?? ""),
-      borrowerEmail: String(formData.get("borrowerEmail") ?? ""),
-      portalTitle: String(formData.get("portalTitle") ?? "")
-    });
-
-    revalidatePath(withBasePath("/access"));
-    redirect(
-      withBasePath(
-        `/access?status=borrower-saved&borrowerToken=${encodeURIComponent(portal.accessToken)}`
-      )
-    );
+      revalidatePath(withBasePath("/access"));
+      redirect(
+        withBasePath(
+          `/access?status=borrower-saved&borrowerToken=${encodeURIComponent(portal.accessToken)}`
+        )
+      );
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Borrower invite could not be created.";
+      redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   async function toggleUserStatus(formData: FormData) {
@@ -122,29 +139,42 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       redirect(withBasePath("/access?status=self-blocked"));
     }
 
-    await setUserProfileActiveState({
-      userId,
-      isActive: nextIsActive
-    });
+    try {
+      await setUserProfileActiveState({
+        userId,
+        isActive: nextIsActive
+      });
 
-    revalidatePath(withBasePath("/access"));
-    redirect(withBasePath(`/access?status=${nextIsActive ? "user-activated" : "user-deactivated"}`));
+      revalidatePath(withBasePath("/access"));
+      redirect(withBasePath(`/access?status=${nextIsActive ? "user-activated" : "user-deactivated"}`));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "User status could not be updated.";
+      redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   async function revokeGrant(formData: FormData) {
     "use server";
-
-    await revokeInvestorCaseAccess(String(formData.get("grantId") ?? ""));
-    revalidatePath(withBasePath("/access"));
-    redirect(withBasePath("/access?status=grant-revoked"));
+    try {
+      await revokeInvestorCaseAccess(String(formData.get("grantId") ?? ""));
+      revalidatePath(withBasePath("/access"));
+      redirect(withBasePath("/access?status=grant-revoked"));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Investor access could not be revoked.";
+      redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   async function revokeInvite(formData: FormData) {
     "use server";
-
-    await revokeBorrowerInvite(String(formData.get("inviteId") ?? ""));
-    revalidatePath(withBasePath("/access"));
-    redirect(withBasePath("/access?status=invite-revoked"));
+    try {
+      await revokeBorrowerInvite(String(formData.get("inviteId") ?? ""));
+      revalidatePath(withBasePath("/access"));
+      redirect(withBasePath("/access?status=invite-revoked"));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Borrower invite could not be revoked.";
+      redirect(withBasePath(`/access?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   return (
@@ -198,9 +228,11 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
         ) : null}
 
         {status ? (
-          <section className="panel subtle">
+          <section className={`panel subtle ${status === "error" ? "turicum-form-callout-error" : "turicum-form-callout-success"}`}>
             <strong>
-              {status === "staff-saved"
+              {status === "error"
+                ? "Access update needs attention."
+                : status === "staff-saved"
                 ? "Staff account saved."
                 : status === "investor-saved"
                   ? "Investor account saved."
@@ -221,7 +253,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                     : "Access update saved."}
             </strong>
             <p className="helper">
-              The access tables and account metadata have been refreshed.
+              {message ? message : "The access tables and account metadata have been refreshed."}
               {status === "borrower-saved" && borrowerToken ? (
                 <>
                   {" "}Share the borrower portal here:{" "}

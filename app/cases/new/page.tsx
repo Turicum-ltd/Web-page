@@ -17,65 +17,91 @@ import type { StructureType } from "@/lib/turicum/types";
 
 const sourceTypes = ["direct", "referral_partner", "mca", "investor", "other"] as const;
 const structures: StructureType[] = ["loan", "purchase"];
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
-export default function NewCasePage() {
+function readString(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function NewCasePage({ searchParams }: { searchParams?: SearchParams }) {
   const statePacks = getStatePacks().filter((pack) => pack.enabled);
+  const params = (await searchParams) ?? {};
+  const status = readString(params.status);
+  const message = readString(params.message);
 
   async function submitCase(formData: FormData) {
     "use server";
+    try {
+      const title = String(formData.get("title") ?? "").trim();
+      const state = String(formData.get("state") ?? "").trim();
+      const assetAddress = String(formData.get("assetAddress") ?? "").trim();
+      const assetDescription = String(formData.get("assetDescription") ?? "").trim();
 
-    const structureType =
-      formData.get("structureType") === "loan" ? ("loan" as const) : ("purchase" as const);
+      if (!title) {
+        redirect(withBasePath("/cases/new?status=error&message=Case%20title%20is%20required."));
+      }
 
-    const createdCase = await createCase({
-      title: String(formData.get("title") ?? ""),
-      state: String(formData.get("state") ?? ""),
-      structureType,
-      sourceType: String(formData.get("sourceType") ?? "direct"),
-      requestedAmount: String(formData.get("requestedAmount") ?? "0"),
-      propertySummary: [
-        String(formData.get("assetAddress") ?? "").trim(),
-        String(formData.get("assetDescription") ?? "").trim()
-      ].filter(Boolean).join(" — ")
-    });
+      if (!state) {
+        redirect(withBasePath("/cases/new?status=error&message=Select%20a%20state%20before%20opening%20the%20matter."));
+      }
 
-    await saveCaseDealProfile({
-      caseId: createdCase.id,
-      state: createdCase.state,
-      structureType,
-      dealShape: formData.get("dealShape") === "loan"
-        ? "loan"
-        : formData.get("dealShape") === "purchase_leaseback"
-          ? "purchase_leaseback"
-          : "purchase",
-      lenderCount: Number(formData.get("lenderCount") ?? 1),
-      propertyType: String(formData.get("propertyType") ?? "other") as (typeof propertyTypeOptions)[number],
-      borrowerEntityType: String(formData.get("borrowerEntityType") ?? "llc") as (typeof entityTypeOptions)[number],
-      titleHolderType: String(formData.get("titleHolderType") ?? "llc") as (typeof entityTypeOptions)[number],
-      guarantorCount: Number(formData.get("guarantorCount") ?? 0),
-      notaryRequirement: String(formData.get("notaryRequirement") ?? "depends") as (typeof notaryOptions)[number],
-      assetAddress: String(formData.get("assetAddress") ?? ""),
-      assetDescription: String(formData.get("assetDescription") ?? ""),
-      ownershipStatus: String(formData.get("ownershipStatus") ?? ""),
-      acquisitionDate: String(formData.get("acquisitionDate") ?? ""),
-      acquisitionPrice: String(formData.get("acquisitionPrice") ?? ""),
-      improvementSpend: String(formData.get("improvementSpend") ?? ""),
-      titleHoldingDetail: String(formData.get("titleHoldingDetail") ?? ""),
-      estimatedValue: String(formData.get("estimatedValue") ?? ""),
-      valueEstimateBasis: String(formData.get("valueEstimateBasis") ?? ""),
-      fundingNeededBy: String(formData.get("fundingNeededBy") ?? ""),
-      screeningPlan: String(formData.get("screeningPlan") ?? "borrower_to_provide") as (typeof screeningPlanOptions)[number],
-      screeningProvider: String(formData.get("screeningProvider") ?? ""),
-      screeningNotes: String(formData.get("screeningNotes") ?? ""),
-      creditCheckStatus: String(formData.get("creditCheckStatus") ?? "pending") as (typeof screeningStatusOptions)[number],
-      backgroundCheckStatus: String(formData.get("backgroundCheckStatus") ?? "pending") as (typeof screeningStatusOptions)[number],
-      criminalCheckStatus: String(formData.get("criminalCheckStatus") ?? "pending") as (typeof screeningStatusOptions)[number],
-      validationStatus: "pending",
-      occupancySummary: String(formData.get("occupancySummary") ?? ""),
-      complexityNotes: String(formData.get("complexityNotes") ?? "")
-    });
+      if (!assetAddress && !assetDescription) {
+        redirect(withBasePath("/cases/new?status=error&message=Add%20either%20a%20property%20address%20or%20a%20short%20asset%20summary%20so%20the%20operator%20has%20context."));
+      }
 
-    redirect(withBasePath(`/cases/${createdCase.id}`));
+      const structureType =
+        formData.get("structureType") === "loan" ? ("loan" as const) : ("purchase" as const);
+
+      const createdCase = await createCase({
+        title,
+        state,
+        structureType,
+        sourceType: String(formData.get("sourceType") ?? "direct"),
+        requestedAmount: String(formData.get("requestedAmount") ?? "0"),
+        propertySummary: [assetAddress, assetDescription].filter(Boolean).join(" — ")
+      });
+
+      await saveCaseDealProfile({
+        caseId: createdCase.id,
+        state: createdCase.state,
+        structureType,
+        dealShape: formData.get("dealShape") === "loan"
+          ? "loan"
+          : formData.get("dealShape") === "purchase_leaseback"
+            ? "purchase_leaseback"
+            : "purchase",
+        lenderCount: Number(formData.get("lenderCount") ?? 1),
+        propertyType: String(formData.get("propertyType") ?? "other") as (typeof propertyTypeOptions)[number],
+        borrowerEntityType: String(formData.get("borrowerEntityType") ?? "llc") as (typeof entityTypeOptions)[number],
+        titleHolderType: String(formData.get("titleHolderType") ?? "llc") as (typeof entityTypeOptions)[number],
+        guarantorCount: Number(formData.get("guarantorCount") ?? 0),
+        notaryRequirement: String(formData.get("notaryRequirement") ?? "depends") as (typeof notaryOptions)[number],
+        assetAddress,
+        assetDescription,
+        ownershipStatus: String(formData.get("ownershipStatus") ?? ""),
+        acquisitionDate: String(formData.get("acquisitionDate") ?? ""),
+        acquisitionPrice: String(formData.get("acquisitionPrice") ?? ""),
+        improvementSpend: String(formData.get("improvementSpend") ?? ""),
+        titleHoldingDetail: String(formData.get("titleHoldingDetail") ?? ""),
+        estimatedValue: String(formData.get("estimatedValue") ?? ""),
+        valueEstimateBasis: String(formData.get("valueEstimateBasis") ?? ""),
+        fundingNeededBy: String(formData.get("fundingNeededBy") ?? ""),
+        screeningPlan: String(formData.get("screeningPlan") ?? "borrower_to_provide") as (typeof screeningPlanOptions)[number],
+        screeningProvider: String(formData.get("screeningProvider") ?? ""),
+        screeningNotes: String(formData.get("screeningNotes") ?? ""),
+        creditCheckStatus: String(formData.get("creditCheckStatus") ?? "pending") as (typeof screeningStatusOptions)[number],
+        backgroundCheckStatus: String(formData.get("backgroundCheckStatus") ?? "pending") as (typeof screeningStatusOptions)[number],
+        criminalCheckStatus: String(formData.get("criminalCheckStatus") ?? "pending") as (typeof screeningStatusOptions)[number],
+        validationStatus: "pending",
+        occupancySummary: String(formData.get("occupancySummary") ?? ""),
+        complexityNotes: String(formData.get("complexityNotes") ?? "")
+      });
+
+      redirect(withBasePath(`/cases/${createdCase.id}?status=case-opened`));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Case could not be opened.";
+      redirect(withBasePath(`/cases/new?status=error&message=${encodeURIComponent(errorMessage)}`));
+    }
   }
 
   return (
@@ -109,6 +135,13 @@ export default function NewCasePage() {
 
         <section className="panel lead">
           <form action={submitCase} className="form-grid">
+            {status ? (
+              <div className={status === "error" ? "callout turicum-form-callout-error" : "callout turicum-form-callout-success"}>
+                <p className="eyebrow">{status === "error" ? "Matter setup needs attention" : "Matter saved"}</p>
+                <p>{message ?? (status === "error" ? "Check the core matter fields and try again." : "The matter has been opened.")}</p>
+              </div>
+            ) : null}
+
             <div className="callout">
               <p className="eyebrow">Quick Open</p>
               <p><strong>These are the only fields you really need to start.</strong></p>
