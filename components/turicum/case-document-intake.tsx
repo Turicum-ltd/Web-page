@@ -18,6 +18,7 @@ interface DocumentActionState {
 interface CaseDocumentIntakeProps {
   documentTypes: DocumentTypeOption[];
   action: (state: DocumentActionState, formData: FormData) => Promise<DocumentActionState>;
+  caseDriveFolderHref?: string | null;
 }
 
 const INITIAL_STATE: DocumentActionState = {
@@ -49,7 +50,7 @@ function SubmitButton({ mode }: { mode: "drive" | "upload" }) {
   );
 }
 
-export function CaseDocumentIntake({ documentTypes, action }: CaseDocumentIntakeProps) {
+export function CaseDocumentIntake({ documentTypes, action, caseDriveFolderHref }: CaseDocumentIntakeProps) {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const [mode, setMode] = useState<"drive" | "upload">("drive");
@@ -72,9 +73,9 @@ export function CaseDocumentIntake({ documentTypes, action }: CaseDocumentIntake
     () =>
       mode === "drive"
         ? {
-            title: "Reference a Drive file already in place",
+            title: "Attach an existing Drive file from the case workspace",
             helper:
-              "Use this when the borrower packet already lives in Google Drive. Turicum will store a controlled Drive reference, not an arbitrary external link."
+              "Open the case folder, grab the file URL or file ID, and save it here. Turicum stores a controlled Drive file reference instead of a raw external link."
           }
         : {
             title: "Upload the file directly into Turicum",
@@ -107,6 +108,13 @@ export function CaseDocumentIntake({ documentTypes, action }: CaseDocumentIntake
         <p className="eyebrow">Current mode</p>
         <p><strong>{modeCopy.title}</strong></p>
         <p className="helper">{modeCopy.helper}</p>
+        {mode === "drive" && caseDriveFolderHref ? (
+          <p className="helper">
+            <a href={caseDriveFolderHref} target="_blank" rel="noreferrer">
+              Open case Drive folder
+            </a>
+          </p>
+        ) : null}
       </div>
 
       {state.status !== "idle" ? (
@@ -157,8 +165,13 @@ export function CaseDocumentIntake({ documentTypes, action }: CaseDocumentIntake
         {mode === "drive" ? (
           <>
             <label className="field">
-              <span>Google Drive Link</span>
-              <input name="driveUrl" type="url" placeholder="https://drive.google.com/..." required />
+              <span>Google Drive file URL or file ID</span>
+              <input
+                name="driveUrl"
+                type="text"
+                placeholder="https://drive.google.com/file/d/... or 1AbC..."
+                required
+              />
             </label>
 
             <div className="two-up">

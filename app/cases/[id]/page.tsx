@@ -11,7 +11,7 @@ import { getCaseAiReview, getCaseClosingDiligence, getCaseLegalReview } from "@/
 import { getCaseInvestorPromotion } from "@/lib/turicum/investor-promotion";
 import { getCaseExitWorkflow, getCaseFundingWorkflow, getCaseServicingRecord } from "@/lib/turicum/lifecycle";
 import { withBasePath } from "@/lib/turicum/runtime";
-import { buildGoogleDriveFolderHref } from "@/lib/turicum/google-drive";
+import { buildGoogleDriveFolderHref, normalizeGoogleDriveFileInput } from "@/lib/turicum/google-drive";
 import { createCaseDocument, createCaseDocumentReference, isGoogleDriveUrl, listCaseDocuments } from "@/lib/turicum/case-documents";
 import { getCaseById, isSupabaseConfigured, listCaseChecklistItems, updateCaseGoogleDriveFolder } from "@/lib/turicum/cases";
 import { getCategoryLabel, getDocumentTypes, getStageLabel } from "@/lib/turicum/state-packs";
@@ -150,7 +150,17 @@ export default async function CaseDetailPage({
       if (!driveUrl) {
         return {
           status: "error" as const,
-          message: "Paste a Google Drive or Google Docs link before submitting.",
+          message: "Paste a Google Drive file URL or file ID before submitting.",
+          mode
+        };
+      }
+
+      const normalizedDriveFile = normalizeGoogleDriveFileInput(driveUrl);
+
+      if (!normalizedDriveFile) {
+        return {
+          status: "error" as const,
+          message: "Use a Google Drive file URL, Google Docs URL, or bare file ID. Folder links are not accepted here.",
           mode
         };
       }
@@ -167,7 +177,7 @@ export default async function CaseDetailPage({
         title: String(formData.get("title") ?? ""),
         fileName: String(formData.get("fileName") ?? ""),
         mimeType: "application/vnd.google-apps.document",
-        storagePath: driveUrl
+        storagePath: normalizedDriveFile
       });
 
       revalidatePath(`/cases/${id}`);
@@ -720,7 +730,11 @@ export default async function CaseDetailPage({
               then save it into the packet with inline confirmation.
             </p>
 
-            <CaseDocumentIntake documentTypes={documentTypes} action={submitDocumentEntry} />
+            <CaseDocumentIntake
+              documentTypes={documentTypes}
+              action={submitDocumentEntry}
+              caseDriveFolderHref={caseDriveFolderHref}
+            />
           </div>
 
           <div className="panel">

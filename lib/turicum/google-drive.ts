@@ -97,6 +97,36 @@ export function buildGoogleDriveStoragePath(reference: GoogleDriveReference) {
   return `${GOOGLE_DRIVE_REF_PREFIX}${reference.kind}/${reference.id}`;
 }
 
+export function normalizeGoogleDriveFileInput(value?: string | null) {
+  const trimmed = value?.trim();
+
+  if (!trimmed) {
+    return null;
+  }
+
+  const parsed = parseGoogleDriveReference(trimmed);
+
+  if (parsed?.kind === "file") {
+    return buildGoogleDriveStoragePath(parsed);
+  }
+
+  if (parsed?.kind === "folder") {
+    return null;
+  }
+
+  if (trimmed.includes("://")) {
+    return null;
+  }
+
+  const normalizedId = normalizeGoogleDriveId(trimmed);
+
+  if (!normalizedId) {
+    return null;
+  }
+
+  return buildGoogleDriveStoragePath({ kind: "file", id: normalizedId });
+}
+
 export function resolveGoogleDriveHref(value?: string | null) {
   const reference = parseGoogleDriveReference(value);
 
