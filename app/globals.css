@@ -810,6 +810,38 @@ tbody tr:last-child td {
   resize: vertical;
 }
 
+.turicum-disclosure {
+  display: grid;
+  gap: 18px;
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(120, 193, 255, 0.16);
+  background: linear-gradient(180deg, rgba(17, 24, 34, 0.9), rgba(13, 19, 28, 0.86));
+}
+
+.turicum-disclosure summary {
+  display: grid;
+  gap: 6px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.turicum-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.turicum-disclosure summary span:first-child {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.turicum-disclosure[open] summary {
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 .checkbox-grid {
   display: grid;
   gap: 10px;

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { TuricumNav } from "@/components/turicum/nav";
 import { createCase, isSupabaseConfigured } from "@/lib/turicum/cases";
 import {
@@ -84,10 +85,9 @@ export default function NewCasePage() {
           <p className="eyebrow">New Matter</p>
           <div className="hero-grid">
             <div className="hero-copy">
-              <h1>Open a new matter and define the underwriting, investor, and legal path up front.</h1>
+              <h1>Open the matter fast, then add diligence where it belongs.</h1>
               <p>
-                Turicum LLC starts with deal shape, target investor count, collateral facts, entity structure, validation needs,
-                and the likely signature lane. The first-call borrower answers drive validation, investor promotion, and final paper selection.
+                Start with the core case facts on this page. Borrower intake, Drive setup, validation detail, and investor workflow can all be added after the case exists.
               </p>
             </div>
             <div className="hero-aside">
@@ -101,8 +101,7 @@ export default function NewCasePage() {
                 </div>
               </div>
               <p className="helper">
-                Turicum LLC will use these answers to recommend borrower and property validation, investor promotion strategy, the contract stack,
-                review gates, and the signature path.
+                The quick-open path should take one pass. Optional underwriting and screening fields stay available below when you need them.
               </p>
             </div>
           </div>
@@ -110,6 +109,14 @@ export default function NewCasePage() {
 
         <section className="panel lead">
           <form action={submitCase} className="form-grid">
+            <div className="callout">
+              <p className="eyebrow">Quick Open</p>
+              <p><strong>These are the only fields you really need to start.</strong></p>
+              <p className="helper">
+                Open the case with the core facts, then fill in validation placeholders and review notes after the operator lands in the live case workspace.
+              </p>
+            </div>
+
             <label className="field">
               <span>Case title</span>
               <input name="title" type="text" placeholder="Palm Beach option closing" required />
@@ -145,6 +152,44 @@ export default function NewCasePage() {
 
             <div className="two-up">
               <label className="field">
+                <span>Lead source</span>
+                <select name="sourceType" defaultValue="direct">
+                  {sourceTypes.map((sourceType) => (
+                    <option key={sourceType} value={sourceType}>
+                      {sourceType}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="field">
+                <span>Requested amount</span>
+                <input name="requestedAmount" type="text" placeholder="$450,000" />
+              </label>
+            </div>
+
+            <div className="two-up">
+              <label className="field">
+                <span>Asset or property address</span>
+                <textarea
+                  name="assetAddress"
+                  rows={3}
+                  placeholder="Full address or location of the property or asset."
+                />
+              </label>
+
+              <label className="field">
+                <span>Property or asset summary</span>
+                <textarea
+                  name="assetDescription"
+                  rows={3}
+                  placeholder="Property type, condition, use, and what the asset actually is."
+                />
+              </label>
+            </div>
+
+            <div className="two-up">
+              <label className="field">
                 <span>Deal shape</span>
                 <select name="dealShape" defaultValue="purchase">
                   {dealShapeOptions.map((value) => (
@@ -167,244 +212,228 @@ export default function NewCasePage() {
               </label>
             </div>
 
-            <div className="kicker-row">
-              <p className="eyebrow">First borrower call</p>
-            </div>
-
-            <div className="two-up">
-              <label className="field">
-                <span>Lead source</span>
-                <select name="sourceType" defaultValue="direct">
-                  {sourceTypes.map((sourceType) => (
-                    <option key={sourceType} value={sourceType}>
-                      {sourceType}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="field">
-                <span>1. How much money are you looking to borrow or receive?</span>
-                <input name="requestedAmount" type="text" placeholder="$450,000" />
-              </label>
-            </div>
-
-            <div className="two-up">
-              <label className="field">
-                <span>2. Asset or property address / location</span>
-                <textarea
-                  name="assetAddress"
-                  rows={3}
-                  placeholder="Full address or location of the property or asset."
-                />
-              </label>
-
-              <label className="field">
-                <span>2. Describe the property or asset</span>
-                <textarea
-                  name="assetDescription"
-                  rows={3}
-                  placeholder="Property type, condition, use, and what the asset actually is."
-                />
-              </label>
-            </div>
-
-            <div className="two-up">
-              <label className="field">
-                <span>Target investors / lenders</span>
-                <input name="lenderCount" type="number" min="1" defaultValue="1" />
-                <p className="helper">Turicum LLC will confirm the final investor count after borrower validation and investor promotion.</p>
-              </label>
-
-              <label className="field">
-                <span>Guarantor count</span>
-                <input name="guarantorCount" type="number" min="0" defaultValue="0" />
-              </label>
-            </div>
-
-            <div className="two-up">
-              <label className="field">
-                <span>Borrower entity type</span>
-                <select name="borrowerEntityType" defaultValue="llc">
-                  {entityTypeOptions.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="field">
-                <span>Title holder type</span>
-                <select name="titleHolderType" defaultValue="llc">
-                  {entityTypeOptions.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <label className="field">
-              <span>3. How much equity / ownership does the borrower currently have?</span>
-              <textarea
-                name="ownershipStatus"
-                rows={4}
-                placeholder="Free and clear, existing loans or liens, current payoff position, and any ownership constraints."
-              />
-            </label>
-
-            <div className="three-up">
-              <label className="field">
-                <span>3. When was it bought?</span>
-                <input name="acquisitionDate" type="date" />
-              </label>
-
-              <label className="field">
-                <span>3. What did they pay?</span>
-                <input name="acquisitionPrice" type="text" placeholder="$0" />
-              </label>
-
-              <label className="field">
-                <span>3. How much was put into it?</span>
-                <input name="improvementSpend" type="text" placeholder="$0" />
-              </label>
-            </div>
-
-            <label className="field">
-              <span>4. How is title held?</span>
-              <textarea
-                name="titleHoldingDetail"
-                rows={3}
-                placeholder="Exact vesting / title-holding description from the first call."
-              />
-            </label>
-
-            <div className="two-up">
-              <label className="field">
-                <span>5. Rough current value estimate</span>
-                <input name="estimatedValue" type="text" placeholder="$0" />
-              </label>
-
-              <label className="field">
-                <span>5. How did they come up with that number?</span>
-                <textarea
-                  name="valueEstimateBasis"
-                  rows={3}
-                  placeholder="Broker opinion, appraisal, comps, borrower estimate, tax value, etc."
-                />
-              </label>
-            </div>
-
-            <label className="field">
-              <span>6. When do they need the money?</span>
-              <input name="fundingNeededBy" type="text" placeholder="Example: within 7 days" />
-            </label>
-
-            <label className="field">
-              <span>Occupancy / collateral summary</span>
-              <input
-                name="occupancySummary"
-                type="text"
-                placeholder="Example: borrower will lease back retail space post-close; rents are part of collateral."
-              />
-            </label>
-
-            <label className="field">
-              <span>Notary path</span>
-              <select name="notaryRequirement" defaultValue="depends">
-                {notaryOptions.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <div className="kicker-row">
-              <p className="eyebrow">Borrower validation placeholders</p>
-            </div>
-
-            <div className="two-up">
-              <label className="field">
-                <span>Credit/background path</span>
-                <select name="screeningPlan" defaultValue="borrower_to_provide">
-                  {screeningPlanOptions.map((value) => (
-                    <option key={value} value={value}>
-                      {value.replaceAll("_", " ")}
-                    </option>
-                  ))}
-                </select>
-                <p className="helper">Placeholder only for now. Turicum LLC can ask the borrower to provide reports or flag that a vendor must be chosen case by case.</p>
-              </label>
-
-              <label className="field">
-                <span>Vendor / provider (if known)</span>
-                <input name="screeningProvider" type="text" placeholder="Leave blank if not selected yet" />
-              </label>
-            </div>
-
-            <div className="three-up">
-              <label className="field">
-                <span>Credit check</span>
-                <select name="creditCheckStatus" defaultValue="pending">
-                  {screeningStatusOptions.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="field">
-                <span>Background check</span>
-                <select name="backgroundCheckStatus" defaultValue="pending">
-                  {screeningStatusOptions.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="field">
-                <span>Criminal check</span>
-                <select name="criminalCheckStatus" defaultValue="pending">
-                  {screeningStatusOptions.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <label className="field">
-              <span>Screening notes</span>
-              <textarea
-                name="screeningNotes"
-                rows={3}
-                placeholder="Note whether the borrower will provide reports or Turicum LLC needs to find someone to run them."
-              />
-            </label>
-
-            <div className="kicker-row">
-              <p className="eyebrow">Deal context</p>
-            </div>
-
-            <label className="field">
-              <span>Complexity notes for AI / legal review</span>
-              <textarea
-                name="complexityNotes"
-                rows={4}
-                placeholder="Example: trust borrower with two lenders and a purchase-leaseback structure; confirm notary path and multi-lender enforcement."
-              />
-            </label>
-
             <div className="form-actions">
-              <button type="submit">Create case and generate workflow plan</button>
+              <button type="submit">Create case and open workspace</button>
+              <Link className="secondary-button" href={withBasePath("/cases")}>Back to case board</Link>
             </div>
+
+            <details className="turicum-disclosure">
+              <summary>
+                <span>Optional borrower and structure detail</span>
+                <span className="helper">Use this if the first call already covered the deeper facts.</span>
+              </summary>
+
+              <div className="kicker-row">
+                <p className="eyebrow">Borrower and structure</p>
+              </div>
+
+              <div className="two-up">
+                <label className="field">
+                  <span>Target investors / lenders</span>
+                  <input name="lenderCount" type="number" min="1" defaultValue="1" />
+                  <p className="helper">Turicum LLC will confirm the final investor count after borrower validation and investor promotion.</p>
+                </label>
+
+                <label className="field">
+                  <span>Guarantor count</span>
+                  <input name="guarantorCount" type="number" min="0" defaultValue="0" />
+                </label>
+              </div>
+
+              <div className="two-up">
+                <label className="field">
+                  <span>Borrower entity type</span>
+                  <select name="borrowerEntityType" defaultValue="llc">
+                    {entityTypeOptions.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span>Title holder type</span>
+                  <select name="titleHolderType" defaultValue="llc">
+                    {entityTypeOptions.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <label className="field">
+                <span>Ownership and equity position</span>
+                <textarea
+                  name="ownershipStatus"
+                  rows={4}
+                  placeholder="Free and clear, existing liens, current payoff position, and any ownership constraints."
+                />
+              </label>
+
+              <div className="three-up">
+                <label className="field">
+                  <span>Acquisition date</span>
+                  <input name="acquisitionDate" type="date" />
+                </label>
+
+                <label className="field">
+                  <span>Acquisition price</span>
+                  <input name="acquisitionPrice" type="text" placeholder="$0" />
+                </label>
+
+                <label className="field">
+                  <span>Improvement spend</span>
+                  <input name="improvementSpend" type="text" placeholder="$0" />
+                </label>
+              </div>
+
+              <label className="field">
+                <span>How title is held</span>
+                <textarea
+                  name="titleHoldingDetail"
+                  rows={3}
+                  placeholder="Exact vesting or title-holding description from the first call."
+                />
+              </label>
+
+              <div className="two-up">
+                <label className="field">
+                  <span>Current value estimate</span>
+                  <input name="estimatedValue" type="text" placeholder="$0" />
+                </label>
+
+                <label className="field">
+                  <span>Value basis</span>
+                  <textarea
+                    name="valueEstimateBasis"
+                    rows={3}
+                    placeholder="Broker opinion, appraisal, comps, borrower estimate, tax value, and so on."
+                  />
+                </label>
+              </div>
+
+              <label className="field">
+                <span>Funding needed by</span>
+                <input name="fundingNeededBy" type="text" placeholder="Example: within 7 days" />
+              </label>
+
+              <label className="field">
+                <span>Occupancy / collateral summary</span>
+                <input
+                  name="occupancySummary"
+                  type="text"
+                  placeholder="Example: borrower will lease back retail space post-close; rents are part of collateral."
+                />
+              </label>
+
+              <label className="field">
+                <span>Notary path</span>
+                <select name="notaryRequirement" defaultValue="depends">
+                  {notaryOptions.map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </details>
+
+            <details className="turicum-disclosure">
+              <summary>
+                <span>Optional validation placeholders</span>
+                <span className="helper">Capture screening assumptions now if the operator already knows them.</span>
+              </summary>
+
+              <div className="kicker-row">
+                <p className="eyebrow">Borrower validation placeholders</p>
+              </div>
+
+              <div className="two-up">
+                <label className="field">
+                  <span>Credit/background path</span>
+                  <select name="screeningPlan" defaultValue="borrower_to_provide">
+                    {screeningPlanOptions.map((value) => (
+                      <option key={value} value={value}>
+                        {value.replaceAll("_", " ")}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="helper">Placeholder only for now. Turicum LLC can ask the borrower to provide reports or flag that a vendor must be chosen case by case.</p>
+                </label>
+
+                <label className="field">
+                  <span>Vendor / provider (if known)</span>
+                  <input name="screeningProvider" type="text" placeholder="Leave blank if not selected yet" />
+                </label>
+              </div>
+
+              <div className="three-up">
+                <label className="field">
+                  <span>Credit check</span>
+                  <select name="creditCheckStatus" defaultValue="pending">
+                    {screeningStatusOptions.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span>Background check</span>
+                  <select name="backgroundCheckStatus" defaultValue="pending">
+                    {screeningStatusOptions.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="field">
+                  <span>Criminal check</span>
+                  <select name="criminalCheckStatus" defaultValue="pending">
+                    {screeningStatusOptions.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <label className="field">
+                <span>Screening notes</span>
+                <textarea
+                  name="screeningNotes"
+                  rows={3}
+                  placeholder="Note whether the borrower will provide reports or Turicum LLC needs to find someone to run them."
+                />
+              </label>
+            </details>
+
+            <details className="turicum-disclosure">
+              <summary>
+                <span>Optional review context</span>
+                <span className="helper">Use this when AI and legal review need extra framing from day one.</span>
+              </summary>
+
+              <div className="kicker-row">
+                <p className="eyebrow">Deal context</p>
+              </div>
+
+              <label className="field">
+                <span>Complexity notes for AI / legal review</span>
+                <textarea
+                  name="complexityNotes"
+                  rows={4}
+                  placeholder="Example: trust borrower with two lenders and a purchase-leaseback structure; confirm notary path and multi-lender enforcement."
+                />
+              </label>
+            </details>
           </form>
         </section>
       </div>
