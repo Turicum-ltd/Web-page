@@ -52,6 +52,14 @@ function formatTimestamp(value: string | undefined) {
   return date.toLocaleString();
 }
 
+function formatRelativeDocumentSource(storagePath: string) {
+  if (isGoogleDriveUrl(storagePath)) {
+    return "Google Drive";
+  }
+
+  return "Turicum upload";
+}
+
 function buildInitialActionState(mode: "drive" | "upload") {
   return { status: "idle" as const, message: "", mode };
 }
@@ -101,6 +109,9 @@ export default async function CaseDetailPage({
     ? withBasePath(`/library/templates/${encodeURIComponent(legalSelection.groupKey)}`)
     : withBasePath("/library/templates");
   const caseDriveFolderHref = buildGoogleDriveFolderHref(item.googleDriveFolderId);
+  const driveDocumentCount = documents.filter((document) => isGoogleDriveUrl(document.storagePath)).length;
+  const uploadedDocumentCount = documents.length - driveDocumentCount;
+  const recentDocuments = documents.slice(0, 5);
 
   async function submitDocumentEntry(
     _previousState: { status: "idle" | "success" | "error"; message: string; mode: "drive" | "upload" },
@@ -800,6 +811,73 @@ export default async function CaseDetailPage({
                 </tbody>
               </table>
             </div>
+          </div>
+
+          <div className="panel">
+            <p className="eyebrow">Recent Activity</p>
+            <h2>Latest documents and Drive workspace status</h2>
+            <div className="dashboard-band">
+              <div className="band-card">
+                <p className="eyebrow">Documents</p>
+                <strong>{documents.length}</strong>
+                <p className="helper">attached to this case</p>
+              </div>
+              <div className="band-card">
+                <p className="eyebrow">Drive refs</p>
+                <strong>{driveDocumentCount}</strong>
+                <p className="helper">linked from Google Drive</p>
+              </div>
+              <div className="band-card">
+                <p className="eyebrow">Uploads</p>
+                <strong>{uploadedDocumentCount}</strong>
+                <p className="helper">stored inside Turicum</p>
+              </div>
+            </div>
+            {caseDriveFolderHref ? (
+              <div className="callout">
+                <p className="eyebrow">Case workspace</p>
+                <p>
+                  The current case workspace folder is connected and can be reused across intake, validation, and document linking.
+                </p>
+                <div className="form-actions">
+                  <a className="secondary-button" href={caseDriveFolderHref} target="_blank" rel="noreferrer">
+                    Open case Drive folder
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="callout">
+                <p className="eyebrow">Case workspace</p>
+                <p>
+                  No primary Drive folder is saved yet. Add it in the case workspace panel above so operators can keep document work anchored to one location.
+                </p>
+              </div>
+            )}
+            {recentDocuments.length > 0 ? (
+              <>
+                <p className="eyebrow" style={{ marginTop: 16 }}>Latest additions</p>
+                <ul className="list">
+                  {recentDocuments.map((document) => (
+                    <li key={document.id}>
+                      <strong>{document.title}</strong>
+                      {" · "}
+                      {formatRelativeDocumentSource(document.storagePath)}
+                      {" · "}
+                      {document.status.replaceAll("_", " ")}
+                      {formatTimestamp(document.uploadedAt) ? ` · ${formatTimestamp(document.uploadedAt)}` : ""}
+                      <br />
+                      <a href={withBasePath(`/api/cases/${id}/documents/${document.id}`)}>
+                        {document.fileName}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p className="helper">
+                No documents have been attached yet. The first linked Drive file or direct upload will appear here.
+              </p>
+            )}
           </div>
         </section>
       </div>
