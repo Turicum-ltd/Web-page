@@ -3282,12 +3282,13 @@ code {
 .turicum-process-step {
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
   align-items: start;
   align-content: start;
   column-gap: 24px;
   row-gap: 0;
   padding-top: 0;
+  justify-items: start;
 }
 
 .turicum-process-step-copy {
@@ -3295,6 +3296,8 @@ code {
   gap: 10px;
   align-content: start;
   text-align: left;
+  align-self: start;
+  min-width: 0;
 }
 
 .turicum-process-step-copy h3,
@@ -3325,6 +3328,8 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: start;
+  justify-self: start;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 999px;
