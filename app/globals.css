@@ -197,7 +197,7 @@ main {
 
 .turicum-hero-brief {
   display: grid;
-  align-content: start;
+  align-content: flex-start;
 }
 
 .turicum-hero-photo-card {
@@ -3145,9 +3145,11 @@ code {
 }
 
 .turicum-lane {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
-  align-content: start;
+  align-content: flex-start;
+  min-height: 100%;
   padding: 24px;
   border-radius: 22px;
   border: 1px solid rgba(39, 39, 42, 0.96);
@@ -3216,6 +3218,12 @@ code {
   border-radius: 999px;
   background: rgba(134, 183, 245, 0.88);
   transform: translateY(-50%);
+}
+
+.turicum-lane-actions {
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: auto;
 }
 
 .turicum-process-section {

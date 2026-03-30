@@ -191,7 +191,7 @@ export function TuricumPortalOverview() {
                     <li key={bullet}>{bullet}</li>
                   ))}
                 </ul>
-                <div className="form-actions turicum-inline-actions">
+                <div className="form-actions turicum-inline-actions turicum-lane-actions">
                   <Link className="secondary-button turicum-primary-button" href={withBasePath(lane.primaryHref)}>
                     {lane.primaryLabel}
                   </Link>
