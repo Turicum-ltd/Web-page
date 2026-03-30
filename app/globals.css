@@ -1061,6 +1061,19 @@ tbody tr:last-child td {
   box-shadow: inset 0 0 0 1px rgba(47, 129, 247, 0.18);
 }
 
+.turicum-ledger-refresh {
+  min-width: 96px;
+  padding: 9px 13px;
+  border-color: rgba(120, 193, 255, 0.2);
+  background: rgba(132, 146, 166, 0.12);
+  color: #dbe8f5;
+}
+
+.turicum-ledger-refresh:hover {
+  background: rgba(88, 166, 255, 0.16);
+  border-color: rgba(88, 166, 255, 0.28);
+}
+
 .turicum-form-callout-success {
   border-left-color: var(--success);
   background: rgba(63, 185, 80, 0.1);

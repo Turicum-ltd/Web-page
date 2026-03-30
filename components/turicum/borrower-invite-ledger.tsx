@@ -181,7 +181,7 @@ export function BorrowerInviteLedger({
                     type="button"
                     onClick={() => handleRefresh(invite.id)}
                     disabled={isRefreshing}
-                    className={isRefreshed ? "is-active" : undefined}
+                    className={`secondary-button turicum-ledger-refresh${isRefreshed ? " is-active" : ""}`}
                   >
                     {isRefreshing ? "Refreshing..." : isRefreshed ? "Refreshed!" : "Refresh"}
                   </button>
