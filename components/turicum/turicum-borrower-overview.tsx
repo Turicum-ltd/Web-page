@@ -190,9 +190,17 @@ export function TuricumBorrowerOverview({ requested, error }: TuricumBorrowerOve
               </div>
             </div>
             {requested ? (
-              <div className="panel subtle">
-                <strong>Intro call request received.</strong>
-                <p className="helper">Turicum now has your request and can schedule the first borrower conversation from the internal side.</p>
+              <div className="panel subtle turicum-intro-success-state">
+                <p className="eyebrow">Thank you</p>
+                <strong>Your intro call request is in.</strong>
+                <p className="helper">
+                  Check your email. We’ll send the calendar link there to confirm your 15-minute
+                  intro call.
+                </p>
+                <p className="helper">
+                  You do not need the full document package ready yet. The next step is just the
+                  first fit conversation.
+                </p>
               </div>
             ) : null}
             {error ? (
@@ -201,23 +209,27 @@ export function TuricumBorrowerOverview({ requested, error }: TuricumBorrowerOve
                 <p className="helper">{error}</p>
               </div>
             ) : null}
-            <div className="turicum-borrower-timeline" aria-label="Borrower contact timeline">
-              <p className="helper turicum-borrower-timeline-note">
-                You do not need every document ready just to talk to us. The first step is a quick fit check.
-              </p>
-              <div className="turicum-borrower-timeline-track">
-                {borrowerContactTimeline.map((step) => (
-                  <article key={step.title} className="turicum-borrower-timeline-step">
-                    <span className="turicum-borrower-timeline-icon" aria-hidden="true">
-                      <step.icon />
-                    </span>
-                    <strong>{step.title}</strong>
-                    <p>{step.description}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-            <IntroCallRequestForm action={withConfiguredBasePath("/api/intro-call-requests")} />
+            {!requested ? (
+              <>
+                <div className="turicum-borrower-timeline" aria-label="Borrower contact timeline">
+                  <p className="helper turicum-borrower-timeline-note">
+                    You do not need every document ready just to talk to us. The first step is a quick fit check.
+                  </p>
+                  <div className="turicum-borrower-timeline-track">
+                    {borrowerContactTimeline.map((step) => (
+                      <article key={step.title} className="turicum-borrower-timeline-step">
+                        <span className="turicum-borrower-timeline-icon" aria-hidden="true">
+                          <step.icon />
+                        </span>
+                        <strong>{step.title}</strong>
+                        <p>{step.description}</p>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+                <IntroCallRequestForm action={withConfiguredBasePath("/api/intro-call-requests")} />
+              </>
+            ) : null}
           </div>
         </section>
 

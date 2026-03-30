@@ -3521,6 +3521,21 @@ code {
   height: 1.15rem;
 }
 
+.turicum-intro-success-state {
+  display: grid;
+  gap: 10px;
+  padding: 22px 22px 24px;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(15, 15, 18, 0.96));
+}
+
+.turicum-intro-success-state strong,
+.turicum-intro-success-state p {
+  margin: 0;
+}
+
 .turicum-intro-steps {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
