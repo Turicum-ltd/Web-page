@@ -10,12 +10,13 @@ import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
 import { AccessUserTable } from "@/components/turicum/access-user-table";
 import { BorrowerInviteLedger } from "@/components/turicum/borrower-invite-ledger";
 import { GeneratedPasswordField } from "@/components/turicum/generated-password-field";
+import { InvestorGrantForm } from "@/components/turicum/investor-grant-form";
 import {
   createOrUpdateBorrowerInvite,
   createOrUpdateInvestorUser,
   createOrUpdateStaffUser,
   getAccessAdminSnapshot,
-  grantInvestorCaseAccess,
+  grantInvestorCaseAccessBulk,
   refreshBorrowerInvite,
   revokeBorrowerInvite,
   revokeInvestorCaseAccess,
@@ -74,6 +75,10 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
   const caseWorkspaceHref = currentCase
     ? withBasePath(`/cases/${currentCase.id}`)
     : withBasePath("/cases");
+  const activeCases =
+    snapshot?.cases.filter(
+      (item) => item.stage !== "closed" && item.stage !== "declined" && item.status !== "archive"
+    ) ?? [];
 
   function buildAccessPath(nextStatus?: string, nextMessage?: string, extra?: Record<string, string>) {
     const search = new URLSearchParams();
@@ -142,17 +147,24 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
   async function saveInvestorGrant(formData: FormData) {
     "use server";
     try {
-      await grantInvestorCaseAccess({
+      const saved = await grantInvestorCaseAccessBulk({
         email: String(formData.get("email") ?? ""),
-        caseId: String(formData.get("caseId") ?? "")
+        caseIds: formData.getAll("caseIds").map((value) => String(value))
       });
 
       revalidatePath(withBasePath("/access"));
-      redirect(buildAccessPath("grant-saved"));
+      return {
+        ok: true,
+        count: saved.count,
+        email: saved.email
+      };
     } catch (error) {
       rethrowRedirectError(error);
-      const errorMessage = error instanceof Error ? error.message : "Investor case grant could not be saved.";
-      redirect(buildAccessPath("error", errorMessage));
+      return {
+        ok: false,
+        message:
+          error instanceof Error ? error.message : "Investor case grant could not be saved."
+      };
     }
   }
 
@@ -424,28 +436,16 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                 <h2>Give an investor access to a specific case</h2>
               </div>
             </div>
-            <form action={saveInvestorGrant} className="form-grid">
-              <label className="field">
-                <span>Investor email</span>
-                <input name="email" type="email" required />
-              </label>
-              <label className="field">
-                <span>Case</span>
-                <select name="caseId" required defaultValue={currentCase?.id ?? ""}>
-                  <option value="" disabled>
-                    Select a case
-                  </option>
-                  {snapshot.cases.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.code} · {item.title}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <div className="form-actions">
-                <button type="submit">Grant investor access</button>
-              </div>
-            </form>
+            <InvestorGrantForm
+              cases={activeCases.map((item) => ({
+                id: item.id,
+                code: item.code,
+                title: item.title,
+                stage: item.stage
+              }))}
+              defaultCaseId={currentCase?.id}
+              saveInvestorGrant={saveInvestorGrant}
+            />
             <p className="helper">
               Investor accounts only see cases that have explicit `turicum_case_access_grants`
               rows.

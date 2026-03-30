@@ -431,6 +431,45 @@ export async function grantInvestorCaseAccess(input: {
   }
 }
 
+export async function grantInvestorCaseAccessBulk(input: {
+  email: string;
+  caseIds: string[];
+}) {
+  const supabase = getSupabaseAdmin();
+  const email = normalizeEmail(input.email);
+  const caseIds = Array.from(new Set(input.caseIds.map((caseId) => caseId.trim()).filter(Boolean)));
+
+  if (!caseIds.length) {
+    throw new Error("Select at least one case to grant investor access.");
+  }
+
+  const user = await findAuthUserByEmail(email);
+
+  if (!user) {
+    throw new Error(`No Supabase user found for ${email}. Create the investor account first.`);
+  }
+
+  const { error } = await supabase.from("turicum_case_access_grants").upsert(
+    caseIds.map((caseId) => ({
+      case_id: caseId,
+      user_id: user.id,
+      access_role: "investor"
+    })),
+    {
+      onConflict: "case_id,user_id,access_role"
+    }
+  );
+
+  if (error) {
+    throw new Error(`Failed to grant investor access: ${error.message}`);
+  }
+
+  return {
+    email,
+    count: caseIds.length
+  };
+}
+
 export async function setUserProfileActiveState(input: {
   userId: string;
   isActive: boolean;
