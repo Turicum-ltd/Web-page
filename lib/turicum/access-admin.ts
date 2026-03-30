@@ -249,7 +249,9 @@ export async function getAdminAuditLogsForTargetEmail(
     .order("performed_at", { ascending: false });
 
   if (error) {
-    throw new Error(`Failed to load admin audit logs: ${error.message}`);
+    throw new Error(
+      `Failed to load admin audit logs: ${error.message}. Check that the admin_audit_logs migration is applied and that the table uses the target_user_email column.`
+    );
   }
 
   return ((data ?? []) as AdminAuditLogRow[]).map((row) => ({
