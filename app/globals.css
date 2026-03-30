@@ -1144,6 +1144,30 @@ tbody tr:last-child td {
   color: #ffffff !important;
 }
 
+.turicum-delete-icon-button {
+  min-width: 44px;
+  padding: 10px 12px;
+  border-color: #27272a !important;
+  background: rgba(127, 29, 29, 0.18) !important;
+  color: #fda4af !important;
+}
+
+.turicum-delete-icon-button:hover:not(:disabled) {
+  background: rgba(185, 28, 28, 0.9) !important;
+  border-color: rgba(248, 113, 113, 0.56) !important;
+  color: #fff1f2 !important;
+}
+
+.turicum-delete-icon-button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.turicum-inline-error {
+  margin-bottom: 12px;
+  color: #fda4af;
+}
+
 .turicum-form-callout-success {
   border-left-color: var(--success);
   background: rgba(63, 185, 80, 0.1);

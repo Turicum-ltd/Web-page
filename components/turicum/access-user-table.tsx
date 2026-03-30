@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
 import type { AccessAdminUser, AdminAuditLogEntry } from "@/lib/turicum/access-admin";
 
@@ -10,7 +11,7 @@ interface AccessUserTableProps {
   variant: "staff" | "investor";
   users: AccessAdminUser[];
   toggleUserStatus: (formData: FormData) => Promise<void>;
-  deleteUser: (formData: FormData) => Promise<void>;
+  deleteUser: (userId: string) => Promise<void>;
   loadAuditHistory: (targetUserEmail: string) => Promise<AdminAuditLogEntry[]>;
 }
 
@@ -138,7 +139,11 @@ export function AccessUserTable({
   const [historyEntries, setHistoryEntries] = useState<AdminAuditLogEntry[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [historyError, setHistoryError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
   const requestIdRef = useRef(0);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const filteredUsers = useMemo(
     () =>
@@ -194,6 +199,30 @@ export function AccessUserTable({
     setHistoryLoading(false);
   }
 
+  function handleDelete(user: AccessAdminUser) {
+    if (
+      !window.confirm(
+        "PERMANENT DELETE: Are you sure you want to wipe this account and all its history?"
+      )
+    ) {
+      return;
+    }
+
+    setDeleteError(null);
+    setDeletingUserId(user.userId);
+
+    startTransition(async () => {
+      try {
+        await deleteUser(user.userId);
+        router.refresh();
+      } catch (error) {
+        setDeleteError(error instanceof Error ? error.message : "User account could not be deleted.");
+      } finally {
+        setDeletingUserId(null);
+      }
+    });
+  }
+
   return (
     <section className="panel turicum-access-card turicum-access-card-active">
       <div className="section-head">
@@ -230,6 +259,7 @@ export function AccessUserTable({
         </div>
       </div>
       <div className="table-wrap turicum-access-table-wrap">
+        {deleteError ? <p className="helper turicum-inline-error">{deleteError}</p> : null}
         <table>
           <thead>
             {variant === "staff" ? (
@@ -286,62 +316,96 @@ export function AccessUserTable({
                     )}
                   </td>
                   <td>
-                    <div className="table-actions">
-                      {user.isActive ? (
-                        <ConfirmActionForm
-                          action={toggleUserStatus}
-                          confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
-                        >
-                          <input type="hidden" name="userId" value={user.userId} />
-                          <input type="hidden" name="nextIsActive" value="false" />
-                          <button type="submit" className="turicum-destructive-button">Deactivate</button>
-                        </ConfirmActionForm>
-                      ) : (
-                        <form action={toggleUserStatus}>
-                          <input type="hidden" name="userId" value={user.userId} />
-                          <input type="hidden" name="nextIsActive" value="true" />
-                          <button type="submit">Reactivate</button>
-                        </form>
-                      )}
+                    {user.isActive ? (
                       <ConfirmActionForm
-                        action={deleteUser}
-                        confirmMessage={`Are you sure? This will permanently remove this user from Supabase and delete all their audit logs.`}
+                        action={toggleUserStatus}
+                        confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
                       >
                         <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="email" value={user.email} />
-                        <button type="submit" className="turicum-delete-account-button">Delete Account</button>
+                        <input type="hidden" name="nextIsActive" value="false" />
+                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
                       </ConfirmActionForm>
-                    </div>
+                    ) : (
+                      <form action={toggleUserStatus}>
+                        <input type="hidden" name="userId" value={user.userId} />
+                        <input type="hidden" name="nextIsActive" value="true" />
+                        <button type="submit">Reactivate</button>
+                      </form>
+                    )}
                   </td>
                   <td>
-                    <button
-                      type="button"
-                      className="secondary-button turicum-history-trigger"
-                      onClick={() => openHistory(user)}
-                      aria-label={`Open audit history for ${user.email}`}
-                    >
-                      <span className="turicum-history-trigger-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24">
-                          <path
-                            d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="2.75"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                          />
-                        </svg>
-                      </span>
-                      <span>History</span>
-                    </button>
+                    <div className="table-actions">
+                      <button
+                        type="button"
+                        className="secondary-button turicum-history-trigger"
+                        onClick={() => openHistory(user)}
+                        aria-label={`Open audit history for ${user.email}`}
+                      >
+                        <span className="turicum-history-trigger-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24">
+                            <path
+                              d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.7"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="2.75"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.7"
+                            />
+                          </svg>
+                        </span>
+                        <span>History</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="secondary-button turicum-delete-icon-button"
+                        onClick={() => handleDelete(user)}
+                        aria-label={`Permanently delete ${user.email}`}
+                        title="Delete account"
+                        disabled={isPending && deletingUserId === user.userId}
+                      >
+                        <span className="turicum-history-trigger-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24">
+                            <path
+                              d="M4 7h16"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                            />
+                            <path
+                              d="M9.5 3.75h5L15.25 7h-6.5L9.5 3.75Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M7.5 7 8.4 19.1a1.5 1.5 0 0 0 1.5 1.4h4.2a1.5 1.5 0 0 0 1.5-1.4L16.5 7"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M10 10.5v6M14 10.5v6"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -370,62 +434,96 @@ export function AccessUserTable({
                     )}
                   </td>
                   <td>
-                    <div className="table-actions">
-                      {user.isActive ? (
-                        <ConfirmActionForm
-                          action={toggleUserStatus}
-                          confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
-                        >
-                          <input type="hidden" name="userId" value={user.userId} />
-                          <input type="hidden" name="nextIsActive" value="false" />
-                          <button type="submit" className="turicum-destructive-button">Deactivate</button>
-                        </ConfirmActionForm>
-                      ) : (
-                        <form action={toggleUserStatus}>
-                          <input type="hidden" name="userId" value={user.userId} />
-                          <input type="hidden" name="nextIsActive" value="true" />
-                          <button type="submit">Reactivate</button>
-                        </form>
-                      )}
+                    {user.isActive ? (
                       <ConfirmActionForm
-                        action={deleteUser}
-                        confirmMessage={`Are you sure? This will permanently remove this user from Supabase and delete all their audit logs.`}
+                        action={toggleUserStatus}
+                        confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
                       >
                         <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="email" value={user.email} />
-                        <button type="submit" className="turicum-delete-account-button">Delete Account</button>
+                        <input type="hidden" name="nextIsActive" value="false" />
+                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
                       </ConfirmActionForm>
-                    </div>
+                    ) : (
+                      <form action={toggleUserStatus}>
+                        <input type="hidden" name="userId" value={user.userId} />
+                        <input type="hidden" name="nextIsActive" value="true" />
+                        <button type="submit">Reactivate</button>
+                      </form>
+                    )}
                   </td>
                   <td>
-                    <button
-                      type="button"
-                      className="secondary-button turicum-history-trigger"
-                      onClick={() => openHistory(user)}
-                      aria-label={`Open audit history for ${user.email}`}
-                    >
-                      <span className="turicum-history-trigger-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24">
-                          <path
-                            d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="2.75"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                          />
-                        </svg>
-                      </span>
-                      <span>History</span>
-                    </button>
+                    <div className="table-actions">
+                      <button
+                        type="button"
+                        className="secondary-button turicum-history-trigger"
+                        onClick={() => openHistory(user)}
+                        aria-label={`Open audit history for ${user.email}`}
+                      >
+                        <span className="turicum-history-trigger-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24">
+                            <path
+                              d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.7"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="2.75"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.7"
+                            />
+                          </svg>
+                        </span>
+                        <span>History</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="secondary-button turicum-delete-icon-button"
+                        onClick={() => handleDelete(user)}
+                        aria-label={`Permanently delete ${user.email}`}
+                        title="Delete account"
+                        disabled={isPending && deletingUserId === user.userId}
+                      >
+                        <span className="turicum-history-trigger-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24">
+                            <path
+                              d="M4 7h16"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                            />
+                            <path
+                              d="M9.5 3.75h5L15.25 7h-6.5L9.5 3.75Z"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M7.5 7 8.4 19.1a1.5 1.5 0 0 0 1.5 1.4h4.2a1.5 1.5 0 0 0 1.5-1.4L16.5 7"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M10 10.5v6M14 10.5v6"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
