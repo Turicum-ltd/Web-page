@@ -362,6 +362,20 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
 
         {!snapshot ? null : (
           <>
+        <section className="panel">
+          <div className="section-head">
+            <div>
+              <p className="eyebrow">Borrower ledger</p>
+              <h2>Current borrower invite records</h2>
+            </div>
+          </div>
+          <BorrowerInviteLedger
+            invites={snapshot.borrowerInvites}
+            refreshInvite={refreshInvite}
+            revokeInvite={revokeInvite}
+          />
+        </section>
+
         <section className="two-up">
           <div className="panel lead">
             <div className="section-head">
@@ -507,17 +521,6 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
               This initializes the borrower portal if needed, stores the borrower contact, and syncs
               the invite into the Supabase ledger.
             </p>
-            <div className="section-head" style={{ marginTop: 24 }}>
-              <div>
-                <p className="eyebrow">Borrower ledger</p>
-                <h2>Current borrower invite records</h2>
-              </div>
-            </div>
-            <BorrowerInviteLedger
-              invites={snapshot.borrowerInvites}
-              refreshInvite={refreshInvite}
-              revokeInvite={revokeInvite}
-            />
           </div>
         </section>
 
