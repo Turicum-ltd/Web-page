@@ -1,12 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 interface CommercialLoanApplicationFormProps {
   action: string;
 }
 
 type Step = 1 | 2 | 3 | 4;
+type LoanPurpose = "purchase" | "refinance" | "refi_cash_out" | "";
+
+interface OwnershipRow {
+  id: string;
+  name: string;
+  title: string;
+  percentOwned: string;
+}
+
 type FieldKey =
   | "primaryBorrowerName"
   | "primaryBorrowerEmail"
@@ -25,27 +34,66 @@ type FieldKey =
   | "requestedAmount"
   | "propertyAddress"
   | "propertyType"
-  | "borrowingEntityName"
+  | "constructionType"
+  | "purpose"
+  | "purchasePrice"
+  | "sourceOfDownPayment"
+  | "yearAcquired"
+  | "originalCost"
+  | "existingLiens"
+  | "estimatedPresentValue"
+  | "exactNameOfEntityForTitle"
+  | "entityType"
+  | "businessTaxId"
+  | "dateEstablished"
+  | "numberOfEmployees"
+  | "primaryBusinessAddress"
   | "bankruptcyHistory"
   | "lawsuitHistory"
   | "judgmentHistory"
   | "declarationNotes";
 
 const propertyTypeOptions = [
-  "Multifamily",
-  "Mixed-Use",
   "Industrial",
   "Retail",
   "Office",
+  "Mixed-Use",
+  "Multifamily",
   "Hospitality",
   "Land",
   "Other"
 ];
 
+const constructionTypeOptions = [
+  "Steel",
+  "Concrete",
+  "Wood Frame",
+  "Tilt-Up",
+  "Masonry",
+  "Other"
+];
+
+const entityTypeOptions = ["C-Corp", "S-Corp", "Partnership", "LLC", "Other"];
+
 const declarationOptions = [
   { value: "no", label: "No" },
   { value: "yes", label: "Yes" }
 ];
+
+const purposeOptions: Array<{ value: Exclude<LoanPurpose, "">; label: string }> = [
+  { value: "purchase", label: "Purchase" },
+  { value: "refinance", label: "Refinance" },
+  { value: "refi_cash_out", label: "Refi-Cash Out" }
+];
+
+function createOwnershipRow(): OwnershipRow {
+  return {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    name: "",
+    title: "",
+    percentOwned: ""
+  };
+}
 
 function isEmailValid(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -63,9 +111,20 @@ function normalizeCurrencyInput(value: string) {
   return value.replace(/\D/g, "");
 }
 
+function normalizePercentInput(value: string) {
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const [whole, ...rest] = cleaned.split(".");
+  return rest.length ? `${whole}.${rest.join("")}` : whole;
+}
+
+function parsePercent(value: string) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicationFormProps) {
-  const formRef = useRef<HTMLFormElement>(null);
   const [step, setStep] = useState<Step>(1);
+  const [ownershipTouched, setOwnershipTouched] = useState(false);
   const [touched, setTouched] = useState<Record<FieldKey, boolean>>({
     primaryBorrowerName: false,
     primaryBorrowerEmail: false,
@@ -84,7 +143,20 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     requestedAmount: false,
     propertyAddress: false,
     propertyType: false,
-    borrowingEntityName: false,
+    constructionType: false,
+    purpose: false,
+    purchasePrice: false,
+    sourceOfDownPayment: false,
+    yearAcquired: false,
+    originalCost: false,
+    existingLiens: false,
+    estimatedPresentValue: false,
+    exactNameOfEntityForTitle: false,
+    entityType: false,
+    businessTaxId: false,
+    dateEstablished: false,
+    numberOfEmployees: false,
+    primaryBusinessAddress: false,
     bankruptcyHistory: false,
     lawsuitHistory: false,
     judgmentHistory: false,
@@ -108,7 +180,21 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   const [requestedAmount, setRequestedAmount] = useState("");
   const [propertyAddress, setPropertyAddress] = useState("");
   const [propertyType, setPropertyType] = useState("");
-  const [borrowingEntityName, setBorrowingEntityName] = useState("");
+  const [constructionType, setConstructionType] = useState("");
+  const [purpose, setPurpose] = useState<LoanPurpose>("");
+  const [purchasePrice, setPurchasePrice] = useState("");
+  const [sourceOfDownPayment, setSourceOfDownPayment] = useState("");
+  const [yearAcquired, setYearAcquired] = useState("");
+  const [originalCost, setOriginalCost] = useState("");
+  const [existingLiens, setExistingLiens] = useState("");
+  const [estimatedPresentValue, setEstimatedPresentValue] = useState("");
+  const [exactNameOfEntityForTitle, setExactNameOfEntityForTitle] = useState("");
+  const [entityType, setEntityType] = useState("");
+  const [ownershipRows, setOwnershipRows] = useState<OwnershipRow[]>([createOwnershipRow()]);
+  const [businessTaxId, setBusinessTaxId] = useState("");
+  const [dateEstablished, setDateEstablished] = useState("");
+  const [numberOfEmployees, setNumberOfEmployees] = useState("");
+  const [primaryBusinessAddress, setPrimaryBusinessAddress] = useState("");
   const [bankruptcyHistory, setBankruptcyHistory] = useState("");
   const [lawsuitHistory, setLawsuitHistory] = useState("");
   const [judgmentHistory, setJudgmentHistory] = useState("");
@@ -120,7 +206,28 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   const trimmedCurrentAddress = currentAddress.trim();
   const trimmedPropertyAddress = propertyAddress.trim();
   const trimmedPropertyType = propertyType.trim();
-  const trimmedBorrowingEntityName = borrowingEntityName.trim();
+  const trimmedConstructionType = constructionType.trim();
+  const trimmedExactNameOfEntityForTitle = exactNameOfEntityForTitle.trim();
+  const trimmedEntityType = entityType.trim();
+  const trimmedBusinessTaxId = businessTaxId.trim();
+  const trimmedDateEstablished = dateEstablished.trim();
+  const trimmedNumberOfEmployees = numberOfEmployees.trim();
+  const trimmedPrimaryBusinessAddress = primaryBusinessAddress.trim();
+  const activeOwnershipRows = ownershipRows.filter(
+    (row) => row.name.trim() || row.title.trim() || row.percentOwned.trim()
+  );
+  const ownershipRowsComplete =
+    activeOwnershipRows.length > 0 &&
+    activeOwnershipRows.every(
+      (row) => row.name.trim() && row.title.trim() && row.percentOwned.trim()
+    );
+  const ownershipTotal = activeOwnershipRows.reduce(
+    (sum, row) => sum + parsePercent(row.percentOwned.trim()),
+    0
+  );
+  const ownershipTotalValid = ownershipTotal <= 100;
+  const purchasePurpose = purpose === "purchase";
+  const refinancePurpose = purpose === "refinance" || purpose === "refi_cash_out";
 
   const stepOneValid =
     trimmedBorrowerName.length > 0 &&
@@ -138,7 +245,19 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     requestedAmount.length > 0 &&
     trimmedPropertyAddress.length > 0 &&
     trimmedPropertyType.length > 0 &&
-    trimmedBorrowingEntityName.length > 0;
+    trimmedConstructionType.length > 0 &&
+    purpose.length > 0 &&
+    estimatedPresentValue.length > 0 &&
+    trimmedExactNameOfEntityForTitle.length > 0 &&
+    trimmedEntityType.length > 0 &&
+    trimmedBusinessTaxId.length > 0 &&
+    trimmedDateEstablished.length > 0 &&
+    trimmedNumberOfEmployees.length > 0 &&
+    trimmedPrimaryBusinessAddress.length > 0 &&
+    ownershipRowsComplete &&
+    ownershipTotalValid &&
+    (!purchasePurpose || (purchasePrice.length > 0 && sourceOfDownPayment.trim().length > 0)) &&
+    (!refinancePurpose || (yearAcquired.trim().length > 0 && originalCost.length > 0 && existingLiens.length > 0));
   const stepFourValid =
     bankruptcyHistory.length > 0 &&
     lawsuitHistory.length > 0 &&
@@ -147,11 +266,9 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   function markTouched(fields: FieldKey[]) {
     setTouched((current) => {
       const next = { ...current };
-
       for (const field of fields) {
         next[field] = true;
       }
-
       return next;
     });
   }
@@ -173,11 +290,9 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       if (!trimmedBorrowerEmail) {
         return "Required";
       }
-
       if (!isEmailValid(trimmedBorrowerEmail)) {
         return "Enter a valid email";
       }
-
       return null;
     }
 
@@ -194,10 +309,23 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       requestedAmount: !requestedAmount,
       propertyAddress: !trimmedPropertyAddress,
       propertyType: !trimmedPropertyType,
-      borrowingEntityName: !trimmedBorrowingEntityName,
+      constructionType: !trimmedConstructionType,
+      purpose: !purpose,
+      estimatedPresentValue: !estimatedPresentValue,
+      exactNameOfEntityForTitle: !trimmedExactNameOfEntityForTitle,
+      entityType: !trimmedEntityType,
+      businessTaxId: !trimmedBusinessTaxId,
+      dateEstablished: !trimmedDateEstablished,
+      numberOfEmployees: !trimmedNumberOfEmployees,
+      primaryBusinessAddress: !trimmedPrimaryBusinessAddress,
       bankruptcyHistory: !bankruptcyHistory,
       lawsuitHistory: !lawsuitHistory,
-      judgmentHistory: !judgmentHistory
+      judgmentHistory: !judgmentHistory,
+      purchasePrice: purchasePurpose && !purchasePrice,
+      sourceOfDownPayment: purchasePurpose && !sourceOfDownPayment.trim(),
+      yearAcquired: refinancePurpose && !yearAcquired.trim(),
+      originalCost: refinancePurpose && !originalCost,
+      existingLiens: refinancePurpose && !existingLiens
     };
 
     if (requiredMap[field]) {
@@ -205,6 +333,29 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     }
 
     return null;
+  }
+
+  function updateOwnershipRow(rowId: string, field: keyof Omit<OwnershipRow, "id">, value: string) {
+    setOwnershipRows((current) =>
+      current.map((row) =>
+        row.id === rowId
+          ? {
+              ...row,
+              [field]: field === "percentOwned" ? normalizePercentInput(value) : value
+            }
+          : row
+      )
+    );
+  }
+
+  function addOwnershipRow() {
+    setOwnershipRows((current) => [...current, createOwnershipRow()]);
+  }
+
+  function removeOwnershipRow(rowId: string) {
+    setOwnershipRows((current) =>
+      current.length === 1 ? current.map((row) => ({ ...row, name: "", title: "", percentOwned: "" })) : current.filter((row) => row.id !== rowId)
+    );
   }
 
   function nextStep(currentStep: Step) {
@@ -243,8 +394,22 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
         "requestedAmount",
         "propertyAddress",
         "propertyType",
-        "borrowingEntityName"
+        "constructionType",
+        "purpose",
+        "purchasePrice",
+        "sourceOfDownPayment",
+        "yearAcquired",
+        "originalCost",
+        "existingLiens",
+        "estimatedPresentValue",
+        "exactNameOfEntityForTitle",
+        "entityType",
+        "businessTaxId",
+        "dateEstablished",
+        "numberOfEmployees",
+        "primaryBusinessAddress"
       ]);
+      setOwnershipTouched(true);
       if (!stepThreeValid) {
         return;
       }
@@ -252,8 +417,18 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     }
   }
 
+  const ownershipError = ownershipTouched
+    ? !activeOwnershipRows.length
+      ? "Add at least one owner or officer."
+      : !ownershipRowsComplete
+        ? "Complete each ownership row."
+        : !ownershipTotalValid
+          ? "Ownership total cannot exceed 100%."
+          : null
+    : null;
+
   return (
-    <form ref={formRef} className="form-grid turicum-intro-call-form" method="post" action={action}>
+    <form className="form-grid turicum-intro-call-form" method="post" action={action}>
       <div className="turicum-intro-steps" aria-label="Commercial loan application steps">
         <div className={`turicum-intro-step ${step === 1 ? "is-active" : step > 1 ? "is-complete" : ""}`}>
           <span className="turicum-intro-step-index">1</span>
@@ -272,8 +447,8 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
         <div className={`turicum-intro-step ${step === 3 ? "is-active" : step > 3 ? "is-complete" : ""}`}>
           <span className="turicum-intro-step-index">3</span>
           <div>
-            <strong>Subject Property</strong>
-            <span>Loan request and collateral</span>
+            <strong>Property & Entity</strong>
+            <span>Collateral, vesting, business data</span>
           </div>
         </div>
         <div className={`turicum-intro-step ${step === 4 ? "is-active" : ""}`}>
@@ -318,13 +493,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
             </label>
             <label className={fieldClassName("annualIncome")}>
               <span>Annual income</span>
-              <input
-                inputMode="numeric"
-                placeholder="250,000"
-                value={formatCurrencyDigits(annualIncome)}
-                onChange={(e) => setAnnualIncome(normalizeCurrencyInput(e.target.value))}
-                onBlur={() => handleBlur("annualIncome")}
-              />
+              <input inputMode="numeric" placeholder="250,000" value={formatCurrencyDigits(annualIncome)} onChange={(e) => setAnnualIncome(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("annualIncome")} />
               {getFieldError("annualIncome") ? <small className="turicum-field-error">{getFieldError("annualIncome")}</small> : null}
             </label>
             <label className={`${fieldClassName("currentAddress")} turicum-application-span-full`}>
@@ -404,36 +573,193 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
         <div className="turicum-intro-stage">
           <div className="turicum-intro-stage-head">
             <p className="eyebrow">Step 3 of 4</p>
-            <h3>Subject Property</h3>
-            <p className="helper">Define the collateral, requested size, and borrowing entity.</p>
+            <h3>Property & Entity</h3>
+            <p className="helper">Capture the property to be financed, title vesting, ownership, and core business details in one diligence-ready step.</p>
           </div>
-          <div className="turicum-intro-stage-grid">
-            <label className={fieldClassName("requestedAmount")}>
-              <span>Loan amount</span>
-              <input inputMode="numeric" value={formatCurrencyDigits(requestedAmount)} onChange={(e) => setRequestedAmount(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("requestedAmount")} />
-              {getFieldError("requestedAmount") ? <small className="turicum-field-error">{getFieldError("requestedAmount")}</small> : null}
-            </label>
-            <label className={fieldClassName("propertyType")}>
-              <span>Property type</span>
-              <select value={propertyType} onChange={(e) => setPropertyType(e.target.value)} onBlur={() => handleBlur("propertyType")}>
-                <option value="">Select type</option>
-                {propertyTypeOptions.map((option) => (
-                  <option key={option} value={option}>{option}</option>
+
+          <div className="turicum-application-section-card">
+            <div className="turicum-application-section-head">
+              <p className="eyebrow">Property to be financed</p>
+              <h4>Collateral and request details</h4>
+            </div>
+            <div className="turicum-intro-stage-grid turicum-application-property-grid">
+              <label className={`${fieldClassName("propertyAddress")} turicum-application-span-full`}>
+                <span>Property address</span>
+                <textarea value={propertyAddress} onChange={(e) => setPropertyAddress(e.target.value)} onBlur={() => handleBlur("propertyAddress")} rows={3} />
+                {getFieldError("propertyAddress") ? <small className="turicum-field-error">{getFieldError("propertyAddress")}</small> : null}
+              </label>
+              <label className={fieldClassName("propertyType")}>
+                <span>Type</span>
+                <select value={propertyType} onChange={(e) => setPropertyType(e.target.value)} onBlur={() => handleBlur("propertyType")}>
+                  <option value="">Select type</option>
+                  {propertyTypeOptions.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+                {getFieldError("propertyType") ? <small className="turicum-field-error">{getFieldError("propertyType")}</small> : null}
+              </label>
+              <label className={fieldClassName("constructionType")}>
+                <span>Construction type</span>
+                <select value={constructionType} onChange={(e) => setConstructionType(e.target.value)} onBlur={() => handleBlur("constructionType")}>
+                  <option value="">Select type</option>
+                  {constructionTypeOptions.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+                {getFieldError("constructionType") ? <small className="turicum-field-error">{getFieldError("constructionType")}</small> : null}
+              </label>
+              <div className={`field turicum-purpose-field${getFieldError("purpose") ? " is-invalid" : ""}`}>
+                <span>Purpose</span>
+                <div className="turicum-purpose-toggle-row">
+                  {purposeOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      className={`turicum-purpose-toggle${purpose === option.value ? " is-active" : ""}`}
+                      onClick={() => {
+                        setPurpose(option.value);
+                        setTouched((current) => ({ ...current, purpose: true }));
+                      }}
+                      aria-pressed={purpose === option.value}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+                {getFieldError("purpose") ? <small className="turicum-field-error">{getFieldError("purpose")}</small> : null}
+              </div>
+              {purchasePurpose ? (
+                <>
+                  <label className={fieldClassName("purchasePrice")}>
+                    <span>Purchase price</span>
+                    <input inputMode="numeric" value={formatCurrencyDigits(purchasePrice)} onChange={(e) => setPurchasePrice(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("purchasePrice")} />
+                    {getFieldError("purchasePrice") ? <small className="turicum-field-error">{getFieldError("purchasePrice")}</small> : null}
+                  </label>
+                  <label className={fieldClassName("sourceOfDownPayment")}>
+                    <span>Source of down payment</span>
+                    <input value={sourceOfDownPayment} onChange={(e) => setSourceOfDownPayment(e.target.value)} onBlur={() => handleBlur("sourceOfDownPayment")} />
+                    {getFieldError("sourceOfDownPayment") ? <small className="turicum-field-error">{getFieldError("sourceOfDownPayment")}</small> : null}
+                  </label>
+                </>
+              ) : null}
+              {refinancePurpose ? (
+                <>
+                  <label className={fieldClassName("yearAcquired")}>
+                    <span>Year acquired</span>
+                    <input value={yearAcquired} onChange={(e) => setYearAcquired(e.target.value.replace(/[^0-9]/g, "").slice(0, 4))} onBlur={() => handleBlur("yearAcquired")} placeholder="2019" />
+                    {getFieldError("yearAcquired") ? <small className="turicum-field-error">{getFieldError("yearAcquired")}</small> : null}
+                  </label>
+                  <label className={fieldClassName("originalCost")}>
+                    <span>Original cost</span>
+                    <input inputMode="numeric" value={formatCurrencyDigits(originalCost)} onChange={(e) => setOriginalCost(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("originalCost")} />
+                    {getFieldError("originalCost") ? <small className="turicum-field-error">{getFieldError("originalCost")}</small> : null}
+                  </label>
+                  <label className={`${fieldClassName("existingLiens")} turicum-application-span-full`}>
+                    <span>Existing liens</span>
+                    <textarea value={existingLiens} onChange={(e) => setExistingLiens(e.target.value)} onBlur={() => handleBlur("existingLiens")} rows={3} />
+                    {getFieldError("existingLiens") ? <small className="turicum-field-error">{getFieldError("existingLiens")}</small> : null}
+                  </label>
+                </>
+              ) : null}
+              <label className={fieldClassName("requestedAmount")}>
+                <span>Amount requested</span>
+                <input inputMode="numeric" value={formatCurrencyDigits(requestedAmount)} onChange={(e) => setRequestedAmount(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("requestedAmount")} />
+                {getFieldError("requestedAmount") ? <small className="turicum-field-error">{getFieldError("requestedAmount")}</small> : null}
+              </label>
+              <label className={fieldClassName("estimatedPresentValue")}>
+                <span>Estimated present value</span>
+                <input inputMode="numeric" value={formatCurrencyDigits(estimatedPresentValue)} onChange={(e) => setEstimatedPresentValue(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("estimatedPresentValue")} />
+                {getFieldError("estimatedPresentValue") ? <small className="turicum-field-error">{getFieldError("estimatedPresentValue")}</small> : null}
+              </label>
+            </div>
+          </div>
+
+          <div className="turicum-application-section-card">
+            <div className="turicum-application-section-head">
+              <p className="eyebrow">Vesting & entity</p>
+              <h4>Title vesting and ownership</h4>
+            </div>
+            <div className="turicum-intro-stage-grid turicum-application-entity-grid">
+              <label className={`${fieldClassName("exactNameOfEntityForTitle")} turicum-application-span-full`}>
+                <span>Exact name of entity for title</span>
+                <input value={exactNameOfEntityForTitle} onChange={(e) => setExactNameOfEntityForTitle(e.target.value)} onBlur={() => handleBlur("exactNameOfEntityForTitle")} />
+                {getFieldError("exactNameOfEntityForTitle") ? <small className="turicum-field-error">{getFieldError("exactNameOfEntityForTitle")}</small> : null}
+              </label>
+              <label className={fieldClassName("entityType")}>
+                <span>Entity type</span>
+                <select value={entityType} onChange={(e) => setEntityType(e.target.value)} onBlur={() => handleBlur("entityType")}>
+                  <option value="">Select entity type</option>
+                  {entityTypeOptions.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+                {getFieldError("entityType") ? <small className="turicum-field-error">{getFieldError("entityType")}</small> : null}
+              </label>
+            </div>
+            <div className="turicum-ownership-shell">
+              <div className="turicum-ownership-head">
+                <div>
+                  <p className="eyebrow">Ownership table</p>
+                  <p className="helper">List every director, officer, or ownership stakeholder tied to the vesting entity.</p>
+                </div>
+                <button type="button" className="secondary-button" onClick={addOwnershipRow}>
+                  Add owner
+                </button>
+              </div>
+              <div className="turicum-ownership-table">
+                <div className="turicum-ownership-table-head">
+                  <span>Name</span>
+                  <span>Title</span>
+                  <span>% Owned</span>
+                  <span aria-hidden="true" />
+                </div>
+                {ownershipRows.map((row) => (
+                  <div key={row.id} className="turicum-ownership-table-row">
+                    <input value={row.name} onChange={(e) => updateOwnershipRow(row.id, "name", e.target.value)} onBlur={() => setOwnershipTouched(true)} placeholder="Jane Doe" />
+                    <input value={row.title} onChange={(e) => updateOwnershipRow(row.id, "title", e.target.value)} onBlur={() => setOwnershipTouched(true)} placeholder="Managing Member" />
+                    <input value={row.percentOwned} onChange={(e) => updateOwnershipRow(row.id, "percentOwned", e.target.value)} onBlur={() => setOwnershipTouched(true)} inputMode="decimal" placeholder="50" />
+                    <button type="button" className="secondary-button turicum-ownership-remove" onClick={() => removeOwnershipRow(row.id)}>
+                      Remove
+                    </button>
+                  </div>
                 ))}
-              </select>
-              {getFieldError("propertyType") ? <small className="turicum-field-error">{getFieldError("propertyType")}</small> : null}
-            </label>
-            <label className={fieldClassName("borrowingEntityName")}>
-              <span>Borrowing entity name</span>
-              <input value={borrowingEntityName} onChange={(e) => setBorrowingEntityName(e.target.value)} onBlur={() => handleBlur("borrowingEntityName")} />
-              {getFieldError("borrowingEntityName") ? <small className="turicum-field-error">{getFieldError("borrowingEntityName")}</small> : null}
-            </label>
-            <label className={`${fieldClassName("propertyAddress")} turicum-application-span-full`}>
-              <span>Property address</span>
-              <textarea value={propertyAddress} onChange={(e) => setPropertyAddress(e.target.value)} onBlur={() => handleBlur("propertyAddress")} rows={3} />
-              {getFieldError("propertyAddress") ? <small className="turicum-field-error">{getFieldError("propertyAddress")}</small> : null}
-            </label>
+              </div>
+              <div className="turicum-ownership-summary">
+                <span>Total ownership entered: {ownershipTotal.toFixed(2).replace(/\.00$/, "")}%</span>
+                {ownershipError ? <small className="turicum-field-error">{ownershipError}</small> : null}
+              </div>
+            </div>
           </div>
+
+          <div className="turicum-application-section-card">
+            <div className="turicum-application-section-head">
+              <p className="eyebrow">Business data</p>
+              <h4>Operating business details</h4>
+            </div>
+            <div className="turicum-intro-stage-grid turicum-application-business-grid">
+              <label className={fieldClassName("businessTaxId")}>
+                <span>Business Tax ID (EIN)</span>
+                <input value={businessTaxId} onChange={(e) => setBusinessTaxId(e.target.value)} onBlur={() => handleBlur("businessTaxId")} />
+                {getFieldError("businessTaxId") ? <small className="turicum-field-error">{getFieldError("businessTaxId")}</small> : null}
+              </label>
+              <label className={fieldClassName("dateEstablished")}>
+                <span>Date established</span>
+                <input type="date" value={dateEstablished} onChange={(e) => setDateEstablished(e.target.value)} onBlur={() => handleBlur("dateEstablished")} />
+                {getFieldError("dateEstablished") ? <small className="turicum-field-error">{getFieldError("dateEstablished")}</small> : null}
+              </label>
+              <label className={fieldClassName("numberOfEmployees")}>
+                <span>Number of employees</span>
+                <input inputMode="numeric" value={numberOfEmployees} onChange={(e) => setNumberOfEmployees(e.target.value.replace(/[^0-9]/g, ""))} onBlur={() => handleBlur("numberOfEmployees")} />
+                {getFieldError("numberOfEmployees") ? <small className="turicum-field-error">{getFieldError("numberOfEmployees")}</small> : null}
+              </label>
+              <label className={`${fieldClassName("primaryBusinessAddress")} turicum-application-span-full`}>
+                <span>Primary business address</span>
+                <textarea value={primaryBusinessAddress} onChange={(e) => setPrimaryBusinessAddress(e.target.value)} onBlur={() => handleBlur("primaryBusinessAddress")} rows={3} />
+                {getFieldError("primaryBusinessAddress") ? <small className="turicum-field-error">{getFieldError("primaryBusinessAddress")}</small> : null}
+              </label>
+            </div>
+          </div>
+
           <div className="form-actions turicum-inline-actions turicum-intro-step-actions">
             <button type="button" className="secondary-button" onClick={() => setStep(2)}>
               Back
@@ -516,7 +842,22 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       <input type="hidden" name="requestedAmount" value={formatCurrencyDigits(requestedAmount)} />
       <input type="hidden" name="propertyAddress" value={trimmedPropertyAddress} />
       <input type="hidden" name="propertyType" value={trimmedPropertyType} />
-      <input type="hidden" name="borrowingEntityName" value={trimmedBorrowingEntityName} />
+      <input type="hidden" name="constructionType" value={trimmedConstructionType} />
+      <input type="hidden" name="purpose" value={purpose} />
+      <input type="hidden" name="purchasePrice" value={formatCurrencyDigits(purchasePrice)} />
+      <input type="hidden" name="sourceOfDownPayment" value={sourceOfDownPayment.trim()} />
+      <input type="hidden" name="yearAcquired" value={yearAcquired.trim()} />
+      <input type="hidden" name="originalCost" value={formatCurrencyDigits(originalCost)} />
+      <input type="hidden" name="existingLiens" value={existingLiens.trim()} />
+      <input type="hidden" name="estimatedPresentValue" value={formatCurrencyDigits(estimatedPresentValue)} />
+      <input type="hidden" name="exactNameOfEntityForTitle" value={trimmedExactNameOfEntityForTitle} />
+      <input type="hidden" name="borrowingEntityName" value={trimmedExactNameOfEntityForTitle} />
+      <input type="hidden" name="entityType" value={trimmedEntityType} />
+      <input type="hidden" name="ownershipTable" value={JSON.stringify(activeOwnershipRows.map((row) => ({ name: row.name.trim(), title: row.title.trim(), percentOwned: row.percentOwned.trim() })))} />
+      <input type="hidden" name="businessTaxId" value={trimmedBusinessTaxId} />
+      <input type="hidden" name="dateEstablished" value={trimmedDateEstablished} />
+      <input type="hidden" name="numberOfEmployees" value={trimmedNumberOfEmployees} />
+      <input type="hidden" name="primaryBusinessAddress" value={trimmedPrimaryBusinessAddress} />
       <input type="hidden" name="bankruptcyHistory" value={bankruptcyHistory} />
       <input type="hidden" name="lawsuitHistory" value={lawsuitHistory} />
       <input type="hidden" name="judgmentHistory" value={judgmentHistory} />

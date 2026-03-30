@@ -8,6 +8,25 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const email = String(formData.get("primaryBorrowerEmail") ?? "").trim().toLowerCase();
+    const ownershipTableRaw = String(formData.get("ownershipTable") ?? "").trim();
+    let ownershipTable: Array<{ name: string; title: string; percentOwned: string }> = [];
+
+    if (ownershipTableRaw) {
+      try {
+        const parsed = JSON.parse(ownershipTableRaw);
+        if (Array.isArray(parsed)) {
+          ownershipTable = parsed
+            .filter((item) => item && typeof item === "object")
+            .map((item) => ({
+              name: String((item as Record<string, unknown>).name ?? ""),
+              title: String((item as Record<string, unknown>).title ?? ""),
+              percentOwned: String((item as Record<string, unknown>).percentOwned ?? "")
+            }));
+        }
+      } catch {
+        ownershipTable = [];
+      }
+    }
 
     await createCommercialLoanApplication({
       primaryBorrowerName: String(formData.get("primaryBorrowerName") ?? ""),
@@ -27,7 +46,22 @@ export async function POST(request: Request) {
       requestedAmount: String(formData.get("requestedAmount") ?? ""),
       propertyAddress: String(formData.get("propertyAddress") ?? ""),
       propertyType: String(formData.get("propertyType") ?? ""),
-      borrowingEntityName: String(formData.get("borrowingEntityName") ?? ""),
+      constructionType: String(formData.get("constructionType") ?? ""),
+      purpose: String(formData.get("purpose") ?? ""),
+      purchasePrice: String(formData.get("purchasePrice") ?? ""),
+      sourceOfDownPayment: String(formData.get("sourceOfDownPayment") ?? ""),
+      yearAcquired: String(formData.get("yearAcquired") ?? ""),
+      originalCost: String(formData.get("originalCost") ?? ""),
+      existingLiens: String(formData.get("existingLiens") ?? ""),
+      estimatedPresentValue: String(formData.get("estimatedPresentValue") ?? ""),
+      borrowingEntityName: String(formData.get("exactNameOfEntityForTitle") ?? formData.get("borrowingEntityName") ?? ""),
+      exactNameOfEntityForTitle: String(formData.get("exactNameOfEntityForTitle") ?? ""),
+      entityType: String(formData.get("entityType") ?? ""),
+      ownershipTable,
+      businessTaxId: String(formData.get("businessTaxId") ?? ""),
+      dateEstablished: String(formData.get("dateEstablished") ?? ""),
+      numberOfEmployees: String(formData.get("numberOfEmployees") ?? ""),
+      primaryBusinessAddress: String(formData.get("primaryBusinessAddress") ?? ""),
       bankruptcyHistory: String(formData.get("bankruptcyHistory") ?? ""),
       lawsuitHistory: String(formData.get("lawsuitHistory") ?? ""),
       judgmentHistory: String(formData.get("judgmentHistory") ?? ""),

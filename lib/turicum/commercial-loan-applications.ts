@@ -20,7 +20,26 @@ export interface CommercialLoanApplicationInput {
   requestedAmount?: string;
   propertyAddress: string;
   propertyType: string;
+  constructionType?: string;
+  purpose?: string;
+  purchasePrice?: string;
+  sourceOfDownPayment?: string;
+  yearAcquired?: string;
+  originalCost?: string;
+  existingLiens?: string;
+  estimatedPresentValue?: string;
   borrowingEntityName: string;
+  entityType?: string;
+  exactNameOfEntityForTitle?: string;
+  ownershipTable?: Array<{
+    name: string;
+    title: string;
+    percentOwned: string;
+  }>;
+  businessTaxId?: string;
+  dateEstablished?: string;
+  numberOfEmployees?: string;
+  primaryBusinessAddress?: string;
   bankruptcyHistory?: string;
   lawsuitHistory?: string;
   judgmentHistory?: string;
@@ -76,6 +95,7 @@ interface CommercialLoanApplicationRow {
   profile: Record<string, unknown> | null;
   financials: Record<string, unknown> | null;
   subject_property: Record<string, unknown> | null;
+  property_data: Record<string, unknown> | null;
   declarations: Record<string, unknown> | null;
 }
 
@@ -95,6 +115,7 @@ export interface CommercialLoanApplicationRecord {
   profile: Record<string, unknown>;
   financials: Record<string, unknown>;
   subjectProperty: Record<string, unknown>;
+  propertyData: Record<string, unknown>;
   declarations: Record<string, unknown>;
 }
 
@@ -153,6 +174,7 @@ function mapRow(row: CommercialLoanApplicationRow): CommercialLoanApplicationRec
     profile: row.profile ?? {},
     financials: row.financials ?? {},
     subjectProperty: row.subject_property ?? {},
+    propertyData: row.property_data ?? {},
     declarations: row.declarations ?? {}
   };
 }
@@ -198,6 +220,30 @@ export async function createCommercialLoanApplication(
         propertyType: input.propertyType.trim(),
         borrowingEntityName: input.borrowingEntityName.trim()
       },
+      property_data: {
+        propertyAddress: input.propertyAddress.trim(),
+        propertyType: input.propertyType.trim(),
+        constructionType: input.constructionType?.trim() ?? "",
+        purpose: input.purpose?.trim() ?? "",
+        purchasePrice: input.purchasePrice?.trim() ?? "",
+        sourceOfDownPayment: input.sourceOfDownPayment?.trim() ?? "",
+        yearAcquired: input.yearAcquired?.trim() ?? "",
+        originalCost: input.originalCost?.trim() ?? "",
+        existingLiens: input.existingLiens?.trim() ?? "",
+        amountRequested: input.requestedAmount?.trim() ?? "",
+        estimatedPresentValue: input.estimatedPresentValue?.trim() ?? "",
+        exactNameOfEntityForTitle: input.exactNameOfEntityForTitle?.trim() ?? input.borrowingEntityName.trim(),
+        entityType: input.entityType?.trim() ?? "",
+        ownershipTable: (input.ownershipTable ?? []).map((row) => ({
+          name: row.name.trim(),
+          title: row.title.trim(),
+          percentOwned: row.percentOwned.trim()
+        })),
+        businessTaxId: input.businessTaxId?.trim() ?? "",
+        dateEstablished: input.dateEstablished?.trim() ?? "",
+        numberOfEmployees: input.numberOfEmployees?.trim() ?? "",
+        primaryBusinessAddress: input.primaryBusinessAddress?.trim() ?? ""
+      },
       declarations: {
         bankruptcyHistory: parseYesNo(input.bankruptcyHistory),
         lawsuitHistory: parseYesNo(input.lawsuitHistory),
@@ -229,7 +275,7 @@ export async function getLatestCommercialLoanApplicationByEmail(email: string) {
   const { data, error } = await supabase
     .from("commercial_loan_applications")
     .select(
-      "id, created_at, primary_borrower_name, primary_borrower_email, primary_borrower_phone, co_borrower_name, co_borrower_email, annual_income, requested_amount, property_address, property_type, borrowing_entity_name, profile, financials, subject_property, declarations"
+      "id, created_at, primary_borrower_name, primary_borrower_email, primary_borrower_phone, co_borrower_name, co_borrower_email, annual_income, requested_amount, property_address, property_type, borrowing_entity_name, profile, financials, subject_property, property_data, declarations"
     )
     .eq("primary_borrower_email", normalizedEmail)
     .order("created_at", { ascending: false })

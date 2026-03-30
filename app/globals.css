@@ -3906,6 +3906,146 @@ code {
   margin: 0;
 }
 
+.turicum-application-section-card {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border-radius: 22px;
+  border: 1px solid #27272a;
+  background: #18181b;
+  box-shadow: 0 0 0 1px rgba(24, 24, 27, 0.45), 0 24px 54px rgba(0, 0, 0, 0.24);
+}
+
+.turicum-application-section-head {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-application-section-head .eyebrow,
+.turicum-application-section-head h4 {
+  margin: 0;
+}
+
+.turicum-application-property-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-application-entity-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-application-business-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-purpose-field {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.turicum-purpose-field .turicum-field-error {
+  margin-top: -2px;
+}
+
+.turicum-purpose-toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-purpose-toggle {
+  appearance: none;
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #27272a;
+  background: #09090b;
+  color: #d4d4d8;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.turicum-purpose-toggle:hover,
+.turicum-purpose-toggle:focus-visible {
+  border-color: rgba(37, 99, 235, 0.72);
+  color: #f4f4f5;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  outline: none;
+}
+
+.turicum-purpose-toggle.is-active {
+  border-color: rgba(37, 99, 235, 0.82);
+  background: rgba(37, 99, 235, 0.16);
+  color: #eff6ff;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2), 0 0 16px rgba(37, 99, 235, 0.14);
+}
+
+.turicum-ownership-shell {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-ownership-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-ownership-head .eyebrow,
+.turicum-ownership-head .helper {
+  margin: 0;
+}
+
+.turicum-ownership-table {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-ownership-table-head,
+.turicum-ownership-table-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(110px, 0.6fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.turicum-ownership-table-head {
+  padding: 0 4px;
+  color: #a1a1aa;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-ownership-table-row {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid #27272a;
+  background: #18181b;
+}
+
+.turicum-ownership-remove {
+  min-width: 92px;
+}
+
+.turicum-ownership-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: #d4d4d8;
+  font-size: 0.94rem;
+}
+
 .turicum-application-span-full {
   grid-column: 1 / -1;
 }
@@ -3980,15 +4120,16 @@ code {
 .turicum-public-shell .field input,
 .turicum-public-shell .field select,
 .turicum-public-shell .field textarea {
-  background: rgba(14, 21, 31, 0.96);
-  border-color: rgba(189, 204, 223, 0.14);
+  background: #09090b;
+  border-color: #27272a;
 }
 
 .turicum-public-shell .field input:focus,
 .turicum-public-shell .field select:focus,
 .turicum-public-shell .field textarea:focus {
-  outline: 2px solid rgba(121, 176, 245, 0.28);
+  outline: 2px solid rgba(37, 99, 235, 0.28);
   outline-offset: 1px;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
 }
 
 .turicum-public-shell .turicum-home-footer {
@@ -4044,6 +4185,39 @@ code {
     border-top: 1px solid rgba(198, 210, 225, 0.1);
     padding-left: 0;
     padding-top: 22px;
+  }
+}
+
+@media (max-width: 900px) {
+  .turicum-application-business-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .turicum-ownership-table-head,
+  .turicum-ownership-table-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .turicum-ownership-table-head {
+    display: none;
+  }
+
+  .turicum-ownership-remove {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .turicum-application-property-grid,
+  .turicum-application-entity-grid,
+  .turicum-application-business-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-ownership-head,
+  .turicum-ownership-summary {
+    grid-template-columns: 1fr;
+    display: grid;
   }
 }
 
