@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IntroCallRequestForm } from "@/components/turicum/intro-call-request-form";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
 
@@ -137,57 +138,7 @@ export function TuricumBorrowerOverview({ requested, error }: TuricumBorrowerOve
                 <p className="helper">{error}</p>
               </div>
             ) : null}
-            <form className="form-grid" method="post" action={withConfiguredBasePath("/api/intro-call-requests")}>
-              <label className="field">
-                <span>Full name</span>
-                <input name="fullName" type="text" required />
-              </label>
-              <label className="field">
-                <span>Email</span>
-                <input name="email" type="email" required />
-              </label>
-              <label className="field">
-                <span>Phone</span>
-                <input name="phone" type="tel" required />
-              </label>
-              <label className="field">
-                <span>Requested amount</span>
-                <input name="requestedAmount" type="text" placeholder="$2,500,000" />
-              </label>
-              <label className="field">
-                <span>Asset or property location</span>
-                <input name="assetLocation" type="text" placeholder="Miami, FL" />
-              </label>
-              <label className="field">
-                <span>Property type</span>
-                <input name="propertyType" type="text" placeholder="Multifamily, office, industrial, land" />
-              </label>
-              <label className="field">
-                <span>Preferred call date</span>
-                <input name="preferredDate" type="date" />
-              </label>
-              <label className="field">
-                <span>Preferred time window</span>
-                <select name="preferredTimeWindow" defaultValue="">
-                  <option value="">Select a window</option>
-                  <option value="morning">Morning</option>
-                  <option value="midday">Midday</option>
-                  <option value="afternoon">Afternoon</option>
-                  <option value="evening">Evening</option>
-                </select>
-              </label>
-              <label className="field">
-                <span>When do you need the money?</span>
-                <input name="preferredTimeline" type="text" placeholder="Within 30 days" />
-              </label>
-              <label className="field">
-                <span>Notes</span>
-                <textarea name="notes" rows={5} placeholder="Anything Turicum should know before the first call?" />
-              </label>
-              <div className="form-actions turicum-inline-actions">
-                <button className="turicum-primary-button" type="submit">Request intro call</button>
-              </div>
-            </form>
+            <IntroCallRequestForm action={withConfiguredBasePath("/api/intro-call-requests")} />
           </div>
         </section>
 

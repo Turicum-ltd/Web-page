@@ -3447,6 +3447,100 @@ code {
   align-items: start;
 }
 
+.turicum-intro-call-form {
+  gap: 20px;
+}
+
+.turicum-intro-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.turicum-intro-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(9, 9, 11, 0.46);
+  color: rgba(161, 161, 170, 0.92);
+}
+
+.turicum-intro-step strong,
+.turicum-intro-step span {
+  display: block;
+}
+
+.turicum-intro-step strong {
+  color: #f4f4f5;
+  font-size: 0.95rem;
+}
+
+.turicum-intro-step span:last-child {
+  margin-top: 3px;
+  font-size: 0.82rem;
+}
+
+.turicum-intro-step.is-active,
+.turicum-intro-step.is-complete {
+  border-color: rgba(37, 99, 235, 0.38);
+  background: rgba(24, 24, 27, 0.92);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 18px rgba(37, 99, 235, 0.08);
+  color: rgba(191, 219, 254, 0.9);
+}
+
+.turicum-intro-step-index {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(63, 63, 70, 0.92);
+  background: rgba(24, 24, 27, 0.94);
+  color: #f4f4f5;
+  font-weight: 700;
+}
+
+.turicum-intro-step.is-active .turicum-intro-step-index,
+.turicum-intro-step.is-complete .turicum-intro-step-index {
+  border-color: rgba(37, 99, 235, 0.46);
+  background: rgba(37, 99, 235, 0.18);
+  box-shadow: 0 0 14px rgba(37, 99, 235, 0.14);
+}
+
+.turicum-intro-stage {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.9);
+  border-radius: 22px;
+  background: rgba(9, 9, 11, 0.38);
+}
+
+.turicum-intro-stage-head {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-intro-stage-head h3,
+.turicum-intro-stage-head p {
+  margin: 0;
+}
+
+.turicum-intro-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-intro-step-actions {
+  justify-content: space-between;
+}
+
 .turicum-public-shell .turicum-role-grid {
   margin-top: -4px;
 }
@@ -4171,5 +4265,14 @@ code {
   .turicum-title-row {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .turicum-intro-steps,
+  .turicum-intro-stage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-intro-step-actions {
+    justify-content: flex-start;
   }
 }

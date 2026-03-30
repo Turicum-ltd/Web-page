@@ -26,7 +26,7 @@ export interface BorrowerIntroCallRequestRecord {
 export interface BorrowerIntroCallRequestInput {
   fullName: string;
   email: string;
-  phone: string;
+  phone?: string;
   requestedAmount?: string;
   assetLocation?: string;
   propertyType?: string;
@@ -76,7 +76,7 @@ export async function createBorrowerIntroCallRequest(
     status: "new",
     fullName: requireValue("Full name", input.fullName),
     email: requireValue("Email", input.email).toLowerCase(),
-    phone: requireValue("Phone", input.phone),
+    phone: input.phone?.trim() ?? "",
     requestedAmount: input.requestedAmount?.trim() ?? "",
     assetLocation: input.assetLocation?.trim() ?? "",
     propertyType: input.propertyType?.trim() ?? "",
