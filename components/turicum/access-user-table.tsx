@@ -227,7 +227,7 @@ export function AccessUserTable({
           </label>
         </div>
       </div>
-      <div className="table-wrap">
+      <div className="table-wrap turicum-access-table-wrap">
         <table>
           <thead>
             {variant === "staff" ? (
