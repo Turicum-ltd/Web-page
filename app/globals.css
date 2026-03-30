@@ -3141,20 +3141,45 @@ code {
   gap: 24px;
   padding-top: 22px;
   border-top: 1px solid rgba(198, 210, 225, 0.08);
+  justify-items: center;
+}
+
+.turicum-process-section .turicum-section-intro {
+  justify-items: center;
+  text-align: center;
+}
+
+.turicum-process-section .turicum-section-intro h2,
+.turicum-process-section .turicum-section-intro p:last-child {
+  max-width: 34rem;
 }
 
 .turicum-process-steps {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 26px;
+  width: 100%;
+}
+
+.turicum-process-steps::before {
+  content: "";
+  position: absolute;
+  left: calc(16.666% + 1.25rem);
+  right: calc(16.666% + 1.25rem);
+  top: 1.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.18), rgba(96, 165, 250, 0.48), rgba(59, 130, 246, 0.18));
 }
 
 .turicum-process-step {
+  position: relative;
   display: grid;
   gap: 10px;
   align-content: start;
-  padding-top: 14px;
-  border-top: 1px solid rgba(198, 210, 225, 0.08);
+  justify-items: center;
+  text-align: center;
+  padding-top: 0;
 }
 
 .turicum-process-step h3,
@@ -3178,6 +3203,7 @@ code {
 .turicum-process-note {
   max-width: 44rem;
   padding-top: 8px;
+  text-align: center;
 }
 
 .turicum-step-number {
@@ -3187,11 +3213,16 @@ code {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 999px;
-  border: 1px solid rgba(198, 210, 225, 0.12);
-  color: rgba(236, 242, 249, 0.9);
+  border: 1px solid rgba(96, 165, 250, 0.46);
+  background: radial-gradient(circle at 50% 40%, rgba(37, 99, 235, 0.22), rgba(15, 23, 42, 0.96));
+  color: rgba(239, 246, 255, 0.96);
   font-family: var(--font-display);
   font-size: 1.1rem;
   line-height: 1;
+  box-shadow:
+    0 0 0 1px rgba(96, 165, 250, 0.1),
+    0 0 16px rgba(59, 130, 246, 0.32),
+    0 10px 26px rgba(9, 16, 28, 0.26);
 }
 
 .turicum-landing-cta {
@@ -3450,6 +3481,22 @@ code {
   .turicum-lanes-split,
   .turicum-process-steps {
     grid-template-columns: 1fr;
+  }
+
+  .turicum-process-steps {
+    gap: 20px;
+    max-width: 28rem;
+  }
+
+  .turicum-process-steps::before {
+    left: 50%;
+    right: auto;
+    top: 1.25rem;
+    bottom: 1.25rem;
+    width: 1px;
+    height: auto;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.18), rgba(96, 165, 250, 0.48), rgba(59, 130, 246, 0.18));
   }
 
   .turicum-lanes-split .turicum-lane + .turicum-lane {
