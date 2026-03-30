@@ -3910,6 +3910,15 @@ code {
     var(--surface);
 }
 
+.turicum-investor-auth-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.turicum-investor-inquiry-panel {
+  gap: 14px;
+}
+
 .turicum-tight-list {
   gap: 12px;
 }

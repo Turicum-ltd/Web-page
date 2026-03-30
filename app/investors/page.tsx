@@ -41,6 +41,14 @@ const portalScope = [
   "Resolution tracking across payoff, extension, refinance, and rollover"
 ];
 
+const typicalInvestmentSizeOptions = [
+  "$100k-$250k",
+  "$250k-$500k",
+  "$500k-$1M",
+  "$1M-$3M",
+  "$3M+"
+];
+
 function readString(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
@@ -71,6 +79,8 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
   if (!investorUser) {
     const error = readString(params.error);
     const loggedOut = readString(params.logged_out) === "1";
+    const inquirySubmitted = readString(params.inquiry) === "1";
+    const inquiryError = readString(params.inquiry_error);
 
     return (
       <main>
@@ -144,45 +154,115 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
               </ul>
             </div>
 
-            <div id="signin" className="panel lead turicum-investor-signin-panel">
-              <div className="section-head compact">
-                <div>
-                  <p className="eyebrow">Secure sign-in</p>
-                  <h2>Open the investor portal</h2>
+            <div className="turicum-investor-auth-stack">
+              <div id="prospective-investor" className="panel turicum-public-card turicum-investor-inquiry-panel">
+                <div className="section-head compact">
+                  <div>
+                    <p className="eyebrow">Prospective investor</p>
+                    <h2>Request review before portal access</h2>
+                  </div>
                 </div>
+                <p className="helper">
+                  Share your profile and typical check size. Turicum reviews new investor leads
+                  before granting secure portal access.
+                </p>
+                {inquirySubmitted ? (
+                  <div className="panel subtle">
+                    <strong>Investor inquiry received.</strong>
+                    <p className="helper">
+                      Turicum has your details and can review fit before issuing full investor
+                      portal access.
+                    </p>
+                  </div>
+                ) : null}
+                {inquiryError ? (
+                  <div className="panel subtle">
+                    <strong>We could not submit the inquiry.</strong>
+                    <p className="helper">{inquiryError}</p>
+                  </div>
+                ) : null}
+                {!inquirySubmitted ? (
+                  <form
+                    className="form-grid"
+                    method="post"
+                    action={withConfiguredBasePath("/api/prospective-investor-inquiries")}
+                  >
+                    <label className="field">
+                      <span>Name</span>
+                      <input name="fullName" type="text" required />
+                    </label>
+                    <label className="field">
+                      <span>Email</span>
+                      <input name="email" type="email" autoComplete="email" required />
+                    </label>
+                    <label className="field">
+                      <span>LinkedIn Profile</span>
+                      <input
+                        name="linkedInProfile"
+                        type="url"
+                        placeholder="Optional"
+                      />
+                    </label>
+                    <label className="field">
+                      <span>Typical Investment Size</span>
+                      <select name="typicalInvestmentSize" defaultValue="" required>
+                        <option value="" disabled>
+                          Select a range
+                        </option>
+                        {typicalInvestmentSizeOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <div className="form-actions turicum-inline-actions">
+                      <button className="turicum-primary-button" type="submit">Request review</button>
+                    </div>
+                  </form>
+                ) : null}
               </div>
-              {error === "invalid" ? (
-                <div className="panel subtle">
-                  <strong>Sign-in details were not accepted.</strong>
-                  <p className="helper">Use the investor account issued by Turicum for this portal.</p>
+
+              <div id="signin" className="panel lead turicum-investor-signin-panel">
+                <div className="section-head compact">
+                  <div>
+                    <p className="eyebrow">Secure sign-in</p>
+                    <h2>Open the investor portal</h2>
+                  </div>
                 </div>
-              ) : null}
-              {error === "unavailable" ? (
-                <div className="panel subtle">
-                  <strong>Investor sign-in is not configured on this deployment yet.</strong>
-                  <p className="helper">Configure Supabase investor auth for this deployment so issued investor accounts can sign in.</p>
-                </div>
-              ) : null}
-              {loggedOut ? (
-                <div className="panel subtle">
-                  <strong>You have been signed out.</strong>
-                  <p className="helper">Sign back in any time to continue reviewing promoted matters.</p>
-                </div>
-              ) : null}
-              <form className="form-grid" method="post" action={withConfiguredBasePath("/api/investor-auth/login")}>
-                <label className="field">
-                  <span>Email</span>
-                  <input name="email" type="email" autoComplete="email" required />
-                </label>
-                <label className="field">
-                  <span>Password</span>
-                  <input name="password" type="password" autoComplete="current-password" required />
-                </label>
-                <div className="form-actions turicum-inline-actions">
-                  <button className="turicum-primary-button" type="submit">Sign in</button>
-                  <Link className="secondary-button" href={withBasePath("/investor-handoff")}>Review investor materials</Link>
-                </div>
-              </form>
+                {error === "invalid" ? (
+                  <div className="panel subtle">
+                    <strong>Sign-in details were not accepted.</strong>
+                    <p className="helper">Use the investor account issued by Turicum for this portal.</p>
+                  </div>
+                ) : null}
+                {error === "unavailable" ? (
+                  <div className="panel subtle">
+                    <strong>Investor sign-in is not configured on this deployment yet.</strong>
+                    <p className="helper">Configure Supabase investor auth for this deployment so issued investor accounts can sign in.</p>
+                  </div>
+                ) : null}
+                {loggedOut ? (
+                  <div className="panel subtle">
+                    <strong>You have been signed out.</strong>
+                    <p className="helper">Sign back in any time to continue reviewing promoted matters.</p>
+                  </div>
+                ) : null}
+                <form className="form-grid" method="post" action={withConfiguredBasePath("/api/investor-auth/login")}>
+                  <label className="field">
+                    <span>Email</span>
+                    <input name="email" type="email" autoComplete="email" required />
+                  </label>
+                  <label className="field">
+                    <span>Password</span>
+                    <input name="password" type="password" autoComplete="current-password" required />
+                  </label>
+                  <div className="form-actions turicum-inline-actions">
+                    <button className="turicum-primary-button" type="submit">Sign in</button>
+                    <Link className="secondary-button" href={withBasePath("/investor-handoff")}>Review investor materials</Link>
+                  </div>
+                </form>
+              </div>
             </div>
           </section>
         </div>
