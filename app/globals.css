@@ -3322,11 +3322,13 @@ code {
   text-align: left;
 }
 
-.turicum-step-number {
+.turicum-landing-step-number {
   display: block;
+  position: static;
   flex: 0 0 3rem;
   width: 3rem;
   min-width: 3rem;
+  height: auto;
   margin: 0;
   align-self: flex-start;
   color: #2563eb;
