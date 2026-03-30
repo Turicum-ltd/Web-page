@@ -1,8 +1,10 @@
 import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
+import { buildInvestorWelcomeEmail } from "@/lib/turicum/investor-welcome-email-template";
 import { listCases } from "@/lib/turicum/cases";
 import { getBorrowerPortalForCase, saveBorrowerPortalSetup } from "@/lib/turicum/intake";
+import { enqueueOutboundEmail } from "@/lib/turicum/outbound-email-queue";
 import type { CaseRecord } from "@/lib/turicum/types";
 
 export type StaffRole = "staff_admin" | "staff_ops" | "staff_counsel";
@@ -464,6 +466,23 @@ export async function createOrUpdateInvestorUser(input: {
   }
 
   await upsertUserProfile(data.user.id, "investor", input.fullName, organization, true);
+
+  const welcomeEmail = buildInvestorWelcomeEmail({
+    fullName: input.fullName
+  });
+
+  await enqueueOutboundEmail({
+    templateKey: "investor_welcome",
+    to: email,
+    subject: welcomeEmail.subject,
+    text: welcomeEmail.text,
+    metadata: {
+      investorEmail: email,
+      fullName: input.fullName.trim(),
+      portalUrl: "https://turicum.us/investors"
+    }
+  });
+
   return data.user.id;
 }
 
