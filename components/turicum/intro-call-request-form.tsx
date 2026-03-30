@@ -9,10 +9,12 @@ interface IntroCallRequestFormProps {
 type IntroFieldKey =
   | "fullName"
   | "email"
+  | "phone"
   | "requestedAmount"
   | "assetLocation"
   | "propertyType"
-  | "urgency";
+  | "urgency"
+  | "notes";
 
 function isEmailValid(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -31,29 +33,36 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [requestedAmount, setRequestedAmount] = useState("");
   const [assetLocation, setAssetLocation] = useState("");
   const [propertyType, setPropertyType] = useState("");
   const [urgency, setUrgency] = useState("");
+  const [notes, setNotes] = useState("");
   const [touched, setTouched] = useState<Record<IntroFieldKey, boolean>>({
     fullName: false,
     email: false,
+    phone: false,
     requestedAmount: false,
     assetLocation: false,
     propertyType: false,
-    urgency: false
+    urgency: false,
+    notes: false
   });
 
   const trimmedFullName = fullName.trim();
   const trimmedEmail = email.trim();
+  const trimmedPhone = phone.trim();
   const trimmedLocation = assetLocation.trim();
   const trimmedPropertyType = propertyType.trim();
   const trimmedUrgency = urgency.trim();
+  const trimmedNotes = notes.trim();
   const formattedAmount = formatAmount(requestedAmount);
 
   const stepOneValid =
     trimmedFullName.length > 0 &&
     isEmailValid(trimmedEmail) &&
+    trimmedPhone.length > 0 &&
     requestedAmount.length > 0;
   const stepTwoValid =
     stepOneValid &&
@@ -78,7 +87,7 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
   }
 
   function goToStepTwo() {
-    markTouched(["fullName", "email", "requestedAmount"]);
+    markTouched(["fullName", "email", "phone", "requestedAmount"]);
 
     if (!stepOneValid) {
       return;
@@ -105,6 +114,10 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
     }
 
     if (field === "fullName" && !trimmedFullName) {
+      return "Required";
+    }
+
+    if (field === "phone" && !trimmedPhone) {
       return "Required";
     }
 
@@ -137,15 +150,15 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
         <div className={`turicum-intro-step ${step === 1 ? "is-active" : step > 1 ? "is-complete" : ""}`}>
           <span className="turicum-intro-step-index">1</span>
           <div>
-            <strong>Basic details</strong>
-            <span>Name, email, loan amount</span>
+            <strong>The Basics</strong>
+            <span>Name, email, phone, loan amount</span>
           </div>
         </div>
         <div className={`turicum-intro-step ${step === 2 ? "is-active" : ""}`}>
           <span className="turicum-intro-step-index">2</span>
           <div>
-            <strong>Property details</strong>
-            <span>Location, type, urgency</span>
+            <strong>The Project</strong>
+            <span>Location, property type, urgency, notes</span>
           </div>
         </div>
       </div>
@@ -154,8 +167,8 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
         <div className="turicum-intro-stage">
           <div className="turicum-intro-stage-head">
             <p className="eyebrow">Step 1 of 2</p>
-            <h3>Start with the core borrower facts.</h3>
-            <p className="helper">This keeps the first commitment small and gets the right lead moving faster.</p>
+            <h3>The Basics</h3>
+            <p className="helper">Start with the contact details and requested size so we can route the intro call quickly.</p>
           </div>
           <div className="turicum-intro-stage-grid">
             <label className={fieldClassName("fullName")}>
@@ -184,6 +197,19 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
                 <small className="turicum-field-error">{getFieldError("email")}</small>
               ) : null}
             </label>
+            <label className={fieldClassName("phone")}>
+              <span>Phone</span>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                onBlur={() => handleBlur("phone")}
+                aria-invalid={Boolean(getFieldError("phone"))}
+              />
+              {getFieldError("phone") ? (
+                <small className="turicum-field-error">{getFieldError("phone")}</small>
+              ) : null}
+            </label>
             <label className={fieldClassName("requestedAmount")}>
               <span>Loan amount</span>
               <input
@@ -204,6 +230,7 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
           </div>
           <input type="hidden" name="fullName" value={trimmedFullName} />
           <input type="hidden" name="email" value={trimmedEmail} />
+          <input type="hidden" name="phone" value={trimmedPhone} />
           <input type="hidden" name="requestedAmount" value={formattedAmount} />
           <div className="form-actions turicum-inline-actions turicum-intro-step-actions">
             <button
@@ -220,8 +247,8 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
         <div className="turicum-intro-stage">
           <div className="turicum-intro-stage-head">
             <p className="eyebrow">Step 2 of 2</p>
-            <h3>Fill in the property context.</h3>
-            <p className="helper">These details help Turicum understand fit and timing before the first conversation.</p>
+            <h3>The Project</h3>
+            <p className="helper">Give us the property context so the first call starts from the right file and timeline.</p>
           </div>
           <div className="turicum-intro-stage-grid">
             <label className={fieldClassName("assetLocation")}>
@@ -269,14 +296,25 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
                 <small className="turicum-field-error">{getFieldError("urgency")}</small>
               ) : null}
             </label>
+            <label className={fieldClassName("notes")}>
+              <span>Notes</span>
+              <textarea
+                name="notes"
+                rows={4}
+                placeholder="Anything helpful before the call: deal context, timing pressure, borrower structure, or current lender situation."
+                value={notes}
+                onChange={(event) => setNotes(event.target.value)}
+                onBlur={() => handleBlur("notes")}
+                aria-invalid={Boolean(getFieldError("notes"))}
+              />
+            </label>
           </div>
           <input type="hidden" name="fullName" value={trimmedFullName} />
           <input type="hidden" name="email" value={trimmedEmail} />
+          <input type="hidden" name="phone" value={trimmedPhone} />
           <input type="hidden" name="requestedAmount" value={formattedAmount} />
-          <input type="hidden" name="phone" value="" />
           <input type="hidden" name="preferredDate" value="" />
           <input type="hidden" name="preferredTimeWindow" value="" />
-          <input type="hidden" name="notes" value="" />
           <div className="form-actions turicum-inline-actions turicum-intro-step-actions">
             <button type="button" className="secondary-button" onClick={() => setStep(1)}>
               Back
@@ -285,9 +323,11 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
               className="turicum-primary-button"
               type="submit"
               disabled={!stepTwoValid}
-              onClick={() => markTouched(["assetLocation", "propertyType", "urgency", "email"])}
+              onClick={() =>
+                markTouched(["assetLocation", "propertyType", "urgency", "notes", "email"])
+              }
             >
-              Schedule Intro Call
+              Schedule Call
             </button>
           </div>
         </div>

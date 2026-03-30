@@ -238,9 +238,9 @@ export function TuricumBorrowerOverview({ requested, requestedEmail, error }: Tu
                 <strong>Request Received!</strong>
                 <p className="helper">
                   {requestedEmail
-                    ? `We’ll send the scheduling link to ${requestedEmail}. Please check your inbox${" "}
+                    ? `We’ve queued the scheduling link for ${requestedEmail}. Please check your inbox${" "}
                       (and spam folder) to confirm your 15-minute intro call.`
-                    : "We’ll send the scheduling link by email. Please check your inbox (and spam folder) to confirm your 15-minute intro call."}
+                    : "We’ve queued the scheduling link by email. Please check your inbox (and spam folder) to confirm your 15-minute intro call."}
                 </p>
                 <p className="helper">
                   You do not need the full document package ready yet. The next step is just the
