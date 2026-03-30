@@ -5,6 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { getAuditLogs } from "@/app/access/actions";
 import { TuricumNav } from "@/components/turicum/nav";
 import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
 import { AccessUserTable } from "@/components/turicum/access-user-table";
@@ -15,7 +16,6 @@ import {
   createOrUpdateBorrowerInvite,
   createOrUpdateInvestorUser,
   createOrUpdateStaffUser,
-  getAdminAuditLogsForTargetEmail,
   getAccessAdminSnapshot,
   grantInvestorCaseAccessBulk,
   refreshBorrowerInvite,
@@ -269,12 +269,6 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
           error instanceof Error ? error.message : "Borrower invite link could not be refreshed."
       };
     }
-  }
-
-  async function loadAuditHistory(targetUserEmail: string) {
-    "use server";
-
-    return getAdminAuditLogsForTargetEmail(targetUserEmail);
   }
 
   return (
@@ -551,7 +545,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             variant="staff"
             users={snapshot.staffUsers}
             toggleUserStatus={toggleUserStatus}
-            loadAuditHistory={loadAuditHistory}
+            loadAuditHistory={getAuditLogs}
           />
 
           <div className="panel turicum-access-card">
@@ -561,7 +555,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
               variant="investor"
               users={snapshot.investorUsers}
               toggleUserStatus={toggleUserStatus}
-              loadAuditHistory={loadAuditHistory}
+              loadAuditHistory={getAuditLogs}
             />
 
             <div className="section-head" style={{ marginTop: 24 }}>
