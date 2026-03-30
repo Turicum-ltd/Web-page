@@ -4574,3 +4574,40 @@ code {
     text-align: left;
   }
 }
+
+@media (max-width: 768px) {
+  .turicum-lanes-split,
+  .turicum-form-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .turicum-lane,
+  .turicum-form-layout > * {
+    width: 100%;
+  }
+
+  .turicum-lane-actions,
+  .turicum-intro-step-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .turicum-lane-actions .secondary-button,
+  .turicum-lane-actions button,
+  .turicum-intro-step-actions .secondary-button,
+  .turicum-intro-step-actions button,
+  .turicum-intro-stage .field input,
+  .turicum-intro-stage .field select,
+  .turicum-intro-stage .field textarea {
+    width: 100%;
+  }
+
+  .turicum-intro-steps,
+  .turicum-intro-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}
