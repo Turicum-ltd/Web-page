@@ -3541,6 +3541,24 @@ code {
     linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(15, 15, 18, 0.96));
 }
 
+.turicum-intro-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.16);
+  color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 22px rgba(37, 99, 235, 0.18);
+}
+
+.turicum-intro-success-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 .turicum-intro-success-state strong,
 .turicum-intro-success-state p {
   margin: 0;

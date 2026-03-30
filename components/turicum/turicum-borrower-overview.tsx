@@ -48,6 +48,21 @@ function LockIcon() {
   );
 }
 
+function SuccessCheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7.5 12.3 10.7 15.5 16.8 8.9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const BORROWER_CALL_PHONE = "+1 561 927 9294";
 const BORROWER_CALL_HREF = "tel:+15619279294";
 
@@ -99,10 +114,11 @@ const borrowerContactTimeline = [
 
 interface TuricumBorrowerOverviewProps {
   requested?: boolean;
+  requestedEmail?: string;
   error?: string;
 }
 
-export function TuricumBorrowerOverview({ requested, error }: TuricumBorrowerOverviewProps) {
+export function TuricumBorrowerOverview({ requested, requestedEmail, error }: TuricumBorrowerOverviewProps) {
   const heroArt = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80";
 
   return (
@@ -190,12 +206,17 @@ export function TuricumBorrowerOverview({ requested, error }: TuricumBorrowerOve
               </div>
             </div>
             {requested ? (
-              <div className="panel subtle turicum-intro-success-state">
+              <div className="panel subtle turicum-intro-success-state" role="status" aria-live="polite">
+                <span className="turicum-intro-success-icon" aria-hidden="true">
+                  <SuccessCheckIcon />
+                </span>
                 <p className="eyebrow">Thank you</p>
-                <strong>Your intro call request is in.</strong>
+                <strong>Request Received!</strong>
                 <p className="helper">
-                  Check your email. We’ll send the calendar link there to confirm your 15-minute
-                  intro call.
+                  {requestedEmail
+                    ? `We’ll send the scheduling link to ${requestedEmail}. Please check your inbox${" "}
+                      (and spam folder) to confirm your 15-minute intro call.`
+                    : "We’ll send the scheduling link by email. Please check your inbox (and spam folder) to confirm your 15-minute intro call."}
                 </p>
                 <p className="helper">
                   You do not need the full document package ready yet. The next step is just the

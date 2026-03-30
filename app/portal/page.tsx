@@ -24,6 +24,7 @@ export default async function PortalPage({ searchParams }: { searchParams?: Sear
   return (
     <TuricumBorrowerOverview
       requested={readFlag(params.requested)}
+      requestedEmail={readString(params.requestedEmail)}
       error={readString(params.error)}
     />
   );

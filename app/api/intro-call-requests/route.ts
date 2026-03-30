@@ -7,9 +7,11 @@ import { buildAppUrl } from "@/lib/turicum/runtime";
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
+    const email = String(formData.get("email") ?? "").trim().toLowerCase();
+
     await createBorrowerIntroCallRequest({
       fullName: String(formData.get("fullName") ?? ""),
-      email: String(formData.get("email") ?? ""),
+      email,
       phone: String(formData.get("phone") ?? ""),
       requestedAmount: String(formData.get("requestedAmount") ?? ""),
       assetLocation: String(formData.get("assetLocation") ?? ""),
@@ -20,9 +22,17 @@ export async function POST(request: Request) {
       notes: String(formData.get("notes") ?? "")
     });
 
-    return NextResponse.redirect(`${buildAppUrl(request, "/portal?requested=1")}#request-call`, {
-      status: 303
-    });
+    const search = new URLSearchParams({ requested: "1" });
+    if (email) {
+      search.set("requestedEmail", email);
+    }
+
+    return NextResponse.redirect(
+      `${buildAppUrl(request, `/portal?${search.toString()}`)}#request-call`,
+      {
+        status: 303
+      }
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to submit request.";
     return NextResponse.redirect(
