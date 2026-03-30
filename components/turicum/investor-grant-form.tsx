@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { StatusToast } from "@/components/turicum/status-toast";
 
 interface InvestorGrantCaseOption {
@@ -37,8 +37,18 @@ export function InvestorGrantForm({
     message: string;
   } | null>(null);
   const [isPending, startTransition] = useTransition();
+  const selectAllRef = useRef<HTMLInputElement | null>(null);
 
   const selectedCount = selectedCaseIds.length;
+  const allCaseIds = useMemo(() => cases.map((item) => item.id), [cases]);
+  const allSelected = cases.length > 0 && selectedCount === cases.length;
+  const someSelected = selectedCount > 0 && selectedCount < cases.length;
+
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someSelected;
+    }
+  }, [someSelected]);
 
   const toastView = useMemo(() => {
     if (!toast) {
@@ -64,6 +74,10 @@ export function InvestorGrantForm({
 
       return current.filter((item) => item !== caseId);
     });
+  }
+
+  function toggleAllCases(checked: boolean) {
+    setSelectedCaseIds(checked ? allCaseIds : []);
   }
 
   function showToast(tone: "success" | "error", title: string, message: string) {
@@ -128,6 +142,20 @@ export function InvestorGrantForm({
         </label>
         <div className="field">
           <span>Cases</span>
+          <label className="checkbox-item checkbox-item-compact checkbox-item-select-all">
+            <input
+              ref={selectAllRef}
+              type="checkbox"
+              checked={allSelected}
+              onChange={(event) => toggleAllCases(event.target.checked)}
+            />
+            <span>
+              <strong>Select all active cases</strong>
+              <small>
+                Use one click when this investor should see the full active portfolio.
+              </small>
+            </span>
+          </label>
           <div className="checkbox-grid">
             {cases.map((item) => (
               <label key={item.id} className="checkbox-item">

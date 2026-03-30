@@ -1043,6 +1043,16 @@ tbody tr:last-child td {
   gap: 4px;
 }
 
+.checkbox-item-compact {
+  padding: 12px 14px;
+}
+
+.checkbox-item-select-all {
+  margin-bottom: 4px;
+  border-style: dashed;
+  background: rgba(24, 24, 27, 0.9);
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-start;
