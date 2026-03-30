@@ -3,13 +3,24 @@
 import { useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
-import type { AccessAdminUser, AdminAuditLogEntry } from "@/lib/turicum/access-admin";
+import type {
+  AccessAdminUser,
+  AdminAuditLogEntry
+} from "@/lib/turicum/access-admin";
 
 interface AccessUserTableProps {
   title: string;
   eyebrow: string;
   variant: "staff" | "investor";
   users: AccessAdminUser[];
+  accessibleCases: Array<{
+    id: string;
+    userId?: string;
+    code: string;
+    title: string;
+    accessRole?: string;
+    expiresAt?: string | null;
+  }>;
   toggleUserStatus: (formData: FormData) => Promise<void>;
   deleteUser: (userId: string) => Promise<void>;
   loadAuditHistory: (targetUserEmail: string) => Promise<AdminAuditLogEntry[]>;
@@ -142,6 +153,7 @@ export function AccessUserTable({
   eyebrow,
   variant,
   users,
+  accessibleCases,
   toggleUserStatus,
   deleteUser,
   loadAuditHistory
@@ -149,10 +161,10 @@ export function AccessUserTable({
   const [query, setQuery] = useState("");
   const [showActiveOnly, setShowActiveOnly] = useState(false);
   const [showNeverSignedInOnly, setShowNeverSignedInOnly] = useState(false);
-  const [historyUser, setHistoryUser] = useState<AccessAdminUser | null>(null);
-  const [historyEntries, setHistoryEntries] = useState<AdminAuditLogEntry[]>([]);
-  const [historyLoading, setHistoryLoading] = useState(false);
-  const [historyError, setHistoryError] = useState<string | null>(null);
+  const [detailUser, setDetailUser] = useState<AccessAdminUser | null>(null);
+  const [auditEntries, setAuditEntries] = useState<AdminAuditLogEntry[]>([]);
+  const [auditLoading, setAuditLoading] = useState(false);
+  const [auditError, setAuditError] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
   const requestIdRef = useRef(0);
@@ -175,13 +187,25 @@ export function AccessUserTable({
     [query, showActiveOnly, showNeverSignedInOnly, users]
   );
 
-  async function openHistory(user: AccessAdminUser) {
+  const selectedCases = useMemo(() => {
+    if (!detailUser) {
+      return [];
+    }
+
+    if (variant === "staff") {
+      return accessibleCases;
+    }
+
+    return accessibleCases.filter((item) => item.userId === detailUser.userId);
+  }, [accessibleCases, detailUser, variant]);
+
+  async function openUserDrawer(user: AccessAdminUser) {
     const requestId = requestIdRef.current + 1;
     requestIdRef.current = requestId;
-    setHistoryUser(user);
-    setHistoryEntries([]);
-    setHistoryError(null);
-    setHistoryLoading(true);
+    setDetailUser(user);
+    setAuditEntries([]);
+    setAuditError(null);
+    setAuditLoading(true);
 
     try {
       const entries = await loadAuditHistory(user.email);
@@ -189,28 +213,29 @@ export function AccessUserTable({
         return;
       }
 
-      setHistoryEntries(entries);
+      setAuditEntries(entries);
     } catch (error) {
       if (requestIdRef.current !== requestId) {
         return;
       }
 
-      setHistoryError(
+      setAuditError(
         error instanceof Error ? error.message : "Audit history could not be loaded."
       );
     } finally {
       if (requestIdRef.current === requestId) {
-        setHistoryLoading(false);
+        setAuditLoading(false);
       }
     }
   }
 
-  function closeHistory() {
+  function closeDrawer() {
     requestIdRef.current += 1;
-    setHistoryUser(null);
-    setHistoryEntries([]);
-    setHistoryError(null);
-    setHistoryLoading(false);
+    setDetailUser(null);
+    setAuditEntries([]);
+    setAuditError(null);
+    setAuditLoading(false);
+    setDeleteError(null);
   }
 
   function handleDelete(user: AccessAdminUser) {
@@ -228,9 +253,12 @@ export function AccessUserTable({
     startTransition(async () => {
       try {
         await deleteUser(user.userId);
+        closeDrawer();
         router.refresh();
       } catch (error) {
-        setDeleteError(error instanceof Error ? error.message : "User account could not be deleted.");
+        setDeleteError(
+          error instanceof Error ? error.message : "User account could not be deleted."
+        );
       } finally {
         setDeletingUserId(null);
       }
@@ -272,175 +300,46 @@ export function AccessUserTable({
           </label>
         </div>
       </div>
+
+      {deleteError ? <p className="helper turicum-inline-error">{deleteError}</p> : null}
+
       <div className="table-wrap turicum-access-table-wrap">
-        {deleteError ? <p className="helper turicum-inline-error">{deleteError}</p> : null}
         <table>
           <thead>
-            {variant === "staff" ? (
-              <tr>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Name</th>
-                <th>Last sign-in</th>
-                <th>Action</th>
-                <th>History</th>
-              </tr>
-            ) : (
-              <tr>
-                <th>Email</th>
-                <th>Organization</th>
-                <th>Status</th>
-                <th>Name</th>
-                <th>Last sign-in</th>
-                <th>Action</th>
-                <th>History</th>
-              </tr>
-            )}
+            <tr>
+              <th>Email</th>
+              <th>{variant === "staff" ? "Role" : "Organization"}</th>
+              <th>Status</th>
+              <th>Name</th>
+              <th>Last sign-in</th>
+              <th>Action</th>
+            </tr>
           </thead>
           <tbody>
             {filteredUsers.length === 0 ? (
               <tr>
-                <td colSpan={variant === "staff" ? 7 : 7} className="helper">
+                <td colSpan={6} className="helper">
                   No users found
                 </td>
               </tr>
-            ) : variant === "staff" ? (
-              filteredUsers.map((user) => (
-                <tr
-                  key={user.userId}
-                  className={user.lastSignInAt ? undefined : "turicum-row-never-signed-in"}
-                >
-                  <td>{user.email}</td>
-                  <td>{user.role}</td>
-                  <td>
-                    <span
-                      className={`turicum-status-indicator ${user.isActive ? "is-active" : "is-inactive"}`}
-                      aria-label={user.isActive ? "Active" : "Inactive"}
-                      title={user.isActive ? "Active" : "Inactive"}
-                    >
-                      <span className="turicum-status-indicator-dot" aria-hidden="true" />
-                    </span>
-                  </td>
-                  <td>
-                    <div className="turicum-user-identity">
-                      <span className="turicum-user-avatar" aria-hidden="true">
-                        {getUserInitials(user)}
-                      </span>
-                      <div className="turicum-user-copy">
-                        <strong>{user.fullName ?? "Not set"}</strong>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    {user.lastSignInAt ? (
-                      new Date(user.lastSignInAt).toLocaleString("en-US")
-                    ) : (
-                      <span className="turicum-never-signed-in-label">Never Signed In</span>
-                    )}
-                  </td>
-                  <td>
-                    {user.isActive ? (
-                      <ConfirmActionForm
-                        action={toggleUserStatus}
-                        confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
-                      >
-                        <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="false" />
-                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
-                      </ConfirmActionForm>
-                    ) : (
-                      <form action={toggleUserStatus}>
-                        <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="true" />
-                        <button type="submit">Reactivate</button>
-                      </form>
-                    )}
-                  </td>
-                  <td>
-                    <div className="table-actions">
-                      <button
-                        type="button"
-                        className="secondary-button turicum-history-trigger"
-                        onClick={() => openHistory(user)}
-                        aria-label={`Open audit history for ${user.email}`}
-                      >
-                        <span className="turicum-history-trigger-icon" aria-hidden="true">
-                          <svg viewBox="0 0 24 24">
-                            <path
-                              d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.7"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <circle
-                              cx="12"
-                              cy="12"
-                              r="2.75"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.7"
-                            />
-                          </svg>
-                        </span>
-                        <span>History</span>
-                      </button>
-                      <button
-                        type="button"
-                        className="secondary-button turicum-delete-icon-button"
-                        onClick={() => handleDelete(user)}
-                        aria-label={`Permanently delete ${user.email}`}
-                        title="Delete account"
-                        disabled={isPending && deletingUserId === user.userId}
-                      >
-                        <span className="turicum-history-trigger-icon" aria-hidden="true">
-                          <svg viewBox="0 0 24 24">
-                            <path
-                              d="M4 7h16"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                            />
-                            <path
-                              d="M9.5 3.75h5L15.25 7h-6.5L9.5 3.75Z"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M7.5 7 8.4 19.1a1.5 1.5 0 0 0 1.5 1.4h4.2a1.5 1.5 0 0 0 1.5-1.4L16.5 7"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M10 10.5v6M14 10.5v6"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                        </span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
             ) : (
               filteredUsers.map((user) => (
                 <tr
                   key={user.userId}
                   className={user.lastSignInAt ? undefined : "turicum-row-never-signed-in"}
+                  onClick={() => openUserDrawer(user)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openUserDrawer(user);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`Open user details for ${user.email}`}
                 >
                   <td>{user.email}</td>
-                  <td>{user.organization ?? "not set"}</td>
+                  <td>{variant === "staff" ? user.role : user.organization ?? "not set"}</td>
                   <td>
                     <span
                       className={`turicum-status-indicator ${user.isActive ? "is-active" : "is-inactive"}`}
@@ -468,95 +367,29 @@ export function AccessUserTable({
                     )}
                   </td>
                   <td>
-                    {user.isActive ? (
-                      <ConfirmActionForm
-                        action={toggleUserStatus}
-                        confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
-                      >
-                        <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="false" />
-                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
-                      </ConfirmActionForm>
-                    ) : (
-                      <form action={toggleUserStatus}>
-                        <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="true" />
-                        <button type="submit">Reactivate</button>
-                      </form>
-                    )}
-                  </td>
-                  <td>
-                    <div className="table-actions">
-                      <button
-                        type="button"
-                        className="secondary-button turicum-history-trigger"
-                        onClick={() => openHistory(user)}
-                        aria-label={`Open audit history for ${user.email}`}
-                      >
-                        <span className="turicum-history-trigger-icon" aria-hidden="true">
-                          <svg viewBox="0 0 24 24">
-                            <path
-                              d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.7"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <circle
-                              cx="12"
-                              cy="12"
-                              r="2.75"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.7"
-                            />
-                          </svg>
-                        </span>
-                        <span>History</span>
-                      </button>
-                      <button
-                        type="button"
-                        className="secondary-button turicum-delete-icon-button"
-                        onClick={() => handleDelete(user)}
-                        aria-label={`Permanently delete ${user.email}`}
-                        title="Delete account"
-                        disabled={isPending && deletingUserId === user.userId}
-                      >
-                        <span className="turicum-history-trigger-icon" aria-hidden="true">
-                          <svg viewBox="0 0 24 24">
-                            <path
-                              d="M4 7h16"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                            />
-                            <path
-                              d="M9.5 3.75h5L15.25 7h-6.5L9.5 3.75Z"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M7.5 7 8.4 19.1a1.5 1.5 0 0 0 1.5 1.4h4.2a1.5 1.5 0 0 0 1.5-1.4L16.5 7"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M10 10.5v6M14 10.5v6"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                        </span>
-                      </button>
+                    <div
+                      className="table-actions"
+                      onClick={(event) => event.stopPropagation()}
+                      onKeyDown={(event) => event.stopPropagation()}
+                    >
+                      {user.isActive ? (
+                        <ConfirmActionForm
+                          action={toggleUserStatus}
+                          confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
+                        >
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value="false" />
+                          <button type="submit" className="turicum-destructive-button">
+                            Deactivate
+                          </button>
+                        </ConfirmActionForm>
+                      ) : (
+                        <form action={toggleUserStatus}>
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value="true" />
+                          <button type="submit">Reactivate</button>
+                        </form>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -565,52 +398,87 @@ export function AccessUserTable({
           </tbody>
         </table>
       </div>
-      {historyUser ? (
-        <div
-          className="turicum-audit-drawer-backdrop"
-          onClick={closeHistory}
-          role="presentation"
-        >
+
+      {detailUser ? (
+        <div className="turicum-audit-drawer-backdrop" onClick={closeDrawer} role="presentation">
           <aside
             className="turicum-audit-drawer"
             role="dialog"
             aria-modal="true"
-            aria-labelledby={`audit-history-title-${historyUser.userId}`}
+            aria-labelledby={`user-drawer-title-${detailUser.userId}`}
             onClick={(event) => event.stopPropagation()}
           >
             <div className="turicum-audit-drawer-head">
               <div>
-                <p className="eyebrow">Audit history</p>
-                <h3 id={`audit-history-title-${historyUser.userId}`}>
-                  Audit History: {historyUser.email}
-                </h3>
+                <p className="eyebrow">User profile</p>
+                <h3 id={`user-drawer-title-${detailUser.userId}`}>{detailUser.email}</h3>
               </div>
               <button
                 type="button"
                 className="secondary-button turicum-audit-close"
-                onClick={closeHistory}
+                onClick={closeDrawer}
               >
                 Close
               </button>
             </div>
+
             <div className="turicum-audit-drawer-body">
               <div className="subpanel">
-                <p className="eyebrow">Current account</p>
-                <strong>{historyUser.email}</strong>
+                <p className="eyebrow">Full user profile</p>
+                <strong>{detailUser.fullName ?? "No full name set"}</strong>
+                <p className="helper">{detailUser.email}</p>
                 <p className="helper">
-                  {historyUser.fullName ?? "No full name"} · {historyUser.role ?? "No role"}
+                  {variant === "staff"
+                    ? detailUser.role ?? "No role assigned"
+                    : detailUser.organization ?? "No organization set"}
+                </p>
+                <p className="helper">
+                  {detailUser.isActive ? "Active account" : "Inactive account"}
+                </p>
+                <p className="helper">
+                  {detailUser.lastSignInAt
+                    ? `Last sign-in ${formatTimestamp(detailUser.lastSignInAt)}`
+                    : "Never signed in"}
                 </p>
               </div>
+
               <div className="turicum-audit-timeline-shell">
-                {historyLoading ? (
+                <p className="eyebrow">Cases accessed</p>
+                {selectedCases.length === 0 ? (
+                  <p className="helper">
+                    {variant === "staff"
+                      ? "Staff users inherit the internal case workspace."
+                      : "No explicit case grants found for this user."}
+                  </p>
+                ) : (
+                  <ul className="turicum-user-case-list">
+                    {selectedCases.map((item) => (
+                      <li key={`${detailUser.userId}-${item.id}`}>
+                        <strong>{item.code}</strong>
+                        <span className="helper">{item.title}</span>
+                        {item.accessRole ? (
+                          <span className="helper">Role: {item.accessRole}</span>
+                        ) : null}
+                        {item.expiresAt ? (
+                          <span className="helper">Expires {formatTimestamp(item.expiresAt)}</span>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <div className="turicum-audit-timeline-shell">
+                <p className="eyebrow">Audit history</p>
+                {auditLoading ? (
                   <p className="helper">Loading audit history…</p>
-                ) : historyError ? (
-                  <p className="helper">{historyError}</p>
-                ) : historyEntries.length === 0 ? (
+                ) : auditError ? (
+                  <p className="helper">{auditError}</p>
+                ) : auditEntries.length === 0 ? (
                   <p className="helper">No audit history found for this user yet.</p>
                 ) : (
                   <ol className="turicum-audit-timeline">
-                    {historyEntries.map((entry) => (
+                    {auditEntries.map((entry) => (
                       <li key={entry.id} className="turicum-audit-timeline-item">
                         <span className="turicum-audit-dot" aria-hidden="true" />
                         <div className="turicum-audit-entry-card">
@@ -633,6 +501,22 @@ export function AccessUserTable({
                     ))}
                   </ol>
                 )}
+              </div>
+
+              <div className="subpanel">
+                <p className="eyebrow">Danger zone</p>
+                <p className="helper">
+                  Permanently removing this account also deletes its audit history and inquiry trail.
+                </p>
+                {deleteError ? <p className="helper turicum-inline-error">{deleteError}</p> : null}
+                <button
+                  type="button"
+                  className="secondary-button turicum-delete-drawer-button"
+                  onClick={() => handleDelete(detailUser)}
+                  disabled={isPending && deletingUserId === detailUser.userId}
+                >
+                  {isPending && deletingUserId === detailUser.userId ? "Deleting..." : "Delete Account"}
+                </button>
               </div>
             </div>
           </aside>

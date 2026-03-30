@@ -187,6 +187,11 @@ export function AccessDashboardShell({
             title="Named internal access"
             variant="staff"
             users={snapshot.staffUsers}
+            accessibleCases={activeCases.map((item) => ({
+              id: item.id,
+              code: item.code,
+              title: item.title
+            }))}
             toggleUserStatus={toggleUserStatus}
             deleteUser={deleteUser}
             loadAuditHistory={loadAuditHistory}
@@ -242,6 +247,14 @@ export function AccessDashboardShell({
                 title="Investor identities and grants"
                 variant="investor"
                 users={snapshot.investorUsers}
+                accessibleCases={snapshot.investorGrants.map((grant) => ({
+                  id: grant.id,
+                  userId: grant.userId,
+                  code: grant.caseCode,
+                  title: grant.caseTitle,
+                  accessRole: grant.accessRole,
+                  expiresAt: grant.expiresAt
+                }))}
                 toggleUserStatus={toggleUserStatus}
                 deleteUser={deleteUser}
                 loadAuditHistory={loadAuditHistory}

@@ -4915,6 +4915,16 @@ code {
   color: rgba(161, 161, 170, 0.88);
 }
 
+.turicum-access-table-wrap tbody tr[role="button"] {
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.turicum-access-table-wrap tbody tr[role="button"]:hover td,
+.turicum-access-table-wrap tbody tr[role="button"]:focus-visible td {
+  background-color: rgba(37, 99, 235, 0.06);
+}
+
 .turicum-row-never-signed-in td:first-child {
   box-shadow: inset 3px 0 0 rgba(245, 158, 11, 0.45);
 }
@@ -5132,6 +5142,36 @@ code {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.turicum-user-case-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-user-case-list li {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #27272a;
+  background: rgba(24, 24, 27, 0.92);
+}
+
+.turicum-delete-drawer-button {
+  width: 100%;
+  justify-content: center;
+  background: rgba(127, 29, 29, 0.9) !important;
+  border-color: rgba(248, 113, 113, 0.38) !important;
+  color: #fff1f2 !important;
+}
+
+.turicum-delete-drawer-button:hover:not(:disabled) {
+  background: rgba(153, 27, 27, 0.96) !important;
+  border-color: rgba(248, 113, 113, 0.52) !important;
 }
 
 @media (max-width: 640px) {
