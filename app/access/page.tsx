@@ -564,7 +564,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                     confirmMessage={`Are you sure you want to change access for ${grant.userEmail}? This action can be undone later by an admin.`}
                   >
                     <input type="hidden" name="grantId" value={grant.id} />
-                    <button type="submit">Revoke grant</button>
+                    <button type="submit" className="turicum-destructive-button">Revoke grant</button>
                   </ConfirmActionForm>
                 </li>
               ))}

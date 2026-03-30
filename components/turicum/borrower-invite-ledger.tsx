@@ -190,7 +190,7 @@ export function BorrowerInviteLedger({
                     confirmMessage={`Are you sure you want to change access for ${invite.email}? This action can be undone later by an admin.`}
                   >
                     <input type="hidden" name="inviteId" value={invite.id} />
-                    <button type="submit">Revoke invite</button>
+                    <button type="submit" className="turicum-destructive-button">Revoke invite</button>
                   </ConfirmActionForm>
                 </div>
               ) : null}

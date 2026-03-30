@@ -879,7 +879,7 @@ tbody tr:last-child td {
   width: 100%;
   border-radius: var(--radius-sm);
   border: 1px solid var(--line);
-  background: var(--surface-strong);
+  background: var(--bg);
   color: var(--text);
   font: inherit;
 }
@@ -892,6 +892,15 @@ tbody tr:last-child td {
 
 .field textarea {
   resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid rgba(37, 99, 235, 0.34);
+  outline-offset: 1px;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .turicum-inline-input {
@@ -1051,15 +1060,22 @@ tbody tr:last-child td {
 
 .form-actions button {
   background: var(--accent);
-  color: #f8fbff;
+  color: #f4f4f5;
+  border-color: var(--accent);
+}
+
+.form-actions button:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
 }
 
 .secondary-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-strong);
+  background: transparent;
   color: var(--text);
+  border-color: #27272a;
 }
 
 .secondary-button.is-active,
@@ -1081,6 +1097,18 @@ tbody tr:last-child td {
 .turicum-ledger-refresh:hover {
   background: rgba(88, 166, 255, 0.16);
   border-color: rgba(88, 166, 255, 0.28);
+}
+
+.turicum-destructive-button {
+  background: transparent !important;
+  border-color: #27272a !important;
+  color: var(--text) !important;
+}
+
+.turicum-destructive-button:hover {
+  background: rgba(239, 68, 68, 0.08) !important;
+  border-color: rgba(239, 68, 68, 0.34) !important;
+  color: #ef4444 !important;
 }
 
 .turicum-form-callout-success {

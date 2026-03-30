@@ -142,7 +142,7 @@ export function AccessUserTable({
                       >
                         <input type="hidden" name="userId" value={user.userId} />
                         <input type="hidden" name="nextIsActive" value="false" />
-                        <button type="submit">Deactivate</button>
+                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
                       </ConfirmActionForm>
                     ) : (
                       <form action={toggleUserStatus}>
@@ -181,7 +181,7 @@ export function AccessUserTable({
                       >
                         <input type="hidden" name="userId" value={user.userId} />
                         <input type="hidden" name="nextIsActive" value="false" />
-                        <button type="submit">Deactivate</button>
+                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
                       </ConfirmActionForm>
                     ) : (
                       <form action={toggleUserStatus}>
