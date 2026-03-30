@@ -217,6 +217,15 @@ create table if not exists atlas_case_workflow_state (
   unique (case_id, workflow_type)
 );
 
+create table if not exists admin_audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  performed_at timestamptz not null default now(),
+  actor_email text not null,
+  target_user_email text not null,
+  action_type text not null,
+  metadata jsonb not null default '{}'::jsonb
+);
+
 create index if not exists idx_cases_state_structure on cases (state, structure_type);
 create index if not exists idx_cases_stage on cases (stage);
 create index if not exists idx_case_documents_case on case_documents (case_id);
@@ -224,3 +233,7 @@ create index if not exists idx_templates_lookup on templates (state, structure_t
 create index if not exists idx_state_pack_documents_lookup on state_pack_documents (state_pack_id, structure_type);
 create index if not exists idx_atlas_case_workflow_state_case on atlas_case_workflow_state (case_id);
 create index if not exists idx_atlas_case_workflow_state_type on atlas_case_workflow_state (workflow_type);
+create index if not exists idx_admin_audit_logs_performed_at on admin_audit_logs (performed_at desc);
+create index if not exists idx_admin_audit_logs_actor_email on admin_audit_logs (actor_email);
+create index if not exists idx_admin_audit_logs_target_user_email on admin_audit_logs (target_user_email);
+create index if not exists idx_admin_audit_logs_action_type on admin_audit_logs (action_type);
