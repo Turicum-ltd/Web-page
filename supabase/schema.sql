@@ -220,9 +220,11 @@ create table if not exists atlas_case_workflow_state (
 create table if not exists admin_audit_logs (
   id uuid primary key default gen_random_uuid(),
   performed_at timestamptz not null default now(),
+  user_id uuid references auth.users(id) on delete set null,
   actor_email text not null,
   target_user_email text not null,
   action_type text not null,
+  description text,
   metadata jsonb not null default '{}'::jsonb
 );
 
@@ -276,6 +278,7 @@ create index if not exists idx_admin_audit_logs_performed_at on admin_audit_logs
 create index if not exists idx_admin_audit_logs_actor_email on admin_audit_logs (actor_email);
 create index if not exists idx_admin_audit_logs_target_user_email on admin_audit_logs (target_user_email);
 create index if not exists idx_admin_audit_logs_action_type on admin_audit_logs (action_type);
+create index if not exists idx_admin_audit_logs_user_id on admin_audit_logs (user_id);
 create index if not exists idx_commercial_loan_applications_created_at on commercial_loan_applications (created_at desc);
 create index if not exists idx_commercial_loan_applications_email on commercial_loan_applications (lower(primary_borrower_email));
 create index if not exists idx_commercial_loan_applications_user_id on commercial_loan_applications (user_id);
@@ -304,6 +307,53 @@ create trigger trg_commercial_loan_applications_updated_at
 before update on public.commercial_loan_applications
 for each row
 execute function public.set_commercial_loan_applications_updated_at();
+
+create or replace function public.log_case_inquiry_audit_event()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, auth
+as $$
+declare
+  investor_email text;
+begin
+  select users.email
+  into investor_email
+  from auth.users as users
+  where users.id = new.investor_id;
+
+  insert into public.admin_audit_logs (
+    user_id,
+    actor_email,
+    target_user_email,
+    action_type,
+    description,
+    metadata
+  )
+  values (
+    new.investor_id,
+    coalesce(lower(investor_email), ''),
+    coalesce(lower(investor_email), ''),
+    'INVESTOR_INQUIRY',
+    'Investor requested full package for Case ' || new.case_id,
+    jsonb_build_object(
+      'case_id', new.case_id,
+      'inquiry_id', new.id,
+      'status', new.status
+    )
+  );
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_case_inquiries_audit_log
+  on public.case_inquiries;
+
+create trigger trg_case_inquiries_audit_log
+after insert on public.case_inquiries
+for each row
+execute function public.log_case_inquiry_audit_event();
 
 drop policy if exists "staff_admin_select_admin_audit_logs" on admin_audit_logs;
 drop policy if exists "owner_select_commercial_loan_applications" on public.commercial_loan_applications;
