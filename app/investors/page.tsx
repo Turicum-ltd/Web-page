@@ -19,19 +19,24 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 const investorPillars = [
   {
-    eyebrow: "Selection",
-    title: "Curated promoted matters, not generic volume.",
-    description: "Deals appear only after Turicum clears intake, validation, and promotion readiness for the investor lane."
+    eyebrow: "Targeted returns",
+    title: "10% targeted returns.",
+    description: "Turicum is built around a defined income posture instead of broad marketplace volume or unclear yield expectations."
   },
   {
-    eyebrow: "Yield",
-    title: "10% return structure.",
-    description: "The investor lane is built around income discipline, clear reporting, and a defined servicing cadence."
+    eyebrow: "First-lien security",
+    title: "Asset-backed first-lien security.",
+    description: "Collateral position stays central, with investors following the structure through diligence, servicing, and resolution."
   },
   {
-    eyebrow: "Security",
-    title: "First-lien collateral stays central.",
-    description: "Investors follow payoff, extension, refinance, or rollover direction with first-lien collateral visibility and downside discipline."
+    eyebrow: "Monthly servicing",
+    title: "Monthly servicing updates.",
+    description: "The investor lane is designed for regular reporting, servicing posture visibility, and a cleaner read on distribution rhythm."
+  },
+  {
+    eyebrow: "Resolution",
+    title: "Resolution visibility.",
+    description: "Payoff, extension, refinance, and rollover direction stay visible so investors can track where the file is actually heading."
   }
 ];
 
@@ -124,8 +129,8 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
           <section className="panel turicum-investor-proof-panel">
             <div className="section-head compact">
               <div>
-                <p className="eyebrow">Why investors use Turicum</p>
-                <h2>Selection, income posture, and collateral clarity before login.</h2>
+                <p className="eyebrow">Why Turicum?</p>
+                <h2>Targeted yield, first-lien structure, and a clearer investor lane.</h2>
               </div>
             </div>
             <div className="status-grid turicum-compact-status-grid">
