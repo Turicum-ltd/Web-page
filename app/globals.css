@@ -4081,6 +4081,92 @@ code {
   gap: 16px;
 }
 
+.turicum-audit-timeline-shell {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #27272a;
+  border-radius: var(--radius-md);
+  background: #09090b;
+}
+
+.turicum-audit-timeline {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-audit-timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.turicum-audit-timeline-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 18px;
+  bottom: -18px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.55), rgba(39, 39, 42, 0.25));
+}
+
+.turicum-audit-dot {
+  width: 16px;
+  height: 16px;
+  margin-top: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.5);
+  background: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.turicum-audit-entry-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #27272a;
+  border-radius: var(--radius-md);
+  background: rgba(24, 24, 27, 0.92);
+}
+
+.turicum-audit-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.turicum-audit-entry-time {
+  color: #f4f4f5;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.turicum-audit-action-pill {
+  border-color: rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.12);
+  color: #93c5fd;
+}
+
+.turicum-audit-details {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: #a1a1aa;
+}
+
+.turicum-audit-details li {
+  line-height: 1.5;
+}
+
 @media (max-width: 800px) {
   .turicum-title-row {
     flex-direction: column;

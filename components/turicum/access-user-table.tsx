@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
-import type { AccessAdminUser } from "@/lib/turicum/access-admin";
+import type { AccessAdminUser, AdminAuditLogEntry } from "@/lib/turicum/access-admin";
 
 interface AccessUserTableProps {
   title: string;
@@ -10,6 +10,7 @@ interface AccessUserTableProps {
   variant: "staff" | "investor";
   users: AccessAdminUser[];
   toggleUserStatus: (formData: FormData) => Promise<void>;
+  loadAuditHistory: (targetUserEmail: string) => Promise<AdminAuditLogEntry[]>;
 }
 
 function matchesUserQuery(user: AccessAdminUser, query: string) {
@@ -23,17 +24,119 @@ function matchesUserQuery(user: AccessAdminUser, query: string) {
   return haystack.includes(normalizedQuery);
 }
 
+function formatTimestamp(value: string) {
+  return new Date(value).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+function formatAuditActionLabel(actionType: string) {
+  return actionType
+    .toLowerCase()
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function formatAuditValue(value: unknown) {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item)).join(", ");
+  }
+
+  if (typeof value === "string") {
+    const parsedDate = Date.parse(value);
+    if (!Number.isNaN(parsedDate) && value.includes("T")) {
+      return formatTimestamp(value);
+    }
+
+    return value;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  if (value && typeof value === "object") {
+    return JSON.stringify(value);
+  }
+
+  return "n/a";
+}
+
+function prettifyMetadataKey(key: string) {
+  return key
+    .replace(/([A-Z])/g, " $1")
+    .replace(/_/g, " ")
+    .replace(/^./, (char) => char.toUpperCase());
+}
+
+function getAuditDetails(entry: AdminAuditLogEntry) {
+  const metadata = entry.metadata ?? {};
+  const details = [`By ${entry.actorEmail}`];
+
+  if (entry.actionType === "GRANT_ACCESS") {
+    const caseIds = Array.isArray(metadata.caseIds)
+      ? metadata.caseIds.map((value) => String(value))
+      : [];
+
+    if (caseIds.length) {
+      details.push(`Cases: ${caseIds.join(", ")}`);
+    }
+
+    if (metadata.grantCount !== undefined) {
+      details.push(`Count: ${formatAuditValue(metadata.grantCount)}`);
+    }
+
+    if (metadata.accessRole) {
+      details.push(`Role: ${formatAuditValue(metadata.accessRole)}`);
+    }
+
+    return details;
+  }
+
+  if (entry.actionType === "REFRESH_INVITE") {
+    if (metadata.caseId) {
+      details.push(`Case: ${formatAuditValue(metadata.caseId)}`);
+    }
+
+    if (metadata.previousExpiresAt) {
+      details.push(`Previous expiry: ${formatAuditValue(metadata.previousExpiresAt)}`);
+    }
+
+    if (metadata.refreshedExpiresAt) {
+      details.push(`New expiry: ${formatAuditValue(metadata.refreshedExpiresAt)}`);
+    }
+
+    return details;
+  }
+
+  for (const [key, value] of Object.entries(metadata)) {
+    details.push(`${prettifyMetadataKey(key)}: ${formatAuditValue(value)}`);
+  }
+
+  return details;
+}
+
 export function AccessUserTable({
   title,
   eyebrow,
   variant,
   users,
-  toggleUserStatus
+  toggleUserStatus,
+  loadAuditHistory
 }: AccessUserTableProps) {
   const [query, setQuery] = useState("");
   const [showActiveOnly, setShowActiveOnly] = useState(false);
   const [showNeverSignedInOnly, setShowNeverSignedInOnly] = useState(false);
   const [historyUser, setHistoryUser] = useState<AccessAdminUser | null>(null);
+  const [historyEntries, setHistoryEntries] = useState<AdminAuditLogEntry[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+  const requestIdRef = useRef(0);
 
   const filteredUsers = useMemo(
     () =>
@@ -50,6 +153,44 @@ export function AccessUserTable({
       }),
     [query, showActiveOnly, showNeverSignedInOnly, users]
   );
+
+  async function openHistory(user: AccessAdminUser) {
+    const requestId = requestIdRef.current + 1;
+    requestIdRef.current = requestId;
+    setHistoryUser(user);
+    setHistoryEntries([]);
+    setHistoryError(null);
+    setHistoryLoading(true);
+
+    try {
+      const entries = await loadAuditHistory(user.email);
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
+      setHistoryEntries(entries);
+    } catch (error) {
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
+      setHistoryError(
+        error instanceof Error ? error.message : "Audit history could not be loaded."
+      );
+    } finally {
+      if (requestIdRef.current === requestId) {
+        setHistoryLoading(false);
+      }
+    }
+  }
+
+  function closeHistory() {
+    requestIdRef.current += 1;
+    setHistoryUser(null);
+    setHistoryEntries([]);
+    setHistoryError(null);
+    setHistoryLoading(false);
+  }
 
   return (
     <section className="panel turicum-access-card turicum-access-card-active">
@@ -133,14 +274,14 @@ export function AccessUserTable({
                   </td>
                   <td>{user.fullName ?? "not set"}</td>
                   <td>
-                    {user.lastSignInAt
-                      ? new Date(user.lastSignInAt).toLocaleString("en-US")
-                      : (
-                        <span className="turicum-status-pill is-pending">
-                          <span className="turicum-status-dot" aria-hidden="true" />
-                          Never Signed In
-                        </span>
-                      )}
+                    {user.lastSignInAt ? (
+                      new Date(user.lastSignInAt).toLocaleString("en-US")
+                    ) : (
+                      <span className="turicum-status-pill is-pending">
+                        <span className="turicum-status-dot" aria-hidden="true" />
+                        Never Signed In
+                      </span>
+                    )}
                   </td>
                   <td>
                     {user.isActive ? (
@@ -164,7 +305,7 @@ export function AccessUserTable({
                     <button
                       type="button"
                       className="secondary-button turicum-history-trigger"
-                      onClick={() => setHistoryUser(user)}
+                      onClick={() => openHistory(user)}
                       aria-label={`Open audit history for ${user.email}`}
                     >
                       <span className="turicum-history-trigger-icon" aria-hidden="true">
@@ -207,14 +348,14 @@ export function AccessUserTable({
                     </span>
                   </td>
                   <td>
-                    {user.lastSignInAt
-                      ? new Date(user.lastSignInAt).toLocaleString("en-US")
-                      : (
-                        <span className="turicum-status-pill is-pending">
-                          <span className="turicum-status-dot" aria-hidden="true" />
-                          Never Signed In
-                        </span>
-                      )}
+                    {user.lastSignInAt ? (
+                      new Date(user.lastSignInAt).toLocaleString("en-US")
+                    ) : (
+                      <span className="turicum-status-pill is-pending">
+                        <span className="turicum-status-dot" aria-hidden="true" />
+                        Never Signed In
+                      </span>
+                    )}
                   </td>
                   <td>
                     {user.isActive ? (
@@ -238,7 +379,7 @@ export function AccessUserTable({
                     <button
                       type="button"
                       className="secondary-button turicum-history-trigger"
-                      onClick={() => setHistoryUser(user)}
+                      onClick={() => openHistory(user)}
                       aria-label={`Open audit history for ${user.email}`}
                     >
                       <span className="turicum-history-trigger-icon" aria-hidden="true">
@@ -273,7 +414,7 @@ export function AccessUserTable({
       {historyUser ? (
         <div
           className="turicum-audit-drawer-backdrop"
-          onClick={() => setHistoryUser(null)}
+          onClick={closeHistory}
           role="presentation"
         >
           <aside
@@ -293,22 +434,51 @@ export function AccessUserTable({
               <button
                 type="button"
                 className="secondary-button turicum-audit-close"
-                onClick={() => setHistoryUser(null)}
+                onClick={closeHistory}
               >
                 Close
               </button>
             </div>
             <div className="turicum-audit-drawer-body">
-              <p className="helper">
-                Audit logging will surface here for this account once `admin_audit_logs` entries
-                are recorded for access changes.
-              </p>
               <div className="subpanel">
                 <p className="eyebrow">Current account</p>
                 <strong>{historyUser.email}</strong>
                 <p className="helper">
                   {historyUser.fullName ?? "No full name"} · {historyUser.role ?? "No role"}
                 </p>
+              </div>
+              <div className="turicum-audit-timeline-shell">
+                {historyLoading ? (
+                  <p className="helper">Loading audit history…</p>
+                ) : historyError ? (
+                  <p className="helper">{historyError}</p>
+                ) : historyEntries.length === 0 ? (
+                  <p className="helper">No audit history found for this user yet.</p>
+                ) : (
+                  <ol className="turicum-audit-timeline">
+                    {historyEntries.map((entry) => (
+                      <li key={entry.id} className="turicum-audit-timeline-item">
+                        <span className="turicum-audit-dot" aria-hidden="true" />
+                        <div className="turicum-audit-entry-card">
+                          <div className="turicum-audit-entry-head">
+                            <span className="turicum-audit-entry-time">
+                              {formatTimestamp(entry.performedAt)}
+                            </span>
+                            <span className="turicum-status-pill is-active turicum-audit-action-pill">
+                              <span className="turicum-status-dot" aria-hidden="true" />
+                              {formatAuditActionLabel(entry.actionType)}
+                            </span>
+                          </div>
+                          <ul className="turicum-audit-details">
+                            {getAuditDetails(entry).map((detail) => (
+                              <li key={`${entry.id}-${detail}`}>{detail}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                )}
               </div>
             </div>
           </aside>

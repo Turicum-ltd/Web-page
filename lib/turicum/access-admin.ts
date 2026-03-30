@@ -47,6 +47,15 @@ interface AdminAuditLogInsert {
   metadata?: Record<string, unknown>;
 }
 
+interface AdminAuditLogRow {
+  id: string;
+  performed_at: string;
+  actor_email: string;
+  target_user_email: string;
+  action_type: string;
+  metadata: Record<string, unknown> | null;
+}
+
 export interface AccessAdminUser {
   userId: string;
   email: string;
@@ -87,6 +96,15 @@ export interface AccessAdminSnapshot {
   cases: CaseRecord[];
   investorGrants: AccessGrantSummary[];
   borrowerInvites: BorrowerInviteSummary[];
+}
+
+export interface AdminAuditLogEntry {
+  id: string;
+  performedAt: string;
+  actorEmail: string;
+  targetUserEmail: string;
+  actionType: string;
+  metadata: Record<string, unknown>;
 }
 
 function readFirstEnv(...names: string[]) {
@@ -215,6 +233,31 @@ async function insertAdminAuditLog(input: AdminAuditLogInsert) {
   if (error) {
     throw new Error(`Failed to write admin audit log: ${error.message}`);
   }
+}
+
+export async function getAdminAuditLogsForTargetEmail(
+  targetUserEmail: string
+): Promise<AdminAuditLogEntry[]> {
+  const supabase = getSupabaseAdmin();
+  const normalizedEmail = normalizeEmail(targetUserEmail);
+  const { data, error } = await supabase
+    .from("admin_audit_logs")
+    .select("id, performed_at, actor_email, target_user_email, action_type, metadata")
+    .eq("target_user_email", normalizedEmail)
+    .order("performed_at", { ascending: false });
+
+  if (error) {
+    throw new Error(`Failed to load admin audit logs: ${error.message}`);
+  }
+
+  return ((data ?? []) as AdminAuditLogRow[]).map((row) => ({
+    id: row.id,
+    performedAt: row.performed_at,
+    actorEmail: row.actor_email,
+    targetUserEmail: row.target_user_email,
+    actionType: row.action_type,
+    metadata: row.metadata ?? {}
+  }));
 }
 
 export async function getAccessAdminSnapshot(): Promise<AccessAdminSnapshot> {

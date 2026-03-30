@@ -15,6 +15,7 @@ import {
   createOrUpdateBorrowerInvite,
   createOrUpdateInvestorUser,
   createOrUpdateStaffUser,
+  getAdminAuditLogsForTargetEmail,
   getAccessAdminSnapshot,
   grantInvestorCaseAccessBulk,
   refreshBorrowerInvite,
@@ -268,6 +269,12 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
           error instanceof Error ? error.message : "Borrower invite link could not be refreshed."
       };
     }
+  }
+
+  async function loadAuditHistory(targetUserEmail: string) {
+    "use server";
+
+    return getAdminAuditLogsForTargetEmail(targetUserEmail);
   }
 
   return (
@@ -544,6 +551,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             variant="staff"
             users={snapshot.staffUsers}
             toggleUserStatus={toggleUserStatus}
+            loadAuditHistory={loadAuditHistory}
           />
 
           <div className="panel turicum-access-card">
@@ -553,6 +561,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
               variant="investor"
               users={snapshot.investorUsers}
               toggleUserStatus={toggleUserStatus}
+              loadAuditHistory={loadAuditHistory}
             />
 
             <div className="section-head" style={{ marginTop: 24 }}>
