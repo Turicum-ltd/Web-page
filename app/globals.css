@@ -4054,6 +4054,20 @@ code {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.turicum-consent-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-consent-card .helper {
+  margin: 0;
+  max-width: 72ch;
+}
+
 .turicum-intro-step-actions {
   justify-content: space-between;
 }

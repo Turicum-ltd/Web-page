@@ -41,9 +41,15 @@ export interface CommercialLoanApplicationInput {
   numberOfEmployees?: string;
   primaryBusinessAddress?: string;
   bankruptcyHistory?: string;
+  foreclosureHistory?: string;
   lawsuitHistory?: string;
   judgmentHistory?: string;
+  delinquentDebtHistory?: string;
+  taxLienHistory?: string;
   declarationNotes?: string;
+  consentFullLegalName?: string;
+  submittedAt?: string;
+  submittedIpAddress?: string;
 }
 
 function readFirstEnv(...names: string[]) {
@@ -97,6 +103,7 @@ interface CommercialLoanApplicationRow {
   subject_property: Record<string, unknown> | null;
   property_data: Record<string, unknown> | null;
   declarations: Record<string, unknown> | null;
+  declarations_data: Record<string, unknown> | null;
 }
 
 export interface CommercialLoanApplicationRecord {
@@ -117,6 +124,7 @@ export interface CommercialLoanApplicationRecord {
   subjectProperty: Record<string, unknown>;
   propertyData: Record<string, unknown>;
   declarations: Record<string, unknown>;
+  declarationsData: Record<string, unknown>;
 }
 
 function requireValue(label: string, value: string | undefined) {
@@ -175,7 +183,8 @@ function mapRow(row: CommercialLoanApplicationRow): CommercialLoanApplicationRec
     financials: row.financials ?? {},
     subjectProperty: row.subject_property ?? {},
     propertyData: row.property_data ?? {},
-    declarations: row.declarations ?? {}
+    declarations: row.declarations ?? {},
+    declarationsData: row.declarations_data ?? {}
   };
 }
 
@@ -246,9 +255,29 @@ export async function createCommercialLoanApplication(
       },
       declarations: {
         bankruptcyHistory: parseYesNo(input.bankruptcyHistory),
+        foreclosureHistory: parseYesNo(input.foreclosureHistory),
         lawsuitHistory: parseYesNo(input.lawsuitHistory),
         judgmentHistory: parseYesNo(input.judgmentHistory),
-        notes: input.declarationNotes?.trim() ?? ""
+        delinquentDebtHistory: parseYesNo(input.delinquentDebtHistory),
+        taxLienHistory: parseYesNo(input.taxLienHistory),
+        notes: input.declarationNotes?.trim() ?? "",
+        consentFullLegalName: input.consentFullLegalName?.trim() ?? "",
+        consentedToElectronicRecords: true,
+        signedAt: input.submittedAt?.trim() ?? now,
+        signedIpAddress: input.submittedIpAddress?.trim() ?? ""
+      },
+      declarations_data: {
+        bankruptcyHistory: parseYesNo(input.bankruptcyHistory),
+        foreclosureHistory: parseYesNo(input.foreclosureHistory),
+        lawsuitHistory: parseYesNo(input.lawsuitHistory),
+        judgmentHistory: parseYesNo(input.judgmentHistory),
+        delinquentDebtHistory: parseYesNo(input.delinquentDebtHistory),
+        taxLienHistory: parseYesNo(input.taxLienHistory),
+        notes: input.declarationNotes?.trim() ?? "",
+        consentFullLegalName: input.consentFullLegalName?.trim() ?? "",
+        consentedToElectronicRecords: true,
+        signedAt: input.submittedAt?.trim() ?? now,
+        signedIpAddress: input.submittedIpAddress?.trim() ?? ""
       }
     })
     .select("id, primary_borrower_email")
@@ -275,7 +304,7 @@ export async function getLatestCommercialLoanApplicationByEmail(email: string) {
   const { data, error } = await supabase
     .from("commercial_loan_applications")
     .select(
-      "id, created_at, primary_borrower_name, primary_borrower_email, primary_borrower_phone, co_borrower_name, co_borrower_email, annual_income, requested_amount, property_address, property_type, borrowing_entity_name, profile, financials, subject_property, property_data, declarations"
+      "id, created_at, primary_borrower_name, primary_borrower_email, primary_borrower_phone, co_borrower_name, co_borrower_email, annual_income, requested_amount, property_address, property_type, borrowing_entity_name, profile, financials, subject_property, property_data, declarations, declarations_data"
     )
     .eq("primary_borrower_email", normalizedEmail)
     .order("created_at", { ascending: false })

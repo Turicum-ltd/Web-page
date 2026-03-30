@@ -128,8 +128,14 @@ function buildApplicationSections(
         title: "Declarations",
         rows: [
           ["Bankruptcies", normalizeText(application.declarations.bankruptcyHistory)],
+          ["Foreclosures / Deeds in Lieu", normalizeText(application.declarations.foreclosureHistory)],
           ["Lawsuits", normalizeText(application.declarations.lawsuitHistory)],
           ["Judgments", normalizeText(application.declarations.judgmentHistory)],
+          ["Delinquent Debt", normalizeText(application.declarations.delinquentDebtHistory)],
+          ["Tax Liens", normalizeText(application.declarations.taxLienHistory)],
+          ["Electronic Consent Name", normalizeText(application.declarations.consentFullLegalName)],
+          ["Signed At", normalizeText(application.declarations.signedAt)],
+          ["Signed IP", normalizeText(application.declarations.signedIpAddress)],
           ["Notes", normalizeText(application.declarations.notes)]
         ]
       }

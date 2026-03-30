@@ -4,10 +4,19 @@ import { NextResponse } from "next/server";
 import { createCommercialLoanApplication } from "@/lib/turicum/commercial-loan-applications";
 import { buildAppUrl } from "@/lib/turicum/runtime";
 
+function readRequestIp(request: Request) {
+  const forwardedFor = request.headers.get("x-forwarded-for") ?? "";
+  const realIp = request.headers.get("x-real-ip") ?? "";
+  const candidate = forwardedFor.split(",")[0]?.trim() || realIp.trim();
+  return candidate || "";
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const email = String(formData.get("primaryBorrowerEmail") ?? "").trim().toLowerCase();
+    const submittedAt = new Date().toISOString();
+    const submittedIpAddress = readRequestIp(request);
     const ownershipTableRaw = String(formData.get("ownershipTable") ?? "").trim();
     let ownershipTable: Array<{ name: string; title: string; percentOwned: string }> = [];
 
@@ -63,9 +72,15 @@ export async function POST(request: Request) {
       numberOfEmployees: String(formData.get("numberOfEmployees") ?? ""),
       primaryBusinessAddress: String(formData.get("primaryBusinessAddress") ?? ""),
       bankruptcyHistory: String(formData.get("bankruptcyHistory") ?? ""),
+      foreclosureHistory: String(formData.get("foreclosureHistory") ?? ""),
       lawsuitHistory: String(formData.get("lawsuitHistory") ?? ""),
       judgmentHistory: String(formData.get("judgmentHistory") ?? ""),
-      declarationNotes: String(formData.get("declarationNotes") ?? "")
+      delinquentDebtHistory: String(formData.get("delinquentDebtHistory") ?? ""),
+      taxLienHistory: String(formData.get("taxLienHistory") ?? ""),
+      declarationNotes: String(formData.get("declarationNotes") ?? ""),
+      consentFullLegalName: String(formData.get("consentFullLegalName") ?? ""),
+      submittedAt,
+      submittedIpAddress
     });
 
     const search = new URLSearchParams({ application: "1" });

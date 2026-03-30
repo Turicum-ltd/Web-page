@@ -49,9 +49,13 @@ type FieldKey =
   | "numberOfEmployees"
   | "primaryBusinessAddress"
   | "bankruptcyHistory"
+  | "foreclosureHistory"
   | "lawsuitHistory"
   | "judgmentHistory"
-  | "declarationNotes";
+  | "delinquentDebtHistory"
+  | "taxLienHistory"
+  | "declarationNotes"
+  | "consentFullLegalName";
 
 const propertyTypeOptions = [
   "Industrial",
@@ -78,6 +82,33 @@ const entityTypeOptions = ["C-Corp", "S-Corp", "Partnership", "LLC", "Other"];
 const declarationOptions = [
   { value: "no", label: "No" },
   { value: "yes", label: "Yes" }
+];
+
+const declarationQuestions = [
+  {
+    key: "bankruptcyHistory" as const,
+    label: "Has the borrower or any principal ever declared bankruptcy?"
+  },
+  {
+    key: "foreclosureHistory" as const,
+    label: "Has any property ever been foreclosed, deeded in lieu, or taken back by a lender?"
+  },
+  {
+    key: "lawsuitHistory" as const,
+    label: "Is the borrower or any principal party to any pending lawsuit or legal proceeding?"
+  },
+  {
+    key: "judgmentHistory" as const,
+    label: "Are there any outstanding judgments against the borrower, entity, or principals?"
+  },
+  {
+    key: "delinquentDebtHistory" as const,
+    label: "Is the borrower or any principal currently delinquent or in default on any debt obligation?"
+  },
+  {
+    key: "taxLienHistory" as const,
+    label: "Are there any unpaid tax liens or government claims outstanding?"
+  }
 ];
 
 const purposeOptions: Array<{ value: Exclude<LoanPurpose, "">; label: string }> = [
@@ -158,9 +189,13 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     numberOfEmployees: false,
     primaryBusinessAddress: false,
     bankruptcyHistory: false,
+    foreclosureHistory: false,
     lawsuitHistory: false,
     judgmentHistory: false,
-    declarationNotes: false
+    delinquentDebtHistory: false,
+    taxLienHistory: false,
+    declarationNotes: false,
+    consentFullLegalName: false
   });
 
   const [primaryBorrowerName, setPrimaryBorrowerName] = useState("");
@@ -196,9 +231,13 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   const [numberOfEmployees, setNumberOfEmployees] = useState("");
   const [primaryBusinessAddress, setPrimaryBusinessAddress] = useState("");
   const [bankruptcyHistory, setBankruptcyHistory] = useState("");
+  const [foreclosureHistory, setForeclosureHistory] = useState("");
   const [lawsuitHistory, setLawsuitHistory] = useState("");
   const [judgmentHistory, setJudgmentHistory] = useState("");
+  const [delinquentDebtHistory, setDelinquentDebtHistory] = useState("");
+  const [taxLienHistory, setTaxLienHistory] = useState("");
   const [declarationNotes, setDeclarationNotes] = useState("");
+  const [consentFullLegalName, setConsentFullLegalName] = useState("");
 
   const trimmedBorrowerName = primaryBorrowerName.trim();
   const trimmedBorrowerEmail = primaryBorrowerEmail.trim();
@@ -213,6 +252,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   const trimmedDateEstablished = dateEstablished.trim();
   const trimmedNumberOfEmployees = numberOfEmployees.trim();
   const trimmedPrimaryBusinessAddress = primaryBusinessAddress.trim();
+  const trimmedConsentFullLegalName = consentFullLegalName.trim();
   const activeOwnershipRows = ownershipRows.filter(
     (row) => row.name.trim() || row.title.trim() || row.percentOwned.trim()
   );
@@ -260,8 +300,12 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     (!refinancePurpose || (yearAcquired.trim().length > 0 && originalCost.length > 0 && existingLiens.length > 0));
   const stepFourValid =
     bankruptcyHistory.length > 0 &&
+    foreclosureHistory.length > 0 &&
     lawsuitHistory.length > 0 &&
-    judgmentHistory.length > 0;
+    judgmentHistory.length > 0 &&
+    delinquentDebtHistory.length > 0 &&
+    taxLienHistory.length > 0 &&
+    trimmedConsentFullLegalName.length > 0;
 
   function markTouched(fields: FieldKey[]) {
     setTouched((current) => {
@@ -319,8 +363,12 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       numberOfEmployees: !trimmedNumberOfEmployees,
       primaryBusinessAddress: !trimmedPrimaryBusinessAddress,
       bankruptcyHistory: !bankruptcyHistory,
+      foreclosureHistory: !foreclosureHistory,
       lawsuitHistory: !lawsuitHistory,
       judgmentHistory: !judgmentHistory,
+      delinquentDebtHistory: !delinquentDebtHistory,
+      taxLienHistory: !taxLienHistory,
+      consentFullLegalName: !trimmedConsentFullLegalName,
       purchasePrice: purchasePurpose && !purchasePrice,
       sourceOfDownPayment: purchasePurpose && !sourceOfDownPayment.trim(),
       yearAcquired: refinancePurpose && !yearAcquired.trim(),
@@ -415,6 +463,18 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       }
       setStep(4);
     }
+
+    if (currentStep === 4) {
+      markTouched([
+        "bankruptcyHistory",
+        "foreclosureHistory",
+        "lawsuitHistory",
+        "judgmentHistory",
+        "delinquentDebtHistory",
+        "taxLienHistory",
+        "consentFullLegalName"
+      ]);
+    }
   }
 
   const ownershipError = ownershipTouched
@@ -455,7 +515,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
           <span className="turicum-intro-step-index">4</span>
           <div>
             <strong>Declarations</strong>
-            <span>Legal history questions</span>
+            <span>Legal history and consent</span>
           </div>
         </div>
       </div>
@@ -775,51 +835,84 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
         <div className="turicum-intro-stage">
           <div className="turicum-intro-stage-head">
             <p className="eyebrow">Step 4 of 4</p>
-            <h3>Declarations</h3>
-            <p className="helper">Answer the legal history questions so the first review starts with the right flags in view.</p>
+            <h3>Declarations &amp; Consent</h3>
+            <p className="helper">Answer the legal questions, then sign the electronic-records consent so the final submission is timestamped and ready for review.</p>
           </div>
-          <div className="turicum-intro-stage-grid turicum-application-declarations-grid">
-            <label className={fieldClassName("bankruptcyHistory")}>
-              <span>Any bankruptcies?</span>
-              <select value={bankruptcyHistory} onChange={(e) => setBankruptcyHistory(e.target.value)} onBlur={() => handleBlur("bankruptcyHistory")}>
-                <option value="">Select</option>
-                {declarationOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-              {getFieldError("bankruptcyHistory") ? <small className="turicum-field-error">{getFieldError("bankruptcyHistory")}</small> : null}
-            </label>
-            <label className={fieldClassName("lawsuitHistory")}>
-              <span>Any lawsuits?</span>
-              <select value={lawsuitHistory} onChange={(e) => setLawsuitHistory(e.target.value)} onBlur={() => handleBlur("lawsuitHistory")}>
-                <option value="">Select</option>
-                {declarationOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-              {getFieldError("lawsuitHistory") ? <small className="turicum-field-error">{getFieldError("lawsuitHistory")}</small> : null}
-            </label>
-            <label className={fieldClassName("judgmentHistory")}>
-              <span>Any judgments?</span>
-              <select value={judgmentHistory} onChange={(e) => setJudgmentHistory(e.target.value)} onBlur={() => handleBlur("judgmentHistory")}>
-                <option value="">Select</option>
-                {declarationOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-              {getFieldError("judgmentHistory") ? <small className="turicum-field-error">{getFieldError("judgmentHistory")}</small> : null}
-            </label>
-            <label className="field turicum-application-span-full">
-              <span>Notes</span>
-              <textarea value={declarationNotes} onChange={(e) => setDeclarationNotes(e.target.value)} onBlur={() => handleBlur("declarationNotes")} rows={4} />
-            </label>
+          <div className="turicum-application-section-card">
+            <div className="turicum-application-section-head">
+              <p className="eyebrow">Declarations</p>
+              <h4>Legal and credit background</h4>
+            </div>
+            <div className="turicum-intro-stage-grid turicum-application-declarations-grid">
+              {declarationQuestions.map((question) => {
+                const valueMap = {
+                  bankruptcyHistory,
+                  foreclosureHistory,
+                  lawsuitHistory,
+                  judgmentHistory,
+                  delinquentDebtHistory,
+                  taxLienHistory
+                };
+                const setterMap = {
+                  bankruptcyHistory: setBankruptcyHistory,
+                  foreclosureHistory: setForeclosureHistory,
+                  lawsuitHistory: setLawsuitHistory,
+                  judgmentHistory: setJudgmentHistory,
+                  delinquentDebtHistory: setDelinquentDebtHistory,
+                  taxLienHistory: setTaxLienHistory
+                };
+                const value = valueMap[question.key];
+                const setValue = setterMap[question.key];
+
+                return (
+                  <label key={question.key} className={fieldClassName(question.key)}>
+                    <span>{question.label}</span>
+                    <select value={value} onChange={(e) => setValue(e.target.value)} onBlur={() => handleBlur(question.key)}>
+                      <option value="">Select</option>
+                      {declarationOptions.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                    {getFieldError(question.key) ? <small className="turicum-field-error">{getFieldError(question.key)}</small> : null}
+                  </label>
+                );
+              })}
+              <label className="field turicum-application-span-full">
+                <span>Additional notes or explanations</span>
+                <textarea value={declarationNotes} onChange={(e) => setDeclarationNotes(e.target.value)} onBlur={() => handleBlur("declarationNotes")} rows={4} />
+              </label>
+            </div>
           </div>
+
+          <div className="turicum-application-section-card">
+            <div className="turicum-application-section-head">
+              <p className="eyebrow">Consent to electronic records</p>
+              <h4>Electronic signature acknowledgement</h4>
+            </div>
+            <div className="turicum-consent-card">
+              <p className="helper">
+                By signing below, you consent to receive and sign Turicum intake records electronically. Your full legal name, submission time, and request IP address will be recorded with this application.
+              </p>
+              <label className={`${fieldClassName("consentFullLegalName")} turicum-application-span-full`}>
+                <span>Full legal name</span>
+                <textarea
+                  value={consentFullLegalName}
+                  onChange={(e) => setConsentFullLegalName(e.target.value)}
+                  onBlur={() => handleBlur("consentFullLegalName")}
+                  rows={2}
+                  placeholder="Enter your full legal name as your electronic signature"
+                />
+                {getFieldError("consentFullLegalName") ? <small className="turicum-field-error">{getFieldError("consentFullLegalName")}</small> : null}
+              </label>
+            </div>
+          </div>
+
           <div className="form-actions turicum-inline-actions turicum-intro-step-actions">
             <button type="button" className="secondary-button" onClick={() => setStep(3)}>
               Back
             </button>
             <button type="submit" className="turicum-primary-button" disabled={!stepFourValid}>
-              Submit Application
+              Sign &amp; Submit
             </button>
           </div>
         </div>
@@ -859,9 +952,13 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       <input type="hidden" name="numberOfEmployees" value={trimmedNumberOfEmployees} />
       <input type="hidden" name="primaryBusinessAddress" value={trimmedPrimaryBusinessAddress} />
       <input type="hidden" name="bankruptcyHistory" value={bankruptcyHistory} />
+      <input type="hidden" name="foreclosureHistory" value={foreclosureHistory} />
       <input type="hidden" name="lawsuitHistory" value={lawsuitHistory} />
       <input type="hidden" name="judgmentHistory" value={judgmentHistory} />
+      <input type="hidden" name="delinquentDebtHistory" value={delinquentDebtHistory} />
+      <input type="hidden" name="taxLienHistory" value={taxLienHistory} />
       <input type="hidden" name="declarationNotes" value={declarationNotes.trim()} />
+      <input type="hidden" name="consentFullLegalName" value={trimmedConsentFullLegalName} />
     </form>
   );
 }
