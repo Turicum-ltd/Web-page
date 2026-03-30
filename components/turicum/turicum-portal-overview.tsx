@@ -180,10 +180,14 @@ export function TuricumPortalOverview() {
           <section className="turicum-lanes-split">
             {audienceLanes.map((lane) => (
               <article key={lane.title} className="turicum-lane">
-                <div className="turicum-lane-icon" aria-hidden="true">
-                  <lane.icon />
+                <div className="turicum-lane-head">
+                  <div className="turicum-lane-icon-frame">
+                    <div className="turicum-lane-icon" aria-hidden="true">
+                      <lane.icon />
+                    </div>
+                  </div>
+                  <p className="eyebrow">{lane.eyebrow}</p>
                 </div>
-                <p className="eyebrow">{lane.eyebrow}</p>
                 <h3>{lane.title}</h3>
                 <p className="turicum-lane-copy">{lane.description}</p>
                 <ul className="turicum-lane-list">
