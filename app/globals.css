@@ -2791,27 +2791,42 @@ code {
 .turicum-public-shell .form-actions button {
   width: auto;
   min-width: 0;
-  padding: 12px 19px;
-  background: rgba(21, 28, 39, 0.72);
-  border-color: rgba(206, 218, 234, 0.16);
+  padding: 12px 32px;
+  border-radius: 12px;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.78);
   box-shadow: none;
   font-weight: 600;
   letter-spacing: 0.01em;
+  color: #f8fbff;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .turicum-public-shell .secondary-button:hover,
 .turicum-public-shell .form-actions button:hover {
-  border-color: rgba(222, 232, 244, 0.3);
-  transform: translateY(-1px);
-  background: rgba(24, 31, 43, 0.82);
+  border-color: rgba(255, 255, 255, 0.94);
+  transform: scale(1.05);
+  filter: brightness(1.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .turicum-public-shell .turicum-primary-button {
-  background: linear-gradient(180deg, rgba(246, 249, 252, 0.98), rgba(228, 235, 243, 0.96));
-  color: #0e1621;
-  border-color: rgba(255, 255, 255, 0.56);
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
   font-weight: 700;
-  box-shadow: 0 10px 24px rgba(5, 8, 13, 0.18);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
+}
+
+.turicum-public-shell .turicum-primary-button:hover {
+  background: #2563eb;
+  border-color: #2563eb;
 }
 
 .turicum-public-shell .tag {
