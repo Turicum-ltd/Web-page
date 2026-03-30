@@ -51,7 +51,7 @@ export function AccessUserTable({
   );
 
   return (
-    <>
+    <section className="panel turicum-access-card turicum-access-card-active">
       <div className="section-head">
         <div>
           <p className="eyebrow">{eyebrow}</p>
@@ -197,6 +197,6 @@ export function AccessUserTable({
           </tbody>
         </table>
       </div>
-    </>
+    </section>
   );
 }

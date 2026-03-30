@@ -467,6 +467,15 @@ strong {
   box-shadow: var(--shadow-soft);
 }
 
+.turicum-access-card {
+  background: #18181b;
+  border: 1px solid #27272a;
+}
+
+.turicum-access-card.turicum-access-card-active {
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);
+}
+
 .subpanel {
   display: grid;
   gap: 16px;

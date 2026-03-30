@@ -362,7 +362,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
 
         {!snapshot ? null : (
           <>
-        <section className="panel">
+        <section className="panel turicum-access-card turicum-access-card-active">
           <div className="section-head">
             <div>
               <p className="eyebrow">Borrower ledger</p>
@@ -377,7 +377,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
         </section>
 
         <section className="two-up">
-          <div className="panel lead">
+          <div className="panel lead turicum-access-card turicum-access-card-active">
             <div className="section-head">
               <div>
                 <p className="eyebrow">Staff accounts</p>
@@ -428,7 +428,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             </form>
           </div>
 
-          <div className="panel lead">
+          <div className="panel lead turicum-access-card turicum-access-card-active">
             <div className="section-head">
               <div>
                 <p className="eyebrow">Investor accounts</p>
@@ -457,7 +457,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
         </section>
 
         <section className="two-up">
-          <div className="panel">
+          <div className="panel turicum-access-card turicum-access-card-active">
             <div className="section-head">
               <div>
                 <p className="eyebrow">Investor grants</p>
@@ -480,7 +480,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             </p>
           </div>
 
-          <div className="panel">
+          <div className="panel turicum-access-card">
             <div className="section-head">
               <div>
                 <p className="eyebrow">Borrower links</p>
@@ -533,7 +533,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             toggleUserStatus={toggleUserStatus}
           />
 
-          <div className="panel">
+          <div className="panel turicum-access-card">
             <AccessUserTable
               eyebrow="Current investors"
               title="Investor identities and grants"
