@@ -7,12 +7,8 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { deleteUser } from "@/app/actions/admin";
 import { getAuditLogs } from "@/app/access/actions";
+import { AccessDashboardShell } from "@/components/turicum/access-dashboard-shell";
 import { TuricumNav } from "@/components/turicum/nav";
-import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
-import { AccessUserTable } from "@/components/turicum/access-user-table";
-import { BorrowerInviteLedger } from "@/components/turicum/borrower-invite-ledger";
-import { GeneratedPasswordField } from "@/components/turicum/generated-password-field";
-import { InvestorGrantForm } from "@/components/turicum/investor-grant-form";
 import {
   createOrUpdateBorrowerInvite,
   createOrUpdateInvestorUser,
@@ -300,22 +296,12 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             </div>
             <div className="hero-aside">
               <TuricumNav />
-              <div className="dashboard-band">
-                <div className="band-card">
-                  <p className="eyebrow">Staff</p>
-                  <strong>{snapshot?.staffUsers.length ?? "—"}</strong>
-                  <p className="helper">named internal accounts</p>
-                </div>
-                <div className="band-card">
-                  <p className="eyebrow">Investors</p>
-                  <strong>{snapshot?.investorUsers.length ?? "—"}</strong>
-                  <p className="helper">portal identities</p>
-                </div>
-                <div className="band-card">
-                  <p className="eyebrow">Borrower invites</p>
-                  <strong>{snapshot?.borrowerInvites.length ?? "—"}</strong>
-                  <p className="helper">tracked external links</p>
-                </div>
+              <div className="band-card turicum-access-hero-note">
+                <p className="eyebrow">Control surface</p>
+                <strong>Operators can create users, grant visibility, and manage borrower links from one surface.</strong>
+                <p className="helper">
+                  The new dashboard header below keeps the live staff, investor, and inquiry totals in view.
+                </p>
               </div>
             </div>
           </div>
@@ -376,224 +362,28 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
         ) : null}
 
         {!snapshot ? null : (
-          <>
-        <section className="panel turicum-access-card turicum-access-card-active">
-          <div className="section-head">
-            <div>
-              <p className="eyebrow">Borrower ledger</p>
-              <h2>Current borrower invite records</h2>
-            </div>
-          </div>
-          <BorrowerInviteLedger
-            invites={snapshot.borrowerInvites}
-            refreshInvite={refreshInvite}
-            revokeInvite={revokeInvite}
-          />
-        </section>
-
-        <section className="two-up">
-          <div className="panel lead turicum-access-card turicum-access-card-active">
-            <div className="section-head">
-              <div>
-                <p className="eyebrow">Staff accounts</p>
-                <h2>Create or update an internal team user</h2>
-              </div>
-            </div>
-            <form action={saveStaffUser} className="form-grid">
-              <label className="field">
-                <span>Email</span>
-                <input name="email" type="email" required />
-              </label>
-              <label className="field">
-                <span>Full name</span>
-                <input name="fullName" type="text" required />
-              </label>
-              <GeneratedPasswordField name="password" label="Temporary password" required />
-              <label className="field">
-                <span className="turicum-field-label">
-                  <span>Role</span>
-                  <span className="turicum-info-tooltip" tabIndex={0}>
-                    <span className="turicum-info-tooltip-trigger" aria-label="Role permissions help">
-                      i
-                    </span>
-                    <span className="turicum-info-tooltip-panel" role="tooltip">
-                      <strong>Staff ops</strong>: Can manage documents and lead intake.
-                      <br />
-                      <strong>Staff admin</strong>: Can manage users, roles, and case visibility.
-                      <br />
-                      <strong>Staff counsel</strong>: View-only access to legal documents and AI reviews.
-                    </span>
-                  </span>
-                </span>
-                <select name="role" defaultValue="staff_ops">
-                  {staffRoleOptions.map((role) => (
-                    <option key={role.value} value={role.value}>
-                      {role.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="field">
-                <span>Organization</span>
-                <input name="organization" type="text" defaultValue="Turicum" />
-              </label>
-              <div className="form-actions">
-                <button type="submit">Save staff account</button>
-              </div>
-            </form>
-          </div>
-
-          <div className="panel lead turicum-access-card turicum-access-card-active">
-            <div className="section-head">
-              <div>
-                <p className="eyebrow">Investor accounts</p>
-                <h2>Create or update an investor login</h2>
-              </div>
-            </div>
-            <form action={saveInvestorUser} className="form-grid">
-              <label className="field">
-                <span>Email</span>
-                <input name="email" type="email" required />
-              </label>
-              <label className="field">
-                <span>Full name</span>
-                <input name="fullName" type="text" required />
-              </label>
-              <GeneratedPasswordField name="password" label="Temporary password" required />
-              <label className="field">
-                <span>Organization</span>
-                <input name="organization" type="text" defaultValue="Turicum Investor" />
-              </label>
-              <div className="form-actions">
-                <button type="submit">Save investor account</button>
-              </div>
-            </form>
-          </div>
-        </section>
-
-        <section className="two-up">
-          <div className="panel turicum-access-card turicum-access-card-active">
-            <div className="section-head">
-              <div>
-                <p className="eyebrow">Investor grants</p>
-                <h2>Give an investor access to a specific case</h2>
-              </div>
-            </div>
-            <InvestorGrantForm
-              cases={activeCases.map((item) => ({
-                id: item.id,
-                code: item.code,
-                title: item.title,
-                stage: item.stage
-              }))}
-              defaultCaseId={currentCase?.id}
-              saveInvestorGrant={saveInvestorGrant}
-            />
-            <p className="helper">
-              Investor accounts only see cases that have explicit `turicum_case_access_grants`
-              rows.
-            </p>
-          </div>
-
-          <div className="panel turicum-access-card">
-            <div className="section-head">
-              <div>
-                <p className="eyebrow">Borrower links</p>
-                <h2>Create the first borrower invite and track the ledger</h2>
-              </div>
-            </div>
-            <form action={saveBorrowerInvite} className="form-grid">
-              <label className="field">
-                <span>Case</span>
-                <select name="caseId" required defaultValue={currentCase?.id ?? ""}>
-                  <option value="" disabled>
-                    Select a case
-                  </option>
-                  {snapshot.cases.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.code} · {item.title}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="field">
-                <span>Borrower name</span>
-                <input name="borrowerName" type="text" required />
-              </label>
-              <label className="field">
-                <span>Borrower email</span>
-                <input name="borrowerEmail" type="email" required />
-              </label>
-              <label className="field">
-                <span>Portal title</span>
-                <input name="portalTitle" type="text" placeholder="Optional custom title" />
-              </label>
-              <div className="form-actions">
-                        <button type="submit">Create borrower invite</button>
-              </div>
-            </form>
-            <p className="helper">
-              This initializes the borrower portal if needed, stores the borrower contact, and syncs
-              the invite into the Supabase ledger.
-            </p>
-          </div>
-        </section>
-
-        <section className="two-up">
-          <AccessUserTable
-            eyebrow="Current staff"
-            title="Named internal access"
-            variant="staff"
-            users={snapshot.staffUsers}
+          <AccessDashboardShell
+            snapshot={snapshot}
+            activeCases={activeCases.map((item) => ({
+              id: item.id,
+              code: item.code,
+              title: item.title,
+              stage: item.stage
+            }))}
+            currentCaseId={currentCase?.id}
+            caseWorkspaceHref={caseWorkspaceHref}
+            saveStaffUser={saveStaffUser}
+            saveInvestorUser={saveInvestorUser}
+            saveInvestorGrant={saveInvestorGrant}
+            saveBorrowerInvite={saveBorrowerInvite}
             toggleUserStatus={toggleUserStatus}
             deleteUser={deleteUser}
             loadAuditHistory={getAuditLogs}
+            refreshInvite={refreshInvite}
+            revokeInvite={revokeInvite}
+            revokeGrant={revokeGrant}
+            staffRoleOptions={staffRoleOptions}
           />
-
-          <div className="panel turicum-access-card">
-            <AccessUserTable
-              eyebrow="Current investors"
-              title="Investor identities and grants"
-              variant="investor"
-              users={snapshot.investorUsers}
-              toggleUserStatus={toggleUserStatus}
-              deleteUser={deleteUser}
-              loadAuditHistory={getAuditLogs}
-            />
-
-            <div className="section-head" style={{ marginTop: 24 }}>
-              <div>
-                <p className="eyebrow">Case access</p>
-                <h2>Current investor visibility grants</h2>
-              </div>
-            </div>
-            <ul className="list compact-list">
-              {snapshot.investorGrants.map((grant) => (
-                <li key={grant.id}>
-                  <strong>{grant.userEmail}</strong> {"->"} {grant.caseCode}
-                  <br />
-                  <span className="helper">
-                    {grant.caseTitle}
-                    {grant.expiresAt ? ` · expires ${new Date(grant.expiresAt).toLocaleString("en-US")}` : " · no expiry"}
-                  </span>
-                  <ConfirmActionForm
-                    action={revokeGrant}
-                    className="form-actions"
-                    style={{ marginTop: 8 }}
-                    confirmMessage={`Are you sure you want to change access for ${grant.userEmail}? This action can be undone later by an admin.`}
-                  >
-                    <input type="hidden" name="grantId" value={grant.id} />
-                    <button type="submit" className="turicum-destructive-button">Revoke grant</button>
-                  </ConfirmActionForm>
-                </li>
-              ))}
-              {snapshot.investorGrants.length === 0 ? (
-                <li>No investor case grants yet.</li>
-              ) : null}
-            </ul>
-          </div>
-        </section>
-          </>
         )}
       </div>
     </main>

@@ -42,6 +42,10 @@ interface BorrowerInviteRow {
   created_at: string;
 }
 
+interface CaseInquiryCountRow {
+  count: number | null;
+}
+
 interface AdminAuditLogInsert {
   actorEmail: string;
   targetUserEmail: string;
@@ -98,6 +102,7 @@ export interface AccessAdminSnapshot {
   cases: CaseRecord[];
   investorGrants: AccessGrantSummary[];
   borrowerInvites: BorrowerInviteSummary[];
+  pendingInquiriesCount: number;
 }
 
 export interface AdminAuditLogEntry {
@@ -219,6 +224,25 @@ async function listBorrowerInvites() {
   return (data ?? []) as BorrowerInviteRow[];
 }
 
+async function getPendingCaseInquiriesCount() {
+  const supabase = getSupabaseAdmin();
+  const { count, error } = await supabase
+    .from("case_inquiries")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "pending");
+
+  if (error) {
+    const message = error.message.toLowerCase();
+    if (message.includes("does not exist") || message.includes("relation")) {
+      return 0;
+    }
+
+    throw new Error(`Failed to load pending case inquiries: ${error.message}`);
+  }
+
+  return count ?? 0;
+}
+
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
@@ -265,12 +289,13 @@ export async function getAdminAuditLogsForTargetEmail(
 }
 
 export async function getAccessAdminSnapshot(): Promise<AccessAdminSnapshot> {
-  const [authUsers, profiles, cases, grants, borrowerInvites] = await Promise.all([
+  const [authUsers, profiles, cases, grants, borrowerInvites, pendingInquiriesCount] = await Promise.all([
     listAllAuthUsers(),
     listProfiles(),
     listCases(),
     listInvestorGrants(),
-    listBorrowerInvites()
+    listBorrowerInvites(),
+    getPendingCaseInquiriesCount()
   ]);
 
   const profileByUserId = new Map(profiles.map((profile) => [profile.user_id, profile]));
@@ -346,7 +371,8 @@ export async function getAccessAdminSnapshot(): Promise<AccessAdminSnapshot> {
     investorUsers,
     cases,
     investorGrants,
-    borrowerInvites: borrowerInviteSummaries
+    borrowerInvites: borrowerInviteSummaries,
+    pendingInquiriesCount
   };
 }
 
