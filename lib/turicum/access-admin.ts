@@ -582,6 +582,43 @@ export async function setUserProfileActiveState(input: {
   }
 }
 
+export async function deleteAccessUser(input: {
+  userId: string;
+  email: string;
+}) {
+  const supabase = getSupabaseAdmin();
+  const userId = input.userId.trim();
+  const email = normalizeEmail(input.email);
+
+  if (!userId || !email) {
+    throw new Error("A user id and email are required to delete an account.");
+  }
+
+  const { error: auditLogError } = await supabase
+    .from("admin_audit_logs")
+    .delete()
+    .or(`user_id.eq.${userId},target_user_email.eq.${email},actor_email.eq.${email}`);
+
+  if (auditLogError) {
+    throw new Error(`Failed to delete admin audit logs for ${email}: ${auditLogError.message}`);
+  }
+
+  const { error: profileError } = await supabase
+    .from("turicum_user_profiles")
+    .delete()
+    .eq("user_id", userId);
+
+  if (profileError) {
+    throw new Error(`Failed to delete Turicum user profile: ${profileError.message}`);
+  }
+
+  const { error: authError } = await supabase.auth.admin.deleteUser(userId);
+
+  if (authError) {
+    throw new Error(`Failed to delete Supabase user: ${authError.message}`);
+  }
+}
+
 export async function revokeInvestorCaseAccess(grantId: string) {
   const supabase = getSupabaseAdmin();
   const { error } = await supabase

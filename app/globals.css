@@ -1132,6 +1132,18 @@ tbody tr:last-child td {
   color: #ef4444 !important;
 }
 
+.turicum-delete-account-button {
+  background: rgba(127, 29, 29, 0.92) !important;
+  border-color: rgba(248, 113, 113, 0.38) !important;
+  color: #fff1f2 !important;
+}
+
+.turicum-delete-account-button:hover {
+  background: #b91c1c !important;
+  border-color: rgba(248, 113, 113, 0.58) !important;
+  color: #ffffff !important;
+}
+
 .turicum-form-callout-success {
   border-left-color: var(--success);
   background: rgba(63, 185, 80, 0.1);

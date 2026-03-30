@@ -16,6 +16,7 @@ import {
   createOrUpdateBorrowerInvite,
   createOrUpdateInvestorUser,
   createOrUpdateStaffUser,
+  deleteAccessUser,
   getAccessAdminSnapshot,
   grantInvestorCaseAccessBulk,
   refreshBorrowerInvite,
@@ -219,6 +220,31 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
     }
   }
 
+  async function deleteUser(formData: FormData) {
+    "use server";
+
+    const userId = String(formData.get("userId") ?? "");
+    const email = String(formData.get("email") ?? "");
+
+    if (userId === adminUserId) {
+      redirect(buildAccessPath("error", "You cannot delete the admin account currently in use."));
+    }
+
+    try {
+      await deleteAccessUser({
+        userId,
+        email
+      });
+
+      revalidatePath(withBasePath("/access"));
+      redirect(buildAccessPath("user-deleted"));
+    } catch (error) {
+      rethrowRedirectError(error);
+      const errorMessage = error instanceof Error ? error.message : "User account could not be deleted.";
+      redirect(buildAccessPath("error", errorMessage));
+    }
+  }
+
   async function revokeGrant(formData: FormData) {
     "use server";
     try {
@@ -346,8 +372,10 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
                     ? "Investor case grant saved."
                     : status === "user-deactivated"
                       ? "User deactivated."
-                      : status === "user-activated"
+                        : status === "user-activated"
                         ? "User reactivated."
+                        : status === "user-deleted"
+                          ? "User deleted."
                         : status === "grant-revoked"
                           ? "Investor case grant revoked."
                           : status === "invite-revoked"
@@ -545,6 +573,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             variant="staff"
             users={snapshot.staffUsers}
             toggleUserStatus={toggleUserStatus}
+            deleteUser={deleteUser}
             loadAuditHistory={getAuditLogs}
           />
 
@@ -555,6 +584,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
               variant="investor"
               users={snapshot.investorUsers}
               toggleUserStatus={toggleUserStatus}
+              deleteUser={deleteUser}
               loadAuditHistory={getAuditLogs}
             />
 

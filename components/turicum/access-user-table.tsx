@@ -10,6 +10,7 @@ interface AccessUserTableProps {
   variant: "staff" | "investor";
   users: AccessAdminUser[];
   toggleUserStatus: (formData: FormData) => Promise<void>;
+  deleteUser: (formData: FormData) => Promise<void>;
   loadAuditHistory: (targetUserEmail: string) => Promise<AdminAuditLogEntry[]>;
 }
 
@@ -127,6 +128,7 @@ export function AccessUserTable({
   variant,
   users,
   toggleUserStatus,
+  deleteUser,
   loadAuditHistory
 }: AccessUserTableProps) {
   const [query, setQuery] = useState("");
@@ -284,22 +286,32 @@ export function AccessUserTable({
                     )}
                   </td>
                   <td>
-                    {user.isActive ? (
+                    <div className="table-actions">
+                      {user.isActive ? (
+                        <ConfirmActionForm
+                          action={toggleUserStatus}
+                          confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
+                        >
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value="false" />
+                          <button type="submit" className="turicum-destructive-button">Deactivate</button>
+                        </ConfirmActionForm>
+                      ) : (
+                        <form action={toggleUserStatus}>
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value="true" />
+                          <button type="submit">Reactivate</button>
+                        </form>
+                      )}
                       <ConfirmActionForm
-                        action={toggleUserStatus}
-                        confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
+                        action={deleteUser}
+                        confirmMessage={`Are you sure? This will permanently remove this user from Supabase and delete all their audit logs.`}
                       >
                         <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="false" />
-                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
+                        <input type="hidden" name="email" value={user.email} />
+                        <button type="submit" className="turicum-delete-account-button">Delete Account</button>
                       </ConfirmActionForm>
-                    ) : (
-                      <form action={toggleUserStatus}>
-                        <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="true" />
-                        <button type="submit">Reactivate</button>
-                      </form>
-                    )}
+                    </div>
                   </td>
                   <td>
                     <button
@@ -358,22 +370,32 @@ export function AccessUserTable({
                     )}
                   </td>
                   <td>
-                    {user.isActive ? (
+                    <div className="table-actions">
+                      {user.isActive ? (
+                        <ConfirmActionForm
+                          action={toggleUserStatus}
+                          confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
+                        >
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value="false" />
+                          <button type="submit" className="turicum-destructive-button">Deactivate</button>
+                        </ConfirmActionForm>
+                      ) : (
+                        <form action={toggleUserStatus}>
+                          <input type="hidden" name="userId" value={user.userId} />
+                          <input type="hidden" name="nextIsActive" value="true" />
+                          <button type="submit">Reactivate</button>
+                        </form>
+                      )}
                       <ConfirmActionForm
-                        action={toggleUserStatus}
-                        confirmMessage={`Are you sure you want to change access for ${user.email}? This action can be undone later by an admin.`}
+                        action={deleteUser}
+                        confirmMessage={`Are you sure? This will permanently remove this user from Supabase and delete all their audit logs.`}
                       >
                         <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="false" />
-                        <button type="submit" className="turicum-destructive-button">Deactivate</button>
+                        <input type="hidden" name="email" value={user.email} />
+                        <button type="submit" className="turicum-delete-account-button">Delete Account</button>
                       </ConfirmActionForm>
-                    ) : (
-                      <form action={toggleUserStatus}>
-                        <input type="hidden" name="userId" value={user.userId} />
-                        <input type="hidden" name="nextIsActive" value="true" />
-                        <button type="submit">Reactivate</button>
-                      </form>
-                    )}
+                    </div>
                   </td>
                   <td>
                     <button
