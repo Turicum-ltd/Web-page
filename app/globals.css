@@ -64,6 +64,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
+    linear-gradient(180deg, rgba(30, 58, 138, 0.18) 0%, rgba(9, 9, 11, 0) 20%),
     radial-gradient(circle at top left, rgba(47, 129, 247, 0.08), transparent 24%),
     radial-gradient(circle at right 18%, rgba(163, 113, 247, 0.06), transparent 18%);
   opacity: 1;
