@@ -115,11 +115,15 @@ export function TuricumPortalOverview() {
                 <TuricumWordmark />
                 <span className="turicum-brand-descriptor">Asset-Based Lending</span>
               </div>
-              <div className="turicum-classic-links">
-                <Link href={withBasePath("/portal")}>Borrowers</Link>
-                <Link href={withBasePath("/investors")}>Investors</Link>
-                <a href="#how-it-works">How it works</a>
-                <Link href={withBasePath("/team-login")}>Team sign-in</Link>
+              <div className="turicum-classic-nav-links">
+                <div className="turicum-classic-links">
+                  <Link href={withBasePath("/portal")}>Borrowers</Link>
+                  <Link href={withBasePath("/investors")}>Investors</Link>
+                  <a href="#how-it-works">How it works</a>
+                </div>
+                <div className="turicum-classic-utility-links">
+                  <Link href={withBasePath("/team-login")}>Team sign-in</Link>
+                </div>
               </div>
             </div>
 

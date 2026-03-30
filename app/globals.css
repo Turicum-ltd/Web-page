@@ -2887,10 +2887,23 @@ code {
 }
 
 .turicum-landing-hero .turicum-classic-nav {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 1;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(198, 210, 225, 0.1);
+  padding: 14px 18px;
+  margin-inline: -18px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #27272a;
+}
+
+.turicum-public-shell .turicum-classic-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
 .turicum-public-shell .turicum-classic-brand {
@@ -2914,6 +2927,27 @@ code {
   font-weight: 560;
   letter-spacing: 0.015em;
   text-decoration: none;
+}
+
+.turicum-public-shell .turicum-classic-utility-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: 18px;
+  margin-left: 2px;
+  border-left: 1px solid rgba(63, 63, 70, 0.9);
+}
+
+.turicum-public-shell .turicum-classic-utility-links a {
+  color: rgba(161, 161, 170, 0.86);
+  font-size: 0.72rem;
+  font-weight: 540;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.turicum-public-shell .turicum-classic-utility-links a:hover {
+  color: rgba(212, 212, 216, 0.95);
 }
 
 .turicum-public-shell .turicum-classic-links a::after {
@@ -3509,8 +3543,14 @@ code {
 
 @media (max-width: 920px) {
   .turicum-public-shell .turicum-classic-nav,
-  .turicum-public-shell .turicum-classic-links {
+  .turicum-public-shell .turicum-classic-links,
+  .turicum-public-shell .turicum-classic-nav-links {
     gap: 10px;
+  }
+
+  .turicum-landing-hero .turicum-classic-nav {
+    margin-inline: -12px;
+    padding: 12px;
   }
 
   .turicum-public-shell h1 {
@@ -3553,11 +3593,11 @@ code {
   align-items: center;
 }
 
-.turicum-public-shell .turicum-classic-links a:last-child {
-  color: rgba(198, 210, 225, 0.62);
-  border-left: 1px solid rgba(197, 214, 235, 0.12);
-  padding-left: 14px;
-  margin-left: 2px;
+@media (max-width: 920px) {
+  .turicum-public-shell .turicum-classic-utility-links {
+    padding-left: 12px;
+    margin-left: 0;
+  }
 }
 
 .turicum-public-shell .turicum-role-card {
