@@ -3117,6 +3117,7 @@ code {
   display: grid;
   gap: 10px;
   align-items: start;
+  width: 100%;
   max-width: 44rem;
 }
 
@@ -3246,12 +3247,13 @@ code {
   gap: 24px;
   padding-top: 22px;
   border-top: 1px solid rgba(198, 210, 225, 0.08);
-  justify-items: center;
+  justify-items: start;
 }
 
 .turicum-process-section .turicum-section-intro {
-  justify-items: center;
-  text-align: center;
+  justify-items: start;
+  text-align: left;
+  max-width: 44rem;
 }
 
 .turicum-process-section .turicum-section-intro h2,
@@ -3316,7 +3318,7 @@ code {
 .turicum-process-note {
   max-width: 44rem;
   padding-top: 8px;
-  text-align: center;
+  text-align: left;
 }
 
 .turicum-step-number {
