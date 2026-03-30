@@ -3143,6 +3143,7 @@ code {
   gap: 34px;
   padding-top: 26px;
   border-top: 1px solid rgba(198, 210, 225, 0.08);
+  align-items: stretch;
 }
 
 .turicum-lane {
@@ -3150,7 +3151,8 @@ code {
   flex-direction: column;
   gap: 14px;
   align-content: flex-start;
-  min-height: 100%;
+  min-height: clamp(27rem, 32vw, 31rem);
+  height: 100%;
   padding: 24px;
   border-radius: 22px;
   border: 1px solid rgba(39, 39, 42, 0.96);
@@ -3279,13 +3281,14 @@ code {
   background: linear-gradient(90deg, rgba(59, 130, 246, 0.18), rgba(96, 165, 250, 0.48), rgba(59, 130, 246, 0.18));
 }
 
-.turicum-process-step {
+.turicum-process-step,
+.turicum-process-step-grid {
   position: relative;
   display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
   align-content: start;
-  column-gap: 24px;
+  column-gap: 1.5rem;
   row-gap: 0;
   padding-top: 0;
   justify-items: start;
@@ -3332,6 +3335,7 @@ code {
   justify-self: start;
   width: 2.5rem;
   height: 2.5rem;
+  margin-top: 0.08rem;
   border-radius: 999px;
   border: 1px solid rgba(96, 165, 250, 0.46);
   background: radial-gradient(circle at 50% 40%, rgba(37, 99, 235, 0.22), rgba(15, 23, 42, 0.96));
@@ -3848,6 +3852,10 @@ code {
   .turicum-lanes-split,
   .turicum-process-steps {
     grid-template-columns: 1fr;
+  }
+
+  .turicum-lane {
+    min-height: 0;
   }
 
   .turicum-process-steps {
