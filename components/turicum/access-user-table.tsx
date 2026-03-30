@@ -32,6 +32,7 @@ export function AccessUserTable({
 }: AccessUserTableProps) {
   const [query, setQuery] = useState("");
   const [showActiveOnly, setShowActiveOnly] = useState(false);
+  const [showNeverSignedInOnly, setShowNeverSignedInOnly] = useState(false);
 
   const filteredUsers = useMemo(
     () =>
@@ -40,9 +41,13 @@ export function AccessUserTable({
           return false;
         }
 
+        if (showNeverSignedInOnly && user.lastSignInAt) {
+          return false;
+        }
+
         return matchesUserQuery(user, query);
       }),
-    [query, showActiveOnly, users]
+    [query, showActiveOnly, showNeverSignedInOnly, users]
   );
 
   return (
@@ -69,6 +74,14 @@ export function AccessUserTable({
               onChange={(event) => setShowActiveOnly(event.target.checked)}
             />
             <span>Show Active Only</span>
+          </label>
+          <label className="turicum-table-toggle">
+            <input
+              type="checkbox"
+              checked={showNeverSignedInOnly}
+              onChange={(event) => setShowNeverSignedInOnly(event.target.checked)}
+            />
+            <span>Never Signed In</span>
           </label>
         </div>
       </div>
@@ -103,7 +116,10 @@ export function AccessUserTable({
               </tr>
             ) : variant === "staff" ? (
               filteredUsers.map((user) => (
-                <tr key={user.userId}>
+                <tr
+                  key={user.userId}
+                  className={user.lastSignInAt ? undefined : "turicum-row-never-signed-in"}
+                >
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
@@ -140,7 +156,10 @@ export function AccessUserTable({
               ))
             ) : (
               filteredUsers.map((user) => (
-                <tr key={user.userId}>
+                <tr
+                  key={user.userId}
+                  className={user.lastSignInAt ? undefined : "turicum-row-never-signed-in"}
+                >
                   <td>{user.email}</td>
                   <td>{user.organization ?? "not set"}</td>
                   <td>
