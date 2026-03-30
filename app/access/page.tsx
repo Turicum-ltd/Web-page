@@ -381,7 +381,21 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
               </label>
               <GeneratedPasswordField name="password" label="Temporary password" required />
               <label className="field">
-                <span>Role</span>
+                <span className="turicum-field-label">
+                  <span>Role</span>
+                  <span className="turicum-info-tooltip" tabIndex={0}>
+                    <span className="turicum-info-tooltip-trigger" aria-label="Role permissions help">
+                      i
+                    </span>
+                    <span className="turicum-info-tooltip-panel" role="tooltip">
+                      <strong>Staff ops</strong>: Can manage documents and lead intake.
+                      <br />
+                      <strong>Staff admin</strong>: Can manage users, roles, and case visibility.
+                      <br />
+                      <strong>Staff counsel</strong>: View-only access to legal documents and AI reviews.
+                    </span>
+                  </span>
+                </span>
                 <select name="role" defaultValue="staff_ops">
                   {staffRoleOptions.map((role) => (
                     <option key={role.value} value={role.value}>

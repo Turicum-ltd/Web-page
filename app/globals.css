@@ -838,6 +838,60 @@ tbody tr:last-child td {
   background: rgba(120, 193, 255, 0.2);
 }
 
+.turicum-field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.turicum-info-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.turicum-info-tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 193, 255, 0.34);
+  background: rgba(120, 193, 255, 0.1);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+}
+
+.turicum-info-tooltip-panel {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  z-index: 10;
+  width: 320px;
+  display: none;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(120, 193, 255, 0.22);
+  background: rgba(12, 18, 27, 0.98);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  color: var(--text);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.turicum-info-tooltip:hover .turicum-info-tooltip-panel,
+.turicum-info-tooltip:focus-within .turicum-info-tooltip-panel {
+  display: block;
+}
+
+.turicum-info-tooltip-panel strong {
+  color: #f8fbff;
+}
+
 .turicum-disclosure {
   display: grid;
   gap: 18px;
