@@ -3267,18 +3267,12 @@ code {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 26px;
+  gap: 32px;
   width: 100%;
 }
 
 .turicum-process-steps::before {
-  content: "";
-  position: absolute;
-  left: calc(16.666% + 1.25rem);
-  right: calc(16.666% + 1.25rem);
-  top: 1.25rem;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(59, 130, 246, 0.18), rgba(96, 165, 250, 0.48), rgba(59, 130, 246, 0.18));
+  content: none;
 }
 
 .turicum-landing-process-step {
@@ -3286,7 +3280,8 @@ code {
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-  padding-top: 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(39, 39, 42, 0.92);
 }
 
 .turicum-process-step-copy {
@@ -3859,14 +3854,7 @@ code {
   }
 
   .turicum-process-steps::before {
-    left: 50%;
-    right: auto;
-    top: 1.25rem;
-    bottom: 1.25rem;
-    width: 1px;
-    height: auto;
-    transform: translateX(-50%);
-    background: linear-gradient(180deg, rgba(59, 130, 246, 0.18), rgba(96, 165, 250, 0.48), rgba(59, 130, 246, 0.18));
+    content: none;
   }
 
   .turicum-lanes-split .turicum-lane + .turicum-lane {
