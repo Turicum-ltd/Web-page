@@ -109,6 +109,44 @@ const nextSteps = [
   "Protected internal review across validation, paper, diligence, and funding"
 ];
 
+const borrowerDocumentCommandCenter = [
+  {
+    title: "Core Legal",
+    description: "Entity and authority documents that let us confirm the borrowing structure.",
+    items: [
+      { label: "Articles", status: "verified" as const },
+      { label: "Operating Agreement", status: "in_review" as const },
+      { label: "EIN", status: "action_required" as const }
+    ]
+  },
+  {
+    title: "Title & Collateral",
+    description: "Collateral position, site definition, and current title posture.",
+    items: [
+      { label: "Deed", status: "verified" as const },
+      { label: "Title Commitment", status: "in_review" as const },
+      { label: "Survey", status: "action_required" as const }
+    ]
+  },
+  {
+    title: "Funding",
+    description: "Settlement and disbursement controls before money can move.",
+    items: [
+      { label: "Settlement Statement", status: "in_review" as const },
+      { label: "Wiring Instructions", status: "action_required" as const }
+    ]
+  },
+  {
+    title: "Support",
+    description: "Supporting diligence that rounds out the property file.",
+    items: [
+      { label: "Insurance Binder", status: "verified" as const },
+      { label: "Appraisal", status: "in_review" as const },
+      { label: "Photos", status: "verified" as const }
+    ]
+  }
+];
+
 const borrowerProcessTracker = [
   {
     title: "Request Call",
@@ -281,6 +319,60 @@ export function TuricumBorrowerOverview({ requested, requestedEmail, error }: Tu
                 <IntroCallRequestForm action={withConfiguredBasePath("/api/intro-call-requests")} />
               </>
             ) : null}
+          </div>
+        </section>
+
+        <section className="panel turicum-document-command-center">
+          <div className="section-head compact">
+            <div>
+              <p className="eyebrow">Document Command Center</p>
+              <h2>See exactly what the borrower packet will organize once secure intake opens.</h2>
+            </div>
+          </div>
+          <p className="helper turicum-document-command-center-note">
+            Turicum groups the file into four clear lanes so borrowers know what is still needed,
+            what is under review, and what is already cleared.
+          </p>
+          <div className="turicum-document-command-grid">
+            {borrowerDocumentCommandCenter.map((category) => {
+              const verifiedCount = category.items.filter((item) => item.status === "verified").length;
+              const reviewCount = category.items.filter((item) => item.status === "in_review").length;
+              const progress = Math.round(
+                ((verifiedCount + reviewCount * 0.5) / category.items.length) * 100
+              );
+
+              return (
+                <article key={category.title} className="turicum-document-command-card">
+                  <div className="turicum-document-command-head">
+                    <div>
+                      <p className="eyebrow">{category.title}</p>
+                      <p className="helper">{category.description}</p>
+                    </div>
+                    <strong>{progress}%</strong>
+                  </div>
+                  <div className="turicum-document-command-progress" aria-hidden="true">
+                    <span
+                      className="turicum-document-command-progress-fill"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                  <ul className="turicum-document-command-list">
+                    {category.items.map((item) => (
+                      <li key={`${category.title}-${item.label}`} className="turicum-document-command-item">
+                        <span>{item.label}</span>
+                        <span className={`turicum-command-status turicum-command-status-${item.status}`}>
+                          {item.status === "action_required"
+                            ? "Action Required"
+                            : item.status === "in_review"
+                              ? "In Review"
+                              : "Verified"}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              );
+            })}
           </div>
         </section>
 

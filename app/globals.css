@@ -3503,6 +3503,111 @@ code {
   gap: 20px;
 }
 
+.turicum-document-command-center {
+  display: grid;
+  gap: 18px;
+  background: #09090b;
+  border-color: #27272a;
+}
+
+.turicum-document-command-center-note {
+  max-width: 44rem;
+}
+
+.turicum-document-command-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-document-command-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid #27272a;
+  background: linear-gradient(180deg, rgba(24, 24, 27, 0.98), rgba(9, 9, 11, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.turicum-document-command-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.turicum-document-command-head strong {
+  color: #60a5fa;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.turicum-document-command-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(39, 39, 42, 0.92);
+}
+
+.turicum-document-command-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  box-shadow: 0 0 14px rgba(37, 99, 235, 0.26);
+}
+
+.turicum-document-command-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-document-command-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(39, 39, 42, 0.96);
+  background: rgba(24, 24, 27, 0.92);
+}
+
+.turicum-command-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.turicum-command-status-action_required {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.turicum-command-status-in_review {
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.14);
+  border: 1px solid rgba(37, 99, 235, 0.24);
+}
+
+.turicum-command-status-verified {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.18);
+}
+
 .turicum-process-tracker {
   display: grid;
   gap: 14px;
@@ -4571,7 +4676,8 @@ code {
 
   .turicum-intro-steps,
   .turicum-intro-stage-grid,
-  .turicum-borrower-timeline-track {
+  .turicum-borrower-timeline-track,
+  .turicum-document-command-grid {
     grid-template-columns: 1fr;
   }
 
