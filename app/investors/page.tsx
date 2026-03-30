@@ -54,6 +54,18 @@ const typicalInvestmentSizeOptions = [
   "$3M+"
 ];
 
+const investorPreviewMetrics = [
+  { label: "Projected yield", value: "10.0%" },
+  { label: "Collateral", value: "1st lien" },
+  { label: "Reserve posture", value: "Funded" }
+];
+
+const investorPreviewUpdates = [
+  { label: "Promotion summary", value: "Mixed-use bridge in Miami with sponsor basis already in." },
+  { label: "Servicing cadence", value: "Monthly construction and reserve updates." },
+  { label: "Resolution path", value: "Extension and refinance options tracked from day one." }
+];
+
 function readString(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
@@ -141,6 +153,68 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
                   <p className="helper">{pillar.description}</p>
                 </article>
               ))}
+            </div>
+          </section>
+
+          <section className="panel turicum-investor-preview-panel">
+            <div className="section-head compact">
+              <div>
+                <p className="eyebrow">Portal sneak peek</p>
+                <h2>A sample promoted case view, before login.</h2>
+              </div>
+            </div>
+            <p className="helper">
+              Prospective investors can see the level of clarity first: promoted matter summary,
+              servicing posture, and resolution direction. Sensitive values stay blurred until
+              access is issued.
+            </p>
+            <div className="turicum-investor-preview-grid">
+              <article className="turicum-investor-preview-window">
+                <div className="turicum-investor-preview-head">
+                  <div>
+                    <p className="eyebrow">Sample promoted case</p>
+                    <strong>FL-PUR-702114 · Miami mixed-use bridge</strong>
+                  </div>
+                  <span className="badge provisional">Sample data</span>
+                </div>
+                <div className="turicum-investor-preview-metrics turicum-investor-preview-blur">
+                  {investorPreviewMetrics.map((item) => (
+                    <div key={item.label} className="turicum-investor-preview-metric">
+                      <span>{item.label}</span>
+                      <strong>{item.value}</strong>
+                    </div>
+                  ))}
+                </div>
+                <div className="turicum-investor-preview-card turicum-investor-preview-blur">
+                  <p className="eyebrow">Promoted summary</p>
+                  <p>
+                    Borrower recap, collateral position, requested size, and capital stack overview
+                    appear here once Turicum clears the file for the investor lane.
+                  </p>
+                </div>
+              </article>
+
+              <article className="turicum-investor-preview-window">
+                <div className="turicum-investor-preview-head">
+                  <div>
+                    <p className="eyebrow">Ongoing visibility</p>
+                    <strong>What the portal keeps current</strong>
+                  </div>
+                  <span className="badge provisional">Sample data</span>
+                </div>
+                <div className="turicum-investor-preview-list turicum-investor-preview-blur">
+                  {investorPreviewUpdates.map((item) => (
+                    <div key={item.label} className="turicum-investor-preview-list-item">
+                      <span>{item.label}</span>
+                      <strong>{item.value}</strong>
+                    </div>
+                  ))}
+                </div>
+                <p className="helper">
+                  This is the level of transparency the investor portal is built to provide once a
+                  lead is approved and granted access.
+                </p>
+              </article>
             </div>
           </section>
 

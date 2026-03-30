@@ -3903,6 +3903,7 @@ code {
 
 .turicum-investor-signin-panel,
 .turicum-investor-proof-panel,
+.turicum-investor-preview-panel,
 .turicum-investor-matters-panel {
   border-color: rgba(88, 166, 255, 0.14);
   background:
@@ -3940,6 +3941,79 @@ code {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
+.turicum-investor-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.turicum-investor-preview-window {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid #27272a;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(16, 16, 19, 0.96));
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.04), 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+.turicum-investor-preview-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.turicum-investor-preview-head strong {
+  line-height: 1.35;
+}
+
+.turicum-investor-preview-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.turicum-investor-preview-metric,
+.turicum-investor-preview-list-item {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid rgba(39, 39, 42, 0.94);
+  border-radius: 16px;
+  background: rgba(9, 9, 11, 0.56);
+}
+
+.turicum-investor-preview-metric span,
+.turicum-investor-preview-list-item span {
+  color: #a1a1aa;
+  font-size: 0.8rem;
+}
+
+.turicum-investor-preview-card {
+  padding: 16px;
+  border: 1px solid rgba(39, 39, 42, 0.94);
+  border-radius: 18px;
+  background: rgba(9, 9, 11, 0.56);
+}
+
+.turicum-investor-preview-card p {
+  margin: 0;
+}
+
+.turicum-investor-preview-list {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-investor-preview-blur {
+  filter: blur(2.4px);
+  opacity: 0.82;
+  user-select: none;
+}
+
 .turicum-investor-matter-card {
   gap: 14px;
   border-color: rgba(88, 166, 255, 0.14);
@@ -3973,6 +4047,7 @@ code {
 .turicum-public-shell .turicum-process-strip,
 .turicum-public-shell .turicum-investor-signin-panel,
 .turicum-public-shell .turicum-investor-proof-panel,
+.turicum-public-shell .turicum-investor-preview-panel,
 .turicum-public-shell .turicum-investor-matters-panel {
   box-shadow: 0 22px 48px rgba(0, 0, 0, 0.2);
 }
@@ -4364,6 +4439,11 @@ code {
   .turicum-intro-steps,
   .turicum-intro-stage-grid,
   .turicum-borrower-timeline-track {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-investor-preview-grid,
+  .turicum-investor-preview-metrics {
     grid-template-columns: 1fr;
   }
 
