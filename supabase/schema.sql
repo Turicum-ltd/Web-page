@@ -254,6 +254,17 @@ create table if not exists commercial_loan_applications (
     check (status in ('draft', 'submitted', 'under_review', 'approved'))
 );
 
+create table if not exists case_inquiries (
+  id uuid primary key default gen_random_uuid(),
+  investor_id uuid not null references auth.users(id) on delete cascade,
+  case_id text not null,
+  status text not null default 'pending',
+  staff_notes text,
+  created_at timestamptz not null default now(),
+  constraint case_inquiries_status_check
+    check (status in ('pending', 'contacted', 'closed'))
+);
+
 create index if not exists idx_cases_state_structure on cases (state, structure_type);
 create index if not exists idx_cases_stage on cases (stage);
 create index if not exists idx_case_documents_case on case_documents (case_id);
@@ -268,9 +279,13 @@ create index if not exists idx_admin_audit_logs_action_type on admin_audit_logs 
 create index if not exists idx_commercial_loan_applications_created_at on commercial_loan_applications (created_at desc);
 create index if not exists idx_commercial_loan_applications_email on commercial_loan_applications (lower(primary_borrower_email));
 create index if not exists idx_commercial_loan_applications_user_id on commercial_loan_applications (user_id);
+create index if not exists idx_case_inquiries_investor_id on case_inquiries (investor_id);
+create index if not exists idx_case_inquiries_case_id on case_inquiries (case_id);
+create index if not exists idx_case_inquiries_created_at on case_inquiries (created_at desc);
 
 alter table admin_audit_logs enable row level security;
 alter table commercial_loan_applications enable row level security;
+alter table case_inquiries enable row level security;
 
 create or replace function public.set_commercial_loan_applications_updated_at()
 returns trigger
@@ -295,6 +310,10 @@ drop policy if exists "owner_select_commercial_loan_applications" on public.comm
 drop policy if exists "owner_insert_commercial_loan_applications" on public.commercial_loan_applications;
 drop policy if exists "owner_update_commercial_loan_applications" on public.commercial_loan_applications;
 drop policy if exists "staff_select_commercial_loan_applications" on public.commercial_loan_applications;
+drop policy if exists "investor_select_own_case_inquiries" on public.case_inquiries;
+drop policy if exists "investor_insert_own_case_inquiries" on public.case_inquiries;
+drop policy if exists "staff_select_case_inquiries" on public.case_inquiries;
+drop policy if exists "staff_update_case_inquiries" on public.case_inquiries;
 
 create policy "staff_admin_select_admin_audit_logs"
 on admin_audit_logs
@@ -334,6 +353,55 @@ on public.commercial_loan_applications
 for select
 to authenticated
 using (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
+      and turicum_user_profiles.is_active = true
+  )
+);
+
+create policy "investor_select_own_case_inquiries"
+on public.case_inquiries
+for select
+to authenticated
+using (auth.uid() = investor_id);
+
+create policy "investor_insert_own_case_inquiries"
+on public.case_inquiries
+for insert
+to authenticated
+with check (auth.uid() = investor_id);
+
+create policy "staff_select_case_inquiries"
+on public.case_inquiries
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
+      and turicum_user_profiles.is_active = true
+  )
+);
+
+create policy "staff_update_case_inquiries"
+on public.case_inquiries
+for update
+to authenticated
+using (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
+      and turicum_user_profiles.is_active = true
+  )
+)
+with check (
   exists (
     select 1
     from public.turicum_user_profiles
