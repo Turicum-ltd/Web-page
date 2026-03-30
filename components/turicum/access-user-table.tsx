@@ -15,6 +15,20 @@ interface AccessUserTableProps {
   loadAuditHistory: (targetUserEmail: string) => Promise<AdminAuditLogEntry[]>;
 }
 
+function getUserInitials(user: AccessAdminUser) {
+  const source = user.fullName?.trim() || user.email.trim();
+  const parts = source
+    .split(/[\s@._-]+/)
+    .filter(Boolean)
+    .slice(0, 2);
+
+  if (!parts.length) {
+    return "?";
+  }
+
+  return parts.map((part) => part.charAt(0).toUpperCase()).join("");
+}
+
 function matchesUserQuery(user: AccessAdminUser, query: string) {
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -277,6 +291,7 @@ export function AccessUserTable({
                 <th>Email</th>
                 <th>Organization</th>
                 <th>Status</th>
+                <th>Name</th>
                 <th>Last sign-in</th>
                 <th>Action</th>
                 <th>History</th>
@@ -286,7 +301,7 @@ export function AccessUserTable({
           <tbody>
             {filteredUsers.length === 0 ? (
               <tr>
-                <td colSpan={variant === "staff" ? 7 : 6} className="helper">
+                <td colSpan={variant === "staff" ? 7 : 7} className="helper">
                   No users found
                 </td>
               </tr>
@@ -299,20 +314,29 @@ export function AccessUserTable({
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
-                    <span className={`turicum-status-pill ${user.isActive ? "is-active" : "is-inactive"}`}>
-                      <span className="turicum-status-dot" aria-hidden="true" />
-                      {user.isActive ? "Active" : "Inactive"}
+                    <span
+                      className={`turicum-status-indicator ${user.isActive ? "is-active" : "is-inactive"}`}
+                      aria-label={user.isActive ? "Active" : "Inactive"}
+                      title={user.isActive ? "Active" : "Inactive"}
+                    >
+                      <span className="turicum-status-indicator-dot" aria-hidden="true" />
                     </span>
                   </td>
-                  <td>{user.fullName ?? "not set"}</td>
+                  <td>
+                    <div className="turicum-user-identity">
+                      <span className="turicum-user-avatar" aria-hidden="true">
+                        {getUserInitials(user)}
+                      </span>
+                      <div className="turicum-user-copy">
+                        <strong>{user.fullName ?? "Not set"}</strong>
+                      </div>
+                    </div>
+                  </td>
                   <td>
                     {user.lastSignInAt ? (
                       new Date(user.lastSignInAt).toLocaleString("en-US")
                     ) : (
-                      <span className="turicum-status-pill is-pending">
-                        <span className="turicum-status-dot" aria-hidden="true" />
-                        Never Signed In
-                      </span>
+                      <span className="turicum-never-signed-in-label">Never Signed In</span>
                     )}
                   </td>
                   <td>
@@ -418,19 +442,29 @@ export function AccessUserTable({
                   <td>{user.email}</td>
                   <td>{user.organization ?? "not set"}</td>
                   <td>
-                    <span className={`turicum-status-pill ${user.isActive ? "is-active" : "is-inactive"}`}>
-                      <span className="turicum-status-dot" aria-hidden="true" />
-                      {user.isActive ? "Active" : "Inactive"}
+                    <span
+                      className={`turicum-status-indicator ${user.isActive ? "is-active" : "is-inactive"}`}
+                      aria-label={user.isActive ? "Active" : "Inactive"}
+                      title={user.isActive ? "Active" : "Inactive"}
+                    >
+                      <span className="turicum-status-indicator-dot" aria-hidden="true" />
                     </span>
+                  </td>
+                  <td>
+                    <div className="turicum-user-identity">
+                      <span className="turicum-user-avatar" aria-hidden="true">
+                        {getUserInitials(user)}
+                      </span>
+                      <div className="turicum-user-copy">
+                        <strong>{user.fullName ?? "Not set"}</strong>
+                      </div>
+                    </div>
                   </td>
                   <td>
                     {user.lastSignInAt ? (
                       new Date(user.lastSignInAt).toLocaleString("en-US")
                     ) : (
-                      <span className="turicum-status-pill is-pending">
-                        <span className="turicum-status-dot" aria-hidden="true" />
-                        Never Signed In
-                      </span>
+                      <span className="turicum-never-signed-in-label">Never Signed In</span>
                     )}
                   </td>
                   <td>

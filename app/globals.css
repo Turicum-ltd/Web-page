@@ -4912,10 +4912,80 @@ code {
   background: rgba(245, 158, 11, 0.06);
   border-top: 1px solid rgba(245, 158, 11, 0.22);
   border-bottom: 1px solid rgba(245, 158, 11, 0.22);
+  color: rgba(161, 161, 170, 0.88);
 }
 
 .turicum-row-never-signed-in td:first-child {
   box-shadow: inset 3px 0 0 rgba(245, 158, 11, 0.45);
+}
+
+.turicum-row-never-signed-in strong,
+.turicum-row-never-signed-in a,
+.turicum-row-never-signed-in .secondary-button,
+.turicum-row-never-signed-in .turicum-destructive-button {
+  opacity: 0.82;
+}
+
+.turicum-user-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.turicum-user-avatar {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(39, 39, 42, 0.95);
+  background: linear-gradient(180deg, rgba(39, 39, 42, 0.92), rgba(24, 24, 27, 0.98));
+  color: #f4f4f5;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.turicum-user-copy {
+  min-width: 0;
+}
+
+.turicum-user-copy strong {
+  display: block;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.turicum-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+.turicum-status-indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.02);
+}
+
+.turicum-status-indicator.is-active {
+  color: #4ade80;
+}
+
+.turicum-status-indicator.is-inactive {
+  color: #f87171;
+}
+
+.turicum-never-signed-in-label {
+  color: rgba(161, 161, 170, 0.88);
+  font-size: 0.88rem;
 }
 
 .turicum-status-pill {
