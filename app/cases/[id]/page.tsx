@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { CaseDocumentIntake } from "@/components/turicum/case-document-intake";
+import { CaseWorkspaceTabs } from "@/components/turicum/case-workspace-tabs";
 import { TuricumNav } from "@/components/turicum/nav";
 import { getCaseLegalSelection } from "@/lib/turicum/case-legal-selection";
 import { assessDealProfile, getCaseDealProfile } from "@/lib/turicum/deal-intake";
@@ -289,6 +290,8 @@ export default async function CaseDetailPage({
             </p>
           </section>
         ) : null}
+
+        <CaseWorkspaceTabs caseId={id} activeTab="overview" />
 
         <section className="three-up">
           <div className="panel">

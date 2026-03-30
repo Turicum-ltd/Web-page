@@ -60,6 +60,44 @@ function getSupabaseAdmin() {
   });
 }
 
+interface CommercialLoanApplicationRow {
+  id: string;
+  created_at: string;
+  primary_borrower_name: string;
+  primary_borrower_email: string;
+  primary_borrower_phone: string | null;
+  co_borrower_name: string | null;
+  co_borrower_email: string | null;
+  annual_income: number | null;
+  requested_amount: number | null;
+  property_address: string;
+  property_type: string;
+  borrowing_entity_name: string;
+  profile: Record<string, unknown> | null;
+  financials: Record<string, unknown> | null;
+  subject_property: Record<string, unknown> | null;
+  declarations: Record<string, unknown> | null;
+}
+
+export interface CommercialLoanApplicationRecord {
+  id: string;
+  createdAt: string;
+  primaryBorrowerName: string;
+  primaryBorrowerEmail: string;
+  primaryBorrowerPhone: string | null;
+  coBorrowerName: string | null;
+  coBorrowerEmail: string | null;
+  annualIncome: number | null;
+  requestedAmount: number | null;
+  propertyAddress: string;
+  propertyType: string;
+  borrowingEntityName: string;
+  profile: Record<string, unknown>;
+  financials: Record<string, unknown>;
+  subjectProperty: Record<string, unknown>;
+  declarations: Record<string, unknown>;
+}
+
 function requireValue(label: string, value: string | undefined) {
   const next = value?.trim() ?? "";
   if (!next) {
@@ -96,6 +134,27 @@ function parseYesNo(value: string | undefined) {
   }
 
   return normalized === "yes";
+}
+
+function mapRow(row: CommercialLoanApplicationRow): CommercialLoanApplicationRecord {
+  return {
+    id: row.id,
+    createdAt: row.created_at,
+    primaryBorrowerName: row.primary_borrower_name,
+    primaryBorrowerEmail: row.primary_borrower_email,
+    primaryBorrowerPhone: row.primary_borrower_phone,
+    coBorrowerName: row.co_borrower_name,
+    coBorrowerEmail: row.co_borrower_email,
+    annualIncome: row.annual_income,
+    requestedAmount: row.requested_amount,
+    propertyAddress: row.property_address,
+    propertyType: row.property_type,
+    borrowingEntityName: row.borrowing_entity_name,
+    profile: row.profile ?? {},
+    financials: row.financials ?? {},
+    subjectProperty: row.subject_property ?? {},
+    declarations: row.declarations ?? {}
+  };
 }
 
 export async function createCommercialLoanApplication(
@@ -157,4 +216,34 @@ export async function createCommercialLoanApplication(
     id: String(data.id),
     email: String(data.primary_borrower_email)
   };
+}
+
+export async function getLatestCommercialLoanApplicationByEmail(email: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    return null;
+  }
+
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("commercial_loan_applications")
+    .select(
+      "id, created_at, primary_borrower_name, primary_borrower_email, primary_borrower_phone, co_borrower_name, co_borrower_email, annual_income, requested_amount, property_address, property_type, borrowing_entity_name, profile, financials, subject_property, declarations"
+    )
+    .eq("primary_borrower_email", normalizedEmail)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    const message = error.message.toLowerCase();
+    if (message.includes("does not exist") || message.includes("relation")) {
+      return null;
+    }
+
+    throw new Error(`Failed to load commercial loan applications: ${error.message}`);
+  }
+
+  return data ? mapRow(data as CommercialLoanApplicationRow) : null;
 }

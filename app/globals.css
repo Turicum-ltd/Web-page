@@ -4638,6 +4638,138 @@ code {
   align-items: flex-start;
 }
 
+.turicum-case-workspace-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.turicum-diligence-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.turicum-diligence-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.turicum-diligence-panel {
+  background: #18181b;
+  border: 1px solid #27272a;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);
+}
+
+.turicum-diligence-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.turicum-diligence-sections {
+  display: grid;
+  gap: 18px;
+}
+
+.turicum-diligence-section {
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-diligence-section h3 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+}
+
+.turicum-diligence-definition-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.turicum-diligence-definition-list div {
+  display: grid;
+  gap: 4px;
+}
+
+.turicum-diligence-definition-list dt {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.turicum-diligence-definition-list dd {
+  margin: 0;
+}
+
+.turicum-diligence-document-list {
+  display: grid;
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.turicum-diligence-document-list li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-diligence-document-copy {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.turicum-diligence-document-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.turicum-diligence-document-actions {
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .turicum-diligence-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .turicum-diligence-callout,
+  .turicum-diligence-panel-head,
+  .turicum-diligence-document-list li {
+    flex-direction: column;
+  }
+
+  .turicum-diligence-document-actions,
+  .turicum-diligence-document-actions form,
+  .turicum-diligence-document-actions button,
+  .turicum-diligence-callout .form-actions,
+  .turicum-diligence-callout .form-actions a {
+    width: 100%;
+  }
+}
+
 .turicum-audit-timeline-item:not(:last-child)::after {
   content: "";
   position: absolute;

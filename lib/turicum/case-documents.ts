@@ -202,6 +202,53 @@ export async function getCaseDocumentById(
   return items.find((item) => item.id === documentId) ?? null;
 }
 
+export async function updateCaseDocumentStatus(
+  caseId: string,
+  documentId: string,
+  status: CaseDocumentRecord["status"]
+) {
+  const supabase = getSupabaseAdmin();
+
+  if (!supabase) {
+    const items = await readLocalCaseDocuments();
+    const index = items.findIndex((item) => item.caseId === caseId && item.id === documentId);
+
+    if (index === -1) {
+      throw new Error("Case document not found.");
+    }
+
+    const nextRecord: StoredCaseDocumentRecord = {
+      ...items[index],
+      status
+    };
+    items[index] = nextRecord;
+    await writeLocalCaseDocuments(items);
+    return nextRecord;
+  }
+
+  const { data, error } = await supabase
+    .from("case_documents")
+    .update({
+      status
+    })
+    .eq("case_id", caseId)
+    .eq("id", documentId)
+    .select(
+      "id, case_id, document_type_code, category, status, title, file_name, mime_type, storage_path, uploaded_at"
+    )
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Failed to update case document status: ${error.message}`);
+  }
+
+  if (!data) {
+    throw new Error("Case document not found.");
+  }
+
+  return mapSupabaseRow(data as Record<string, unknown>);
+}
+
 export async function readCaseDocumentBinary(document: CaseDocumentRecord) {
   if (isExternalDocumentReference(document.storagePath)) {
     throw new Error("External document references are opened by redirect, not binary download.");
