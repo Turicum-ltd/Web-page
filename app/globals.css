@@ -3280,15 +3280,23 @@ code {
 .turicum-process-step {
   position: relative;
   display: grid;
-  gap: 10px;
+  grid-template-columns: auto 1fr;
+  align-items: start;
   align-content: start;
-  justify-items: center;
-  text-align: center;
+  column-gap: 24px;
+  row-gap: 0;
   padding-top: 0;
 }
 
-.turicum-process-step h3,
-.turicum-process-step p,
+.turicum-process-step-copy {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  text-align: left;
+}
+
+.turicum-process-step-copy h3,
+.turicum-process-step-copy p,
 .turicum-process-note {
   margin: 0;
 }
