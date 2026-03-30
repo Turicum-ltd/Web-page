@@ -3847,6 +3847,37 @@ code {
   gap: 16px;
 }
 
+.turicum-application-profile-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-application-balance-sheet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-application-balance-column {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid #27272a;
+  background: rgba(9, 9, 11, 0.62);
+}
+
+.turicum-application-balance-column .eyebrow {
+  margin: 0;
+}
+
+.turicum-application-span-full {
+  grid-column: 1 / -1;
+}
+
+.turicum-application-declarations-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .turicum-intro-step-actions {
   justify-content: space-between;
 }
@@ -4677,7 +4708,10 @@ code {
   .turicum-intro-steps,
   .turicum-intro-stage-grid,
   .turicum-borrower-timeline-track,
-  .turicum-document-command-grid {
+  .turicum-document-command-grid,
+  .turicum-application-balance-sheet,
+  .turicum-application-profile-grid,
+  .turicum-application-declarations-grid {
     grid-template-columns: 1fr;
   }
 

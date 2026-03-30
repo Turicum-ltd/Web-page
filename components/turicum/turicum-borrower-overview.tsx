@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IntroCallRequestForm } from "@/components/turicum/intro-call-request-form";
+import { CommercialLoanApplicationForm } from "@/components/turicum/commercial-loan-application-form";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
 
@@ -175,12 +175,12 @@ const borrowerProcessTracker = [
 ];
 
 interface TuricumBorrowerOverviewProps {
-  requested?: boolean;
-  requestedEmail?: string;
+  submitted?: boolean;
+  submittedEmail?: string;
   error?: string;
 }
 
-export function TuricumBorrowerOverview({ requested, requestedEmail, error }: TuricumBorrowerOverviewProps) {
+export function TuricumBorrowerOverview({ submitted, submittedEmail, error }: TuricumBorrowerOverviewProps) {
   const heroArt = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80";
 
   return (
@@ -263,26 +263,25 @@ export function TuricumBorrowerOverview({ requested, requestedEmail, error }: Tu
           <div id="request-call" className="panel lead">
             <div className="section-head compact">
               <div>
-                <p className="eyebrow">Request the first call</p>
-                <h2>Send the borrower details Turicum needs to schedule the intro conversation.</h2>
+                <p className="eyebrow">Commercial loan application</p>
+                <h2>Complete the borrower application Turicum uses to start underwriting the file.</h2>
               </div>
             </div>
-            {requested ? (
+            {submitted ? (
               <div className="panel subtle turicum-intro-success-state" role="status" aria-live="polite">
                 <span className="turicum-intro-success-icon" aria-hidden="true">
                   <SuccessCheckIcon />
                 </span>
                 <p className="eyebrow">Thank you</p>
-                <strong>Request Received!</strong>
+                <strong>Application Received!</strong>
                 <p className="helper">
-                  {requestedEmail
-                    ? `We’ve queued the scheduling link for ${requestedEmail}. Please check your inbox${" "}
-                      (and spam folder) to confirm your 15-minute intro call.`
-                    : "We’ve queued the scheduling link by email. Please check your inbox (and spam folder) to confirm your 15-minute intro call."}
+                  {submittedEmail
+                    ? `We’ve recorded the application for ${submittedEmail}. Turicum can now review the borrower profile, financials, collateral, and declarations before the next conversation.`
+                    : "We’ve recorded the application and the Turicum team can now review the borrower profile, financials, collateral, and declarations."}
                 </p>
                 <p className="helper">
-                  You do not need the full document package ready yet. The next step is just the
-                  first fit conversation.
+                  You do not need the full document package ready yet. The secure intake packet and
+                  next steps will follow once the initial review is complete.
                 </p>
               </div>
             ) : null}
@@ -292,13 +291,14 @@ export function TuricumBorrowerOverview({ requested, requestedEmail, error }: Tu
                 <p className="helper">{error}</p>
               </div>
             ) : null}
-            {!requested ? (
+            {!submitted ? (
               <>
                 <div className="turicum-process-tracker" aria-label="Borrower process tracker">
                   <div className="turicum-process-tracker-head">
                     <p className="eyebrow">Process tracker</p>
                     <p className="helper turicum-process-tracker-note">
-                      You do not need the full file ready yet. The next step is just the intro call.
+                      This application organizes the borrower profile, balance sheet, subject property,
+                      and declarations before secure intake opens.
                     </p>
                   </div>
                   <div className="turicum-process-tracker-track">
@@ -316,7 +316,7 @@ export function TuricumBorrowerOverview({ requested, requestedEmail, error }: Tu
                     ))}
                   </div>
                 </div>
-                <IntroCallRequestForm action={withConfiguredBasePath("/api/intro-call-requests")} />
+                <CommercialLoanApplicationForm action={withConfiguredBasePath("/api/commercial-loan-applications")} />
               </>
             ) : null}
           </div>
