@@ -2,9 +2,40 @@ import Link from "next/link";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { withBasePath } from "@/lib/turicum/runtime";
 
+function BorrowerLaneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M4 20V9.5L12 4l8 5.5V20M8 20v-5.5h8V20M7.5 10.5h9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function InvestorLaneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M5 18.5h14M7.5 16V11.5M12 16V8.5M16.5 16V6.5M6.5 9.5l4-3 3 2 4-3"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const audienceLanes = [
   {
     eyebrow: "For borrowers",
+    icon: BorrowerLaneIcon,
     title: "Move faster on purchase, bridge, and refinance loans.",
     description:
       "A direct borrower path for property owners who want a quick fit decision and a cleaner route from first call to closing.",
@@ -18,6 +49,7 @@ const audienceLanes = [
   },
   {
     eyebrow: "For investors",
+    icon: InvestorLaneIcon,
     title: "Review promoted first-lien real estate opportunities.",
     description:
       "A dedicated capital-partner lane for promoted opportunities, first-lien structure, and disciplined servicing updates after promotion.",
@@ -144,6 +176,9 @@ export function TuricumPortalOverview() {
           <section className="turicum-lanes-split">
             {audienceLanes.map((lane) => (
               <article key={lane.title} className="turicum-lane">
+                <div className="turicum-lane-icon" aria-hidden="true">
+                  <lane.icon />
+                </div>
                 <p className="eyebrow">{lane.eyebrow}</p>
                 <h3>{lane.title}</h3>
                 <p className="turicum-lane-copy">{lane.description}</p>
