@@ -228,9 +228,10 @@ create table if not exists admin_audit_logs (
 
 create table if not exists commercial_loan_applications (
   id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  status text not null default 'submitted',
+  status text not null default 'draft',
   primary_borrower_name text not null,
   primary_borrower_email text not null,
   primary_borrower_phone text,
@@ -244,7 +245,13 @@ create table if not exists commercial_loan_applications (
   profile jsonb not null default '{}'::jsonb,
   financials jsonb not null default '{}'::jsonb,
   subject_property jsonb not null default '{}'::jsonb,
-  declarations jsonb not null default '{}'::jsonb
+  declarations jsonb not null default '{}'::jsonb,
+  profile_data jsonb not null default '{}'::jsonb,
+  financial_data jsonb not null default '{}'::jsonb,
+  property_data jsonb not null default '{}'::jsonb,
+  declarations_data jsonb not null default '{}'::jsonb,
+  constraint commercial_loan_applications_status_check
+    check (status in ('draft', 'submitted', 'under_review', 'approved'))
 );
 
 create index if not exists idx_cases_state_structure on cases (state, structure_type);
@@ -260,10 +267,34 @@ create index if not exists idx_admin_audit_logs_target_user_email on admin_audit
 create index if not exists idx_admin_audit_logs_action_type on admin_audit_logs (action_type);
 create index if not exists idx_commercial_loan_applications_created_at on commercial_loan_applications (created_at desc);
 create index if not exists idx_commercial_loan_applications_email on commercial_loan_applications (lower(primary_borrower_email));
+create index if not exists idx_commercial_loan_applications_user_id on commercial_loan_applications (user_id);
 
 alter table admin_audit_logs enable row level security;
+alter table commercial_loan_applications enable row level security;
+
+create or replace function public.set_commercial_loan_applications_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_commercial_loan_applications_updated_at
+  on public.commercial_loan_applications;
+
+create trigger trg_commercial_loan_applications_updated_at
+before update on public.commercial_loan_applications
+for each row
+execute function public.set_commercial_loan_applications_updated_at();
 
 drop policy if exists "staff_admin_select_admin_audit_logs" on admin_audit_logs;
+drop policy if exists "owner_select_commercial_loan_applications" on public.commercial_loan_applications;
+drop policy if exists "owner_insert_commercial_loan_applications" on public.commercial_loan_applications;
+drop policy if exists "owner_update_commercial_loan_applications" on public.commercial_loan_applications;
+drop policy if exists "staff_select_commercial_loan_applications" on public.commercial_loan_applications;
 
 create policy "staff_admin_select_admin_audit_logs"
 on admin_audit_logs
@@ -275,6 +306,39 @@ using (
     from turicum_user_profiles
     where turicum_user_profiles.user_id = auth.uid()
       and turicum_user_profiles.role = 'staff_admin'
+      and turicum_user_profiles.is_active = true
+  )
+);
+
+create policy "owner_select_commercial_loan_applications"
+on public.commercial_loan_applications
+for select
+to authenticated
+using (auth.uid() = user_id);
+
+create policy "owner_insert_commercial_loan_applications"
+on public.commercial_loan_applications
+for insert
+to authenticated
+with check (auth.uid() = user_id);
+
+create policy "owner_update_commercial_loan_applications"
+on public.commercial_loan_applications
+for update
+to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+create policy "staff_select_commercial_loan_applications"
+on public.commercial_loan_applications
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
       and turicum_user_profiles.is_active = true
   )
 );
