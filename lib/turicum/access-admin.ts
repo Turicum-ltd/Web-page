@@ -471,6 +471,23 @@ export async function revokeBorrowerInvite(inviteId: string) {
   }
 }
 
+export async function refreshBorrowerInvite(inviteId: string) {
+  const supabase = getSupabaseAdmin();
+  const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+  const { error } = await supabase
+    .from("turicum_borrower_portal_invites")
+    .update({ expires_at: expiresAt })
+    .eq("id", inviteId);
+
+  if (error) {
+    throw new Error(`Failed to refresh borrower invite link: ${error.message}`);
+  }
+
+  return {
+    expiresAt
+  };
+}
+
 export async function createOrUpdateBorrowerInvite(input: {
   caseId: string;
   borrowerName: string;

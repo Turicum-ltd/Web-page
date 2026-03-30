@@ -262,6 +262,11 @@ export default async function CaseDetailPage({
                 </div>
               </div>
               <p className="helper">Deal, paper, next action.</p>
+              <div className="form-actions">
+                <Link className="secondary-button" href={withBasePath(`/access?caseId=${encodeURIComponent(id)}`)}>
+                  Open access admin
+                </Link>
+              </div>
             </div>
           </div>
         </section>

@@ -810,6 +810,34 @@ tbody tr:last-child td {
   resize: vertical;
 }
 
+.turicum-inline-input {
+  position: relative;
+}
+
+.turicum-inline-input input {
+  padding-right: 112px;
+}
+
+.turicum-inline-input-button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: rgba(120, 193, 255, 0.12);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.turicum-inline-input-button:hover {
+  background: rgba(120, 193, 255, 0.2);
+}
+
 .turicum-disclosure {
   display: grid;
   gap: 18px;
@@ -3549,5 +3577,129 @@ code {
 @media (max-width: 700px) {
   .turicum-four-up-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.turicum-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+}
+
+.turicum-breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.turicum-breadcrumbs a:hover {
+  color: var(--text);
+}
+
+.turicum-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-title-row .secondary-button {
+  flex-shrink: 0;
+}
+
+.turicum-table-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.turicum-table-toolbar .field {
+  max-width: 360px;
+}
+
+.turicum-table-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.turicum-table-toggle input {
+  width: 18px;
+  height: 18px;
+}
+
+.turicum-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.turicum-status-pill.is-active {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.24);
+  color: rgb(134, 239, 172);
+}
+
+.turicum-status-pill.is-inactive {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.turicum-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.turicum-status-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  min-width: 280px;
+  max-width: 360px;
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(63, 185, 80, 0.28);
+  background: rgba(13, 27, 18, 0.96);
+  color: #f0fdf4;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.turicum-status-toast.is-error {
+  border-color: rgba(255, 107, 107, 0.28);
+  background: rgba(35, 17, 18, 0.96);
+  color: #fff1f2;
+}
+
+.turicum-status-toast span {
+  color: inherit;
+  opacity: 0.88;
+}
+
+@media (max-width: 800px) {
+  .turicum-title-row {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
