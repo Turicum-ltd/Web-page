@@ -53,6 +53,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
   }
 
   const adminUserId = staffSession.userId;
+  const adminActorEmail = staffSession.email;
 
   const params = (await searchParams) ?? {};
   const status = readString(params.status);
@@ -147,7 +148,12 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
   async function saveInvestorGrant(formData: FormData) {
     "use server";
     try {
+      if (!adminActorEmail) {
+        throw new Error("Active admin email is unavailable for audit logging.");
+      }
+
       const saved = await grantInvestorCaseAccessBulk({
+        actorEmail: adminActorEmail,
         email: String(formData.get("email") ?? ""),
         caseIds: formData.getAll("caseIds").map((value) => String(value))
       });
@@ -241,7 +247,14 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
   async function refreshInvite(formData: FormData) {
     "use server";
     try {
-      const refreshed = await refreshBorrowerInvite(String(formData.get("inviteId") ?? ""));
+      if (!adminActorEmail) {
+        throw new Error("Active admin email is unavailable for audit logging.");
+      }
+
+      const refreshed = await refreshBorrowerInvite({
+        inviteId: String(formData.get("inviteId") ?? ""),
+        actorEmail: adminActorEmail
+      });
       revalidatePath(withBasePath("/access"));
       return {
         ok: true,

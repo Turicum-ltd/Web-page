@@ -23,6 +23,7 @@ interface StaffProfileRow {
 
 export interface StaffProfile {
   userId: string;
+  email: string | null;
   role: StaffRole;
   fullName: string | null;
   organization: string | null;
@@ -84,13 +85,14 @@ function getSupabaseAdminClient() {
   });
 }
 
-function mapStaffProfile(row: StaffProfileRow | null): StaffProfile | null {
+function mapStaffProfile(row: StaffProfileRow | null, email?: string | null): StaffProfile | null {
   if (!row || !isStaffRole(row.role)) {
     return null;
   }
 
   return {
     userId: row.user_id,
+    email: email ?? null,
     role: row.role,
     fullName: row.full_name,
     organization: row.organization,
@@ -98,7 +100,7 @@ function mapStaffProfile(row: StaffProfileRow | null): StaffProfile | null {
   };
 }
 
-export async function getStaffProfileByUserId(userId: string) {
+export async function getStaffProfileByUserId(userId: string, email?: string | null) {
   const admin = getSupabaseAdminClient();
 
   if (!admin) {
@@ -115,7 +117,7 @@ export async function getStaffProfileByUserId(userId: string) {
     throw new Error(`Failed to load Turicum staff profile: ${error.message}`);
   }
 
-  return mapStaffProfile(data as StaffProfileRow | null);
+  return mapStaffProfile(data as StaffProfileRow | null, email);
 }
 
 function createCookieAdapter(
@@ -198,7 +200,7 @@ export async function resolveSupabaseStaffSession(request: NextRequest) {
     return { response, profile: null as StaffProfile | null };
   }
 
-  const profile = await getStaffProfileByUserId(data.user.id);
+  const profile = await getStaffProfileByUserId(data.user.id, data.user.email ?? null);
   if (!profile || !profile.isActive) {
     return { response, profile: null as StaffProfile | null };
   }
@@ -218,7 +220,7 @@ export async function resolveSupabaseStaffSessionFromCookies(cookieStore: Readon
     return null;
   }
 
-  const profile = await getStaffProfileByUserId(data.user.id);
+  const profile = await getStaffProfileByUserId(data.user.id, data.user.email ?? null);
   if (!profile || !profile.isActive) {
     return null;
   }

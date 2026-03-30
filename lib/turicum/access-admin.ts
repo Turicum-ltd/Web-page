@@ -40,6 +40,13 @@ interface BorrowerInviteRow {
   created_at: string;
 }
 
+interface AdminAuditLogInsert {
+  actorEmail: string;
+  targetUserEmail: string;
+  actionType: string;
+  metadata?: Record<string, unknown>;
+}
+
 export interface AccessAdminUser {
   userId: string;
   email: string;
@@ -194,6 +201,20 @@ async function listBorrowerInvites() {
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
+}
+
+async function insertAdminAuditLog(input: AdminAuditLogInsert) {
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase.from("admin_audit_logs").insert({
+    actor_email: normalizeEmail(input.actorEmail),
+    target_user_email: normalizeEmail(input.targetUserEmail),
+    action_type: input.actionType,
+    metadata: input.metadata ?? {}
+  });
+
+  if (error) {
+    throw new Error(`Failed to write admin audit log: ${error.message}`);
+  }
 }
 
 export async function getAccessAdminSnapshot(): Promise<AccessAdminSnapshot> {
@@ -432,6 +453,7 @@ export async function grantInvestorCaseAccess(input: {
 }
 
 export async function grantInvestorCaseAccessBulk(input: {
+  actorEmail: string;
   email: string;
   caseIds: string[];
 }) {
@@ -463,6 +485,17 @@ export async function grantInvestorCaseAccessBulk(input: {
   if (error) {
     throw new Error(`Failed to grant investor access: ${error.message}`);
   }
+
+  await insertAdminAuditLog({
+    actorEmail: input.actorEmail,
+    targetUserEmail: email,
+    actionType: "GRANT_ACCESS",
+    metadata: {
+      caseIds,
+      grantCount: caseIds.length,
+      accessRole: "investor"
+    }
+  });
 
   return {
     email,
@@ -510,17 +543,43 @@ export async function revokeBorrowerInvite(inviteId: string) {
   }
 }
 
-export async function refreshBorrowerInvite(inviteId: string) {
+export async function refreshBorrowerInvite(input: { inviteId: string; actorEmail: string }) {
   const supabase = getSupabaseAdmin();
+  const { data: invite, error: inviteError } = await supabase
+    .from("turicum_borrower_portal_invites")
+    .select("id, case_id, email, expires_at")
+    .eq("id", input.inviteId)
+    .maybeSingle();
+
+  if (inviteError) {
+    throw new Error(`Failed to load borrower invite for refresh: ${inviteError.message}`);
+  }
+
+  if (!invite) {
+    throw new Error("Borrower invite not found.");
+  }
+
   const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
   const { error } = await supabase
     .from("turicum_borrower_portal_invites")
     .update({ expires_at: expiresAt })
-    .eq("id", inviteId);
+    .eq("id", input.inviteId);
 
   if (error) {
     throw new Error(`Failed to refresh borrower invite link: ${error.message}`);
   }
+
+  await insertAdminAuditLog({
+    actorEmail: input.actorEmail,
+    targetUserEmail: invite.email,
+    actionType: "REFRESH_INVITE",
+    metadata: {
+      inviteId: invite.id,
+      caseId: invite.case_id,
+      previousExpiresAt: invite.expires_at,
+      refreshedExpiresAt: expiresAt
+    }
+  });
 
   return {
     expiresAt
