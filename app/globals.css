@@ -4673,6 +4673,59 @@ code {
   padding: 20px;
 }
 
+.turicum-access-tab-panel {
+  padding: 10px 12px;
+}
+
+.turicum-access-tab-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-access-tab {
+  position: relative;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid #27272a;
+  border-radius: 14px;
+  background: #09090b;
+  color: #d4d4d8;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.turicum-access-tab::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 8px;
+  height: 2px;
+  border-radius: 999px;
+  background: transparent;
+  transition: background-color 160ms ease;
+}
+
+.turicum-access-tab:hover,
+.turicum-access-tab:focus-visible {
+  border-color: rgba(37, 99, 235, 0.34);
+  color: #f4f4f5;
+  outline: none;
+}
+
+.turicum-access-tab.is-active {
+  background: #27272a;
+  border-color: rgba(37, 99, 235, 0.42);
+  color: #f4f4f5;
+}
+
+.turicum-access-tab.is-active::after {
+  background: #2563eb;
+}
+
 .turicum-access-header-row {
   display: flex;
   align-items: stretch;
@@ -4753,52 +4806,33 @@ code {
   gap: 20px;
 }
 
+.turicum-access-launch-card {
+  gap: 16px;
+}
+
+.turicum-access-inline-launch {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.42);
+  background: rgba(37, 99, 235, 0.14);
+  color: #eff6ff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.turicum-access-inline-launch:hover,
+.turicum-access-inline-launch:focus-visible {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.6);
+  transform: translateY(-1px);
+  outline: none;
+}
+
 .turicum-access-table-grid {
   align-items: start;
-}
-
-.turicum-access-sidebar {
-  position: sticky;
-  top: 24px;
-  display: grid;
-  gap: 16px;
-  align-content: start;
-  background:
-    linear-gradient(180deg, rgba(24, 24, 27, 0.98), rgba(16, 16, 19, 0.98)),
-    #18181b;
-}
-
-.turicum-access-sidebar-actions {
-  display: grid;
-  gap: 10px;
-}
-
-.turicum-access-sidebar-actions .secondary-button {
-  width: 100%;
-}
-
-.turicum-quicklink-group {
-  display: grid;
-  gap: 14px;
-  padding: 14px 16px;
-  border: 1px solid #27272a;
-  border-radius: 16px;
-  background: #09090b;
-}
-
-.turicum-quicklink-group summary {
-  cursor: pointer;
-  list-style: none;
-  font-weight: 700;
-  color: #f4f4f5;
-}
-
-.turicum-quicklink-group summary::-webkit-details-marker {
-  display: none;
-}
-
-.turicum-quicklink-group[open] summary {
-  margin-bottom: 2px;
 }
 
 .turicum-access-modal-backdrop {
@@ -5258,13 +5292,19 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .turicum-access-tab-switcher {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .turicum-access-tab {
+    width: 100%;
+    text-align: left;
+  }
+
   .turicum-access-create-button {
     width: 100%;
     min-width: 0;
-  }
-
-  .turicum-access-sidebar {
-    position: static;
   }
 
   .turicum-access-modal {

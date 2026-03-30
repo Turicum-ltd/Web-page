@@ -46,6 +46,7 @@ interface AccessDashboardShellProps {
 }
 
 type CreateUserMode = "staff" | "investor";
+type AccessTab = "team" | "investor" | "borrower";
 
 function PlusIcon() {
   return (
@@ -80,6 +81,7 @@ export function AccessDashboardShell({
 }: AccessDashboardShellProps) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createMode, setCreateMode] = useState<CreateUserMode>("staff");
+  const [activeTab, setActiveTab] = useState<AccessTab>("team");
 
   const activeStaffCount = useMemo(
     () => snapshot.staffUsers.filter((user) => user.isActive).length,
@@ -124,35 +126,115 @@ export function AccessDashboardShell({
         </div>
       </section>
 
-      <div className="turicum-access-workspace-grid">
+      <section className="panel turicum-access-card turicum-access-tab-panel">
+        <div className="turicum-access-tab-switcher" role="tablist" aria-label="Access workspace sections">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "team"}
+            className={`turicum-access-tab${activeTab === "team" ? " is-active" : ""}`}
+            onClick={() => setActiveTab("team")}
+          >
+            <span>Team Management</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "investor"}
+            className={`turicum-access-tab${activeTab === "investor" ? " is-active" : ""}`}
+            onClick={() => setActiveTab("investor")}
+          >
+            <span>Investor Relations</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "borrower"}
+            className={`turicum-access-tab${activeTab === "borrower" ? " is-active" : ""}`}
+            onClick={() => setActiveTab("borrower")}
+          >
+            <span>Borrower Intake</span>
+          </button>
+        </div>
+      </section>
+
+      {activeTab === "team" ? (
         <div className="turicum-access-main-column">
-          <section className="panel turicum-access-card turicum-access-card-active">
+          <section className="panel turicum-access-card turicum-access-card-active turicum-access-launch-card">
             <div className="section-head">
               <div>
-                <p className="eyebrow">Investor grants</p>
-                <h2>Give an investor access to active cases</h2>
+                <p className="eyebrow">Staff accounts</p>
+                <h2>Create internal operators, then review their access history.</h2>
               </div>
+              <button
+                type="button"
+                className="turicum-access-inline-launch"
+                onClick={() => {
+                  setCreateMode("staff");
+                  setIsCreateModalOpen(true);
+                }}
+              >
+                Create Staff User
+              </button>
             </div>
-            <InvestorGrantForm
-              cases={activeCases}
-              defaultCaseId={currentCaseId}
-              saveInvestorGrant={saveInvestorGrant}
-            />
             <p className="helper">
-              Investor accounts only see cases that have explicit `turicum_case_access_grants` rows.
+              Team Management keeps staff creation, the current staff table, and the audit history drawer in one lane.
+            </p>
+          </section>
+
+          <AccessUserTable
+            eyebrow="Current staff"
+            title="Named internal access"
+            variant="staff"
+            users={snapshot.staffUsers}
+            toggleUserStatus={toggleUserStatus}
+            deleteUser={deleteUser}
+            loadAuditHistory={loadAuditHistory}
+          />
+        </div>
+      ) : null}
+
+      {activeTab === "investor" ? (
+        <div className="turicum-access-main-column">
+          <section className="panel turicum-access-card turicum-access-card-active turicum-access-launch-card">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Investor accounts</p>
+                <h2>Create investor identities and control case visibility from one lane.</h2>
+              </div>
+              <button
+                type="button"
+                className="turicum-access-inline-launch"
+                onClick={() => {
+                  setCreateMode("investor");
+                  setIsCreateModalOpen(true);
+                }}
+              >
+                Create Investor User
+              </button>
+            </div>
+            <p className="helper">
+              Investor Relations combines investor account creation, the current investor table, and case visibility grants.
             </p>
           </section>
 
           <section className="two-up turicum-access-table-grid">
-            <AccessUserTable
-              eyebrow="Current staff"
-              title="Named internal access"
-              variant="staff"
-              users={snapshot.staffUsers}
-              toggleUserStatus={toggleUserStatus}
-              deleteUser={deleteUser}
-              loadAuditHistory={loadAuditHistory}
-            />
+            <section className="panel turicum-access-card turicum-access-card-active">
+              <div className="section-head">
+                <div>
+                  <p className="eyebrow">Case access grants</p>
+                  <h2>Give an investor access to active cases</h2>
+                </div>
+              </div>
+              <InvestorGrantForm
+                cases={activeCases}
+                defaultCaseId={currentCaseId}
+                saveInvestorGrant={saveInvestorGrant}
+              />
+              <p className="helper">
+                Investor accounts only see cases that have explicit `turicum_case_access_grants` rows.
+              </p>
+            </section>
 
             <div className="panel turicum-access-card">
               <AccessUserTable
@@ -200,42 +282,34 @@ export function AccessDashboardShell({
             </div>
           </section>
         </div>
+      ) : null}
 
-        <aside className="panel turicum-access-card turicum-access-sidebar">
-          <div className="section-head">
-            <div>
-              <p className="eyebrow">Quick links</p>
-              <h2>Borrower links and case shortcuts</h2>
+      {activeTab === "borrower" ? (
+        <div className="two-up turicum-access-table-grid">
+          <section className="panel turicum-access-card turicum-access-card-active">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Borrower intake</p>
+                <h2>Invite ledger and link management</h2>
+              </div>
+              <Link className="secondary-button" href={caseWorkspaceHref}>
+                Back to Case
+              </Link>
             </div>
-          </div>
-
-          <div className="turicum-access-sidebar-actions">
-            <Link className="secondary-button" href={caseWorkspaceHref}>
-              Back to Case
-            </Link>
-            <button
-              type="button"
-              className="secondary-button"
-              onClick={() => {
-                setCreateMode("staff");
-                setIsCreateModalOpen(true);
-              }}
-            >
-              New Staff User
-            </button>
-          </div>
-
-          <details className="turicum-quicklink-group" open>
-            <summary>Borrower Ledger</summary>
             <BorrowerInviteLedger
               invites={snapshot.borrowerInvites}
               refreshInvite={refreshInvite}
               revokeInvite={revokeInvite}
             />
-          </details>
+          </section>
 
-          <details className="turicum-quicklink-group">
-            <summary>Create Borrower Invite</summary>
+          <section className="panel turicum-access-card turicum-access-card-active">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Link generator</p>
+                <h2>Create the first borrower invite and sync the ledger</h2>
+              </div>
+            </div>
             <form action={saveBorrowerInvite} className="form-grid">
               <label className="field">
                 <span>Case</span>
@@ -269,9 +343,9 @@ export function AccessDashboardShell({
             <p className="helper">
               Initializes the borrower portal if needed and syncs the invite into the ledger.
             </p>
-          </details>
-        </aside>
-      </div>
+          </section>
+        </div>
+      ) : null}
 
       {isCreateModalOpen ? (
         <div
