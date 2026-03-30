@@ -216,7 +216,7 @@ export function TuricumPortalOverview() {
             </div>
             <div className="turicum-process-steps">
               {publicSequence.map((step) => (
-                <article key={step.label} className="turicum-process-step turicum-process-step-grid">
+                <article key={step.label} className="turicum-landing-process-step">
                   <span className="turicum-step-number">{step.label}</span>
                   <div className="turicum-process-step-copy">
                     <h3>{step.title}</h3>

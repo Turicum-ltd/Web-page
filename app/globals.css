@@ -3281,17 +3281,12 @@ code {
   background: linear-gradient(90deg, rgba(59, 130, 246, 0.18), rgba(96, 165, 250, 0.48), rgba(59, 130, 246, 0.18));
 }
 
-.turicum-process-step,
-.turicum-process-step-grid {
+.turicum-landing-process-step {
   position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  align-content: start;
-  column-gap: 1.5rem;
-  row-gap: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
   padding-top: 0;
-  justify-items: start;
 }
 
 .turicum-process-step-copy {
@@ -3309,14 +3304,14 @@ code {
   margin: 0;
 }
 
-.turicum-process-step h3 {
+.turicum-landing-process-step h3 {
   font-family: var(--font-display);
   font-size: 1.08rem;
   line-height: 1.12;
   letter-spacing: -0.018em;
 }
 
-.turicum-process-step p,
+.turicum-landing-process-step p,
 .turicum-process-note {
   color: rgba(219, 228, 239, 0.75);
 }
@@ -3328,14 +3323,13 @@ code {
 }
 
 .turicum-step-number {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  align-self: start;
-  justify-self: start;
-  width: 2.5rem;
+  flex: 0 0 3rem;
+  width: 3rem;
   height: 2.5rem;
-  margin-top: 0.08rem;
+  margin-right: 1.5rem;
   border-radius: 999px;
   border: 1px solid rgba(96, 165, 250, 0.46);
   background: radial-gradient(circle at 50% 40%, rgba(37, 99, 235, 0.22), rgba(15, 23, 42, 0.96));
@@ -3347,6 +3341,12 @@ code {
     0 0 0 1px rgba(96, 165, 250, 0.1),
     0 0 16px rgba(59, 130, 246, 0.32),
     0 10px 26px rgba(9, 16, 28, 0.26);
+}
+
+.turicum-landing-process-step .turicum-process-step-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: start;
 }
 
 .turicum-landing-cta {
