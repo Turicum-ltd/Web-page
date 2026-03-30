@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
 import { StatusToast } from "@/components/turicum/status-toast";
 
@@ -39,6 +39,7 @@ export function BorrowerInviteLedger({
 }: BorrowerInviteLedgerProps) {
   const [items, setItems] = useState(invites);
   const [pendingInviteId, setPendingInviteId] = useState<string | null>(null);
+  const [refreshedInviteId, setRefreshedInviteId] = useState<string | null>(null);
   const [toast, setToast] = useState<{
     key: number;
     tone: "success" | "error";
@@ -46,10 +47,19 @@ export function BorrowerInviteLedger({
     message: string;
   } | null>(null);
   const [isPending, startTransition] = useTransition();
+  const refreshFeedbackTimeout = useRef<number | null>(null);
 
   useEffect(() => {
     setItems(invites);
   }, [invites]);
+
+  useEffect(() => {
+    return () => {
+      if (refreshFeedbackTimeout.current) {
+        window.clearTimeout(refreshFeedbackTimeout.current);
+      }
+    };
+  }, []);
 
   const toastView = useMemo(() => {
     if (!toast) {
@@ -117,6 +127,14 @@ export function BorrowerInviteLedger({
               : item
           )
         );
+        setRefreshedInviteId(inviteId);
+        if (refreshFeedbackTimeout.current) {
+          window.clearTimeout(refreshFeedbackTimeout.current);
+        }
+        refreshFeedbackTimeout.current = window.setTimeout(() => {
+          setRefreshedInviteId((current) => (current === inviteId ? null : current));
+          refreshFeedbackTimeout.current = null;
+        }, 2200);
         showToast("success", "Success", "Borrower link extended by 48 hours.");
       } catch (error) {
         setItems((current) =>
@@ -146,6 +164,7 @@ export function BorrowerInviteLedger({
       <ul className="list compact-list">
         {items.slice(0, 8).map((invite) => {
           const isRefreshing = isPending && pendingInviteId === invite.id;
+          const isRefreshed = refreshedInviteId === invite.id;
 
           return (
             <li key={invite.id}>
@@ -158,8 +177,13 @@ export function BorrowerInviteLedger({
               </span>
               {!invite.revokedAt ? (
                 <div className="form-actions" style={{ marginTop: 8 }}>
-                  <button type="button" onClick={() => handleRefresh(invite.id)} disabled={isRefreshing}>
-                    {isRefreshing ? "Refreshing..." : "Refresh"}
+                  <button
+                    type="button"
+                    onClick={() => handleRefresh(invite.id)}
+                    disabled={isRefreshing}
+                    className={isRefreshed ? "is-active" : undefined}
+                  >
+                    {isRefreshing ? "Refreshing..." : isRefreshed ? "Refreshed!" : "Refresh"}
                   </button>
                   <ConfirmActionForm
                     action={revokeInvite}
