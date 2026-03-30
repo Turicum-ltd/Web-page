@@ -2728,13 +2728,13 @@ code {
 .turicum-public-shell {
   --type-eyebrow-size: 0.7rem;
   --type-eyebrow-tracking: 0.12em;
-  --type-body-size: 1rem;
-  --type-body-line: 1.68;
+  --type-body-size: 1.125rem;
+  --type-body-line: 1.6;
   --type-helper-size: 0.92rem;
   --type-helper-line: 1.58;
   --type-h1-size: clamp(2.65rem, 4.2vw, 4.5rem);
   --type-h1-line: 0.95;
-  --type-h1-tracking: -0.045em;
+  --type-h1-tracking: -0.032em;
   --type-h2-size: clamp(1.28rem, 1.8vw, 1.78rem);
   --type-h2-line: 1.08;
   --type-h2-tracking: -0.028em;
@@ -2753,7 +2753,7 @@ code {
 .turicum-public-shell h1 {
   max-width: 14ch;
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .turicum-public-shell h2 {
@@ -2763,7 +2763,7 @@ code {
 
 .turicum-public-shell p,
 .turicum-public-shell .helper {
-  color: rgba(225, 232, 240, 0.82);
+  color: #94a3b8;
 }
 
 .turicum-public-shell .eyebrow {
@@ -2776,7 +2776,8 @@ code {
 .turicum-public-shell .turicum-lane-intro p:last-child,
 .turicum-public-shell .turicum-home-footer .helper {
   font-size: var(--type-body-size);
-  line-height: 1.68;
+  line-height: 1.6;
+  color: #94a3b8;
 }
 
 .turicum-public-shell .helper,
@@ -2943,12 +2944,14 @@ code {
   max-width: 11ch;
   font-size: clamp(2.8rem, 4.4vw, 4.6rem);
   line-height: 0.96;
-  letter-spacing: -0.043em;
+  letter-spacing: -0.028em;
 }
 
 .turicum-public-shell .turicum-landing-copy .turicum-marketing-lede {
   max-width: 34rem;
-  font-size: 1rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #94a3b8;
 }
 
 .turicum-hero-facts {
