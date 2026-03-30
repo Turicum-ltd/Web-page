@@ -4478,6 +4478,22 @@ code {
   list-style: none;
 }
 
+@media (max-width: 640px) {
+  .turicum-audit-drawer {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 16px;
+  }
+
+  .turicum-audit-drawer-head {
+    gap: 12px;
+  }
+
+  .turicum-audit-close {
+    width: 100%;
+  }
+}
+
 .turicum-audit-timeline-item {
   position: relative;
   display: grid;
