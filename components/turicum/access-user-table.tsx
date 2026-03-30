@@ -132,7 +132,12 @@ export function AccessUserTable({
                   <td>
                     {user.lastSignInAt
                       ? new Date(user.lastSignInAt).toLocaleString("en-US")
-                      : "never"}
+                      : (
+                        <span className="turicum-status-pill is-pending">
+                          <span className="turicum-status-dot" aria-hidden="true" />
+                          Never Signed In
+                        </span>
+                      )}
                   </td>
                   <td>
                     {user.isActive ? (
@@ -171,7 +176,12 @@ export function AccessUserTable({
                   <td>
                     {user.lastSignInAt
                       ? new Date(user.lastSignInAt).toLocaleString("en-US")
-                      : "never"}
+                      : (
+                        <span className="turicum-status-pill is-pending">
+                          <span className="turicum-status-dot" aria-hidden="true" />
+                          Never Signed In
+                        </span>
+                      )}
                   </td>
                   <td>
                     {user.isActive ? (
