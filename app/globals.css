@@ -4018,6 +4018,69 @@ code {
   opacity: 0.88;
 }
 
+.turicum-history-trigger {
+  gap: 8px;
+  padding: 10px 14px;
+  border-color: #27272a;
+  background: transparent;
+}
+
+.turicum-history-trigger-icon {
+  display: inline-flex;
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.turicum-history-trigger-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.turicum-audit-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(9, 9, 11, 0.58);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.turicum-audit-drawer {
+  width: min(100%, 420px);
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  padding: 24px 22px;
+  background: #18181b;
+  border-left: 1px solid #27272a;
+  box-shadow: -14px 0 40px rgba(0, 0, 0, 0.28);
+}
+
+.turicum-audit-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-audit-drawer-head h3 {
+  margin: 0;
+  max-width: 18rem;
+}
+
+.turicum-audit-close {
+  flex-shrink: 0;
+}
+
+.turicum-audit-drawer-body {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
 @media (max-width: 800px) {
   .turicum-title-row {
     flex-direction: column;

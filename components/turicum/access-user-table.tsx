@@ -33,6 +33,7 @@ export function AccessUserTable({
   const [query, setQuery] = useState("");
   const [showActiveOnly, setShowActiveOnly] = useState(false);
   const [showNeverSignedInOnly, setShowNeverSignedInOnly] = useState(false);
+  const [historyUser, setHistoryUser] = useState<AccessAdminUser | null>(null);
 
   const filteredUsers = useMemo(
     () =>
@@ -96,6 +97,7 @@ export function AccessUserTable({
                 <th>Name</th>
                 <th>Last sign-in</th>
                 <th>Action</th>
+                <th>History</th>
               </tr>
             ) : (
               <tr>
@@ -104,13 +106,14 @@ export function AccessUserTable({
                 <th>Status</th>
                 <th>Last sign-in</th>
                 <th>Action</th>
+                <th>History</th>
               </tr>
             )}
           </thead>
           <tbody>
             {filteredUsers.length === 0 ? (
               <tr>
-                <td colSpan={variant === "staff" ? 6 : 5} className="helper">
+                <td colSpan={variant === "staff" ? 7 : 6} className="helper">
                   No users found
                 </td>
               </tr>
@@ -157,6 +160,36 @@ export function AccessUserTable({
                       </form>
                     )}
                   </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="secondary-button turicum-history-trigger"
+                      onClick={() => setHistoryUser(user)}
+                      aria-label={`Open audit history for ${user.email}`}
+                    >
+                      <span className="turicum-history-trigger-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.7"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="2.75"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.7"
+                          />
+                        </svg>
+                      </span>
+                      <span>History</span>
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -201,12 +234,86 @@ export function AccessUserTable({
                       </form>
                     )}
                   </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="secondary-button turicum-history-trigger"
+                      onClick={() => setHistoryUser(user)}
+                      aria-label={`Open audit history for ${user.email}`}
+                    >
+                      <span className="turicum-history-trigger-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.7"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="2.75"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.7"
+                          />
+                        </svg>
+                      </span>
+                      <span>History</span>
+                    </button>
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+      {historyUser ? (
+        <div
+          className="turicum-audit-drawer-backdrop"
+          onClick={() => setHistoryUser(null)}
+          role="presentation"
+        >
+          <aside
+            className="turicum-audit-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`audit-history-title-${historyUser.userId}`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="turicum-audit-drawer-head">
+              <div>
+                <p className="eyebrow">Audit history</p>
+                <h3 id={`audit-history-title-${historyUser.userId}`}>
+                  Audit History: {historyUser.email}
+                </h3>
+              </div>
+              <button
+                type="button"
+                className="secondary-button turicum-audit-close"
+                onClick={() => setHistoryUser(null)}
+              >
+                Close
+              </button>
+            </div>
+            <div className="turicum-audit-drawer-body">
+              <p className="helper">
+                Audit logging will surface here for this account once `admin_audit_logs` entries
+                are recorded for access changes.
+              </p>
+              <div className="subpanel">
+                <p className="eyebrow">Current account</p>
+                <strong>{historyUser.email}</strong>
+                <p className="helper">
+                  {historyUser.fullName ?? "No full name"} · {historyUser.role ?? "No role"}
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      ) : null}
     </section>
   );
 }
