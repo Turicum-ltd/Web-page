@@ -693,6 +693,81 @@ tbody tr:last-child td {
   min-height: 46px;
 }
 
+.turicum-global-search {
+  position: relative;
+  min-width: 220px;
+  flex: 1 1 260px;
+  max-width: 380px;
+}
+
+.turicum-global-search input {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  color: var(--text);
+  font: inherit;
+}
+
+.turicum-global-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 12;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(10, 14, 20, 0.98);
+  box-shadow: var(--shadow);
+}
+
+.turicum-global-search-result {
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.turicum-global-search-result:hover {
+  border-color: rgba(88, 166, 255, 0.22);
+  background: rgba(88, 166, 255, 0.08);
+}
+
+.turicum-global-search-result.is-shortcut {
+  border-color: rgba(88, 166, 255, 0.28);
+  background: rgba(88, 166, 255, 0.12);
+}
+
+.turicum-global-search-result-kicker {
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-global-search-result strong,
+.turicum-global-search-result small {
+  color: var(--text);
+}
+
+.turicum-global-search-result small,
+.turicum-global-search-empty {
+  color: var(--muted);
+}
+
+.turicum-global-search-empty {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
 .turicum-mark {
   display: inline-flex;
   align-items: center;

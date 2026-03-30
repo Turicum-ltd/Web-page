@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { TuricumGlobalSearch } from '@/components/turicum/global-search';
 import { TuricumWordmark } from '@/components/turicum/turicum-wordmark';
 import { withBasePath } from '@/lib/turicum/runtime';
 
@@ -21,6 +22,7 @@ export function TuricumNav() {
       <Link className="nav-brand" href={withBasePath("/")}>
         <TuricumWordmark compact showDescriptor={false} />
       </Link>
+      <TuricumGlobalSearch />
       {links.map((link) => (
         <Link key={link.href} href={link.href}>
           {link.label}
