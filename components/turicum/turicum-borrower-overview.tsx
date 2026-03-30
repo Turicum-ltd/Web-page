@@ -63,7 +63,7 @@ export function TuricumBorrowerOverview({ requested, error }: TuricumBorrowerOve
               </div>
               <div className="form-actions turicum-inline-actions">
                 <a className="secondary-button turicum-primary-button" href="#request-call">
-                  Schedule intro call
+                  Schedule Intro Call
                 </a>
                 <Link className="secondary-button" href={withBasePath("/")}>
                   Back to overview

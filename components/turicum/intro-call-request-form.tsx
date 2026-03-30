@@ -140,7 +140,7 @@ export function IntroCallRequestForm({ action }: IntroCallRequestFormProps) {
             <button type="button" className="secondary-button" onClick={() => setStep(1)}>
               Back
             </button>
-            <button className="turicum-primary-button" type="submit">Request intro call</button>
+            <button className="turicum-primary-button" type="submit">Schedule Intro Call</button>
           </div>
         </div>
       )}

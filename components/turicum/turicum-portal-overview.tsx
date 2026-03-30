@@ -44,7 +44,7 @@ const audienceLanes = [
       "No credit check before the first call",
       "Direct lender conversation"
     ],
-    primaryLabel: "Review borrower process",
+    primaryLabel: "Schedule Intro Call",
     primaryHref: "/portal"
   },
   {
@@ -136,7 +136,7 @@ export function TuricumPortalOverview() {
                 </p>
                 <div className="form-actions turicum-inline-actions">
                   <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal")}>
-                    For Borrowers
+                    Schedule Intro Call
                   </Link>
                   <Link className="secondary-button" href={withBasePath("/investors")}>
                     For Investors
@@ -233,7 +233,7 @@ export function TuricumPortalOverview() {
             </p>
             <div className="form-actions turicum-inline-actions">
               <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal")}>
-                Borrower path
+                Schedule Intro Call
               </Link>
               <Link className="secondary-button" href={withBasePath("/investors")}>
                 Investor portal
