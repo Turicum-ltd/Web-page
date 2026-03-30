@@ -63,6 +63,21 @@ function SuccessCheckIcon() {
   );
 }
 
+function DecisionIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 3.8 18.3 6v5.4c0 4.1-2.4 7.5-6.3 8.8-3.9-1.3-6.3-4.7-6.3-8.8V6L12 3.8Zm-2.4 8.3 1.7 1.8 3.6-3.9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const BORROWER_CALL_PHONE = "+1 561 927 9294";
 const BORROWER_CALL_HREF = "tel:+15619279294";
 
@@ -94,21 +109,30 @@ const nextSteps = [
   "Protected internal review across validation, paper, diligence, and funding"
 ];
 
-const borrowerContactTimeline = [
+const borrowerProcessTracker = [
   {
-    title: "Request",
-    description: "Share the basics so we can see if the file is worth a fast first conversation.",
-    icon: RequestIcon
+    title: "Request Call",
+    status: "Active",
+    icon: RequestIcon,
+    isActive: true
   },
   {
-    title: "15-Min Intro Call",
-    description: "We confirm fit, timing, and property context before asking you for a full package.",
-    icon: CallIcon
+    title: "15-Min Intro",
+    status: "Pending",
+    icon: CallIcon,
+    isActive: false
   },
   {
     title: "Secure Intake",
-    description: "Only after fit is confirmed do we move into the protected borrower packet and documents.",
-    icon: LockIcon
+    status: "Pending",
+    icon: LockIcon,
+    isActive: false
+  },
+  {
+    title: "Decision",
+    status: "Pending",
+    icon: DecisionIcon,
+    isActive: false
   }
 ];
 
@@ -232,18 +256,24 @@ export function TuricumBorrowerOverview({ requested, requestedEmail, error }: Tu
             ) : null}
             {!requested ? (
               <>
-                <div className="turicum-borrower-timeline" aria-label="Borrower contact timeline">
-                  <p className="helper turicum-borrower-timeline-note">
-                    You do not need every document ready just to talk to us. The first step is a quick fit check.
-                  </p>
-                  <div className="turicum-borrower-timeline-track">
-                    {borrowerContactTimeline.map((step) => (
-                      <article key={step.title} className="turicum-borrower-timeline-step">
-                        <span className="turicum-borrower-timeline-icon" aria-hidden="true">
+                <div className="turicum-process-tracker" aria-label="Borrower process tracker">
+                  <div className="turicum-process-tracker-head">
+                    <p className="eyebrow">Process tracker</p>
+                    <p className="helper turicum-process-tracker-note">
+                      You do not need the full file ready yet. The next step is just the intro call.
+                    </p>
+                  </div>
+                  <div className="turicum-process-tracker-track">
+                    {borrowerProcessTracker.map((step) => (
+                      <article
+                        key={step.title}
+                        className={`turicum-process-step ${step.isActive ? "is-active" : "is-pending"}`}
+                      >
+                        <span className="turicum-process-step-icon" aria-hidden="true">
                           <step.icon />
                         </span>
                         <strong>{step.title}</strong>
-                        <p>{step.description}</p>
+                        <span className="turicum-process-step-status">{step.status}</span>
                       </article>
                     ))}
                   </div>

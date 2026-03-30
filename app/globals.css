@@ -3461,7 +3461,7 @@ code {
   gap: 20px;
 }
 
-.turicum-borrower-timeline {
+.turicum-process-tracker {
   display: grid;
   gap: 14px;
   margin-bottom: 18px;
@@ -3471,29 +3471,34 @@ code {
   background: rgba(9, 9, 11, 0.42);
 }
 
-.turicum-borrower-timeline-note {
+.turicum-process-tracker-head {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-process-tracker-note {
   margin: 0;
   max-width: 44rem;
 }
 
-.turicum-borrower-timeline-track {
+.turicum-process-tracker-track {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.turicum-borrower-timeline-track::before {
+.turicum-process-tracker-track::before {
   content: "";
   position: absolute;
-  left: calc(16.666% + 1.2rem);
-  right: calc(16.666% + 1.2rem);
-  top: 1.2rem;
+  left: calc(12.5% + 1.1rem);
+  right: calc(12.5% + 1.1rem);
+  top: 1.3rem;
   height: 1px;
-  background: linear-gradient(90deg, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.42), rgba(37, 99, 235, 0.16));
+  background: linear-gradient(90deg, rgba(39, 39, 42, 0.92), rgba(37, 99, 235, 0.28), rgba(39, 39, 42, 0.92));
 }
 
-.turicum-borrower-timeline-step {
+.turicum-process-step {
   position: relative;
   z-index: 1;
   display: grid;
@@ -3501,34 +3506,60 @@ code {
   align-content: start;
   justify-items: center;
   text-align: center;
+  padding: 14px 12px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(24, 24, 27, 0.9);
 }
 
-.turicum-borrower-timeline-step strong,
-.turicum-borrower-timeline-step p {
+.turicum-process-step strong,
+.turicum-process-step-status {
   margin: 0;
 }
 
-.turicum-borrower-timeline-step p {
-  color: #a1a1aa;
-  line-height: 1.55;
+.turicum-process-step strong {
+  font-size: 0.92rem;
+  line-height: 1.35;
 }
 
-.turicum-borrower-timeline-icon {
-  width: 2.4rem;
-  height: 2.4rem;
+.turicum-process-step-status {
+  color: #a1a1aa;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.turicum-process-step-icon {
+  width: 2.6rem;
+  height: 2.6rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  border: 1px solid rgba(37, 99, 235, 0.32);
-  background: rgba(24, 24, 27, 0.96);
-  color: #93c5fd;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 16px rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(9, 9, 11, 0.94);
+  color: #d4d4d8;
 }
 
-.turicum-borrower-timeline-icon svg {
-  width: 1.15rem;
-  height: 1.15rem;
+.turicum-process-step-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.turicum-process-step.is-active {
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 18px rgba(37, 99, 235, 0.12);
+}
+
+.turicum-process-step.is-active .turicum-process-step-icon {
+  border-color: rgba(37, 99, 235, 0.42);
+  background: rgba(37, 99, 235, 0.14);
+  color: #93c5fd;
+}
+
+.turicum-process-step.is-active .turicum-process-step-status {
+  color: #60a5fa;
 }
 
 .turicum-intro-success-state {
