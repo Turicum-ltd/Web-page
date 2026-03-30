@@ -3,6 +3,51 @@ import { IntroCallRequestForm } from "@/components/turicum/intro-call-request-fo
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
 
+function RequestIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="m3.5 11.5 16-7-4.8 15-3.8-5.2-5.2-2.8Zm7.3 2.8 3.6-4.4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CallIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M6.6 4.8h2.8l1.4 3.8-1.7 1.9c.7 1.4 2 2.7 3.5 3.5l1.9-1.7 3.8 1.4v2.8c0 .7-.6 1.3-1.3 1.3-6.8 0-12.3-5.5-12.3-12.3 0-.7.6-1.3 1.3-1.3Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7.5 10V8.3a4.5 4.5 0 1 1 9 0V10M6 10h12v9H6v-9Zm6 3.2v2.6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const BORROWER_CALL_PHONE = "+1 561 927 9294";
 const BORROWER_CALL_HREF = "tel:+15619279294";
 
@@ -32,6 +77,24 @@ const nextSteps = [
   "First call to confirm fit, timeline, and property basics",
   "Secure borrower packet for forms and supporting documents",
   "Protected internal review across validation, paper, diligence, and funding"
+];
+
+const borrowerContactTimeline = [
+  {
+    title: "Request",
+    description: "Share the basics so we can see if the file is worth a fast first conversation.",
+    icon: RequestIcon
+  },
+  {
+    title: "15-Min Intro Call",
+    description: "We confirm fit, timing, and property context before asking you for a full package.",
+    icon: CallIcon
+  },
+  {
+    title: "Secure Intake",
+    description: "Only after fit is confirmed do we move into the protected borrower packet and documents.",
+    icon: LockIcon
+  }
 ];
 
 interface TuricumBorrowerOverviewProps {
@@ -138,6 +201,22 @@ export function TuricumBorrowerOverview({ requested, error }: TuricumBorrowerOve
                 <p className="helper">{error}</p>
               </div>
             ) : null}
+            <div className="turicum-borrower-timeline" aria-label="Borrower contact timeline">
+              <p className="helper turicum-borrower-timeline-note">
+                You do not need every document ready just to talk to us. The first step is a quick fit check.
+              </p>
+              <div className="turicum-borrower-timeline-track">
+                {borrowerContactTimeline.map((step) => (
+                  <article key={step.title} className="turicum-borrower-timeline-step">
+                    <span className="turicum-borrower-timeline-icon" aria-hidden="true">
+                      <step.icon />
+                    </span>
+                    <strong>{step.title}</strong>
+                    <p>{step.description}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
             <IntroCallRequestForm action={withConfiguredBasePath("/api/intro-call-requests")} />
           </div>
         </section>

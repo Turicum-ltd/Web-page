@@ -3451,6 +3451,76 @@ code {
   gap: 20px;
 }
 
+.turicum-borrower-timeline {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 16px 18px 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  border-radius: 22px;
+  background: rgba(9, 9, 11, 0.42);
+}
+
+.turicum-borrower-timeline-note {
+  margin: 0;
+  max-width: 44rem;
+}
+
+.turicum-borrower-timeline-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-borrower-timeline-track::before {
+  content: "";
+  position: absolute;
+  left: calc(16.666% + 1.2rem);
+  right: calc(16.666% + 1.2rem);
+  top: 1.2rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.42), rgba(37, 99, 235, 0.16));
+}
+
+.turicum-borrower-timeline-step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  justify-items: center;
+  text-align: center;
+}
+
+.turicum-borrower-timeline-step strong,
+.turicum-borrower-timeline-step p {
+  margin: 0;
+}
+
+.turicum-borrower-timeline-step p {
+  color: #a1a1aa;
+  line-height: 1.55;
+}
+
+.turicum-borrower-timeline-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.32);
+  background: rgba(24, 24, 27, 0.96);
+  color: #93c5fd;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 16px rgba(37, 99, 235, 0.12);
+}
+
+.turicum-borrower-timeline-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
 .turicum-intro-steps {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4268,11 +4338,28 @@ code {
   }
 
   .turicum-intro-steps,
-  .turicum-intro-stage-grid {
+  .turicum-intro-stage-grid,
+  .turicum-borrower-timeline-track {
     grid-template-columns: 1fr;
   }
 
   .turicum-intro-step-actions {
     justify-content: flex-start;
+  }
+
+  .turicum-borrower-timeline-track::before {
+    left: 1.2rem;
+    right: auto;
+    top: 1.2rem;
+    bottom: 1.2rem;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.18), rgba(37, 99, 235, 0.42), rgba(37, 99, 235, 0.18));
+  }
+
+  .turicum-borrower-timeline-step {
+    padding-left: 18px;
+    justify-items: flex-start;
+    text-align: left;
   }
 }
