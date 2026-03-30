@@ -3665,6 +3665,25 @@ code {
   background: rgba(9, 9, 11, 0.38);
 }
 
+.turicum-intro-stage .field.is-invalid input {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.18);
+}
+
+.turicum-intro-stage .field.is-invalid input:focus {
+  outline-color: rgba(239, 68, 68, 0.34);
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.turicum-field-error {
+  color: #f87171;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .turicum-intro-stage-head {
   display: grid;
   gap: 6px;
