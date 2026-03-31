@@ -5,6 +5,11 @@ import { buildInvestorWelcomeEmail } from "@/lib/turicum/investor-welcome-email-
 import { listCases } from "@/lib/turicum/cases";
 import { getBorrowerPortalForCase, saveBorrowerPortalSetup } from "@/lib/turicum/intake";
 import { enqueueOutboundEmail } from "@/lib/turicum/outbound-email-queue";
+import {
+  generatePreIntakeLeadApplicationLink,
+  listPreIntakeLeads,
+  type PreIntakeLeadRecord
+} from "@/lib/turicum/pre-intake-leads";
 import type { CaseRecord } from "@/lib/turicum/types";
 
 export type StaffRole = "staff_admin" | "staff_ops" | "staff_counsel";
@@ -103,6 +108,8 @@ export interface AccessAdminSnapshot {
   investorGrants: AccessGrantSummary[];
   borrowerInvites: BorrowerInviteSummary[];
   pendingInquiriesCount: number;
+  preIntakeLeads: PreIntakeLeadRecord[];
+  incomingCallsCount: number;
 }
 
 export interface AdminAuditLogEntry {
@@ -289,13 +296,14 @@ export async function getAdminAuditLogsForTargetEmail(
 }
 
 export async function getAccessAdminSnapshot(): Promise<AccessAdminSnapshot> {
-  const [authUsers, profiles, cases, grants, borrowerInvites, pendingInquiriesCount] = await Promise.all([
+  const [authUsers, profiles, cases, grants, borrowerInvites, pendingInquiriesCount, preIntakeLeads] = await Promise.all([
     listAllAuthUsers(),
     listProfiles(),
     listCases(),
     listInvestorGrants(),
     listBorrowerInvites(),
-    getPendingCaseInquiriesCount()
+    getPendingCaseInquiriesCount(),
+    listPreIntakeLeads()
   ]);
 
   const profileByUserId = new Map(profiles.map((profile) => [profile.user_id, profile]));
@@ -372,7 +380,9 @@ export async function getAccessAdminSnapshot(): Promise<AccessAdminSnapshot> {
     cases,
     investorGrants,
     borrowerInvites: borrowerInviteSummaries,
-    pendingInquiriesCount
+    pendingInquiriesCount,
+    preIntakeLeads,
+    incomingCallsCount: preIntakeLeads.filter((lead) => lead.status !== "application_submitted" && lead.status !== "closed").length
   };
 }
 
@@ -733,4 +743,8 @@ export async function createOrUpdateBorrowerInvite(input: {
   });
 
   return updated;
+}
+
+export async function createPreIntakeApplicationLink(leadId: string) {
+  return generatePreIntakeLeadApplicationLink(leadId);
 }

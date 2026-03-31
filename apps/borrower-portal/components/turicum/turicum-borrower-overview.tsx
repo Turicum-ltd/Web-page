@@ -70,11 +70,12 @@ export function TuricumBorrowerOverview({
 
         {introRequested ? (
           <div className="turicum-quick-success" role="status" aria-live="polite">
-            <strong>Request received.</strong>
+            <strong>Information received.</strong>
             <p>
+              A Turicum director will call you within 1 hour.{" "}
               {introRequestedEmail
-                ? `We have your request for ${introRequestedEmail}.`
-                : "We have your request."} We will call back within 1 hour during business hours.
+                ? `Check ${introRequestedEmail} for a summary.`
+                : "Check your email for a summary."}
             </p>
           </div>
         ) : (

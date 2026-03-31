@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AccessUserTable } from "@/components/turicum/access-user-table";
 import { BorrowerInviteLedger } from "@/components/turicum/borrower-invite-ledger";
 import { ConfirmActionForm } from "@/components/turicum/confirm-action-form";
@@ -42,6 +43,11 @@ interface AccessDashboardShellProps {
   }>;
   revokeInvite: (formData: FormData) => Promise<void>;
   revokeGrant: (formData: FormData) => Promise<void>;
+  generateApplicationLink: (leadId: string) => Promise<{
+    ok: boolean;
+    url?: string;
+    message?: string;
+  }>;
   staffRoleOptions: Array<{ value: StaffRole; label: string }>;
 }
 
@@ -77,11 +83,15 @@ export function AccessDashboardShell({
   refreshInvite,
   revokeInvite,
   revokeGrant,
+  generateApplicationLink,
   staffRoleOptions
 }: AccessDashboardShellProps) {
+  const router = useRouter();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createMode, setCreateMode] = useState<CreateUserMode>("staff");
   const [activeTab, setActiveTab] = useState<AccessTab>("team");
+  const [leadActionState, setLeadActionState] = useState<Record<string, { url?: string; message?: string }>>({});
+  const [activeLeadId, setActiveLeadId] = useState<string | null>(null);
 
   const activeStaffCount = useMemo(
     () => snapshot.staffUsers.filter((user) => user.isActive).length,
@@ -111,6 +121,11 @@ export function AccessDashboardShell({
               <p className="eyebrow">Pending Inquiries</p>
               <strong>{snapshot.pendingInquiriesCount}</strong>
               <p className="helper">investor package requests awaiting follow-up</p>
+            </article>
+            <article className="band-card turicum-access-summary-card">
+              <p className="eyebrow">Incoming Calls</p>
+              <strong>{snapshot.incomingCallsCount}</strong>
+              <p className="helper">borrower leads waiting for follow-up or an application link</p>
             </article>
           </div>
           <button
@@ -302,27 +317,91 @@ export function AccessDashboardShell({
           <section className="panel turicum-access-card turicum-access-card-active">
             <div className="section-head">
               <div>
-                <p className="eyebrow">Borrower intake</p>
-                <h2>Invite ledger and link management</h2>
+                <p className="eyebrow">Incoming calls</p>
+                <h2>Quick-intake leads waiting for a callback or a full application link</h2>
               </div>
               <Link className="secondary-button" href={caseWorkspaceHref}>
                 Back to Case
               </Link>
+            </div>
+            <div className="turicum-access-incoming-calls">
+              {snapshot.preIntakeLeads.length ? (
+                <ul className="turicum-access-lead-list">
+                  {snapshot.preIntakeLeads.map((lead) => (
+                    <li key={lead.id} className="turicum-access-lead-card">
+                      <div className="turicum-access-lead-head">
+                        <div>
+                          <strong>{lead.fullName}</strong>
+                          <p className="helper">
+                            {lead.email} · {lead.phone}
+                          </p>
+                        </div>
+                        <span className="status-chip">{lead.status.replace(/_/g, " ")}</span>
+                      </div>
+                      <div className="turicum-access-lead-meta">
+                        <p><strong>Amount:</strong> {lead.requestedAmount}</p>
+                        <p><strong>Property:</strong> {lead.propertyType}</p>
+                        <p><strong>Location:</strong> {lead.assetLocation}</p>
+                        <p><strong>Timeline:</strong> {lead.preferredTimeline}</p>
+                      </div>
+                      <p className="helper">{lead.assetDescription}</p>
+                      <div className="turicum-access-lead-actions">
+                        <button
+                          type="button"
+                          className="secondary-button"
+                          onClick={async () => {
+                            setActiveLeadId(lead.id);
+                            const result = await generateApplicationLink(lead.id);
+                            setLeadActionState((current) => ({
+                              ...current,
+                              [lead.id]: result.ok ? { url: result.url } : { message: result.message }
+                            }));
+                            setActiveLeadId(null);
+                            if (result.ok) {
+                              router.refresh();
+                              if (navigator.clipboard?.writeText && result.url) {
+                                void navigator.clipboard.writeText(result.url);
+                              }
+                            }
+                          }}
+                          disabled={activeLeadId === lead.id}
+                        >
+                          {activeLeadId === lead.id ? "Generating..." : "Generate Application Link"}
+                        </button>
+                        {leadActionState[lead.id]?.url ? (
+                          <a href={leadActionState[lead.id]?.url} target="_blank" rel="noreferrer">
+                            Open link
+                          </a>
+                        ) : null}
+                      </div>
+                      {leadActionState[lead.id]?.url ? (
+                        <p className="helper turicum-access-link-output">{leadActionState[lead.id]?.url}</p>
+                      ) : null}
+                      {leadActionState[lead.id]?.message ? (
+                        <p className="helper turicum-form-callout-error">{leadActionState[lead.id]?.message}</p>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="helper">No incoming borrower call requests yet.</p>
+              )}
+            </div>
+          </section>
+
+          <section className="panel turicum-access-card turicum-access-card-active">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Borrower intake</p>
+                <h2>Invite ledger and direct portal link management</h2>
+              </div>
             </div>
             <BorrowerInviteLedger
               invites={snapshot.borrowerInvites}
               refreshInvite={refreshInvite}
               revokeInvite={revokeInvite}
             />
-          </section>
-
-          <section className="panel turicum-access-card turicum-access-card-active">
-            <div className="section-head">
-              <div>
-                <p className="eyebrow">Link generator</p>
-                <h2>Create the first borrower invite and sync the ledger</h2>
-              </div>
-            </div>
+            <div className="turicum-access-inline-divider" />
             <form action={saveBorrowerInvite} className="form-grid">
               <label className="field">
                 <span>Case</span>

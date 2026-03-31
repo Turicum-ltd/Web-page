@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import { createCommercialLoanApplication } from "@/lib/turicum/commercial-loan-applications";
+import { markPreIntakeLeadApplicationSubmitted } from "@/lib/turicum/pre-intake-leads";
 import { buildAppUrl } from "@/lib/turicum/runtime";
 
 function readRequestIp(request: Request) {
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
       }
     }
 
-    await createCommercialLoanApplication({
+    const saved = await createCommercialLoanApplication({
       primaryBorrowerName: String(formData.get("primaryBorrowerName") ?? ""),
       primaryBorrowerEmail: email,
       primaryBorrowerPhone: String(formData.get("primaryBorrowerPhone") ?? ""),
@@ -83,6 +84,15 @@ export async function POST(request: Request) {
       submittedAt,
       submittedIpAddress
     });
+
+    const preIntakeLeadId = String(formData.get("preIntakeLeadId") ?? "").trim();
+
+    if (preIntakeLeadId) {
+      await markPreIntakeLeadApplicationSubmitted({
+        leadId: preIntakeLeadId,
+        applicationId: saved.id
+      });
+    }
 
     const search = new URLSearchParams({ application: "1" });
     if (email) {

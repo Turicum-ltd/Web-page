@@ -285,6 +285,38 @@ create table if not exists borrower_intro_call_requests (
     check (status in ('new', 'reviewed', 'scheduled'))
 );
 
+create table if not exists pre_intake_leads (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  status text not null default 'new',
+  full_name text not null,
+  email text not null,
+  phone text not null,
+  requested_amount text not null,
+  asset_location text not null,
+  property_type text not null,
+  asset_description text not null default '',
+  ownership_status text not null default '',
+  purchase_date text not null default '',
+  purchase_price text not null default '',
+  capital_invested text not null default '',
+  existing_liens text not null default '',
+  title_held text not null default '',
+  estimated_value text not null default '',
+  value_basis text not null default '',
+  preferred_timeline text not null default '',
+  application_token uuid not null default gen_random_uuid(),
+  application_link_generated_at timestamptz,
+  application_started_at timestamptz,
+  application_submitted_at timestamptz,
+  application_id uuid references public.commercial_loan_applications(id) on delete set null,
+  summary_email_queued_at timestamptz,
+  constraint pre_intake_leads_status_check
+    check (status in ('new', 'application_link_generated', 'application_started', 'application_submitted', 'closed')),
+  constraint pre_intake_leads_application_token_key unique (application_token)
+);
+
 create index if not exists idx_cases_state_structure on cases (state, structure_type);
 create index if not exists idx_cases_stage on cases (stage);
 create index if not exists idx_case_documents_case on case_documents (case_id);
@@ -305,11 +337,15 @@ create index if not exists idx_case_inquiries_case_id on case_inquiries (case_id
 create index if not exists idx_case_inquiries_created_at on case_inquiries (created_at desc);
 create index if not exists idx_borrower_intro_call_requests_created_at on borrower_intro_call_requests (created_at desc);
 create index if not exists idx_borrower_intro_call_requests_email on borrower_intro_call_requests (lower(email));
+create index if not exists idx_pre_intake_leads_created_at on pre_intake_leads (created_at desc);
+create index if not exists idx_pre_intake_leads_email on pre_intake_leads (lower(email));
+create index if not exists idx_pre_intake_leads_status on pre_intake_leads (status);
 
 alter table admin_audit_logs enable row level security;
 alter table commercial_loan_applications enable row level security;
 alter table case_inquiries enable row level security;
 alter table borrower_intro_call_requests enable row level security;
+alter table pre_intake_leads enable row level security;
 
 create or replace function public.set_commercial_loan_applications_updated_at()
 returns trigger
@@ -328,6 +364,24 @@ create trigger trg_commercial_loan_applications_updated_at
 before update on public.commercial_loan_applications
 for each row
 execute function public.set_commercial_loan_applications_updated_at();
+
+create or replace function public.set_pre_intake_leads_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_pre_intake_leads_updated_at
+  on public.pre_intake_leads;
+
+create trigger trg_pre_intake_leads_updated_at
+before update on public.pre_intake_leads
+for each row
+execute function public.set_pre_intake_leads_updated_at();
 
 create or replace function public.log_case_inquiry_audit_event()
 returns trigger
@@ -386,6 +440,8 @@ drop policy if exists "investor_insert_own_case_inquiries" on public.case_inquir
 drop policy if exists "staff_select_case_inquiries" on public.case_inquiries;
 drop policy if exists "staff_update_case_inquiries" on public.case_inquiries;
 drop policy if exists "staff_select_borrower_intro_call_requests" on public.borrower_intro_call_requests;
+drop policy if exists "staff_select_pre_intake_leads" on public.pre_intake_leads;
+drop policy if exists "staff_update_pre_intake_leads" on public.pre_intake_leads;
 
 create policy "staff_admin_select_admin_audit_logs"
 on admin_audit_logs
@@ -488,6 +544,43 @@ on public.borrower_intro_call_requests
 for select
 to authenticated
 using (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
+      and turicum_user_profiles.is_active = true
+  )
+);
+
+create policy "staff_select_pre_intake_leads"
+on public.pre_intake_leads
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
+      and turicum_user_profiles.is_active = true
+  )
+);
+
+create policy "staff_update_pre_intake_leads"
+on public.pre_intake_leads
+for update
+to authenticated
+using (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
+      and turicum_user_profiles.is_active = true
+  )
+)
+with check (
   exists (
     select 1
     from public.turicum_user_profiles

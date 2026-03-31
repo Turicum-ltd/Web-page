@@ -10,6 +10,7 @@ import { getAuditLogs } from "@/app/access/actions";
 import { AccessDashboardShell } from "@/components/turicum/access-dashboard-shell";
 import { TuricumNav } from "@/components/turicum/nav";
 import {
+  createPreIntakeApplicationLink,
   createOrUpdateBorrowerInvite,
   createOrUpdateInvestorUser,
   createOrUpdateStaffUser,
@@ -22,6 +23,7 @@ import {
   type StaffRole
 } from "@/lib/turicum/access-admin";
 import { resolveSupabaseStaffSessionFromCookies } from "@/lib/turicum/staff-supabase-auth";
+import { withBorrowerPortalPath } from "@/lib/turicum/borrower-portal";
 import { withBasePath } from "@/lib/turicum/runtime";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -268,6 +270,26 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
     }
   }
 
+  async function generateApplicationLink(leadId: string) {
+    "use server";
+
+    try {
+      const lead = await createPreIntakeApplicationLink(leadId);
+      revalidatePath(withBasePath("/access"));
+      return {
+        ok: true,
+        url: withBorrowerPortalPath(`/apply/${lead.applicationToken}`)
+      };
+    } catch (error) {
+      rethrowRedirectError(error);
+      return {
+        ok: false,
+        message:
+          error instanceof Error ? error.message : "Application link could not be generated."
+      };
+    }
+  }
+
   return (
     <main>
       <div className="shell">
@@ -382,6 +404,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             refreshInvite={refreshInvite}
             revokeInvite={revokeInvite}
             revokeGrant={revokeGrant}
+            generateApplicationLink={generateApplicationLink}
             staffRoleOptions={staffRoleOptions}
           />
         )}

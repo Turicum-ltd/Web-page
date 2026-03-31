@@ -4,6 +4,17 @@ import { useState } from "react";
 
 interface CommercialLoanApplicationFormProps {
   action: string;
+  prefill?: Partial<{
+    preIntakeLeadId: string;
+    primaryBorrowerName: string;
+    primaryBorrowerEmail: string;
+    primaryBorrowerPhone: string;
+    requestedAmount: string;
+    propertyAddress: string;
+    propertyType: string;
+    existingLiens: string;
+  }>;
+  preIntakeSummary?: string[];
 }
 
 type Step = 1 | 2 | 3 | 4;
@@ -168,7 +179,11 @@ function parsePercent(value: string) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
-export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicationFormProps) {
+export function CommercialLoanApplicationForm({
+  action,
+  prefill,
+  preIntakeSummary
+}: CommercialLoanApplicationFormProps) {
   const [step, setStep] = useState<Step>(1);
   const [ownershipTouched, setOwnershipTouched] = useState(false);
   const [touched, setTouched] = useState<Record<FieldKey, boolean>>({
@@ -214,9 +229,9 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     consentFullLegalName: false
   });
 
-  const [primaryBorrowerName, setPrimaryBorrowerName] = useState("");
-  const [primaryBorrowerEmail, setPrimaryBorrowerEmail] = useState("");
-  const [primaryBorrowerPhone, setPrimaryBorrowerPhone] = useState("");
+  const [primaryBorrowerName, setPrimaryBorrowerName] = useState(prefill?.primaryBorrowerName ?? "");
+  const [primaryBorrowerEmail, setPrimaryBorrowerEmail] = useState(prefill?.primaryBorrowerEmail ?? "");
+  const [primaryBorrowerPhone, setPrimaryBorrowerPhone] = useState(prefill?.primaryBorrowerPhone ?? "");
   const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
   const [coBorrowerName, setCoBorrowerName] = useState("");
   const [coBorrowerEmail, setCoBorrowerEmail] = useState("");
@@ -229,16 +244,18 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   const [mortgageDebt, setMortgageDebt] = useState("");
   const [creditorDebt, setCreditorDebt] = useState("");
   const [otherLiabilities, setOtherLiabilities] = useState("");
-  const [requestedAmount, setRequestedAmount] = useState("");
-  const [propertyAddress, setPropertyAddress] = useState("");
-  const [propertyType, setPropertyType] = useState("");
+  const [requestedAmount, setRequestedAmount] = useState(
+    normalizeCurrencyInput(prefill?.requestedAmount ?? "")
+  );
+  const [propertyAddress, setPropertyAddress] = useState(prefill?.propertyAddress ?? "");
+  const [propertyType, setPropertyType] = useState(prefill?.propertyType ?? "");
   const [constructionType, setConstructionType] = useState("");
   const [purpose, setPurpose] = useState<LoanPurpose>("");
   const [purchasePrice, setPurchasePrice] = useState("");
   const [sourceOfDownPayment, setSourceOfDownPayment] = useState("");
   const [yearAcquired, setYearAcquired] = useState("");
   const [originalCost, setOriginalCost] = useState("");
-  const [existingLiens, setExistingLiens] = useState("");
+  const [existingLiens, setExistingLiens] = useState(prefill?.existingLiens ?? "");
   const [estimatedPresentValue, setEstimatedPresentValue] = useState("");
   const [exactNameOfEntityForTitle, setExactNameOfEntityForTitle] = useState("");
   const [entityType, setEntityType] = useState("");
@@ -510,6 +527,17 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
 
   return (
     <form className="form-grid turicum-intro-call-form" method="post" action={action}>
+      {preIntakeSummary?.length ? (
+        <div className="panel subtle">
+          <p className="eyebrow">Prefilled from quick intake</p>
+          <ul className="list compact-list">
+            {preIntakeSummary.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       <div className="turicum-intro-steps" aria-label="Commercial loan application steps">
         <div className={`turicum-intro-step ${step === 1 ? "is-active" : step > 1 ? "is-complete" : ""}`}>
           <span className="turicum-intro-step-index">1</span>
@@ -965,6 +993,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       ) : null}
 
       <input type="hidden" name="primaryBorrowerName" value={trimmedBorrowerName} />
+      <input type="hidden" name="preIntakeLeadId" value={prefill?.preIntakeLeadId ?? ""} />
       <input type="hidden" name="primaryBorrowerEmail" value={trimmedBorrowerEmail} />
       <input type="hidden" name="primaryBorrowerPhone" value={trimmedBorrowerPhone} />
       <input type="hidden" name="socialSecurityNumber" value={trimmedSocialSecurityNumber} />
