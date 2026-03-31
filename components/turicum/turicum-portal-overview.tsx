@@ -45,7 +45,7 @@ const audienceLanes = [
       "Direct lender conversation"
     ],
     primaryLabel: "Schedule Intro Call",
-    primaryHref: "/portal?preintake=prompt#request-call"
+    primaryHref: "/portal#scheduler"
   },
   {
     eyebrow: "For investors",
@@ -117,7 +117,7 @@ export function TuricumPortalOverview() {
               </div>
               <div className="turicum-classic-nav-links">
                 <div className="turicum-classic-links">
-                  <Link href={withBasePath("/portal?preintake=prompt#request-call")}>Borrowers</Link>
+                  <Link href={withBasePath("/portal")}>Borrowers</Link>
                   <Link href={withBasePath("/investors")}>Investors</Link>
                   <a href="#how-it-works">How it works</a>
                 </div>
@@ -135,7 +135,7 @@ export function TuricumPortalOverview() {
                   Purchase, bridge, and refinance loans move through a direct borrower path. Investors enter a separate lane built around promoted opportunities, first-lien structure, and disciplined servicing visibility.
                 </p>
                 <div className="form-actions turicum-inline-actions">
-                  <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal?preintake=prompt#request-call")}>
+                  <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal#scheduler")}>
                     Schedule Intro Call
                   </Link>
                   <Link className="secondary-button" href={withBasePath("/investors")}>
@@ -238,7 +238,7 @@ export function TuricumPortalOverview() {
               ready for capital.
             </p>
             <div className="form-actions turicum-inline-actions">
-              <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal?preintake=prompt#request-call")}>
+              <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal#scheduler")}>
                 Schedule Intro Call
               </Link>
               <Link className="secondary-button" href={withBasePath("/investors")}>

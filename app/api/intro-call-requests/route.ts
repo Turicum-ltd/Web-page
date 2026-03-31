@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.redirect(
-      `${buildAppUrl(request, `/portal?${search.toString()}`)}#application-profile-details`,
+      `${buildAppUrl(request, `/portal?${search.toString()}`)}#scheduler`,
       {
         status: 303
       }

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { CommercialLoanApplicationForm } from "@/components/turicum/commercial-loan-application-form";
 import { withBasePath } from "@/lib/turicum/runtime";
 
@@ -130,23 +130,19 @@ export function BorrowerPortalEntry({
   preIntakeState,
   error
 }: BorrowerPortalEntryProps) {
-  const [showScheduleForm, setShowScheduleForm] = useState(preIntakeState === "prompt");
-
   const applicationUnlocked =
     applicationSubmitted ||
-    introRequested ||
-    preIntakeState === "scheduled" ||
     preIntakeState === "skip";
 
   const introStatusMessage = useMemo(() => {
     if (preIntakeState === "skip") {
-      return "You skipped straight to the full application. We’ve opened the profile step at the 7-year address and SSN section so you can move quickly if the file is ready.";
+      return "You skipped straight to the full application. The Profile step is open so you can move directly into the borrower file.";
     }
 
     if (preIntakeState === "scheduled" || introRequested) {
       return introRequestedEmail
-        ? `We recorded the intro-call request for ${introRequestedEmail}. You can keep going now by filling out the 7-year address and SSN section while the scheduling confirmation is underway.`
-        : "We recorded the intro-call request. You can keep going now by filling out the 7-year address and SSN section while the scheduling confirmation is underway.";
+        ? `We recorded the intro-call request for ${introRequestedEmail}. We’ll use that to confirm the 15-minute intro before the full intake opens.`
+        : "We recorded the intro-call request. We’ll use that to confirm the 15-minute intro before the full intake opens.";
     }
 
     return null;
@@ -173,35 +169,22 @@ export function BorrowerPortalEntry({
       ) : (
         <>
           {!applicationUnlocked ? (
-            <div className="turicum-pre-intake-shell">
+            <div id="scheduler" className="turicum-pre-intake-shell">
               <div className="turicum-pre-intake-splash panel subtle">
                 <p className="eyebrow">Pre-intake</p>
-                <h3>Start with a quick call or jump straight into the full borrower application.</h3>
+                <h3>Book the intro first, or skip straight to the full borrower application.</h3>
                 <p className="helper">
-                  Borrowers who want a fast fit-check can book the intro first. If your file is already organized, you can skip directly to the 7-year address and SSN section of the profile step.
+                  Borrowers who want a fast fit-check can start with a short call. If your file is already organized, you can skip directly into the full commercial application.
                 </p>
-                <div className="form-actions turicum-inline-actions turicum-pre-intake-actions">
-                  <button
-                    type="button"
-                    className="secondary-button turicum-primary-button"
-                    onClick={() => setShowScheduleForm((current) => !current)}
-                    aria-expanded={showScheduleForm}
-                    aria-controls="turicum-pre-intake-form"
-                  >
-                    Schedule Intro Call
-                  </button>
-                  <Link
-                    className="secondary-button"
-                    href={withBasePath("/portal?preintake=skip#application-profile-details")}
-                  >
-                    Skip to Full Application
-                  </Link>
-                </div>
               </div>
 
-              {showScheduleForm ? (
+              {introStatusMessage ? (
+                <div className="panel subtle turicum-pre-intake-status" role="status" aria-live="polite">
+                  <p className="eyebrow">Intro request recorded</p>
+                  <p className="helper">{introStatusMessage}</p>
+                </div>
+              ) : (
                 <form
-                  id="turicum-pre-intake-form"
                   className="panel turicum-pre-intake-form"
                   method="post"
                   action={introRequestAction}
@@ -209,7 +192,7 @@ export function BorrowerPortalEntry({
                   <div className="section-head compact">
                     <div>
                       <p className="eyebrow">Schedule intro call</p>
-                      <h3>Give us the basics and choose a preferred slot.</h3>
+                      <h3>Only the basics for now.</h3>
                     </div>
                   </div>
                   <div className="turicum-pre-intake-grid">
@@ -224,10 +207,6 @@ export function BorrowerPortalEntry({
                     <label className="field">
                       <span>Phone</span>
                       <input type="tel" name="phone" required autoComplete="tel" />
-                    </label>
-                    <label className="field">
-                      <span>Preferred date</span>
-                      <input type="date" name="preferredDate" />
                     </label>
                     <label className="field">
                       <span>Preferred time</span>
@@ -252,7 +231,7 @@ export function BorrowerPortalEntry({
                     </Link>
                   </div>
                 </form>
-              ) : null}
+              )}
             </div>
           ) : null}
 

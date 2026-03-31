@@ -119,9 +119,9 @@ export function TuricumBorrowerOverview({
               <div className="form-actions turicum-inline-actions">
                 <Link
                   className="secondary-button turicum-primary-button"
-                  href={withBasePath("/portal?preintake=prompt#request-call")}
+                  href={withBasePath("/portal?preintake=skip#application-profile-details")}
                 >
-                  Schedule Intro Call
+                  Skip to Full Application
                 </Link>
                 <Link className="secondary-button" href={withBasePath("/")}>
                   Back to overview
@@ -183,7 +183,7 @@ export function TuricumBorrowerOverview({
             </p>
           </div>
 
-          <div id="request-call" className="panel lead">
+          <div className="panel lead">
             <div className="section-head compact">
               <div>
                 <p className="eyebrow">Commercial loan application</p>

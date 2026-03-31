@@ -543,65 +543,72 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
 
       {step === 1 ? (
         <div className="turicum-intro-stage">
-          <div className="turicum-intro-stage-head">
-            <p className="eyebrow">Step 1 of 4</p>
-            <h3>Profile</h3>
-            <p className="helper">Capture borrower and co-borrower details, 7-year address history, and annual income.</p>
-          </div>
-          <div className="turicum-intro-stage-grid turicum-application-profile-grid">
-            <label className={fieldClassName("primaryBorrowerName")}>
-              <span>Borrower name</span>
-              <input value={primaryBorrowerName} onChange={(e) => setPrimaryBorrowerName(e.target.value)} onBlur={() => handleBlur("primaryBorrowerName")} />
-              {getFieldError("primaryBorrowerName") ? <small className="turicum-field-error">{getFieldError("primaryBorrowerName")}</small> : null}
-            </label>
-            <label className={fieldClassName("primaryBorrowerEmail")}>
-              <span>Borrower email</span>
-              <input type="email" value={primaryBorrowerEmail} onChange={(e) => setPrimaryBorrowerEmail(e.target.value)} onBlur={() => handleBlur("primaryBorrowerEmail")} />
-              {getFieldError("primaryBorrowerEmail") ? <small className="turicum-field-error">{getFieldError("primaryBorrowerEmail")}</small> : null}
-            </label>
-            <label className={fieldClassName("primaryBorrowerPhone")}>
-              <span>Borrower phone</span>
-              <input type="tel" value={primaryBorrowerPhone} onChange={(e) => setPrimaryBorrowerPhone(e.target.value)} onBlur={() => handleBlur("primaryBorrowerPhone")} />
-              {getFieldError("primaryBorrowerPhone") ? <small className="turicum-field-error">{getFieldError("primaryBorrowerPhone")}</small> : null}
-            </label>
-            <label className={fieldClassName("socialSecurityNumber")}>
-              <span>SSN</span>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={socialSecurityNumber}
-                onChange={(e) => setSocialSecurityNumber(normalizeSsnInput(e.target.value))}
-                onBlur={() => handleBlur("socialSecurityNumber")}
-                placeholder="123-45-6789"
-                autoComplete="off"
-              />
-              {getFieldError("socialSecurityNumber") ? <small className="turicum-field-error">{getFieldError("socialSecurityNumber")}</small> : null}
-            </label>
-            <label className={fieldClassName("coBorrowerName")}>
-              <span>Co-borrower name</span>
-              <input value={coBorrowerName} onChange={(e) => setCoBorrowerName(e.target.value)} onBlur={() => handleBlur("coBorrowerName")} />
-            </label>
-            <label className={fieldClassName("coBorrowerEmail")}>
-              <span>Co-borrower email</span>
-              <input type="email" value={coBorrowerEmail} onChange={(e) => setCoBorrowerEmail(e.target.value)} onBlur={() => handleBlur("coBorrowerEmail")} />
-            </label>
-            <label className={fieldClassName("annualIncome")}>
-              <span>Annual income</span>
-              <input inputMode="numeric" placeholder="250,000" value={formatCurrencyDigits(annualIncome)} onChange={(e) => setAnnualIncome(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("annualIncome")} />
-              {getFieldError("annualIncome") ? <small className="turicum-field-error">{getFieldError("annualIncome")}</small> : null}
-            </label>
-            <div id="application-profile-details" className="turicum-application-profile-details turicum-application-span-full">
-              <p className="eyebrow">7-year address and identification</p>
-              <div className="turicum-intro-stage-grid turicum-application-profile-detail-grid">
-                <label className={`${fieldClassName("currentAddress")} turicum-application-span-full`}>
-                  <span>Current address</span>
-                  <textarea value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} onBlur={() => handleBlur("currentAddress")} rows={3} />
-                  {getFieldError("currentAddress") ? <small className="turicum-field-error">{getFieldError("currentAddress")}</small> : null}
+          <div className="turicum-application-step-shell">
+            <div className="turicum-application-step-number" aria-hidden="true">
+              1
+            </div>
+            <div className="turicum-application-step-content">
+              <div className="turicum-intro-stage-head">
+                <p className="eyebrow">Step 1 of 4</p>
+                <h3>Profile</h3>
+                <p className="helper">Capture borrower identity, contact details, 7-year address history, and annual income.</p>
+              </div>
+              <div className="turicum-intro-stage-grid turicum-application-profile-grid">
+                <label className={fieldClassName("primaryBorrowerName")}>
+                  <span>Borrower name</span>
+                  <input value={primaryBorrowerName} onChange={(e) => setPrimaryBorrowerName(e.target.value)} onBlur={() => handleBlur("primaryBorrowerName")} />
+                  {getFieldError("primaryBorrowerName") ? <small className="turicum-field-error">{getFieldError("primaryBorrowerName")}</small> : null}
                 </label>
-                <label className={`${fieldClassName("formerAddress")} turicum-application-span-full`}>
-                  <span>Former address (if not at current address for 7 years)</span>
-                  <textarea value={formerAddress} onChange={(e) => setFormerAddress(e.target.value)} onBlur={() => handleBlur("formerAddress")} rows={3} />
+                <label className={fieldClassName("primaryBorrowerEmail")}>
+                  <span>Borrower email</span>
+                  <input type="email" value={primaryBorrowerEmail} onChange={(e) => setPrimaryBorrowerEmail(e.target.value)} onBlur={() => handleBlur("primaryBorrowerEmail")} />
+                  {getFieldError("primaryBorrowerEmail") ? <small className="turicum-field-error">{getFieldError("primaryBorrowerEmail")}</small> : null}
                 </label>
+                <label className={fieldClassName("primaryBorrowerPhone")}>
+                  <span>Borrower phone</span>
+                  <input type="tel" value={primaryBorrowerPhone} onChange={(e) => setPrimaryBorrowerPhone(e.target.value)} onBlur={() => handleBlur("primaryBorrowerPhone")} />
+                  {getFieldError("primaryBorrowerPhone") ? <small className="turicum-field-error">{getFieldError("primaryBorrowerPhone")}</small> : null}
+                </label>
+                <label className={fieldClassName("socialSecurityNumber")}>
+                  <span>SSN</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={socialSecurityNumber}
+                    onChange={(e) => setSocialSecurityNumber(normalizeSsnInput(e.target.value))}
+                    onBlur={() => handleBlur("socialSecurityNumber")}
+                    placeholder="123-45-6789"
+                    autoComplete="off"
+                  />
+                  {getFieldError("socialSecurityNumber") ? <small className="turicum-field-error">{getFieldError("socialSecurityNumber")}</small> : null}
+                </label>
+                <label className={fieldClassName("coBorrowerName")}>
+                  <span>Co-borrower name</span>
+                  <input value={coBorrowerName} onChange={(e) => setCoBorrowerName(e.target.value)} onBlur={() => handleBlur("coBorrowerName")} />
+                </label>
+                <label className={fieldClassName("coBorrowerEmail")}>
+                  <span>Co-borrower email</span>
+                  <input type="email" value={coBorrowerEmail} onChange={(e) => setCoBorrowerEmail(e.target.value)} onBlur={() => handleBlur("coBorrowerEmail")} />
+                </label>
+                <label className={fieldClassName("annualIncome")}>
+                  <span>Annual income</span>
+                  <input inputMode="numeric" placeholder="250,000" value={formatCurrencyDigits(annualIncome)} onChange={(e) => setAnnualIncome(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("annualIncome")} />
+                  {getFieldError("annualIncome") ? <small className="turicum-field-error">{getFieldError("annualIncome")}</small> : null}
+                </label>
+                <div id="application-profile-details" className="turicum-application-profile-details turicum-application-span-full">
+                  <p className="eyebrow">7-year address and identification</p>
+                  <div className="turicum-intro-stage-grid turicum-application-profile-detail-grid">
+                    <label className={`${fieldClassName("currentAddress")} turicum-application-span-full`}>
+                      <span>Current address</span>
+                      <textarea value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} onBlur={() => handleBlur("currentAddress")} rows={3} />
+                      {getFieldError("currentAddress") ? <small className="turicum-field-error">{getFieldError("currentAddress")}</small> : null}
+                    </label>
+                    <label className={`${fieldClassName("formerAddress")} turicum-application-span-full`}>
+                      <span>Former address (if not at current address for 7 years)</span>
+                      <textarea value={formerAddress} onChange={(e) => setFormerAddress(e.target.value)} onBlur={() => handleBlur("formerAddress")} rows={3} />
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
