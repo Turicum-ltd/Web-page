@@ -5836,44 +5836,45 @@ main {
 
 .turicum-quick-form {
   display: grid;
-  gap: 14px;
+  gap: 18px;
 }
 
 .turicum-quick-form label,
 .turicum-quick-block {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 6px;
 }
 
 .turicum-quick-form span,
-.turicum-quick-question {
+.turicum-quick-question,
+.turicum-quick-section-title {
   color: #111111;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.45;
 }
 
-.turicum-quick-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 12px;
+.turicum-quick-section,
+.turicum-quick-section-fields,
+.turicum-quick-contact-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.turicum-quick-contact-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.turicum-quick-wide {
-  grid-column: span 2;
+.turicum-quick-section-title {
+  margin: 0;
 }
 
 .turicum-quick-form input,
 .turicum-quick-form select,
 .turicum-quick-form textarea {
   width: 100%;
-  border: 1px solid #111111;
+  border: 0;
+  border-bottom: 1px solid #111111;
   border-radius: 0;
-  padding: 9px 10px;
+  padding: 9px 0;
   background: #ffffff;
   color: #111111;
   font: inherit;
@@ -5942,6 +5943,7 @@ main {
   .turicum-quick-success p,
   .turicum-quick-form span,
   .turicum-quick-question,
+  .turicum-quick-section-title,
   .turicum-quick-title {
     color: #f4f4f5;
   }
@@ -5965,15 +5967,6 @@ main {
 @media (max-width: 720px) {
   main {
     padding-inline: 12px;
-  }
-
-  .turicum-quick-grid,
-  .turicum-quick-contact-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .turicum-quick-wide {
-    grid-column: auto;
   }
 
   .turicum-quick-actions button {

@@ -91,7 +91,7 @@ export function TuricumBorrowerOverview({
               method="post"
               action={withConfiguredBasePath("/api/intro-call-requests")}
             >
-              <div className="turicum-quick-grid turicum-quick-contact-grid">
+              <div className="turicum-quick-section turicum-quick-contact-group">
                 <label>
                   <span>Name</span>
                   <input type="text" name="fullName" autoComplete="name" required />
@@ -106,57 +106,64 @@ export function TuricumBorrowerOverview({
                 </label>
               </div>
 
-              <label>
-                <span>1. How much money are you looking to borrow or receive?</span>
-                <input
-                  type="text"
-                  name="requestedAmount"
-                  placeholder="$500,000"
-                  inputMode="numeric"
-                  required
-                />
-              </label>
-
-              <div className="turicum-quick-grid">
+              <section className="turicum-quick-section">
+                <p className="turicum-quick-section-title">1. How much money are you looking to borrow or receive?</p>
                 <label>
-                  <span>2. What exactly is the asset or property?</span>
-                  <select name="propertyType" defaultValue="" required>
-                    <option value="" disabled>
-                      Select property type
-                    </option>
-                    {propertyTypeOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="turicum-quick-wide">
-                  <span>Full address or location</span>
+                  <span>Amount requested</span>
                   <input
                     type="text"
-                    name="assetLocation"
-                    placeholder="123 Main St, Miami, FL"
+                    name="requestedAmount"
+                    placeholder="$500,000"
+                    inputMode="numeric"
                     required
                   />
                 </label>
-              </div>
+              </section>
 
-              <label>
-                <span>Describe the property.</span>
-                <textarea
-                  name="assetDescription"
-                  rows={4}
-                  placeholder="Type of asset, condition, tenants or use, square footage, lot size, or anything else that matters."
-                  required
-                />
-              </label>
+              <section className="turicum-quick-section">
+                <p className="turicum-quick-section-title">
+                  2. What exactly is the asset or property?
+                </p>
+                <div className="turicum-quick-section-fields">
+                  <label>
+                    <span>Property type</span>
+                    <select name="propertyType" defaultValue="" required>
+                      <option value="" disabled>
+                        Select property type
+                      </option>
+                      {propertyTypeOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    <span>Full address or location</span>
+                    <input
+                      type="text"
+                      name="assetLocation"
+                      placeholder="123 Main St, Miami, FL"
+                      required
+                    />
+                  </label>
+                  <label>
+                    <span>Describe the property</span>
+                    <textarea
+                      name="assetDescription"
+                      rows={4}
+                      placeholder="Type of asset, condition, tenants or use, square footage, lot size, or anything else that matters."
+                      required
+                    />
+                  </label>
+                </div>
+              </section>
 
-              <div className="turicum-quick-block">
-                <p className="turicum-quick-question">
+              <section className="turicum-quick-section">
+                <p className="turicum-quick-section-title">
                   3. How much equity or ownership do you currently have in it?
                 </p>
-                <div className="turicum-quick-grid">
+                <div className="turicum-quick-section-fields">
                   <label>
                     <span>Ownership / lien status</span>
                     <select name="ownershipStatus" defaultValue="" required>
@@ -194,21 +201,21 @@ export function TuricumBorrowerOverview({
                       required
                     />
                   </label>
+                  <label>
+                    <span>Existing loans or liens</span>
+                    <textarea
+                      name="existingLiens"
+                      rows={3}
+                      placeholder="List current mortgages, private loans, tax liens, judgments, or say none."
+                      required
+                    />
+                  </label>
                 </div>
-                <label>
-                  <span>Existing loans or liens</span>
-                  <textarea
-                    name="existingLiens"
-                    rows={3}
-                    placeholder="List current mortgages, private loans, tax liens, judgments, or say none."
-                    required
-                  />
-                </label>
-              </div>
+              </section>
 
-              <div className="turicum-quick-grid">
+              <section className="turicum-quick-section">
                 <label>
-                  <span>4. How is title held?</span>
+                  <span className="turicum-quick-section-title">4. How is title held?</span>
                   <select name="titleHeld" defaultValue="" required>
                     <option value="" disabled>
                       Select one
@@ -221,7 +228,7 @@ export function TuricumBorrowerOverview({
                   </select>
                 </label>
                 <label>
-                  <span>5. Rough estimate of current value</span>
+                  <span className="turicum-quick-section-title">5. Rough estimate of current value</span>
                   <input
                     type="text"
                     name="estimatedValue"
@@ -230,7 +237,7 @@ export function TuricumBorrowerOverview({
                     required
                   />
                 </label>
-                <label className="turicum-quick-wide">
+                <label>
                   <span>How did you come up with that number?</span>
                   <select name="valueBasis" defaultValue="" required>
                     <option value="" disabled>
@@ -243,21 +250,23 @@ export function TuricumBorrowerOverview({
                     ))}
                   </select>
                 </label>
-              </div>
+              </section>
 
-              <label>
-                <span>6. When do you need the money?</span>
-                <select name="preferredTimeline" defaultValue="" required>
-                  <option value="" disabled>
-                    Select timing
-                  </option>
-                  {timingOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
+              <section className="turicum-quick-section">
+                <label>
+                  <span className="turicum-quick-section-title">6. When do you need the money?</span>
+                  <select name="preferredTimeline" defaultValue="" required>
+                    <option value="" disabled>
+                      Select timing
                     </option>
-                  ))}
-                </select>
-              </label>
+                    {timingOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </section>
 
               <div className="turicum-quick-actions">
                 <button type="submit">Request call back</button>
