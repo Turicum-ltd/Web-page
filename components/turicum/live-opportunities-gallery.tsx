@@ -32,9 +32,9 @@ const returnFormatter = new Intl.NumberFormat("en-US", {
 
 const liveOpportunities: LiveOpportunity[] = [
   {
-    id: "nashville-industrial",
-    title: "Nashville Logistics Infill",
-    location: "Nashville, Tennessee",
+    id: "industrial-bridge-example",
+    title: "Industrial Bridge Example",
+    location: "Illustrative Sunbelt market",
     assetType: "Industrial",
     ltv: 65,
     annualReturn: 10.5,
@@ -43,12 +43,12 @@ const liveOpportunities: LiveOpportunity[] = [
     step: 25000,
     defaultParticipation: 100000,
     image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
-    summary: "Short-duration infill warehouse refinance with first-lien security, sponsor equity already in place, and cash-flow visibility from seasoned tenancy."
+    summary: "Illustrative first-lien industrial bridge structure shown to demonstrate leverage, yield posture, and participation sizing before investors enter the secure portal."
   },
   {
-    id: "charlotte-multifamily",
-    title: "Charlotte Workforce Housing",
-    location: "Charlotte, North Carolina",
+    id: "multifamily-refinance-example",
+    title: "Multifamily Refinance Example",
+    location: "Illustrative Southeast market",
     assetType: "Multifamily",
     ltv: 62,
     annualReturn: 10.2,
@@ -57,12 +57,12 @@ const liveOpportunities: LiveOpportunity[] = [
     step: 25000,
     defaultParticipation: 75000,
     image: "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1200&q=80",
-    summary: "Stabilized multifamily bridge execution with conservative leverage, durable in-place rents, and a clearly defined refinance path."
+    summary: "Illustrative multifamily refinance structure with conservative leverage and passive income modeling shown for preview purposes only."
   },
   {
-    id: "phoenix-self-storage",
-    title: "Phoenix Storage Expansion",
-    location: "Phoenix, Arizona",
+    id: "storage-expansion-example",
+    title: "Storage Expansion Example",
+    location: "Illustrative Southwest market",
     assetType: "Self-Storage",
     ltv: 68,
     annualReturn: 11.0,
@@ -71,7 +71,7 @@ const liveOpportunities: LiveOpportunity[] = [
     step: 25000,
     defaultParticipation: 125000,
     image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
-    summary: "Asset-based expansion capital secured by first-position collateral, reserve discipline, and monthly operational reporting through completion."
+    summary: "Illustrative asset-based expansion profile presented as a sample of the structures investors can evaluate after authentication."
   }
 ];
 
@@ -97,7 +97,7 @@ function OpportunityCard({ opportunity }: { opportunity: LiveOpportunity }) {
           <span className="turicum-opportunity-badge">{opportunity.assetType}</span>
         </div>
         <div className="turicum-opportunity-image-copy">
-          <p className="eyebrow">Live opportunity</p>
+          <p className="eyebrow">Illustrative example</p>
           <h3>{opportunity.title}</h3>
           <p className="helper">{opportunity.location}</p>
         </div>
@@ -129,7 +129,7 @@ function OpportunityCard({ opportunity }: { opportunity: LiveOpportunity }) {
               <p className="eyebrow">Participation Slider</p>
               <strong>{currencyFormatter.format(participation)}</strong>
             </div>
-            <span className="turicum-opportunity-badge">Secure portal funding</span>
+            <span className="turicum-opportunity-badge">Login for live details</span>
           </div>
 
           <label className="turicum-opportunity-slider" htmlFor={`participation-${opportunity.id}`}>
@@ -157,7 +157,7 @@ function OpportunityCard({ opportunity }: { opportunity: LiveOpportunity }) {
         </div>
 
         <Link className="secondary-button turicum-primary-button turicum-opportunity-cta" href={withBasePath("/investors")}>
-          Commit Capital
+          Log In to View Live Opportunities
         </Link>
       </div>
     </article>
@@ -168,11 +168,11 @@ export function LiveOpportunitiesGallery() {
   return (
     <section id="current-opportunities" className="turicum-live-opportunities-section">
       <div className="turicum-section-intro compact">
-        <p className="eyebrow">Live Opportunities</p>
-        <h2>Review current opportunities and model your participation in real time.</h2>
+        <p className="eyebrow">Illustrative Examples</p>
+        <h2>Review example structures and model participation before investor login.</h2>
         <p>
-          Each live opportunity shows leverage, projected return, asset type, and a participation
-          slider so investors can preview passive monthly income before entering the secure portal.
+          The landing page now shows representative examples only. Live promoted opportunities,
+          property names, and current allocations stay inside the secure investor portal.
         </p>
       </div>
 
