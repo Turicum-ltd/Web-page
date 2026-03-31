@@ -3539,6 +3539,41 @@ code {
   gap: 20px;
 }
 
+.turicum-pre-intake-shell {
+  display: grid;
+  gap: 16px;
+}
+
+.turicum-pre-intake-splash,
+.turicum-pre-intake-form,
+.turicum-pre-intake-status {
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-pre-intake-splash {
+  padding: 22px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.1), transparent 36%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.96), rgba(9, 9, 11, 0.94));
+}
+
+.turicum-pre-intake-splash h3,
+.turicum-pre-intake-form h3 {
+  margin: 0;
+}
+
+.turicum-pre-intake-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-pre-intake-actions {
+  align-items: stretch;
+}
+
 .turicum-document-command-center {
   display: grid;
   gap: 18px;
@@ -3885,6 +3920,24 @@ code {
 
 .turicum-application-profile-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-application-profile-details {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(24, 24, 27, 0.68);
+  scroll-margin-top: 120px;
+}
+
+.turicum-application-profile-details .eyebrow {
+  margin: 0;
+}
+
+.turicum-application-profile-detail-grid {
+  grid-template-columns: 1fr;
 }
 
 .turicum-application-balance-sheet {
@@ -5433,10 +5486,12 @@ code {
 
   .turicum-intro-steps,
   .turicum-intro-stage-grid,
+  .turicum-pre-intake-grid,
   .turicum-borrower-timeline-track,
   .turicum-document-command-grid,
   .turicum-application-balance-sheet,
   .turicum-application-profile-grid,
+  .turicum-application-profile-detail-grid,
   .turicum-application-declarations-grid {
     grid-template-columns: 1fr;
   }

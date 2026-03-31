@@ -20,6 +20,7 @@ type FieldKey =
   | "primaryBorrowerName"
   | "primaryBorrowerEmail"
   | "primaryBorrowerPhone"
+  | "socialSecurityNumber"
   | "coBorrowerName"
   | "coBorrowerEmail"
   | "currentAddress"
@@ -148,6 +149,20 @@ function normalizePercentInput(value: string) {
   return rest.length ? `${whole}.${rest.join("")}` : whole;
 }
 
+function normalizeSsnInput(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 9);
+
+  if (digits.length <= 3) {
+    return digits;
+  }
+
+  if (digits.length <= 5) {
+    return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  }
+
+  return `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`;
+}
+
 function parsePercent(value: string) {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -160,6 +175,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     primaryBorrowerName: false,
     primaryBorrowerEmail: false,
     primaryBorrowerPhone: false,
+    socialSecurityNumber: false,
     coBorrowerName: false,
     coBorrowerEmail: false,
     currentAddress: false,
@@ -201,6 +217,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   const [primaryBorrowerName, setPrimaryBorrowerName] = useState("");
   const [primaryBorrowerEmail, setPrimaryBorrowerEmail] = useState("");
   const [primaryBorrowerPhone, setPrimaryBorrowerPhone] = useState("");
+  const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
   const [coBorrowerName, setCoBorrowerName] = useState("");
   const [coBorrowerEmail, setCoBorrowerEmail] = useState("");
   const [currentAddress, setCurrentAddress] = useState("");
@@ -242,6 +259,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
   const trimmedBorrowerName = primaryBorrowerName.trim();
   const trimmedBorrowerEmail = primaryBorrowerEmail.trim();
   const trimmedBorrowerPhone = primaryBorrowerPhone.trim();
+  const trimmedSocialSecurityNumber = socialSecurityNumber.trim();
   const trimmedCurrentAddress = currentAddress.trim();
   const trimmedPropertyAddress = propertyAddress.trim();
   const trimmedPropertyType = propertyType.trim();
@@ -273,6 +291,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     trimmedBorrowerName.length > 0 &&
     isEmailValid(trimmedBorrowerEmail) &&
     trimmedBorrowerPhone.length > 0 &&
+    trimmedSocialSecurityNumber.length > 0 &&
     trimmedCurrentAddress.length > 0 &&
     annualIncome.length > 0;
   const stepTwoValid =
@@ -343,6 +362,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
     const requiredMap: Partial<Record<FieldKey, boolean>> = {
       primaryBorrowerName: !trimmedBorrowerName,
       primaryBorrowerPhone: !trimmedBorrowerPhone,
+      socialSecurityNumber: !trimmedSocialSecurityNumber,
       currentAddress: !trimmedCurrentAddress,
       annualIncome: !annualIncome,
       cashOnHand: !cashOnHand,
@@ -412,6 +432,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
         "primaryBorrowerName",
         "primaryBorrowerEmail",
         "primaryBorrowerPhone",
+        "socialSecurityNumber",
         "currentAddress",
         "annualIncome"
       ]);
@@ -543,6 +564,19 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
               <input type="tel" value={primaryBorrowerPhone} onChange={(e) => setPrimaryBorrowerPhone(e.target.value)} onBlur={() => handleBlur("primaryBorrowerPhone")} />
               {getFieldError("primaryBorrowerPhone") ? <small className="turicum-field-error">{getFieldError("primaryBorrowerPhone")}</small> : null}
             </label>
+            <label className={fieldClassName("socialSecurityNumber")}>
+              <span>SSN</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={socialSecurityNumber}
+                onChange={(e) => setSocialSecurityNumber(normalizeSsnInput(e.target.value))}
+                onBlur={() => handleBlur("socialSecurityNumber")}
+                placeholder="123-45-6789"
+                autoComplete="off"
+              />
+              {getFieldError("socialSecurityNumber") ? <small className="turicum-field-error">{getFieldError("socialSecurityNumber")}</small> : null}
+            </label>
             <label className={fieldClassName("coBorrowerName")}>
               <span>Co-borrower name</span>
               <input value={coBorrowerName} onChange={(e) => setCoBorrowerName(e.target.value)} onBlur={() => handleBlur("coBorrowerName")} />
@@ -556,15 +590,20 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
               <input inputMode="numeric" placeholder="250,000" value={formatCurrencyDigits(annualIncome)} onChange={(e) => setAnnualIncome(normalizeCurrencyInput(e.target.value))} onBlur={() => handleBlur("annualIncome")} />
               {getFieldError("annualIncome") ? <small className="turicum-field-error">{getFieldError("annualIncome")}</small> : null}
             </label>
-            <label className={`${fieldClassName("currentAddress")} turicum-application-span-full`}>
-              <span>Current address</span>
-              <textarea value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} onBlur={() => handleBlur("currentAddress")} rows={3} />
-              {getFieldError("currentAddress") ? <small className="turicum-field-error">{getFieldError("currentAddress")}</small> : null}
-            </label>
-            <label className={`${fieldClassName("formerAddress")} turicum-application-span-full`}>
-              <span>Former address (if not at current address for 7 years)</span>
-              <textarea value={formerAddress} onChange={(e) => setFormerAddress(e.target.value)} onBlur={() => handleBlur("formerAddress")} rows={3} />
-            </label>
+            <div id="application-profile-details" className="turicum-application-profile-details turicum-application-span-full">
+              <p className="eyebrow">7-year address and identification</p>
+              <div className="turicum-intro-stage-grid turicum-application-profile-detail-grid">
+                <label className={`${fieldClassName("currentAddress")} turicum-application-span-full`}>
+                  <span>Current address</span>
+                  <textarea value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} onBlur={() => handleBlur("currentAddress")} rows={3} />
+                  {getFieldError("currentAddress") ? <small className="turicum-field-error">{getFieldError("currentAddress")}</small> : null}
+                </label>
+                <label className={`${fieldClassName("formerAddress")} turicum-application-span-full`}>
+                  <span>Former address (if not at current address for 7 years)</span>
+                  <textarea value={formerAddress} onChange={(e) => setFormerAddress(e.target.value)} onBlur={() => handleBlur("formerAddress")} rows={3} />
+                </label>
+              </div>
+            </div>
           </div>
           <div className="form-actions turicum-inline-actions turicum-intro-step-actions">
             <button type="button" className="turicum-primary-button" onClick={() => nextStep(1)} disabled={!stepOneValid}>
@@ -921,6 +960,7 @@ export function CommercialLoanApplicationForm({ action }: CommercialLoanApplicat
       <input type="hidden" name="primaryBorrowerName" value={trimmedBorrowerName} />
       <input type="hidden" name="primaryBorrowerEmail" value={trimmedBorrowerEmail} />
       <input type="hidden" name="primaryBorrowerPhone" value={trimmedBorrowerPhone} />
+      <input type="hidden" name="socialSecurityNumber" value={trimmedSocialSecurityNumber} />
       <input type="hidden" name="coBorrowerName" value={coBorrowerName.trim()} />
       <input type="hidden" name="coBorrowerEmail" value={coBorrowerEmail.trim()} />
       <input type="hidden" name="currentAddress" value={trimmedCurrentAddress} />

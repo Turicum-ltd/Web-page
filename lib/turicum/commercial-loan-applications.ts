@@ -6,6 +6,7 @@ export interface CommercialLoanApplicationInput {
   primaryBorrowerName: string;
   primaryBorrowerEmail: string;
   primaryBorrowerPhone?: string;
+  socialSecurityNumber?: string;
   coBorrowerName?: string;
   coBorrowerEmail?: string;
   currentAddress?: string;
@@ -99,6 +100,7 @@ interface CommercialLoanApplicationRow {
   property_type: string;
   borrowing_entity_name: string;
   profile: Record<string, unknown> | null;
+  profile_data: Record<string, unknown> | null;
   financials: Record<string, unknown> | null;
   subject_property: Record<string, unknown> | null;
   property_data: Record<string, unknown> | null;
@@ -120,6 +122,7 @@ export interface CommercialLoanApplicationRecord {
   propertyType: string;
   borrowingEntityName: string;
   profile: Record<string, unknown>;
+  profileData: Record<string, unknown>;
   financials: Record<string, unknown>;
   subjectProperty: Record<string, unknown>;
   propertyData: Record<string, unknown>;
@@ -180,6 +183,7 @@ function mapRow(row: CommercialLoanApplicationRow): CommercialLoanApplicationRec
     propertyType: row.property_type,
     borrowingEntityName: row.borrowing_entity_name,
     profile: row.profile ?? {},
+    profileData: row.profile_data ?? {},
     financials: row.financials ?? {},
     subjectProperty: row.subject_property ?? {},
     propertyData: row.property_data ?? {},
@@ -211,6 +215,18 @@ export async function createCommercialLoanApplication(
       property_type: requireValue("Property type", input.propertyType),
       borrowing_entity_name: requireValue("Borrowing entity name", input.borrowingEntityName),
       profile: {
+        socialSecurityNumber: input.socialSecurityNumber?.trim() ?? "",
+        currentAddress: input.currentAddress?.trim() ?? "",
+        formerAddress: input.formerAddress?.trim() ?? "",
+        annualIncome: input.annualIncome?.trim() ?? ""
+      },
+      profile_data: {
+        primaryBorrowerName: input.primaryBorrowerName.trim(),
+        primaryBorrowerEmail: input.primaryBorrowerEmail.trim().toLowerCase(),
+        primaryBorrowerPhone: input.primaryBorrowerPhone?.trim() ?? "",
+        socialSecurityNumber: input.socialSecurityNumber?.trim() ?? "",
+        coBorrowerName: input.coBorrowerName?.trim() ?? "",
+        coBorrowerEmail: input.coBorrowerEmail?.trim()?.toLowerCase() ?? "",
         currentAddress: input.currentAddress?.trim() ?? "",
         formerAddress: input.formerAddress?.trim() ?? "",
         annualIncome: input.annualIncome?.trim() ?? ""
@@ -304,7 +320,7 @@ export async function getLatestCommercialLoanApplicationByEmail(email: string) {
   const { data, error } = await supabase
     .from("commercial_loan_applications")
     .select(
-      "id, created_at, primary_borrower_name, primary_borrower_email, primary_borrower_phone, co_borrower_name, co_borrower_email, annual_income, requested_amount, property_address, property_type, borrowing_entity_name, profile, financials, subject_property, property_data, declarations, declarations_data"
+      "id, created_at, primary_borrower_name, primary_borrower_email, primary_borrower_phone, co_borrower_name, co_borrower_email, annual_income, requested_amount, property_address, property_type, borrowing_entity_name, profile, profile_data, financials, subject_property, property_data, declarations, declarations_data"
     )
     .eq("primary_borrower_email", normalizedEmail)
     .order("created_at", { ascending: false })

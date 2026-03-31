@@ -22,13 +22,13 @@ export async function POST(request: Request) {
       notes: String(formData.get("notes") ?? "")
     });
 
-    const search = new URLSearchParams({ requested: "1" });
+    const search = new URLSearchParams({ requested: "1", preintake: "scheduled" });
     if (email) {
       search.set("requestedEmail", email);
     }
 
     return NextResponse.redirect(
-      `${buildAppUrl(request, `/portal?${search.toString()}`)}#request-call`,
+      `${buildAppUrl(request, `/portal?${search.toString()}`)}#application-profile-details`,
       {
         status: 303
       }

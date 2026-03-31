@@ -41,6 +41,7 @@ export async function POST(request: Request) {
       primaryBorrowerName: String(formData.get("primaryBorrowerName") ?? ""),
       primaryBorrowerEmail: email,
       primaryBorrowerPhone: String(formData.get("primaryBorrowerPhone") ?? ""),
+      socialSecurityNumber: String(formData.get("socialSecurityNumber") ?? ""),
       coBorrowerName: String(formData.get("coBorrowerName") ?? ""),
       coBorrowerEmail: String(formData.get("coBorrowerEmail") ?? ""),
       currentAddress: String(formData.get("currentAddress") ?? ""),

@@ -18,13 +18,35 @@ function readString(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
+function readPreIntakeState(
+  value: string | string[] | undefined,
+  introRequested: boolean
+): "locked" | "prompt" | "scheduled" | "skip" {
+  const normalized = readString(value);
+
+  if (normalized === "prompt" || normalized === "scheduled" || normalized === "skip") {
+    return normalized;
+  }
+
+  if (introRequested) {
+    return "scheduled";
+  }
+
+  return "locked";
+}
+
 export default async function PortalPage({ searchParams }: { searchParams?: SearchParams }) {
   const params = (await searchParams) ?? {};
+  const applicationSubmitted = readFlag(params.application);
+  const introRequested = readFlag(params.requested);
 
   return (
     <TuricumBorrowerOverview
-      submitted={readFlag(params.application) || readFlag(params.requested)}
-      submittedEmail={readString(params.applicationEmail) ?? readString(params.requestedEmail)}
+      applicationSubmitted={applicationSubmitted}
+      applicationSubmittedEmail={readString(params.applicationEmail)}
+      introRequested={introRequested}
+      introRequestedEmail={readString(params.requestedEmail)}
+      preIntakeState={readPreIntakeState(params.preintake, introRequested)}
       error={readString(params.error)}
     />
   );

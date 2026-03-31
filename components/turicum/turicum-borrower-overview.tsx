@@ -1,82 +1,7 @@
 import Link from "next/link";
-import { CommercialLoanApplicationForm } from "@/components/turicum/commercial-loan-application-form";
+import { BorrowerPortalEntry } from "@/components/turicum/borrower-portal-entry";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
-
-function RequestIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="m3.5 11.5 16-7-4.8 15-3.8-5.2-5.2-2.8Zm7.3 2.8 3.6-4.4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function CallIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M6.6 4.8h2.8l1.4 3.8-1.7 1.9c.7 1.4 2 2.7 3.5 3.5l1.9-1.7 3.8 1.4v2.8c0 .7-.6 1.3-1.3 1.3-6.8 0-12.3-5.5-12.3-12.3 0-.7.6-1.3 1.3-1.3Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M7.5 10V8.3a4.5 4.5 0 1 1 9 0V10M6 10h12v9H6v-9Zm6 3.2v2.6"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function SuccessCheckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M7.5 12.3 10.7 15.5 16.8 8.9"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function DecisionIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M12 3.8 18.3 6v5.4c0 4.1-2.4 7.5-6.3 8.8-3.9-1.3-6.3-4.7-6.3-8.8V6L12 3.8Zm-2.4 8.3 1.7 1.8 3.6-3.9"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 const BORROWER_CALL_PHONE = "+1 561 927 9294";
 const BORROWER_CALL_HREF = "tel:+15619279294";
@@ -84,15 +9,18 @@ const BORROWER_CALL_HREF = "tel:+15619279294";
 const borrowerReasons = [
   {
     title: "Close in one week on the right file",
-    description: "Turicum is built for speed on the right asset-based deal instead of a conventional bank committee timeline."
+    description:
+      "Turicum is built for speed on the right asset-based deal instead of a conventional bank committee timeline."
   },
   {
     title: "No credit check at the public-entry stage",
-    description: "The first borrower conversation is about the property, the need, and the structure before the secure packet opens."
+    description:
+      "The first borrower conversation is about the property, the need, and the structure before the secure packet opens."
   },
   {
     title: "Direct decision path",
-    description: "Borrowers deal with a private counterparty, not a layered institutional approval chain."
+    description:
+      "Borrowers deal with a private counterparty, not a layered institutional approval chain."
   }
 ];
 
@@ -147,41 +75,25 @@ const borrowerDocumentCommandCenter = [
   }
 ];
 
-const borrowerProcessTracker = [
-  {
-    title: "Request Call",
-    status: "Active",
-    icon: RequestIcon,
-    isActive: true
-  },
-  {
-    title: "15-Min Intro",
-    status: "Pending",
-    icon: CallIcon,
-    isActive: false
-  },
-  {
-    title: "Secure Intake",
-    status: "Pending",
-    icon: LockIcon,
-    isActive: false
-  },
-  {
-    title: "Decision",
-    status: "Pending",
-    icon: DecisionIcon,
-    isActive: false
-  }
-];
-
 interface TuricumBorrowerOverviewProps {
-  submitted?: boolean;
-  submittedEmail?: string;
+  applicationSubmitted?: boolean;
+  applicationSubmittedEmail?: string;
+  introRequested?: boolean;
+  introRequestedEmail?: string;
+  preIntakeState: "locked" | "prompt" | "scheduled" | "skip";
   error?: string;
 }
 
-export function TuricumBorrowerOverview({ submitted, submittedEmail, error }: TuricumBorrowerOverviewProps) {
-  const heroArt = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80";
+export function TuricumBorrowerOverview({
+  applicationSubmitted,
+  applicationSubmittedEmail,
+  introRequested,
+  introRequestedEmail,
+  preIntakeState,
+  error
+}: TuricumBorrowerOverviewProps) {
+  const heroArt =
+    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80";
 
   return (
     <main>
@@ -195,7 +107,9 @@ export function TuricumBorrowerOverview({ submitted, submittedEmail, error }: Tu
               </div>
               <h1>A faster way into the right asset-based loan.</h1>
               <p>
-                Turicum is built for property owners and borrowers who need speed, a direct lending conversation, and a cleaner route from first call to secure intake on purchase, bridge, and refinance loans.
+                Turicum is built for property owners and borrowers who need speed, a direct lending
+                conversation, and a cleaner route from first call to secure intake on purchase,
+                bridge, and refinance loans.
               </p>
               <div className="kicker-row">
                 <span className="tag">close in one week</span>
@@ -203,9 +117,12 @@ export function TuricumBorrowerOverview({ submitted, submittedEmail, error }: Tu
                 <span className="tag">asset-based lending</span>
               </div>
               <div className="form-actions turicum-inline-actions">
-                <a className="secondary-button turicum-primary-button" href="#request-call">
+                <Link
+                  className="secondary-button turicum-primary-button"
+                  href={withBasePath("/portal?preintake=prompt#request-call")}
+                >
                   Schedule Intro Call
-                </a>
+                </Link>
                 <Link className="secondary-button" href={withBasePath("/")}>
                   Back to overview
                 </Link>
@@ -221,7 +138,10 @@ export function TuricumBorrowerOverview({ submitted, submittedEmail, error }: Tu
               />
               <div className="panel subtle turicum-aside-panel">
                 <p className="eyebrow">Right fit</p>
-                <p className="helper">Purchase, bridge, and refinance requests for property owners who want a direct answer before the secure packet opens.</p>
+                <p className="helper">
+                  Purchase, bridge, and refinance requests for property owners who want a direct
+                  answer before the secure packet opens.
+                </p>
               </div>
             </div>
           </div>
@@ -257,68 +177,29 @@ export function TuricumBorrowerOverview({ submitted, submittedEmail, error }: Tu
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <p className="helper">If you are ready for the next step, Turicum borrower intake is available at <a href={BORROWER_CALL_HREF}>{BORROWER_CALL_PHONE}</a>.</p>
+            <p className="helper">
+              If you are ready for the next step, Turicum borrower intake is available at{" "}
+              <a href={BORROWER_CALL_HREF}>{BORROWER_CALL_PHONE}</a>.
+            </p>
           </div>
 
           <div id="request-call" className="panel lead">
             <div className="section-head compact">
               <div>
                 <p className="eyebrow">Commercial loan application</p>
-                <h2>Complete the borrower application Turicum uses to start underwriting the file.</h2>
+                <h2>Start with a quick intro call or move directly into the full borrower file.</h2>
               </div>
             </div>
-            {submitted ? (
-              <div className="panel subtle turicum-intro-success-state" role="status" aria-live="polite">
-                <span className="turicum-intro-success-icon" aria-hidden="true">
-                  <SuccessCheckIcon />
-                </span>
-                <p className="eyebrow">Thank you</p>
-                <strong>Application Received!</strong>
-                <p className="helper">
-                  {submittedEmail
-                    ? `We’ve recorded the application for ${submittedEmail}. Turicum can now review the borrower profile, financials, collateral, and declarations before the next conversation.`
-                    : "We’ve recorded the application and the Turicum team can now review the borrower profile, financials, collateral, and declarations."}
-                </p>
-                <p className="helper">
-                  You do not need the full document package ready yet. The secure intake packet and
-                  next steps will follow once the initial review is complete.
-                </p>
-              </div>
-            ) : null}
-            {error ? (
-              <div className="panel subtle">
-                <strong>We could not submit the request.</strong>
-                <p className="helper">{error}</p>
-              </div>
-            ) : null}
-            {!submitted ? (
-              <>
-                <div className="turicum-process-tracker" aria-label="Borrower process tracker">
-                  <div className="turicum-process-tracker-head">
-                    <p className="eyebrow">Process tracker</p>
-                    <p className="helper turicum-process-tracker-note">
-                      This application organizes the borrower profile, balance sheet, subject property,
-                      and declarations before secure intake opens.
-                    </p>
-                  </div>
-                  <div className="turicum-process-tracker-track">
-                    {borrowerProcessTracker.map((step) => (
-                      <article
-                        key={step.title}
-                        className={`turicum-process-step ${step.isActive ? "is-active" : "is-pending"}`}
-                      >
-                        <span className="turicum-process-step-icon" aria-hidden="true">
-                          <step.icon />
-                        </span>
-                        <strong>{step.title}</strong>
-                        <span className="turicum-process-step-status">{step.status}</span>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-                <CommercialLoanApplicationForm action={withConfiguredBasePath("/api/commercial-loan-applications")} />
-              </>
-            ) : null}
+            <BorrowerPortalEntry
+              applicationAction={withConfiguredBasePath("/api/commercial-loan-applications")}
+              introRequestAction={withConfiguredBasePath("/api/intro-call-requests")}
+              applicationSubmitted={applicationSubmitted}
+              applicationSubmittedEmail={applicationSubmittedEmail}
+              introRequested={introRequested}
+              introRequestedEmail={introRequestedEmail}
+              preIntakeState={preIntakeState}
+              error={error}
+            />
           </div>
         </section>
 
