@@ -17,6 +17,9 @@ const CASES_PATH = path.join(ROOT, "data", "cases.json");
 const CASE_CHECKLIST_ITEMS_PATH = path.join(ROOT, "data", "case-checklist-items.json");
 const CASES_TABLE = "cases";
 const CASE_CHECKLIST_ITEMS_TABLE = "case_checklist_items";
+const CASE_SELECT_BASE =
+  "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type";
+const CASE_SELECT_WITH_DRIVE_FOLDER = `${CASE_SELECT_BASE}, google_drive_folder_id`;
 
 interface StoredCaseRecord {
   id: string;
@@ -82,6 +85,15 @@ function isMissingSupabaseTableError(message: string, tableName: string) {
   );
 }
 
+function isMissingSupabaseColumnError(message: string, tableName: string, columnName: string) {
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes("does not exist") &&
+    normalized.includes(tableName.toLowerCase()) &&
+    normalized.includes(columnName.toLowerCase())
+  );
+}
+
 async function ensureJsonFile(filePath: string) {
   try {
     await readFile(filePath, "utf8");
@@ -113,6 +125,45 @@ async function readLocalCaseChecklistItems(): Promise<StoredCaseChecklistItemRec
 
 async function writeLocalCaseChecklistItems(items: StoredCaseChecklistItemRecord[]) {
   await writeFile(CASE_CHECKLIST_ITEMS_PATH, JSON.stringify(items, null, 2) + "\n", "utf8");
+}
+
+async function selectCasesWithSchemaTolerance(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>
+) {
+  const primary = await supabase
+    .from(CASES_TABLE)
+    .select(CASE_SELECT_WITH_DRIVE_FOLDER)
+    .order("created_at", { ascending: false });
+
+  if (!primary.error || !isMissingSupabaseColumnError(primary.error.message, CASES_TABLE, "google_drive_folder_id")) {
+    return primary;
+  }
+
+  return supabase
+    .from(CASES_TABLE)
+    .select(CASE_SELECT_BASE)
+    .order("created_at", { ascending: false });
+}
+
+async function selectCaseByIdWithSchemaTolerance(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  caseId: string
+) {
+  const primary = await supabase
+    .from(CASES_TABLE)
+    .select(CASE_SELECT_WITH_DRIVE_FOLDER)
+    .eq("id", caseId)
+    .maybeSingle();
+
+  if (!primary.error || !isMissingSupabaseColumnError(primary.error.message, CASES_TABLE, "google_drive_folder_id")) {
+    return primary;
+  }
+
+  return supabase
+    .from(CASES_TABLE)
+    .select(CASE_SELECT_BASE)
+    .eq("id", caseId)
+    .maybeSingle();
 }
 
 function normalizeMoneyInput(value: string) {
@@ -182,12 +233,7 @@ export async function listCases(): Promise<CaseRecord[]> {
   }
 
   try {
-    const { data, error } = await supabase
-      .from(CASES_TABLE)
-      .select(
-        "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type, google_drive_folder_id"
-      )
-      .order("created_at", { ascending: false });
+    const { data, error } = await selectCasesWithSchemaTolerance(supabase);
 
     if (error) {
       if (isMissingSupabaseTableError(error.message, CASES_TABLE)) {
@@ -217,13 +263,7 @@ export async function getCaseById(caseId: string): Promise<CaseRecord | null> {
   }
 
   try {
-    const { data, error } = await supabase
-      .from(CASES_TABLE)
-      .select(
-        "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type, google_drive_folder_id"
-      )
-      .eq("id", caseId)
-      .maybeSingle();
+    const { data, error } = await selectCaseByIdWithSchemaTolerance(supabase, caseId);
 
     if (error) {
       if (isMissingSupabaseTableError(error.message, CASES_TABLE)) {
@@ -419,25 +459,35 @@ export async function createCase(input: NewCaseInput): Promise<CaseRecord> {
   }
 
   const numericAmount = Number(input.requestedAmount.replace(/[^\d.]/g, "")) || 0;
-  const { data, error } = await supabase
+  const insertPayload = {
+    case_code: code,
+    title,
+    state: cleanedState,
+    structure_type: structureType,
+    source_type: sourceType,
+    stage: "lead_intake",
+    status: "lead",
+    summary: propertySummary,
+    requested_amount: numericAmount,
+    state_pack_id: matchingPack?.id ?? null,
+    google_drive_folder_id: null
+  };
+  let createResult = await supabase
     .from("cases")
-    .insert({
-      case_code: code,
-      title,
-      state: cleanedState,
-      structure_type: structureType,
-      source_type: sourceType,
-      stage: "lead_intake",
-      status: "lead",
-      summary: propertySummary,
-      requested_amount: numericAmount,
-      state_pack_id: matchingPack?.id ?? null,
-      google_drive_folder_id: null
-    })
-    .select(
-      "id, case_code, title, state, structure_type, status, stage, summary, requested_amount, source_type, google_drive_folder_id"
-    )
+    .insert(insertPayload)
+    .select(CASE_SELECT_WITH_DRIVE_FOLDER)
     .single();
+
+  if (createResult.error && isMissingSupabaseColumnError(createResult.error.message, CASES_TABLE, "google_drive_folder_id")) {
+    const { google_drive_folder_id: _ignoredDriveFolder, ...fallbackInsertPayload } = insertPayload;
+    createResult = await supabase
+      .from("cases")
+      .insert(fallbackInsertPayload)
+      .select(CASE_SELECT_BASE)
+      .single();
+  }
+
+  const { data, error } = createResult;
 
   if (error) {
     throw new Error(`Failed to create case in Supabase: ${error.message}`);
