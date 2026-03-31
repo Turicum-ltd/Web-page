@@ -10,7 +10,7 @@ import { withBasePath } from "@/lib/turicum/runtime";
 
 export const metadata: Metadata = {
   title: "Turicum Investors | Investor Materials",
-  description: "Investor materials for promoted first-lien asset-based lending opportunities, servicing visibility, and resolution posture."
+  description: "Investor materials for disciplined capital reviewing promoted first-lien, asset-based opportunities, servicing visibility, and resolution posture."
 };
 
 function formatLabel(value: string | undefined) {
@@ -49,13 +49,13 @@ export default async function InvestorHandoffPage() {
               <div className="hero-brand-lockup">
                 <TuricumWordmark />
               </div>
-              <h1>Investor materials for promoted first-lien asset-based lending.</h1>
+              <h1>Investor materials for boutique private credit.</h1>
               <p>
-                Review the investor thesis, promoted deal posture, servicing cadence, and resolution path in a format built for capital partners rather than the internal team workflow.
+                Review the investment posture, promoted deal visibility, servicing cadence, and resolution path in a format built for capital partners rather than the internal team workflow.
               </p>
               <div className="kicker-row">
-                <span className="tag">first-lien focus</span>
-                <span className="tag">10% return structure</span>
+                <span className="tag">first-lien discipline</span>
+                <span className="tag">passive income posture</span>
                 <span className="tag">monthly updates</span>
                 <span className="tag">resolution visibility</span>
               </div>
@@ -85,7 +85,7 @@ export default async function InvestorHandoffPage() {
           <div className="section-head compact">
             <div>
               <p className="eyebrow">Why investors look here first</p>
-              <h2>Selection, income posture, and collateral clarity before portal access.</h2>
+              <h2>Selection, passive income posture, and collateral clarity before portal access.</h2>
             </div>
           </div>
           <div className="status-grid turicum-compact-status-grid">
@@ -95,8 +95,8 @@ export default async function InvestorHandoffPage() {
               <p className="helper">Deals appear here only after Turicum clears intake, validation, and promotion readiness.</p>
             </article>
             <article className="status-card turicum-public-card turicum-nested-card">
-              <p className="eyebrow">Yield</p>
-              <strong>10% return structure.</strong>
+              <p className="eyebrow">Income posture</p>
+              <strong>Attractive passive returns.</strong>
               <p className="helper">The investor lane is built around a fixed-income style lens with clear reporting and a defined servicing cadence.</p>
             </article>
             <article className="status-card turicum-public-card turicum-nested-card">
@@ -131,7 +131,7 @@ export default async function InvestorHandoffPage() {
               </div>
             </div>
             <ul className="list compact-list turicum-tight-list">
-              <li><strong>Validation:</strong> borrower and property review before the deal is promoted.</li>
+              <li><strong>Validation:</strong> collateral, sponsor, and document review before the deal is promoted.</li>
               <li><strong>Legal:</strong> document selection, AI review, and legal approval.</li>
               <li><strong>Diligence:</strong> title, insurance, and tax clearance.</li>
               <li><strong>Execution and funding:</strong> signatures, escrow, reserves, and money movement.</li>

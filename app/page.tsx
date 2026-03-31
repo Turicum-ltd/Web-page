@@ -4,8 +4,8 @@ import { TuricumPortalOverview } from "@/components/turicum/turicum-portal-overv
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Turicum Asset-Based Lending | Purchase, Bridge, Refinance",
-  description: "Asset-based lending for property owners, borrowers, and capital partners."
+  title: "Turicum Private Credit | Investor Access",
+  description: "Boutique private credit for disciplined investors seeking first-lien, asset-based opportunities and attractive passive returns."
 };
 
 export default function HomePage() {

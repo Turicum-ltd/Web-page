@@ -57,6 +57,8 @@ NEXT_PUBLIC_BASE_PATH=
 NEXT_PUBLIC_APP_ORIGIN=https://turicum.us
 ```
 
+Use `TURICUM_BASE_PATH` and `APP_ORIGIN` as the server-side source of truth. Keep the `NEXT_PUBLIC_*` values aligned only because client-side path/origin helpers need a safe public fallback.
+
 `SUPABASE_STORAGE_BUCKET` is optional. If omitted, Turicum LLC uses `turicum-documents`.
 
 The app will automatically use Supabase for case reads and writes when both credential values are present.

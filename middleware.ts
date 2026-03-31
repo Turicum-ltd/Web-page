@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { getBorrowerPortalOrigin } from "@/lib/turicum/borrower-portal";
 import { resolveSupabaseStaffSession } from "@/lib/turicum/staff-supabase-auth";
 
 function normalizeBasePath(input: string | undefined) {
@@ -53,6 +54,12 @@ function buildNextParam(pathname: string, search: string) {
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const normalizedPathname = stripBasePath(pathname, normalizeBasePath(request.nextUrl.basePath));
+
+  if (normalizedPathname === "/portal" || normalizedPathname === "/portal/") {
+    const borrowerPortalUrl = new URL(getBorrowerPortalOrigin());
+    borrowerPortalUrl.search = search;
+    return NextResponse.redirect(borrowerPortalUrl, 301);
+  }
 
   if (isPublicTuricumPath(normalizedPathname)) {
     return NextResponse.next();

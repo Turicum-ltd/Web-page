@@ -11,17 +11,17 @@ import { getCaseServicingRecord } from "@/lib/turicum/lifecycle";
 import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
 
 export const metadata: Metadata = {
-  title: "Turicum Investors | First-Lien Asset-Based Lending",
-  description: "Investor access for promoted first-lien asset-based lending opportunities, servicing updates, and resolution status."
+  title: "Turicum Investors | Boutique Private Credit",
+  description: "Investor access for disciplined capital reviewing first-lien, asset-based opportunities, servicing updates, and resolution posture."
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 const investorPillars = [
   {
-    eyebrow: "Targeted returns",
-    title: "10% targeted returns.",
-    description: "Turicum is built around a defined income posture instead of broad marketplace volume or unclear yield expectations."
+    eyebrow: "Selection discipline",
+    title: "Curated opportunities only.",
+    description: "Turicum is built around selective promotion rather than broad marketplace volume, keeping the investor lane measured and intentional."
   },
   {
     eyebrow: "First-lien security",
@@ -29,19 +29,19 @@ const investorPillars = [
     description: "Collateral position stays central, with investors following the structure through diligence, servicing, and resolution."
   },
   {
-    eyebrow: "Monthly servicing",
-    title: "Monthly servicing updates.",
-    description: "The investor lane is designed for regular reporting, servicing posture visibility, and a cleaner read on distribution rhythm."
+    eyebrow: "Servicing cadence",
+    title: "Measured servicing visibility.",
+    description: "The investor lane is designed for regular reporting, servicing posture visibility, and a cleaner read on income cadence."
   },
   {
-    eyebrow: "Resolution",
-    title: "Resolution visibility.",
-    description: "Payoff, extension, refinance, and rollover direction stay visible so investors can track where the file is actually heading."
+    eyebrow: "Resolution posture",
+    title: "Resolution transparency.",
+    description: "Payoff, extension, refinance, and rollover direction stay visible so investors can track how the file is actually moving."
   }
 ];
 
 const portalScope = [
-  "Promoted matter summaries once the file is cleared for investors",
+  "Promoted matter summaries once the file is cleared for investor review",
   "Servicing posture, reserve notes, and distribution updates after funding",
   "Resolution tracking across payoff, extension, refinance, and rollover"
 ];
@@ -55,15 +55,15 @@ const typicalInvestmentSizeOptions = [
 ];
 
 const investorPreviewMetrics = [
-  { label: "Projected yield", value: "10.0%" },
+  { label: "Income posture", value: "Passive" },
   { label: "Collateral", value: "1st lien" },
-  { label: "Reserve posture", value: "Funded" }
+  { label: "Reporting", value: "Monthly" }
 ];
 
 const investorPreviewUpdates = [
-  { label: "Promotion summary", value: "Mixed-use bridge in Miami with sponsor basis already in." },
+  { label: "Deal memo", value: "Mixed-use bridge in Miami with sponsor basis already in." },
   { label: "Servicing cadence", value: "Monthly construction and reserve updates." },
-  { label: "Resolution path", value: "Extension and refinance options tracked from day one." }
+  { label: "Resolution posture", value: "Extension and refinance options tracked from day one." }
 ];
 
 function readString(value: string | string[] | undefined) {
@@ -109,9 +109,9 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
                 <div className="hero-brand-lockup">
                   <TuricumWordmark />
                 </div>
-                <h1>Investor access to promoted first-lien asset-based opportunities.</h1>
+                <h1>Investor access for boutique private credit.</h1>
                 <p>
-                  Turicum gives capital partners a dedicated portal for promoted asset-based opportunities with first-lien collateral focus, servicing visibility, and a cleaner read on each deal from promotion through resolution.
+                  Turicum gives capital partners a dedicated portal for first-lien, asset-based opportunities with disciplined screening, servicing visibility, and a cleaner read on each deal from promotion through resolution.
                 </p>
                 <div className="form-actions turicum-inline-actions">
                   <a className="secondary-button turicum-primary-button" href="#signin">Investor login</a>
@@ -142,7 +142,7 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
             <div className="section-head compact">
               <div>
                 <p className="eyebrow">Why Turicum?</p>
-                <h2>Targeted yield, first-lien structure, and a clearer investor lane.</h2>
+                <h2>Selection discipline, first-lien structure, and a cleaner investor lane.</h2>
               </div>
             </div>
             <div className="status-grid turicum-compact-status-grid">
@@ -160,7 +160,7 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
             <div className="section-head compact">
               <div>
                 <p className="eyebrow">Portal sneak peek</p>
-                <h2>A sample promoted case view, before login.</h2>
+                <h2>A sample investor view, before credentials are issued.</h2>
               </div>
             </div>
             <p className="helper">
@@ -188,7 +188,7 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
                 <div className="turicum-investor-preview-card turicum-investor-preview-blur">
                   <p className="eyebrow">Promoted summary</p>
                   <p>
-                    Borrower recap, collateral position, requested size, and capital stack overview
+                    Deal recap, collateral position, requested size, and capital stack overview
                     appear here once Turicum clears the file for the investor lane.
                   </p>
                 </div>

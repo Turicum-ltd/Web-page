@@ -12,8 +12,16 @@ function normalizeBasePath(input: string | undefined) {
   return withLeadingSlash.replace(/\/+$/, '');
 }
 
+function getServerFirstEnvValue(serverName: string, publicName: string) {
+  if (typeof window === "undefined") {
+    return process.env[serverName] ?? process.env[publicName];
+  }
+
+  return process.env[publicName] ?? process.env[serverName];
+}
+
 function getConfiguredBasePath() {
-  return normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.TURICUM_BASE_PATH ?? '');
+  return normalizeBasePath(getServerFirstEnvValue("TURICUM_BASE_PATH", "NEXT_PUBLIC_BASE_PATH"));
 }
 
 export function getBasePath() {
@@ -41,7 +49,7 @@ export function withConfiguredBasePath(pathname: string) {
 }
 
 export function buildAppUrl(source: Headers | Request, pathname: string) {
-  const explicitOrigin = process.env.NEXT_PUBLIC_APP_ORIGIN ?? process.env.APP_ORIGIN;
+  const explicitOrigin = getServerFirstEnvValue("APP_ORIGIN", "NEXT_PUBLIC_APP_ORIGIN");
   const fullPath = `${getConfiguredBasePath()}${pathname}` || '/';
   const headers = source instanceof Headers ? source : source.headers;
   const requestUrl = source instanceof Request ? new URL(source.url) : null;
