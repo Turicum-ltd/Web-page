@@ -9,22 +9,20 @@ interface TuricumBorrowerOverviewProps {
 }
 
 const propertyTypeOptions = [
-  "Single-family rental",
+  "Industrial RE",
   "Multifamily",
-  "Mixed-use",
-  "Retail",
-  "Office",
-  "Industrial",
-  "Land",
-  "Hospitality",
+  "Commercial Land",
+  "Heavy Equipment",
+  "Truck/Fleet",
+  "Marine",
   "Other"
 ];
 
 const ownershipOptions = [
-  "Free and clear",
-  "One existing loan or lien",
-  "Multiple loans or liens",
-  "Partial ownership / partnership",
+  "Clean Title in Hand",
+  "Bank has Lien",
+  "Tax/Mechanic Lien",
+  "In Collections",
   "Other"
 ];
 
@@ -38,12 +36,11 @@ const titleHeldOptions = [
 ];
 
 const valueBasisOptions = [
-  "Broker opinion",
-  "Recent appraisal",
-  "Recent purchase contract",
-  "Comparable sales",
+  "Blue Book / NADA Value",
+  "Auction Comps",
+  "Manufacturer Invoice",
+  "Recent Appraisal",
   "Internal estimate",
-  "Other"
 ];
 
 const timingOptions = [
@@ -64,8 +61,7 @@ export function TuricumBorrowerOverview({
       <section id="request-form" className="turicum-quick-intake">
         <h1 className="turicum-quick-title">TURICUM | QUICK ASSET INTAKE</h1>
         <p className="turicum-quick-copy">
-          Money on assets within 1 week. No credit check needed. Fill this out and a Turicum
-          director will call you within 1 hour during business hours.
+          Money on assets within 1 week. No credit check. Fill this out for a call within 1 hour.
         </p>
 
         {introRequested ? (

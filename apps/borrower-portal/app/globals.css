@@ -5796,7 +5796,7 @@ body::before {
 }
 
 main {
-  width: min(100%, 800px);
+  width: min(100%, 700px);
   margin: 0;
   padding: 12px 16px 24px;
 }
@@ -5805,6 +5805,7 @@ main {
   display: grid;
   gap: 12px;
   justify-items: start;
+  align-items: flex-start;
 }
 
 .turicum-quick-intake {
@@ -5846,7 +5847,7 @@ main {
 .turicum-quick-question,
 .turicum-quick-section-title {
   color: #000000;
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 700;
   line-height: 1.45;
 }
@@ -5867,22 +5868,20 @@ main {
 .turicum-quick-form select,
 .turicum-quick-form textarea {
   width: 100%;
-  border: 0;
-  border-bottom: 1px solid #000000;
+  border: 1px solid #333333;
   border-radius: 0;
-  padding: 9px 0;
+  padding: 8px 10px;
   background: #ffffff;
   color: #000000;
   font: inherit;
   line-height: 1.4;
-  appearance: none;
 }
 
 .turicum-quick-form input:focus,
 .turicum-quick-form select:focus,
 .turicum-quick-form textarea:focus {
   outline: 1px solid #000000;
-  outline-offset: 1px;
+  outline-offset: 0;
 }
 
 .turicum-quick-actions {
@@ -5907,8 +5906,7 @@ main {
 
 .turicum-quick-success,
 .turicum-quick-error {
-  border: 1px solid #000000;
-  padding: 10px 12px;
+  padding: 0;
   width: 100%;
 }
 
