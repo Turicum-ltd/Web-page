@@ -5787,15 +5787,8 @@ code {
 
 body {
   background: #ffffff;
-  color: #111111;
-  font-family:
-    "SFMono-Regular",
-    "Menlo",
-    "Monaco",
-    "Consolas",
-    "Liberation Mono",
-    "Courier New",
-    monospace;
+  color: #000000;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body::before {
@@ -5803,40 +5796,43 @@ body::before {
 }
 
 main {
-  width: min(100%, 780px);
-  margin: 0 auto;
+  width: min(100%, 800px);
+  margin: 0;
   padding: 12px 16px 24px;
 }
 
 .turicum-quick-page {
   display: grid;
   gap: 12px;
+  justify-items: start;
 }
 
 .turicum-quick-intake {
   display: grid;
   gap: 14px;
+  width: 100%;
 }
 
 .turicum-quick-title {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0.01em;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .turicum-quick-copy,
 .turicum-quick-success p {
   margin: 0;
-  color: #27272a;
-  font-size: 0.98rem;
+  color: #000000;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
 .turicum-quick-form {
   display: grid;
   gap: 18px;
+  width: 100%;
 }
 
 .turicum-quick-form label,
@@ -5849,8 +5845,8 @@ main {
 .turicum-quick-form span,
 .turicum-quick-question,
 .turicum-quick-section-title {
-  color: #111111;
-  font-size: 0.95rem;
+  color: #000000;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.45;
 }
@@ -5872,20 +5868,21 @@ main {
 .turicum-quick-form textarea {
   width: 100%;
   border: 0;
-  border-bottom: 1px solid #111111;
+  border-bottom: 1px solid #000000;
   border-radius: 0;
   padding: 9px 0;
   background: #ffffff;
-  color: #111111;
+  color: #000000;
   font: inherit;
   line-height: 1.4;
+  appearance: none;
 }
 
 .turicum-quick-form input:focus,
 .turicum-quick-form select:focus,
 .turicum-quick-form textarea:focus {
-  outline: 2px solid #2563eb;
-  outline-offset: 0;
+  outline: 1px solid #000000;
+  outline-offset: 1px;
 }
 
 .turicum-quick-actions {
@@ -5894,24 +5891,25 @@ main {
 }
 
 .turicum-quick-actions button {
-  border: 1px solid #111111;
+  border: 1px solid #000000;
   border-radius: 0;
-  background: #ffffff;
-  color: #111111;
-  padding: 10px 14px;
+  background: #e5e5e5;
+  color: #000000;
+  padding: 8px 12px;
   font: inherit;
-  font-weight: 700;
+  font-weight: 400;
   cursor: pointer;
 }
 
 .turicum-quick-actions button:hover {
-  background: #f4f4f5;
+  background: #d4d4d4;
 }
 
 .turicum-quick-success,
 .turicum-quick-error {
-  border: 1px solid #111111;
-  padding: 12px;
+  border: 1px solid #000000;
+  padding: 10px 12px;
+  width: 100%;
 }
 
 .turicum-quick-success strong {
@@ -5929,39 +5927,8 @@ main {
 }
 
 .turicum-quick-footer a {
-  color: #1d4ed8;
+  color: #0000ee;
   text-decoration: underline;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #09090b;
-    color: #f4f4f5;
-  }
-
-  .turicum-quick-copy,
-  .turicum-quick-success p,
-  .turicum-quick-form span,
-  .turicum-quick-question,
-  .turicum-quick-section-title,
-  .turicum-quick-title {
-    color: #f4f4f5;
-  }
-
-  .turicum-quick-form input,
-  .turicum-quick-form select,
-  .turicum-quick-form textarea,
-  .turicum-quick-success,
-  .turicum-quick-error,
-  .turicum-quick-actions button {
-    background: #09090b;
-    color: #f4f4f5;
-    border-color: #52525b;
-  }
-
-  .turicum-quick-actions button:hover {
-    background: #18181b;
-  }
 }
 
 @media (max-width: 720px) {

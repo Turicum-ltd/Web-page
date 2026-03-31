@@ -62,10 +62,10 @@ export function TuricumBorrowerOverview({
   return (
     <main className="turicum-quick-page">
       <section id="request-form" className="turicum-quick-intake">
-        <p className="turicum-quick-title">TURICUM | QUICK ASSET INTAKE</p>
+        <h1 className="turicum-quick-title">TURICUM | QUICK ASSET INTAKE</h1>
         <p className="turicum-quick-copy">
-          Money on assets within 1 week. No credit check needed. Fill this out first and we will
-          call back within 1 hour during business hours if it looks like a fit.
+          Money on assets within 1 week. No credit check needed. Fill this out and a Turicum
+          director will call you within 1 hour during business hours.
         </p>
 
         {introRequested ? (
@@ -277,7 +277,7 @@ export function TuricumBorrowerOverview({
       </section>
 
       <footer className="turicum-quick-footer">
-        <Link href="https://turicum.us">Back to turicum.us</Link>
+        <Link href="https://turicum.us">turicum.us</Link>
       </footer>
     </main>
   );
