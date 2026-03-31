@@ -5784,3 +5784,199 @@ code {
     width: 100%;
   }
 }
+
+body {
+  background: #ffffff;
+  color: #111111;
+  font-family:
+    "SFMono-Regular",
+    "Menlo",
+    "Monaco",
+    "Consolas",
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+}
+
+body::before {
+  display: none;
+}
+
+main {
+  width: min(100%, 780px);
+  margin: 0 auto;
+  padding: 12px 16px 24px;
+}
+
+.turicum-quick-page {
+  display: grid;
+  gap: 12px;
+}
+
+.turicum-quick-intake {
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-quick-title {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.turicum-quick-copy,
+.turicum-quick-success p {
+  margin: 0;
+  color: #27272a;
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.turicum-quick-form {
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-quick-form label,
+.turicum-quick-block {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-quick-form span,
+.turicum-quick-question {
+  color: #111111;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.turicum-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+
+.turicum-quick-contact-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-quick-wide {
+  grid-column: span 2;
+}
+
+.turicum-quick-form input,
+.turicum-quick-form select,
+.turicum-quick-form textarea {
+  width: 100%;
+  border: 1px solid #111111;
+  border-radius: 0;
+  padding: 9px 10px;
+  background: #ffffff;
+  color: #111111;
+  font: inherit;
+  line-height: 1.4;
+}
+
+.turicum-quick-form input:focus,
+.turicum-quick-form select:focus,
+.turicum-quick-form textarea:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 0;
+}
+
+.turicum-quick-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.turicum-quick-actions button {
+  border: 1px solid #111111;
+  border-radius: 0;
+  background: #ffffff;
+  color: #111111;
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.turicum-quick-actions button:hover {
+  background: #f4f4f5;
+}
+
+.turicum-quick-success,
+.turicum-quick-error {
+  border: 1px solid #111111;
+  padding: 12px;
+}
+
+.turicum-quick-success strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.turicum-quick-error {
+  color: #991b1b;
+  border-color: #991b1b;
+}
+
+.turicum-quick-footer {
+  padding-top: 4px;
+}
+
+.turicum-quick-footer a {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #09090b;
+    color: #f4f4f5;
+  }
+
+  .turicum-quick-copy,
+  .turicum-quick-success p,
+  .turicum-quick-form span,
+  .turicum-quick-question,
+  .turicum-quick-title {
+    color: #f4f4f5;
+  }
+
+  .turicum-quick-form input,
+  .turicum-quick-form select,
+  .turicum-quick-form textarea,
+  .turicum-quick-success,
+  .turicum-quick-error,
+  .turicum-quick-actions button {
+    background: #09090b;
+    color: #f4f4f5;
+    border-color: #52525b;
+  }
+
+  .turicum-quick-actions button:hover {
+    background: #18181b;
+  }
+}
+
+@media (max-width: 720px) {
+  main {
+    padding-inline: 12px;
+  }
+
+  .turicum-quick-grid,
+  .turicum-quick-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-quick-wide {
+    grid-column: auto;
+  }
+
+  .turicum-quick-actions button {
+    width: 100%;
+  }
+}

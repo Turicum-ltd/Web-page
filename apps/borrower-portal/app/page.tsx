@@ -4,8 +4,8 @@ import { TuricumBorrowerOverview } from "@/components/turicum/turicum-borrower-o
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Turicum | Borrow Against Real Estate Assets",
-  description: "Plain-English borrower intake for fast asset-based real estate lending."
+  title: "TURICUM | QUICK ASSET INTAKE",
+  description: "Quick asset intake for borrowers who need fast asset-based lending feedback."
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
