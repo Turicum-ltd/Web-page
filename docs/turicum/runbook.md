@@ -118,6 +118,12 @@ If the change affects borrower intake or documents:
 - test borrower entry routes
 - test a controlled Google Drive document reference
 
+Required deploy-proof step:
+
+- confirm `/api/health` reports the expected GitHub commit SHA for the deploy you just pushed
+- do not treat production as updated until the live SHA matches GitHub `main`
+- if the page content still looks stale, compare the live `/api/health` SHA to GitHub before debugging the UI
+
 ## Production incident response
 
 ### Symptom: internal page crashes
@@ -157,9 +163,10 @@ Check:
 Check:
 
 1. commit is on GitHub `main`
-2. DigitalOcean saw the new commit
-3. auto-deploy did not get canceled
-4. app health and route checks are green after deploy
+2. `https://turicum.us/api/health` reports the expected commit SHA
+3. DigitalOcean saw the new commit
+4. auto-deploy did not get canceled
+5. app health and route checks are green after deploy
 
 If needed:
 
