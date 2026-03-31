@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
+import { withBorrowerPortalPath } from "@/lib/turicum/borrower-portal";
 import { withBasePath } from "@/lib/turicum/runtime";
 
 function BorrowerLaneIcon() {
@@ -45,7 +46,7 @@ const audienceLanes = [
       "Direct lender conversation"
     ],
     primaryLabel: "Schedule Intro Call",
-    primaryHref: "/portal#scheduler"
+    primaryHref: "/#scheduler"
   },
   {
     eyebrow: "For investors",
@@ -117,7 +118,7 @@ export function TuricumPortalOverview() {
               </div>
               <div className="turicum-classic-nav-links">
                 <div className="turicum-classic-links">
-                  <Link href={withBasePath("/portal")}>Borrowers</Link>
+                  <Link href={withBorrowerPortalPath("/")}>Borrowers</Link>
                   <Link href={withBasePath("/investors")}>Investors</Link>
                   <a href="#how-it-works">How it works</a>
                 </div>
@@ -135,7 +136,7 @@ export function TuricumPortalOverview() {
                   Purchase, bridge, and refinance loans move through a direct borrower path. Investors enter a separate lane built around promoted opportunities, first-lien structure, and disciplined servicing visibility.
                 </p>
                 <div className="form-actions turicum-inline-actions">
-                  <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal#scheduler")}>
+                  <Link className="secondary-button turicum-primary-button" href={withBorrowerPortalPath("/#scheduler")}>
                     Schedule Intro Call
                   </Link>
                   <Link className="secondary-button" href={withBasePath("/investors")}>
@@ -196,7 +197,14 @@ export function TuricumPortalOverview() {
                   ))}
                 </ul>
                 <div className="form-actions turicum-inline-actions turicum-lane-actions">
-                  <Link className="secondary-button turicum-primary-button" href={withBasePath(lane.primaryHref)}>
+                  <Link
+                    className="secondary-button turicum-primary-button"
+                    href={
+                      lane.eyebrow === "For borrowers"
+                        ? withBorrowerPortalPath(lane.primaryHref)
+                        : withBasePath(lane.primaryHref)
+                    }
+                  >
                     {lane.primaryLabel}
                   </Link>
                   {lane.secondaryLabel && lane.secondaryHref ? (
@@ -238,7 +246,7 @@ export function TuricumPortalOverview() {
               ready for capital.
             </p>
             <div className="form-actions turicum-inline-actions">
-              <Link className="secondary-button turicum-primary-button" href={withBasePath("/portal#scheduler")}>
+              <Link className="secondary-button turicum-primary-button" href={withBorrowerPortalPath("/#scheduler")}>
                 Schedule Intro Call
               </Link>
               <Link className="secondary-button" href={withBasePath("/investors")}>

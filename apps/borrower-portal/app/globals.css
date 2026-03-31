@@ -1,0 +1,5585 @@
+@import "@xyflow/react/dist/style.css";
+
+:root {
+  --bg: #09090b;
+  --surface: #18181b;
+  --surface-strong: #1f1f23;
+  --surface-ink: rgba(24, 24, 27, 0.92);
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --line: #27272a;
+  --line-strong: #3f3f46;
+  --accent: #2563eb;
+  --accent-strong: #3b82f6;
+  --accent-soft: rgba(37, 99, 235, 0.12);
+  --success: #3fb950;
+  --warning: #ffc145;
+  --danger: #ff6b6b;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.28);
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --max-width: 1600px;
+  --font-body: var(--font-ui), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--font-editorial), "Times New Roman", serif;
+  --type-eyebrow-size: 0.72rem;
+  --type-eyebrow-tracking: 0.12em;
+  --type-body-size: 0.96rem;
+  --type-body-line: 1.58;
+  --type-helper-size: 0.92rem;
+  --type-helper-line: 1.55;
+  --type-h1-size: clamp(2.2rem, 4vw, 4.25rem);
+  --type-h1-line: 0.96;
+  --type-h1-tracking: -0.035em;
+  --type-h2-size: clamp(1.4rem, 2.2vw, 2.3rem);
+  --type-h2-line: 1.06;
+  --type-h2-tracking: -0.024em;
+  --type-h3-size: 1rem;
+  --type-h3-line: 1.28;
+  --type-h3-tracking: -0.01em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(30, 58, 138, 0.18) 0%, rgba(9, 9, 11, 0) 20%),
+    radial-gradient(circle at top left, rgba(47, 129, 247, 0.08), transparent 24%),
+    radial-gradient(circle at right 18%, rgba(163, 113, 247, 0.06), transparent 18%);
+  opacity: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+  padding: 18px 20px 56px;
+  position: relative;
+  z-index: 1;
+}
+
+.shell {
+  display: grid;
+  gap: 18px;
+}
+
+.hero,
+.panel,
+.metric,
+.callout,
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-root-shell {
+  gap: 20px;
+}
+
+.turicum-marketing-hero {
+  gap: 24px;
+}
+
+.turicum-classic-hero {
+  gap: 18px;
+  background: linear-gradient(180deg, rgba(19, 24, 34, 0.98), rgba(11, 16, 24, 0.98));
+}
+
+.turicum-classic-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.turicum-classic-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.turicum-brand-descriptor {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+.turicum-classic-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.turicum-classic-links a {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.77rem;
+  font-weight: 560;
+  letter-spacing: 0.02em;
+}
+
+.turicum-classic-links a:hover {
+  color: var(--text);
+}
+
+.turicum-classic-nav-cta {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(88, 166, 255, 0.18);
+  background: rgba(88, 166, 255, 0.12);
+  color: var(--text) !important;
+}
+
+.turicum-classic-hero-main {
+  display: grid;
+  gap: 12px;
+  max-width: 68ch;
+}
+
+.turicum-classic-lede {
+  max-width: 54ch;
+  font-size: 0.95rem;
+}
+
+.turicum-classic-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-hero-tags {
+  margin-top: -4px;
+}
+
+.turicum-marketing-hero-grid {
+  align-items: stretch;
+}
+
+.turicum-hero-brief {
+  display: grid;
+  align-content: flex-start;
+}
+
+.turicum-hero-photo-card {
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-hero-photo {
+  min-height: 300px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-size: cover;
+  background-position: center;
+}
+
+.turicum-hero-summary {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(20, 26, 35, 0.96), rgba(13, 18, 26, 0.96));
+}
+
+.turicum-hero-summary-compact {
+  gap: 10px;
+  padding: 16px;
+}
+
+.turicum-role-grid {
+  align-items: stretch;
+}
+
+.turicum-role-card {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  background: linear-gradient(180deg, rgba(22, 28, 38, 0.96), rgba(14, 19, 28, 0.96));
+}
+
+.turicum-sequence-panel {
+  gap: 20px;
+}
+
+.turicum-investor-panel {
+  gap: 18px;
+  background: linear-gradient(180deg, rgba(18, 25, 36, 0.98), rgba(12, 17, 26, 0.98));
+}
+
+.turicum-investor-proof-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-investor-proof-card {
+  background: linear-gradient(180deg, rgba(25, 32, 44, 0.96), rgba(16, 22, 32, 0.96));
+}
+
+.turicum-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.turicum-topbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.turicum-topbar-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.turicum-topbar-links a {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.turicum-topbar-links a:hover {
+  color: var(--text);
+}
+
+.turicum-marketing-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-classic-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-classic-hero-grid {
+  align-items: stretch;
+  gap: 14px;
+}
+
+
+.turicum-stat-panel {
+  background: linear-gradient(180deg, rgba(27, 34, 45, 0.95), rgba(18, 24, 34, 0.95));
+  border: 1px solid rgba(88, 166, 255, 0.12);
+}
+
+.turicum-audience-panel {
+  background: linear-gradient(180deg, rgba(24, 30, 41, 0.92), rgba(18, 24, 34, 0.92));
+}
+
+.turicum-contact-panel {
+  background: linear-gradient(180deg, rgba(19, 25, 34, 0.96), rgba(13, 18, 26, 0.96));
+}
+
+.turicum-steps-grid-wide {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.hero-grid,
+.three-up,
+.two-up,
+.metric-grid,
+.pill-row,
+.status-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.hero-grid {
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.95fr);
+}
+
+.three-up {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.two-up {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.status-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.turicum-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-home-footer {
+  display: grid;
+  gap: 8px;
+  margin-top: -4px;
+  padding: 2px 6px 0;
+}
+
+.turicum-feature-card {
+  background: linear-gradient(180deg, rgba(27, 34, 45, 0.95), rgba(18, 24, 34, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.turicum-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.compact-grid {
+  margin-top: 16px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: var(--type-eyebrow-size);
+  font-weight: 700;
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+h1 {
+  line-height: var(--type-h1-line);
+  font-size: var(--type-h1-size);
+  letter-spacing: var(--type-h1-tracking);
+  max-width: 19ch;
+}
+
+h2 {
+  line-height: var(--type-h2-line);
+  font-size: var(--type-h2-size);
+  letter-spacing: var(--type-h2-tracking);
+  font-family: var(--font-display);
+}
+
+h3 {
+  margin: 0;
+  line-height: var(--type-h3-line);
+  font-family: var(--font-body);
+  font-size: var(--type-h3-size);
+  font-weight: 700;
+  letter-spacing: var(--type-h3-tracking);
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  color: color-mix(in srgb, var(--text) 88%, black 12%);
+  line-height: var(--type-body-line);
+  font-size: var(--type-body-size);
+}
+
+small {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+strong {
+  color: var(--text);
+}
+
+.muted,
+.helper {
+  color: var(--muted);
+}
+
+.helper {
+  font-size: var(--type-helper-size);
+  line-height: var(--type-helper-line);
+}
+
+.panel {
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.panel.lead {
+  background: linear-gradient(180deg, rgba(22, 28, 37, 0.98), rgba(18, 23, 31, 0.98));
+}
+
+.panel.subtle {
+  background: rgba(26, 31, 42, 0.78);
+  box-shadow: var(--shadow-soft);
+}
+
+.turicum-access-card {
+  background: #18181b;
+  border: 1px solid #27272a;
+}
+
+.turicum-access-card.turicum-access-card-active {
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);
+}
+
+.subpanel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(26, 31, 42, 0.78);
+}
+
+.stack-sm {
+  display: grid;
+  gap: 6px;
+}
+
+.metric {
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+  background: var(--surface-strong);
+}
+
+.metric .value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.turicum-step-card {
+  position: relative;
+  padding-top: 52px;
+  background: linear-gradient(180deg, rgba(25, 31, 42, 0.95), rgba(17, 22, 31, 0.95));
+}
+
+.turicum-step-number {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.15);
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.pill-row {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.pill {
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.pill strong {
+  color: var(--text);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.table-wrap {
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.turicum-access-table-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.turicum-access-table-wrap table {
+  min-width: 760px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+td strong a,
+td a,
+.helper a,
+.muted a {
+  color: var(--accent-strong);
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.badge,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge.production {
+  background: rgba(63, 185, 80, 0.14);
+  color: var(--success);
+}
+
+.badge.provisional,
+.badge.ready_to_share,
+.badge.sent {
+  background: rgba(255, 193, 69, 0.14);
+  color: var(--warning);
+}
+
+.badge.draft,
+.badge.declined {
+  background: rgba(255, 107, 107, 0.14);
+  color: var(--danger);
+}
+
+.badge.required,
+.badge.signed,
+.badge.submitted,
+.badge.closed {
+  background: rgba(63, 185, 80, 0.14);
+  color: var(--success);
+}
+
+.badge.optional,
+.badge.in_progress,
+.badge.prepared,
+.tag {
+  background: rgba(47, 129, 247, 0.14);
+  color: var(--accent);
+}
+
+.badge.placeholder {
+  background: rgba(255, 107, 107, 0.14);
+  color: var(--danger);
+}
+
+.callout {
+  padding: 20px 22px;
+  border-left: 3px solid var(--accent);
+  background: rgba(47, 129, 247, 0.08);
+}
+
+.turicum-review-callout {
+  border-left-color: rgba(122, 196, 255, 0.8);
+  background:
+    linear-gradient(180deg, rgba(20, 34, 52, 0.92), rgba(17, 25, 38, 0.92)),
+    rgba(47, 129, 247, 0.08);
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.list li {
+  padding-left: 18px;
+  position: relative;
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav a {
+  padding: 9px 13px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+  min-height: 46px;
+}
+
+.turicum-global-search {
+  position: relative;
+  min-width: 220px;
+  flex: 1 1 260px;
+  max-width: 380px;
+}
+
+.turicum-global-search input {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  color: var(--text);
+  font: inherit;
+}
+
+.turicum-global-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 12;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(10, 14, 20, 0.98);
+  box-shadow: var(--shadow);
+}
+
+.turicum-global-search-result {
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.turicum-global-search-result:hover {
+  border-color: rgba(88, 166, 255, 0.22);
+  background: rgba(88, 166, 255, 0.08);
+}
+
+.turicum-global-search-result.is-shortcut {
+  border-color: rgba(88, 166, 255, 0.28);
+  background: rgba(88, 166, 255, 0.12);
+}
+
+.turicum-global-search-result-kicker {
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-global-search-result strong,
+.turicum-global-search-result small {
+  color: var(--text);
+}
+
+.turicum-global-search-result small,
+.turicum-global-search-empty {
+  color: var(--muted);
+}
+
+.turicum-global-search-empty {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.turicum-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.turicum-wordmark {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.turicum-wordmark svg {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.turicum-wordmark-compact svg {
+  width: 224px;
+  height: 48px;
+}
+
+.hero-brand-lockup {
+  margin-bottom: 14px;
+}
+
+.turicum-review-hero {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(109, 168, 255, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(16, 23, 34, 0.96), rgba(11, 17, 25, 0.98));
+  border-color: rgba(88, 166, 255, 0.18);
+}
+
+.turicum-mark-frame {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(116, 192, 255, 0.34);
+  background: linear-gradient(180deg, rgba(18, 31, 49, 0.96), rgba(9, 17, 27, 0.96));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 10px 24px rgba(0,0,0,0.24);
+}
+
+.turicum-mark-compact .turicum-mark-frame {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+}
+
+.turicum-mark-t,
+.turicum-mark-l {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.turicum-mark-t {
+  left: 10px;
+  top: 7px;
+  color: #eff5fa;
+  font-size: 1.15rem;
+}
+
+.turicum-mark-l {
+  right: 8px;
+  bottom: 6px;
+  color: #78c1ff;
+  font-size: 1.05rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select,
+.field textarea,
+.form-actions button,
+.secondary-button {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 14px 16px;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid rgba(37, 99, 235, 0.34);
+  outline-offset: 1px;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.turicum-inline-input {
+  position: relative;
+}
+
+.turicum-inline-input input {
+  padding-right: 112px;
+}
+
+.turicum-inline-input-button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: rgba(120, 193, 255, 0.12);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.turicum-inline-input-button:hover {
+  background: rgba(120, 193, 255, 0.2);
+}
+
+.turicum-field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.turicum-info-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.turicum-info-tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 193, 255, 0.34);
+  background: rgba(120, 193, 255, 0.1);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+}
+
+.turicum-info-tooltip-panel {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  z-index: 10;
+  width: 320px;
+  display: none;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(120, 193, 255, 0.22);
+  background: rgba(12, 18, 27, 0.98);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  color: var(--text);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.turicum-info-tooltip:hover .turicum-info-tooltip-panel,
+.turicum-info-tooltip:focus-within .turicum-info-tooltip-panel {
+  display: block;
+}
+
+.turicum-info-tooltip-panel strong {
+  color: #f8fbff;
+}
+
+.turicum-disclosure {
+  display: grid;
+  gap: 18px;
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(120, 193, 255, 0.16);
+  background: linear-gradient(180deg, rgba(17, 24, 34, 0.9), rgba(13, 19, 28, 0.86));
+}
+
+.turicum-disclosure summary {
+  display: grid;
+  gap: 6px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.turicum-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.turicum-disclosure summary span:first-child {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.turicum-disclosure[open] summary {
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.checkbox-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.checkbox-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+}
+
+.checkbox-item input {
+  width: auto;
+  margin-top: 3px;
+}
+
+.checkbox-item span {
+  display: grid;
+  gap: 4px;
+}
+
+.checkbox-item-compact {
+  padding: 12px 14px;
+}
+
+.checkbox-item-select-all {
+  margin-bottom: 4px;
+  border-style: dashed;
+  background: rgba(24, 24, 27, 0.9);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-actions button,
+.secondary-button {
+  width: auto;
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.form-actions button {
+  background: var(--accent);
+  color: #f4f4f5;
+  border-color: var(--accent);
+}
+
+.form-actions button:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text);
+  border-color: #27272a;
+}
+
+.secondary-button.is-active,
+.form-actions button.is-active {
+  border-color: rgba(47, 129, 247, 0.55);
+  background: rgba(47, 129, 247, 0.16);
+  color: #f0f6fc;
+  box-shadow: inset 0 0 0 1px rgba(47, 129, 247, 0.18);
+}
+
+.turicum-ledger-refresh {
+  min-width: 96px;
+  padding: 9px 13px;
+  border-color: rgba(120, 193, 255, 0.2);
+  background: rgba(132, 146, 166, 0.12);
+  color: #dbe8f5;
+}
+
+.turicum-ledger-refresh:hover {
+  background: rgba(88, 166, 255, 0.16);
+  border-color: rgba(88, 166, 255, 0.28);
+}
+
+.turicum-destructive-button {
+  background: transparent !important;
+  border-color: #27272a !important;
+  color: var(--text) !important;
+}
+
+.turicum-destructive-button:hover {
+  background: rgba(239, 68, 68, 0.08) !important;
+  border-color: rgba(239, 68, 68, 0.34) !important;
+  color: #ef4444 !important;
+}
+
+.turicum-delete-account-button {
+  background: rgba(127, 29, 29, 0.92) !important;
+  border-color: rgba(248, 113, 113, 0.38) !important;
+  color: #fff1f2 !important;
+}
+
+.turicum-delete-account-button:hover {
+  background: #b91c1c !important;
+  border-color: rgba(248, 113, 113, 0.58) !important;
+  color: #ffffff !important;
+}
+
+.turicum-delete-icon-button {
+  min-width: 44px;
+  padding: 10px 12px;
+  border-color: #27272a !important;
+  background: rgba(127, 29, 29, 0.18) !important;
+  color: #fda4af !important;
+}
+
+.turicum-delete-icon-button:hover:not(:disabled) {
+  background: rgba(185, 28, 28, 0.9) !important;
+  border-color: rgba(248, 113, 113, 0.56) !important;
+  color: #fff1f2 !important;
+}
+
+.turicum-delete-icon-button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.turicum-inline-error {
+  margin-bottom: 12px;
+  color: #fda4af;
+}
+
+.turicum-form-callout-success {
+  border-left-color: var(--success);
+  background: rgba(63, 185, 80, 0.1);
+}
+
+.turicum-form-callout-error {
+  border-left-color: var(--danger);
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.portal-link-box {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--line);
+  background: rgba(18, 23, 31, 0.78);
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.92rem;
+  word-break: break-word;
+}
+
+.progress-shell {
+  display: grid;
+  gap: 10px;
+}
+
+.progress-bar {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(47, 129, 247, 0.12);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #2f81f7 0%, #58a6ff 100%);
+}
+
+.status-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-soft);
+}
+
+.tag-row,
+.table-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.table-actions form {
+  margin: 0;
+}
+
+.table-actions .secondary-button {
+  padding: 10px 14px;
+}
+
+code {
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.92em;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 10px;
+  max-width: 56ch;
+}
+
+.hero-copy p {
+  max-width: 52ch;
+}
+
+.turicum-marketing-lede {
+  max-width: 62ch;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.hero-aside {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+}
+
+.turicum-review-aside {
+  background:
+    linear-gradient(180deg, rgba(16, 22, 31, 0.96), rgba(12, 17, 24, 0.96)),
+    var(--surface-strong);
+  border-color: rgba(88, 166, 255, 0.16);
+}
+
+.dashboard-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.band-card {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(10, 14, 20, 0.42);
+}
+
+.turicum-aside-intro {
+  max-width: 34ch;
+}
+
+.turicum-aside-list {
+  display: grid;
+  gap: 12px;
+}
+
+.turicum-aside-item {
+  display: grid;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(210, 222, 236, 0.1);
+}
+
+.turicum-aside-item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.turicum-aside-label {
+  font-family: var(--font-body);
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(198, 210, 225, 0.62);
+}
+
+.turicum-aside-item p {
+  margin: 0;
+  color: rgba(225, 232, 240, 0.84);
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+
+.turicum-review-band-card {
+  background: linear-gradient(180deg, rgba(14, 22, 31, 0.94), rgba(10, 15, 23, 0.94));
+  border-color: rgba(88, 166, 255, 0.14);
+}
+
+.page-note {
+  max-width: 68ch;
+}
+
+.timeline-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-list li {
+  display: grid;
+  gap: 3px;
+  padding: 0 0 0 18px;
+  position: relative;
+}
+
+.timeline-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(47, 129, 247, 0.14);
+}
+
+.kicker-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.turicum-proof-strip-inline {
+  margin-top: 2px;
+}
+
+.turicum-hero-facts-compact {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-hero-facts-compact .turicum-hero-fact {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.turicum-hero-facts-compact .turicum-hero-fact:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.turicum-review-rail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.turicum-review-stat {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(88, 166, 255, 0.16);
+  background: linear-gradient(180deg, rgba(16, 23, 32, 0.96), rgba(10, 15, 23, 0.94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.turicum-review-stat span {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-review-stat strong {
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.turicum-review-panel {
+  border-color: rgba(88, 166, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(19, 26, 36, 0.96), rgba(16, 22, 31, 0.96)),
+    var(--surface);
+}
+
+.turicum-review-rule-panel {
+  background:
+    linear-gradient(180deg, rgba(17, 24, 33, 0.96), rgba(12, 18, 26, 0.96)),
+    var(--surface);
+}
+
+.turicum-review-card {
+  border-color: rgba(88, 166, 255, 0.13);
+  background:
+    linear-gradient(180deg, rgba(18, 25, 35, 0.96), rgba(14, 19, 28, 0.96)),
+    var(--surface-strong);
+}
+
+.turicum-external-card {
+  gap: 14px;
+}
+
+.turicum-external-card strong {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.turicum-review-metric {
+  border-color: rgba(88, 166, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(17, 24, 33, 0.96), rgba(13, 19, 27, 0.96)),
+    var(--surface-strong);
+}
+
+.turicum-blocker-strip {
+  gap: 18px;
+  border-color: rgba(255, 193, 69, 0.2);
+  background:
+    radial-gradient(circle at top left, rgba(255, 193, 69, 0.08), transparent 26%),
+    linear-gradient(180deg, rgba(24, 22, 17, 0.96), rgba(17, 18, 22, 0.96));
+}
+
+.turicum-blocker-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 193, 69, 0.22);
+  background: linear-gradient(180deg, rgba(29, 27, 19, 0.96), rgba(19, 19, 22, 0.96));
+  box-shadow: var(--shadow-soft);
+}
+
+.turicum-blocker-card.tone-danger {
+  border-color: rgba(255, 107, 107, 0.28);
+  background: linear-gradient(180deg, rgba(36, 20, 22, 0.96), rgba(21, 17, 22, 0.96));
+}
+
+.turicum-blocker-card.tone-info {
+  border-color: rgba(88, 166, 255, 0.24);
+  background: linear-gradient(180deg, rgba(17, 26, 38, 0.96), rgba(13, 18, 27, 0.96));
+}
+
+.turicum-flow-shell {
+  padding: 0;
+  overflow: hidden;
+}
+
+.turicum-flow-topbar {
+  padding: 18px 18px 0;
+}
+
+.turicum-flow-summary-band {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(15, 19, 26, 0.95), rgba(13, 18, 24, 0.94));
+}
+
+.turicum-flow-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: 14px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(11, 15, 21, 0.92);
+}
+
+.turicum-flow-view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-flow-view-tab {
+  display: grid;
+  gap: 3px;
+  min-width: 140px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(19, 25, 34, 0.92);
+  color: var(--text);
+  text-align: left;
+}
+
+.turicum-flow-view-tab span {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.turicum-flow-view-tab-active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(20, 32, 49, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.18);
+}
+
+.turicum-flow-search {
+  align-self: end;
+}
+
+.turicum-flow-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 720px;
+}
+
+.turicum-flow-layout-with-inspector {
+  grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.72fr);
+}
+
+.turicum-flow-canvas-wrap {
+  display: grid;
+  grid-template-rows: minmax(500px, 1fr) minmax(240px, auto);
+  border-right: 1px solid var(--line);
+}
+
+.turicum-flow-canvas {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  background: radial-gradient(circle at top left, rgba(26, 39, 56, 0.35), transparent 28%), linear-gradient(180deg, rgba(18, 23, 31, 0.98), rgba(10, 14, 20, 0.96));
+}
+
+.turicum-flow-canvas .react-flow {
+  position: relative;
+  z-index: 1;
+}
+
+.turicum-flow-stages {
+  position: absolute;
+  top: 18px;
+  left: 14px;
+  right: 14px;
+  height: 78px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.turicum-flow-stage {
+  position: absolute;
+  top: 0;
+  height: 62px;
+  border-radius: 16px;
+  border: 1px solid rgba(125, 148, 178, 0.18);
+  background: linear-gradient(180deg, rgba(28, 38, 52, 0.96), rgba(14, 20, 28, 0.92)); box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.06);
+}
+
+.turicum-flow-stage-label {
+  position: absolute;
+  top: 19px;
+  left: 16px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(231, 238, 246, 0.84);
+}
+
+.turicum-flow-swimlanes {
+  position: absolute;
+  inset: 108px 14px 12px;
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.turicum-flow-swimlane {
+  position: relative;
+  border-radius: 22px;
+  border: 1px dashed rgba(125, 148, 178, 0.18);
+  background: linear-gradient(135deg, rgba(255,255,255,0.024), rgba(255,255,255,0.012));
+}
+
+.turicum-flow-swimlane-turicum {
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.07), rgba(88, 166, 255, 0.015));
+}
+
+.turicum-flow-swimlane-borrower {
+  background: linear-gradient(135deg, rgba(103, 219, 165, 0.06), rgba(103, 219, 165, 0.012));
+}
+
+.turicum-flow-swimlane-investor {
+  background: linear-gradient(135deg, rgba(194, 151, 255, 0.07), rgba(194, 151, 255, 0.014));
+}
+
+.turicum-flow-swimlane-label {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(231, 238, 246, 0.82);
+}
+
+.turicum-flow-register {
+  padding: 16px 18px 18px;
+  background: rgba(12, 16, 22, 0.98);
+  border-top: 1px solid var(--line);
+}
+
+.turicum-flow-register-list {
+  display: grid;
+  gap: 10px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.turicum-flow-register-item {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.92);
+  color: var(--text);
+  text-align: left;
+}
+
+.turicum-flow-register-item p {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.turicum-flow-register-item-active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(19, 30, 44, 0.96);
+}
+
+.turicum-flow-register-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.turicum-flow-register-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.14);
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.turicum-flow-inspector {
+  padding: 18px;
+  background: var(--surface);
+}
+
+.turicum-flow-inspector-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-flow-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.turicum-flow-card strong {
+  display: block;
+  line-height: 1.28;
+  font-size: 0.95rem;
+}
+
+.turicum-flow-card p {
+  font-size: 0.8rem;
+  line-height: 1.38;
+  color: var(--muted);
+}
+
+.turicum-flow-card-compact {
+  gap: 8px;
+}
+
+.turicum-flow-card-compact strong {
+  font-size: 0.91rem;
+}
+
+.turicum-flow-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.turicum-flow-card-top-tight {
+  align-items: flex-start;
+}
+
+.turicum-flow-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.turicum-flow-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border: 1px solid rgba(88, 166, 255, 0.25);
+  background: rgba(88, 166, 255, 0.1);
+  color: var(--text);
+}
+
+.turicum-flow-chip-lane {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.turicum-flow-chip-stage {
+  border-color: rgba(88, 166, 255, 0.22);
+  background: rgba(88, 166, 255, 0.12);
+  color: var(--accent-strong);
+}
+
+.turicum-flow-chip-muted {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+}
+
+.turicum-flow-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.turicum-flow-related-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-flow-related-card {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.92);
+  color: var(--text);
+  text-align: left;
+}
+
+.turicum-flow-related-card p {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.turicum-flow-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-flow-lane,
+.turicum-flow-status {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.turicum-flow-node {
+  border-radius: 18px;
+  border: 1px solid rgba(125, 148, 178, 0.22) !important;
+  background: rgba(15, 21, 29, 0.98) !important;
+  color: var(--text);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+}
+
+.turicum-flow-node .react-flow__handle {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  background: rgba(127, 183, 255, 0.82);
+}
+
+.turicum-flow-canvas .react-flow__edge-path {
+  stroke: rgba(88, 166, 255, 0.28);
+  stroke-width: 1.6px;
+}
+
+.turicum-flow-canvas .react-flow__edge.selected .react-flow__edge-path {
+  stroke: rgba(88, 166, 255, 0.58);
+}
+
+.turicum-flow-node .react-flow__node-default {
+  background: transparent;
+}
+
+.turicum-flow-node-muted {
+  opacity: 0.38;
+}
+
+.turicum-flow-node-core {
+  border-left: 3px solid var(--accent) !important;
+}
+
+.turicum-flow-node-review {
+  border-left: 3px solid var(--warning) !important;
+}
+
+.turicum-flow-node-decision {
+  border-left: 3px solid #a371f7 !important;
+}
+
+.turicum-flow-node-external {
+  border-left: 3px solid var(--success) !important;
+}
+
+.turicum-flow-status-core {
+  color: var(--accent-strong);
+}
+
+.turicum-flow-status-review {
+  color: var(--warning);
+}
+
+.turicum-flow-status-decision {
+  color: #c297ff;
+}
+
+.turicum-flow-status-external {
+  color: var(--success);
+}
+
+.turicum-flow-legend {
+  display: flex;
+  gap: 8px;
+  background: rgba(18, 23, 31, 0.88);
+  border: 1px solid rgba(125, 148, 178, 0.22);
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+
+.turicum-flow-step-index {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.12);
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 920px) {
+  .turicum-flow-layout,
+  .turicum-flow-layout-with-inspector {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-classic-nav,
+  .turicum-topbar,
+  .hero-grid,
+  .three-up,
+  .two-up,
+  .metric-grid,
+  .turicum-marketing-stats,
+  .turicum-classic-stats,
+  .turicum-feature-grid,
+  .turicum-steps-grid,
+  .turicum-steps-grid-wide,
+  .turicum-classic-hero-grid,
+  .turicum-showcase-stack,
+  .turicum-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-classic-nav,
+  .turicum-topbar {
+    align-items: flex-start;
+  }
+
+  .turicum-classic-links,
+  .turicum-topbar-links {
+    justify-content: flex-start;
+  }
+
+  .turicum-flow-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-flow-canvas {
+    min-height: 560px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+.flow-print-page {
+  width: min(100%, 1200px);
+}
+
+.flow-print-hero-aside {
+  display: grid;
+  gap: 14px;
+}
+
+.flow-print-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flow-print-panel {
+  gap: 18px;
+}
+
+.flow-print-sequence {
+  display: grid;
+  gap: 14px;
+}
+
+.flow-print-step,
+.flow-print-role-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+.flow-print-step-top,
+.flow-print-role-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.flow-print-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.14);
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.flow-print-detail-grid,
+.flow-print-role-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.flow-print-detail-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.flow-print-role-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compact-list {
+  gap: 4px;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    color: #111827;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  main,
+  .flow-print-page {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .no-print,
+  .nav,
+  .hero-aside .form-actions,
+  .flow-print-actions {
+    display: none !important;
+  }
+
+  .hero,
+  .panel,
+  .metric,
+  .callout,
+  .table-wrap,
+  .flow-print-step,
+  .flow-print-role-card {
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border-color: #d1d5db !important;
+  }
+
+  .helper,
+  .eyebrow,
+  .turicum-flow-chip-muted,
+  .turicum-flow-lane,
+  .turicum-flow-status {
+    color: #4b5563 !important;
+  }
+
+  p,
+  strong,
+  h1,
+  h2,
+  h3,
+  li {
+    color: #111827 !important;
+  }
+
+  .flow-print-panel,
+  .flow-print-step,
+  .flow-print-role-card,
+  .callout {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .flow-print-role-section {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .flow-print-role-grid,
+  .flow-print-detail-grid,
+  .dashboard-band {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+.flow-print-links {
+  flex-wrap: wrap;
+}
+
+.flow-print-brand-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.flow-print-brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.flow-print-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(13, 22, 34, 0.92);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+}
+
+.flow-print-brand-badge .turicum-wordmark img {
+  width: 240px;
+  height: auto;
+}
+
+.flow-print-brand-meta {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.flow-print-summary-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+.flow-print-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.flow-print-preset-row .secondary-button.active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(20, 32, 49, 0.96);
+}
+
+.flow-print-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  padding: 8px 4px 0;
+}
+
+@media (max-width: 920px) {
+  .flow-print-brand-row,
+  .flow-print-brand-lockup,
+  .flow-print-footer {
+    flex-direction: column;
+  }
+
+  .flow-print-detail-grid,
+  .flow-print-role-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .flow-print-brand-meta,
+  .flow-print-footer {
+    color: #4b5563 !important;
+  }
+}
+
+
+.flow-print-format-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.flow-print-compact-panel {
+  gap: 20px;
+}
+
+.flow-print-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.flow-print-lane-column {
+  display: grid;
+  gap: 10px;
+}
+
+.flow-print-lane-head {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+.flow-print-lane-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.flow-print-compact-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 32, 0.96);
+}
+
+@media (max-width: 1100px) {
+  .flow-print-compact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media print {
+  .flow-print-page-compact .flow-print-compact-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .flow-print-page-compact .flow-print-compact-card,
+  .flow-print-page-compact .flow-print-lane-head {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+.flow-print-diagram-panel {
+  gap: 18px;
+}
+
+.flow-print-diagram-wrap {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(15, 19, 26, 0.98), rgba(10, 14, 20, 0.96));
+}
+
+.flow-print-diagram-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.flow-print-diagram-lane {
+  fill: rgba(255, 255, 255, 0.025);
+  stroke: rgba(130, 149, 173, 0.18);
+  stroke-width: 1;
+}
+
+.flow-print-diagram-lane-label {
+  fill: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flow-print-diagram-edge {
+  fill: none;
+  stroke: rgba(125, 148, 178, 0.88);
+  stroke-width: 2.25;
+}
+
+.flow-print-diagram-step-index {
+  fill: #7fb7ff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flow-print-diagram-node-title {
+  fill: #f5f7fb;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.flow-print-diagram-node-meta {
+  fill: rgba(225, 232, 241, 0.76);
+  font-size: 12px;
+}
+
+.flow-print-diagram-status {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media print {
+  .flow-print-diagram-wrap {
+    background: #ffffff !important;
+    border-color: #d1d5db !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .flow-print-diagram-lane {
+    fill: #f8fafc !important;
+    stroke: #cbd5e1 !important;
+  }
+
+  .flow-print-diagram-lane-label {
+    fill: #475569 !important;
+  }
+
+  .flow-print-diagram-edge {
+    stroke: #64748b !important;
+  }
+
+  .flow-print-diagram-step-index {
+    fill: #1d4ed8 !important;
+  }
+
+  .flow-print-diagram-node-title,
+  .flow-print-diagram-node-meta,
+  .flow-print-diagram-status {
+    fill: #111827 !important;
+  }
+}
+
+.turicum-flow-shell-presentation .turicum-flow-topbar {
+  padding-bottom: 18px;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-canvas-wrap {
+  border-right: 0;
+  grid-template-rows: minmax(580px, 1fr);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-canvas {
+  min-height: 700px;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-legend {
+  background: rgba(14, 20, 28, 0.7);
+  border-color: rgba(125, 148, 178, 0.14);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-stage {
+  border-color: rgba(88, 166, 255, 0.28);
+  background: linear-gradient(180deg, rgba(36, 50, 69, 0.98), rgba(16, 24, 34, 0.94));
+  box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.12), 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-stage-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.11em;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-node {
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.26);
+}
+
+.turicum-flow-card-presentation p {
+  color: rgba(226, 234, 244, 0.76);
+}
+
+.turicum-flow-mode-toggle {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.turicum-flow-mode-toggle .secondary-button.active {
+  border-color: rgba(88, 166, 255, 0.55);
+  background: rgba(20, 32, 49, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.18);
+}
+
+.turicum-flow-canvas .react-flow__edge {
+  filter: drop-shadow(0 0 6px rgba(88, 166, 255, 0.08));
+}
+
+.turicum-flow-topbar-copy {
+  max-width: 44rem;
+}
+
+.turicum-flow-legend-strong {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(88, 166, 255, 0.18);
+  background: rgba(12, 18, 25, 0.84);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+
+.turicum-flow-stage {
+  height: 88px;
+  padding: 12px 14px 12px 16px;
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.turicum-flow-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 10px 8px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.turicum-flow-stage-index {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 237, 243, 0.58);
+}
+
+.turicum-flow-stage-label {
+  position: static;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+}
+
+.turicum-flow-stage-helper {
+  font-size: 0.73rem;
+  line-height: 1.3;
+  color: rgba(214, 224, 235, 0.7);
+  max-width: 17ch;
+}
+
+.turicum-flow-stage-origination {
+  background: linear-gradient(180deg, rgba(31, 52, 85, 0.98), rgba(16, 26, 39, 0.95));
+}
+.turicum-flow-stage-origination::after { background: linear-gradient(90deg, rgba(88,166,255,0.95), rgba(88,166,255,0.28)); }
+
+.turicum-flow-stage-validation {
+  background: linear-gradient(180deg, rgba(52, 58, 86, 0.98), rgba(22, 24, 37, 0.95));
+}
+.turicum-flow-stage-validation::after { background: linear-gradient(90deg, rgba(166, 139, 255, 0.95), rgba(166,139,255,0.28)); }
+
+.turicum-flow-stage-promotion {
+  background: linear-gradient(180deg, rgba(22, 72, 59, 0.98), rgba(14, 35, 30, 0.95));
+}
+.turicum-flow-stage-promotion::after { background: linear-gradient(90deg, rgba(103,219,165,0.95), rgba(103,219,165,0.28)); }
+
+.turicum-flow-stage-legal {
+  background: linear-gradient(180deg, rgba(86, 57, 22, 0.98), rgba(38, 25, 14, 0.95));
+}
+.turicum-flow-stage-legal::after { background: linear-gradient(90deg, rgba(255,193,69,0.95), rgba(255,193,69,0.28)); }
+
+.turicum-flow-stage-execution {
+  background: linear-gradient(180deg, rgba(61, 46, 91, 0.98), rgba(28, 20, 43, 0.95));
+}
+.turicum-flow-stage-execution::after { background: linear-gradient(90deg, rgba(194,151,255,0.95), rgba(194,151,255,0.28)); }
+
+.turicum-flow-stage-servicing {
+  background: linear-gradient(180deg, rgba(33, 63, 78, 0.98), rgba(18, 30, 38, 0.95));
+}
+.turicum-flow-stage-servicing::after { background: linear-gradient(90deg, rgba(94,234,212,0.95), rgba(94,234,212,0.28)); }
+
+.turicum-flow-stage-exit {
+  background: linear-gradient(180deg, rgba(88, 39, 39, 0.98), rgba(40, 18, 18, 0.95));
+}
+.turicum-flow-stage-exit::after { background: linear-gradient(90deg, rgba(255,107,107,0.95), rgba(255,107,107,0.28)); }
+
+.turicum-flow-swimlane {
+  border-style: solid;
+}
+
+.turicum-flow-swimlane-label {
+  top: 14px;
+  left: 18px;
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+}
+
+.turicum-flow-swimlane-helper {
+  position: absolute;
+  top: 34px;
+  left: 18px;
+  font-size: 0.74rem;
+  color: rgba(223, 231, 239, 0.52);
+}
+
+.turicum-flow-card {
+  gap: 9px;
+}
+
+.turicum-flow-card strong {
+  font-size: 0.98rem;
+}
+
+.turicum-flow-card-compact strong {
+  font-size: 0.95rem;
+}
+
+.turicum-flow-card-presentation strong {
+  font-size: 1rem;
+}
+
+.turicum-flow-card-presentation p {
+  font-size: 0.78rem;
+  line-height: 1.42;
+}
+
+.turicum-flow-chip-lane-turicum {
+  border-color: rgba(88, 166, 255, 0.32);
+  background: rgba(88, 166, 255, 0.12);
+  color: #b7d3ff;
+}
+
+.turicum-flow-chip-lane-borrower {
+  border-color: rgba(88, 166, 255, 0.18);
+  background: rgba(40, 94, 166, 0.12);
+  color: #c7dcff;
+}
+
+.turicum-flow-chip-lane-investor {
+  border-color: rgba(103, 219, 165, 0.28);
+  background: rgba(28, 97, 69, 0.14);
+  color: #bff2dc;
+}
+
+.turicum-flow-node {
+  border-width: 1px !important;
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.24);
+}
+
+.turicum-flow-node .react-flow__handle {
+  width: 9px;
+  height: 9px;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-canvas {
+  min-height: 760px;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-stage {
+  height: 96px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-stage-label {
+  font-size: 0.84rem;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-stage-helper {
+  color: rgba(232, 238, 245, 0.76);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-node {
+  box-shadow: 0 26px 48px rgba(0, 0, 0, 0.3);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-legend-strong {
+  background: rgba(11, 17, 24, 0.66);
+  backdrop-filter: blur(10px);
+}
+
+.turicum-flow-canvas .react-flow__edge {
+  filter: drop-shadow(0 0 7px rgba(88, 166, 255, 0.1));
+}
+
+.turicum-flow-canvas .react-flow__edge-textbg {
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.22));
+}
+
+.turicum-flow-canvas .react-flow__edge-text {
+  font-family: var(--font-display);
+}
+
+.turicum-flow-overview-rail {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px 18px 0;
+  background: linear-gradient(180deg, rgba(10, 14, 20, 0.72), rgba(10, 14, 20, 0));
+}
+
+.turicum-flow-overview-stage-card {
+  display: grid;
+  gap: 4px;
+  min-height: 84px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(125, 148, 178, 0.18);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+}
+
+.turicum-flow-overview-stage-card strong {
+  font-size: 0.84rem;
+  letter-spacing: 0.03em;
+}
+
+.turicum-flow-overview-stage-card span:last-child {
+  font-size: 0.73rem;
+  line-height: 1.3;
+  color: rgba(227, 234, 242, 0.7);
+}
+
+.turicum-flow-overview-stage-index {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(230, 237, 243, 0.58);
+}
+
+.turicum-flow-overview-stage-card-origination {
+  background: linear-gradient(180deg, rgba(31, 52, 85, 0.98), rgba(16, 26, 39, 0.95));
+}
+.turicum-flow-overview-stage-card-validation {
+  background: linear-gradient(180deg, rgba(52, 58, 86, 0.98), rgba(22, 24, 37, 0.95));
+}
+.turicum-flow-overview-stage-card-promotion {
+  background: linear-gradient(180deg, rgba(22, 72, 59, 0.98), rgba(14, 35, 30, 0.95));
+}
+.turicum-flow-overview-stage-card-legal {
+  background: linear-gradient(180deg, rgba(86, 57, 22, 0.98), rgba(38, 25, 14, 0.95));
+}
+.turicum-flow-overview-stage-card-execution {
+  background: linear-gradient(180deg, rgba(61, 46, 91, 0.98), rgba(28, 20, 43, 0.95));
+}
+.turicum-flow-overview-stage-card-servicing {
+  background: linear-gradient(180deg, rgba(33, 63, 78, 0.98), rgba(18, 30, 38, 0.95));
+}
+.turicum-flow-overview-stage-card-exit {
+  background: linear-gradient(180deg, rgba(88, 39, 39, 0.98), rgba(40, 18, 18, 0.95));
+}
+
+.turicum-flow-shell-presentation .turicum-flow-canvas-wrap {
+  grid-template-rows: auto minmax(640px, 1fr);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-legend-strong {
+  margin-top: 94px;
+}
+
+.turicum-flow-shell-presentation .react-flow__controls,
+.turicum-flow-shell-presentation .react-flow__minimap {
+  display: none !important;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-stages {
+  opacity: 0.42;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-swimlanes {
+  opacity: 0.84;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-overview-rail {
+  border-bottom: 1px solid rgba(88, 166, 255, 0.08);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-overview-stage-card {
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.2);
+}
+
+.turicum-flow-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(88, 166, 255, 0.09), transparent 20%),
+    radial-gradient(circle at 52% 28%, rgba(103, 219, 165, 0.07), transparent 22%),
+    radial-gradient(circle at 78% 18%, rgba(194, 151, 255, 0.08), transparent 18%),
+    linear-gradient(90deg, rgba(88, 166, 255, 0.035) 0%, rgba(88, 166, 255, 0.035) 33.33%, transparent 33.33%, transparent 66.66%, rgba(103, 219, 165, 0.03) 66.66%, rgba(103, 219, 165, 0.03) 100%);
+  z-index: 0;
+}
+
+.turicum-flow-swimlane {
+  border-width: 1px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
+}
+
+.turicum-flow-swimlane::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  border-radius: 22px 0 0 22px;
+  opacity: 0.85;
+}
+
+.turicum-flow-swimlane-turicum::before {
+  background: linear-gradient(180deg, rgba(88,166,255,0.95), rgba(88,166,255,0.18));
+}
+
+.turicum-flow-swimlane-borrower::before {
+  background: linear-gradient(180deg, rgba(120,181,255,0.92), rgba(120,181,255,0.14));
+}
+
+.turicum-flow-swimlane-investor::before {
+  background: linear-gradient(180deg, rgba(103,219,165,0.92), rgba(103,219,165,0.14));
+}
+
+.turicum-flow-shell-presentation .turicum-flow-canvas {
+  background:
+    linear-gradient(180deg, rgba(14, 19, 27, 0.98), rgba(8, 12, 18, 0.98)),
+    radial-gradient(circle at top left, rgba(88, 166, 255, 0.12), transparent 28%);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-canvas::before {
+  opacity: 1;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-swimlane {
+  border-color: rgba(125, 148, 178, 0.2);
+  background: linear-gradient(135deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+}
+
+.turicum-flow-shell-presentation .turicum-flow-swimlane-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  color: rgba(235, 241, 247, 0.82);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-swimlane-helper {
+  color: rgba(223, 231, 239, 0.64);
+}
+
+.turicum-flow-overview-stage-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.turicum-flow-overview-stage-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(239, 244, 250, 0.88);
+}
+
+.turicum-flow-overview-stage-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.turicum-flow-overview-stage-meta span {
+  font-size: 0.67rem;
+  color: rgba(234, 241, 247, 0.72);
+}
+
+.turicum-flow-shell-presentation .turicum-flow-node {
+  border-color: rgba(125, 148, 178, 0.28) !important;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-card-presentation {
+  gap: 10px;
+}
+
+.turicum-flow-shell-presentation .turicum-flow-chip-stage {
+  background: rgba(88, 166, 255, 0.16);
+}
+
+.turicum-team-panel {
+  background: rgba(23, 28, 38, 0.9);
+}
+
+.turicum-team-note {
+  text-align: center;
+  padding-top: 6px;
+}
+
+.turicum-team-note a {
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.section-head.compact {
+  margin-bottom: 1rem;
+}
+
+.turicum-team-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.turicum-credibility-list {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.turicum-public-shell {
+  --type-eyebrow-size: 0.7rem;
+  --type-eyebrow-tracking: 0.12em;
+  --type-body-size: 1.125rem;
+  --type-body-line: 1.6;
+  --type-helper-size: 0.92rem;
+  --type-helper-line: 1.58;
+  --type-h1-size: clamp(2.65rem, 4.2vw, 4.5rem);
+  --type-h1-line: 0.95;
+  --type-h1-tracking: -0.032em;
+  --type-h2-size: clamp(1.28rem, 1.8vw, 1.78rem);
+  --type-h2-line: 1.08;
+  --type-h2-tracking: -0.028em;
+  --type-h3-size: 1rem;
+  --type-h3-line: 1.28;
+  gap: 30px;
+}
+
+.turicum-public-shell .hero,
+.turicum-public-shell .panel,
+.turicum-public-shell .metric {
+  border-color: rgba(178, 194, 215, 0.08);
+  box-shadow: none;
+}
+
+.turicum-public-shell h1 {
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.turicum-public-shell h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.turicum-public-shell p,
+.turicum-public-shell .helper {
+  color: #94a3b8;
+}
+
+.turicum-public-shell .eyebrow {
+  color: rgba(198, 210, 225, 0.68);
+}
+
+.turicum-public-shell .hero-copy > p:not(.eyebrow),
+.turicum-public-shell .turicum-classic-lede,
+.turicum-public-shell .turicum-marketing-lede,
+.turicum-public-shell .turicum-lane-intro p:last-child,
+.turicum-public-shell .turicum-home-footer .helper {
+  font-size: var(--type-body-size);
+  line-height: 1.6;
+  color: #94a3b8;
+}
+
+.turicum-public-shell .helper,
+.turicum-public-shell .turicum-aside-panel .helper,
+.turicum-public-shell .turicum-investor-member-note .helper {
+  font-size: var(--type-helper-size);
+  line-height: var(--type-helper-line);
+}
+
+.turicum-public-shell .secondary-button,
+.turicum-public-shell .form-actions button {
+  width: auto;
+  min-width: 0;
+  padding: 12px 32px;
+  border-radius: 12px;
+  background: transparent;
+  border-color: rgba(244, 244, 245, 0.78);
+  box-shadow: none;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #f4f4f5;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.turicum-public-shell .secondary-button:hover,
+.turicum-public-shell .form-actions button:hover {
+  border-color: rgba(244, 244, 245, 0.94);
+  transform: scale(1.05);
+  filter: brightness(1.08);
+  background: rgba(244, 244, 245, 0.06);
+}
+
+.turicum-public-shell .turicum-primary-button {
+  background: #2563eb;
+  color: #f4f4f5;
+  border-color: #2563eb;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
+}
+
+.turicum-public-shell .turicum-primary-button:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.turicum-public-shell .tag {
+  background: rgba(238, 245, 252, 0.07);
+  color: rgba(225, 235, 247, 0.88);
+  border: 1px solid rgba(210, 222, 236, 0.12);
+  letter-spacing: 0.08em;
+}
+
+.turicum-public-shell .turicum-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.turicum-public-shell .turicum-lane-tags {
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.turicum-public-shell .turicum-inline-actions form {
+  margin: 0;
+}
+
+.turicum-public-shell .turicum-inline-actions .secondary-button,
+.turicum-public-shell .turicum-inline-actions button {
+  width: auto;
+}
+
+.turicum-landing-hero {
+  position: relative;
+  margin: -18px -20px 0;
+  padding: 22px 0 38px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(16, 22, 31, 0.985), rgba(11, 16, 24, 0.985)),
+    radial-gradient(circle at 78% 12%, rgba(122, 166, 224, 0.1), transparent 24%);
+}
+
+.turicum-landing-hero::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: rgba(198, 210, 225, 0.12);
+}
+
+.turicum-page-rail {
+  width: min(100%, 1380px);
+  margin: 0 auto;
+  padding-inline: clamp(22px, 4.2vw, 48px);
+}
+
+.turicum-page-flow {
+  display: grid;
+  gap: 30px;
+}
+
+.turicum-landing-hero .turicum-classic-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 14px 18px;
+  margin-inline: -18px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(9, 9, 11, 0.7);
+  border-bottom: 1px solid #27272a;
+}
+
+.turicum-public-shell .turicum-classic-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.turicum-public-shell .turicum-classic-brand {
+  gap: 14px;
+}
+
+.turicum-public-shell .turicum-brand-descriptor {
+  color: rgba(208, 219, 233, 0.58);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+}
+
+.turicum-public-shell .turicum-classic-links {
+  gap: 14px;
+}
+
+.turicum-public-shell .turicum-classic-links a {
+  position: relative;
+  color: rgba(214, 224, 236, 0.68);
+  font-size: 0.78rem;
+  font-weight: 560;
+  letter-spacing: 0.015em;
+  text-decoration: none;
+}
+
+.turicum-public-shell .turicum-classic-utility-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: 18px;
+  margin-left: 2px;
+  border-left: 1px solid rgba(63, 63, 70, 0.9);
+}
+
+.turicum-public-shell .turicum-classic-utility-links a {
+  color: rgba(161, 161, 170, 0.86);
+  font-size: 0.72rem;
+  font-weight: 540;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.turicum-public-shell .turicum-classic-utility-links a:hover {
+  color: rgba(212, 212, 216, 0.95);
+}
+
+.turicum-public-shell .turicum-classic-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: rgba(230, 238, 247, 0.45);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 180ms ease;
+}
+
+.turicum-public-shell .turicum-classic-links a:hover {
+  color: rgba(238, 243, 249, 0.92);
+}
+
+.turicum-public-shell .turicum-classic-links a:hover::after {
+  transform: scaleX(1);
+}
+
+.turicum-landing-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(390px, 0.96fr);
+  gap: clamp(32px, 4vw, 64px);
+  align-items: center;
+  padding-top: clamp(34px, 5vw, 62px);
+}
+
+.turicum-landing-copy {
+  display: grid;
+  gap: 18px;
+  align-content: center;
+  max-width: 39rem;
+  padding-bottom: 0;
+}
+
+.turicum-public-shell .turicum-landing-copy h1 {
+  max-width: 11ch;
+  font-size: clamp(2.8rem, 4.4vw, 4.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.028em;
+}
+
+.turicum-public-shell .turicum-landing-copy .turicum-marketing-lede {
+  max-width: 34rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #94a3b8;
+}
+
+.turicum-hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 2px;
+  color: rgba(214, 224, 236, 0.74);
+  font-size: 0.71rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-hero-facts span {
+  position: relative;
+}
+
+.turicum-hero-facts span + span::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(214, 224, 236, 0.36);
+  transform: translateY(-50%);
+}
+
+.turicum-landing-visual {
+  position: relative;
+  min-height: clamp(400px, 50vw, 620px);
+  align-self: stretch;
+}
+
+.turicum-landing-image {
+  position: absolute;
+  inset: 0;
+  min-height: clamp(400px, 50vw, 620px);
+  border-radius: 30px;
+  border: 1px solid rgba(198, 210, 225, 0.1);
+  background-size: cover;
+  box-shadow: 0 28px 58px rgba(0, 0, 0, 0.18);
+}
+
+.turicum-landing-caption {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 22px;
+  z-index: 1;
+  max-width: 24rem;
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-landing-caption p {
+  margin: 0;
+  color: rgba(233, 239, 247, 0.9);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.turicum-section-intro {
+  display: grid;
+  gap: 10px;
+  align-items: start;
+  width: 100%;
+  max-width: 44rem;
+}
+
+.turicum-section-intro h2,
+.turicum-landing-cta h2 {
+  max-width: 20ch;
+}
+
+.turicum-section-intro p:last-child,
+.turicum-landing-cta p:not(.eyebrow):not(.helper) {
+  margin: 0;
+  max-width: 36rem;
+  color: rgba(221, 230, 240, 0.76);
+}
+
+.turicum-section-intro.compact {
+  max-width: 42rem;
+}
+
+.turicum-lanes-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(198, 210, 225, 0.08);
+  align-items: stretch;
+}
+
+.turicum-lane {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-content: flex-start;
+  min-height: clamp(27rem, 32vw, 31rem);
+  height: 100%;
+  padding: 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(39, 39, 42, 0.96);
+  background:
+    linear-gradient(180deg, rgba(24, 24, 27, 0.92), rgba(17, 17, 19, 0.94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.turicum-lanes-split .turicum-lane + .turicum-lane {
+  padding-left: 24px;
+}
+
+.turicum-lane-head {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.turicum-lane-icon-frame {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.turicum-lane-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid rgba(63, 63, 70, 0.9);
+  background: rgba(24, 24, 27, 0.9);
+  color: rgba(226, 232, 240, 0.86);
+}
+
+.turicum-lane-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.turicum-lane h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.28rem, 1.7vw, 1.62rem);
+  line-height: 1.08;
+  letter-spacing: -0.024em;
+}
+
+.turicum-lane-copy {
+  margin: 0;
+  max-width: 30rem;
+  color: rgba(223, 231, 241, 0.84);
+}
+
+.turicum-lane-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-lane-list li {
+  position: relative;
+  padding-left: 16px;
+  color: rgba(221, 230, 241, 0.84);
+  line-height: 1.55;
+}
+
+.turicum-lane-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(134, 183, 245, 0.88);
+  transform: translateY(-50%);
+}
+
+.turicum-lane-actions {
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.turicum-process-section {
+  display: grid;
+  gap: 24px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(198, 210, 225, 0.08);
+  justify-items: start;
+}
+
+.turicum-process-section .turicum-section-intro {
+  justify-items: start;
+  text-align: left;
+  max-width: 44rem;
+}
+
+.turicum-process-section .turicum-section-intro h2,
+.turicum-process-section .turicum-section-intro p:last-child {
+  max-width: 34rem;
+}
+
+.turicum-process-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  width: 100%;
+}
+
+.turicum-process-steps::before {
+  content: none;
+}
+
+.turicum-landing-process-step {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(39, 39, 42, 0.92);
+}
+
+.turicum-process-step-copy {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  text-align: left;
+  align-self: start;
+  min-width: 0;
+}
+
+.turicum-process-step-copy h3,
+.turicum-process-step-copy p,
+.turicum-process-note {
+  margin: 0;
+}
+
+.turicum-landing-process-step h3 {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+}
+
+.turicum-landing-process-step p,
+.turicum-process-note {
+  color: rgba(219, 228, 239, 0.75);
+}
+
+.turicum-process-note {
+  max-width: 44rem;
+  padding-top: 8px;
+  text-align: left;
+}
+
+.turicum-landing-step-number {
+  display: block;
+  position: static;
+  flex: 0 0 3rem;
+  width: 3rem;
+  min-width: 3rem;
+  height: auto;
+  margin: 0;
+  align-self: flex-start;
+  color: #2563eb;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.turicum-landing-process-step .turicum-process-step-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: start;
+}
+
+.turicum-landing-cta {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 20px 0 0;
+  text-align: center;
+  border-top: 1px solid rgba(198, 210, 225, 0.08);
+  max-width: 34rem;
+  margin: 0 auto;
+}
+
+.turicum-landing-cta .turicum-inline-actions {
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.turicum-landing-cta .helper {
+  color: rgba(200, 213, 228, 0.72);
+}
+
+.turicum-public-shell .turicum-classic-hero,
+.turicum-public-shell .turicum-public-hero {
+  padding: 18px 22px 16px;
+  background:
+    linear-gradient(180deg, rgba(19, 24, 34, 0.98), rgba(10, 15, 23, 0.99)),
+    radial-gradient(circle at top right, rgba(118, 164, 224, 0.16), transparent 30%);
+}
+
+.turicum-classic-hero-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.turicum-public-shell .panel {
+  backdrop-filter: blur(10px);
+}
+
+.turicum-public-hero-grid {
+  align-items: stretch;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+}
+
+.turicum-public-shell .turicum-classic-hero-main,
+.turicum-public-shell .hero-copy {
+  gap: 12px;
+}
+
+.turicum-public-aside {
+  display: grid;
+  grid-template-rows: minmax(320px, 1fr) auto;
+  gap: 14px;
+  min-height: 100%;
+}
+
+.turicum-aside-art {
+  min-height: 320px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 214, 235, 0.12);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.22);
+}
+
+.turicum-classic-hero-main-wide {
+  max-width: 72ch;
+}
+
+.turicum-public-shell .turicum-classic-lede,
+.turicum-public-shell .hero-copy > p:not(.eyebrow) {
+  max-width: 58ch;
+}
+
+.turicum-public-shell .turicum-classic-hero-main-wide .turicum-classic-lede {
+  max-width: 58ch;
+}
+
+.turicum-public-shell .turicum-hero-summary,
+.turicum-public-shell .turicum-aside-panel,
+.turicum-public-shell .turicum-public-card,
+.turicum-public-shell .turicum-role-card,
+.turicum-public-shell .turicum-process-strip {
+  background: linear-gradient(180deg, rgba(18, 25, 35, 0.96), rgba(12, 18, 27, 0.96));
+}
+
+.turicum-hero-note {
+  margin: 2px 0 0;
+  color: rgba(203, 214, 228, 0.72);
+  max-width: 56ch;
+}
+
+.turicum-hero-visual {
+  position: relative;
+  min-height: 320px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 214, 235, 0.12);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 18, 0.08), rgba(8, 12, 18, 0.58)),
+    linear-gradient(135deg, rgba(23, 34, 49, 0.95), rgba(11, 17, 26, 0.98));
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+}
+
+.turicum-hero-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 58% center;
+}
+
+.turicum-hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 11, 18, 0.08), rgba(7, 11, 18, 0.14) 28%, rgba(7, 11, 18, 0.72)),
+    linear-gradient(90deg, rgba(7, 11, 18, 0.46), rgba(7, 11, 18, 0.14) 30%, transparent 58%);
+  pointer-events: none;
+}
+
+.turicum-hero-visual-note {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(10, 16, 25, 0.68);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(197, 214, 235, 0.12);
+}
+
+.turicum-hero-visual-label {
+  color: rgba(198, 210, 225, 0.72);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-public-shell .turicum-role-grid,
+.turicum-public-shell .turicum-form-layout {
+  align-items: start;
+}
+
+.turicum-intro-call-form {
+  gap: 20px;
+}
+
+.turicum-pre-intake-shell {
+  display: grid;
+  gap: 16px;
+}
+
+.turicum-pre-intake-splash,
+.turicum-pre-intake-form,
+.turicum-pre-intake-status {
+  display: grid;
+  gap: 14px;
+}
+
+.turicum-pre-intake-splash {
+  padding: 22px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.1), transparent 36%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.96), rgba(9, 9, 11, 0.94));
+}
+
+.turicum-pre-intake-splash h3,
+.turicum-pre-intake-form h3 {
+  margin: 0;
+}
+
+.turicum-pre-intake-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-pre-intake-actions {
+  align-items: stretch;
+}
+
+.turicum-document-command-center {
+  display: grid;
+  gap: 18px;
+  background: #09090b;
+  border-color: #27272a;
+}
+
+.turicum-document-command-center-note {
+  max-width: 44rem;
+}
+
+.turicum-document-command-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-document-command-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid #27272a;
+  background: linear-gradient(180deg, rgba(24, 24, 27, 0.98), rgba(9, 9, 11, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.turicum-document-command-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.turicum-document-command-head strong {
+  color: #60a5fa;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.turicum-document-command-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(39, 39, 42, 0.92);
+}
+
+.turicum-document-command-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  box-shadow: 0 0 14px rgba(37, 99, 235, 0.26);
+}
+
+.turicum-document-command-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-document-command-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(39, 39, 42, 0.96);
+  background: rgba(24, 24, 27, 0.92);
+}
+
+.turicum-command-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.turicum-command-status-action_required {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.turicum-command-status-in_review {
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.14);
+  border: 1px solid rgba(37, 99, 235, 0.24);
+}
+
+.turicum-command-status-verified {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.18);
+}
+
+.turicum-process-tracker {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 16px 18px 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  border-radius: 22px;
+  background: rgba(9, 9, 11, 0.42);
+}
+
+.turicum-process-tracker-head {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-process-tracker-note {
+  margin: 0;
+  max-width: 44rem;
+}
+
+.turicum-process-tracker-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.turicum-process-tracker-track::before {
+  content: "";
+  position: absolute;
+  left: calc(12.5% + 1.1rem);
+  right: calc(12.5% + 1.1rem);
+  top: 1.3rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(39, 39, 42, 0.92), rgba(37, 99, 235, 0.28), rgba(39, 39, 42, 0.92));
+}
+
+.turicum-process-step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  justify-items: center;
+  text-align: center;
+  padding: 14px 12px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(24, 24, 27, 0.9);
+}
+
+.turicum-process-step strong,
+.turicum-process-step-status {
+  margin: 0;
+}
+
+.turicum-process-step strong {
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.turicum-process-step-status {
+  color: #a1a1aa;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.turicum-process-step-icon {
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(9, 9, 11, 0.94);
+  color: #d4d4d8;
+}
+
+.turicum-process-step-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.turicum-process-step.is-active {
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 18px rgba(37, 99, 235, 0.12);
+}
+
+.turicum-process-step.is-active .turicum-process-step-icon {
+  border-color: rgba(37, 99, 235, 0.42);
+  background: rgba(37, 99, 235, 0.14);
+  color: #93c5fd;
+}
+
+.turicum-process-step.is-active .turicum-process-step-status {
+  color: #60a5fa;
+}
+
+.turicum-intro-success-state {
+  display: grid;
+  gap: 10px;
+  padding: 22px 22px 24px;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(15, 15, 18, 0.96));
+}
+
+.turicum-intro-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.16);
+  color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 22px rgba(37, 99, 235, 0.18);
+}
+
+.turicum-intro-success-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.turicum-intro-success-state strong,
+.turicum-intro-success-state p {
+  margin: 0;
+}
+
+.turicum-intro-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.turicum-intro-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(9, 9, 11, 0.46);
+  color: rgba(161, 161, 170, 0.92);
+}
+
+.turicum-intro-step strong,
+.turicum-intro-step span {
+  display: block;
+}
+
+.turicum-intro-step strong {
+  color: #f4f4f5;
+  font-size: 0.95rem;
+}
+
+.turicum-intro-step span:last-child {
+  margin-top: 3px;
+  font-size: 0.82rem;
+}
+
+.turicum-intro-step.is-active,
+.turicum-intro-step.is-complete {
+  border-color: rgba(37, 99, 235, 0.38);
+  background: rgba(24, 24, 27, 0.92);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 18px rgba(37, 99, 235, 0.08);
+  color: rgba(191, 219, 254, 0.9);
+}
+
+.turicum-intro-step-index {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(63, 63, 70, 0.92);
+  background: rgba(24, 24, 27, 0.94);
+  color: #f4f4f5;
+  font-weight: 700;
+}
+
+.turicum-intro-step.is-active .turicum-intro-step-index,
+.turicum-intro-step.is-complete .turicum-intro-step-index {
+  border-color: rgba(37, 99, 235, 0.46);
+  background: rgba(37, 99, 235, 0.18);
+  box-shadow: 0 0 14px rgba(37, 99, 235, 0.14);
+}
+
+.turicum-intro-stage {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.9);
+  border-radius: 22px;
+  background: rgba(9, 9, 11, 0.38);
+}
+
+.turicum-application-step-shell {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.turicum-application-step-number {
+  flex: 0 0 3rem;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: #2563eb;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.turicum-application-step-content {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.turicum-intro-stage .field.is-invalid input {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.18);
+}
+
+.turicum-intro-stage .field.is-invalid input:focus {
+  outline-color: rgba(239, 68, 68, 0.34);
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.turicum-field-error {
+  color: #f87171;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.turicum-intro-stage-head {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-intro-stage-head h3,
+.turicum-intro-stage-head p {
+  margin: 0;
+}
+
+.turicum-intro-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-application-profile-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-application-profile-details {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(39, 39, 42, 0.92);
+  background: rgba(24, 24, 27, 0.68);
+  scroll-margin-top: 120px;
+}
+
+.turicum-application-profile-details .eyebrow {
+  margin: 0;
+}
+
+.turicum-application-profile-detail-grid {
+  grid-template-columns: 1fr;
+}
+
+.turicum-application-balance-sheet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-application-balance-column {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid #27272a;
+  background: rgba(9, 9, 11, 0.62);
+}
+
+.turicum-application-balance-column .eyebrow {
+  margin: 0;
+}
+
+.turicum-application-section-card {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border-radius: 22px;
+  border: 1px solid #27272a;
+  background: #18181b;
+  box-shadow: 0 0 0 1px rgba(24, 24, 27, 0.45), 0 24px 54px rgba(0, 0, 0, 0.24);
+}
+
+.turicum-application-section-head {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-application-section-head .eyebrow,
+.turicum-application-section-head h4 {
+  margin: 0;
+}
+
+.turicum-application-property-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-application-entity-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-application-business-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-purpose-field {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.turicum-purpose-field .turicum-field-error {
+  margin-top: -2px;
+}
+
+.turicum-purpose-toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-purpose-toggle {
+  appearance: none;
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #27272a;
+  background: #09090b;
+  color: #d4d4d8;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.turicum-purpose-toggle:hover,
+.turicum-purpose-toggle:focus-visible {
+  border-color: rgba(37, 99, 235, 0.72);
+  color: #f4f4f5;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  outline: none;
+}
+
+.turicum-purpose-toggle.is-active {
+  border-color: rgba(37, 99, 235, 0.82);
+  background: rgba(37, 99, 235, 0.16);
+  color: #eff6ff;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2), 0 0 16px rgba(37, 99, 235, 0.14);
+}
+
+.turicum-ownership-shell {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-ownership-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-ownership-head .eyebrow,
+.turicum-ownership-head .helper {
+  margin: 0;
+}
+
+.turicum-ownership-table {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-ownership-table-head,
+.turicum-ownership-table-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(110px, 0.6fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.turicum-ownership-table-head {
+  padding: 0 4px;
+  color: #a1a1aa;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-ownership-table-row {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid #27272a;
+  background: #18181b;
+}
+
+.turicum-ownership-remove {
+  min-width: 92px;
+}
+
+.turicum-ownership-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: #d4d4d8;
+  font-size: 0.94rem;
+}
+
+.turicum-application-span-full {
+  grid-column: 1 / -1;
+}
+
+.turicum-application-declarations-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-consent-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-consent-card .helper {
+  margin: 0;
+  max-width: 72ch;
+}
+
+.turicum-intro-step-actions {
+  justify-content: space-between;
+}
+
+.turicum-public-shell .turicum-role-grid {
+  margin-top: -4px;
+}
+
+.turicum-public-shell .turicum-role-card {
+  gap: 14px;
+  padding: 18px;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.turicum-public-shell .turicum-role-card:hover,
+.turicum-public-shell .turicum-role-card:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(214, 226, 242, 0.16);
+  box-shadow: 0 26px 52px rgba(0, 0, 0, 0.24);
+}
+
+.turicum-public-shell .turicum-role-card h2,
+.turicum-public-shell .turicum-proof-panel h2,
+.turicum-public-shell .turicum-investor-proof-panel h2 {
+  text-wrap: balance;
+}
+
+.turicum-public-shell .compact-list {
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-public-shell .compact-list li::before {
+  width: 6px;
+  height: 6px;
+  top: 0.78em;
+  background: rgba(128, 177, 241, 0.92);
+}
+
+.turicum-public-shell .turicum-compact-status-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-public-shell .status-card,
+.turicum-public-shell .turicum-nested-card {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(197, 214, 235, 0.1);
+  background: rgba(18, 25, 35, 0.92);
+}
+
+.turicum-public-shell .status-card {
+  gap: 10px;
+}
+
+.turicum-public-shell .turicum-step-card {
+  min-height: 0;
+  padding: 44px 16px 16px;
+  border: 1px solid rgba(197, 214, 235, 0.1);
+}
+
+.turicum-public-shell .field input,
+.turicum-public-shell .field select,
+.turicum-public-shell .field textarea {
+  background: #09090b;
+  border-color: #27272a;
+}
+
+.turicum-public-shell .field input:focus,
+.turicum-public-shell .field select:focus,
+.turicum-public-shell .field textarea:focus {
+  outline: 2px solid rgba(37, 99, 235, 0.28);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+.turicum-public-shell .turicum-home-footer {
+  padding: 4px 6px 0;
+}
+
+.turicum-support-grid {
+  align-items: start;
+}
+
+.turicum-support-grid .panel {
+  height: 100%;
+}
+
+.turicum-steps-grid-stack {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+  .turicum-public-shell .turicum-compact-status-grid,
+  .turicum-public-shell .turicum-steps-grid,
+  .turicum-support-grid,
+  .turicum-classic-hero-body {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-hero-visual {
+    min-height: 260px;
+  }
+
+  .turicum-landing-hero-grid,
+  .turicum-lanes-split,
+  .turicum-process-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-lane {
+    min-height: 0;
+  }
+
+  .turicum-process-steps {
+    gap: 20px;
+    max-width: 28rem;
+  }
+
+  .turicum-process-steps::before {
+    content: none;
+  }
+
+  .turicum-lanes-split .turicum-lane + .turicum-lane {
+    border-left: 0;
+    border-top: 1px solid rgba(198, 210, 225, 0.1);
+    padding-left: 0;
+    padding-top: 22px;
+  }
+}
+
+@media (max-width: 900px) {
+  .turicum-application-business-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .turicum-ownership-table-head,
+  .turicum-ownership-table-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .turicum-ownership-table-head {
+    display: none;
+  }
+
+  .turicum-ownership-remove {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .turicum-application-property-grid,
+  .turicum-application-entity-grid,
+  .turicum-application-business-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-ownership-head,
+  .turicum-ownership-summary {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}
+
+@media (max-width: 920px) {
+  .turicum-public-shell .turicum-classic-nav,
+  .turicum-public-shell .turicum-classic-links,
+  .turicum-public-shell .turicum-classic-nav-links {
+    gap: 10px;
+  }
+
+  .turicum-landing-hero .turicum-classic-nav {
+    margin-inline: -12px;
+    padding: 12px;
+  }
+
+  .turicum-public-shell h1 {
+    max-width: none;
+    font-size: clamp(2rem, 9vw, 3.25rem);
+  }
+
+  .turicum-public-shell .turicum-inline-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .turicum-public-shell .turicum-inline-actions .secondary-button,
+  .turicum-public-shell .turicum-inline-actions button {
+    width: 100%;
+  }
+
+  .turicum-landing-hero {
+    margin: -18px -20px 0;
+    padding: 18px 0 24px;
+  }
+
+  .turicum-landing-visual {
+    min-height: 320px;
+  }
+
+  .turicum-landing-image {
+    min-height: 320px;
+  }
+
+  .turicum-landing-caption {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+  }
+}
+
+
+.turicum-public-shell .turicum-classic-links {
+  align-items: center;
+}
+
+@media (max-width: 920px) {
+  .turicum-public-shell .turicum-classic-utility-links {
+    padding-left: 12px;
+    margin-left: 0;
+  }
+}
+
+.turicum-public-shell .turicum-role-card {
+  grid-template-rows: auto 1fr auto;
+}
+
+.turicum-public-shell .compact-list li {
+  display: block;
+  min-height: 0;
+  padding-left: 18px;
+  line-height: 1.55;
+}
+
+.turicum-public-shell .compact-list li::before {
+  top: 0.72em;
+}
+
+.turicum-public-shell .turicum-role-card .form-actions,
+.turicum-public-shell .turicum-role-card .turicum-inline-actions {
+  margin-top: auto;
+}
+
+.turicum-public-shell .turicum-process-strip {
+  border-top: 1px solid rgba(214, 225, 238, 0.06);
+}
+
+.turicum-public-shell .turicum-step-card {
+  background: linear-gradient(180deg, rgba(20, 27, 37, 0.94), rgba(13, 19, 28, 0.98));
+}
+
+.turicum-public-shell .turicum-home-footer {
+  max-width: 76ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+.turicum-proof-grid {
+  align-items: stretch;
+}
+
+.turicum-proof-panel {
+  gap: 18px;
+}
+
+.turicum-public-shell .turicum-proof-panel .turicum-compact-status-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-public-shell .turicum-proof-panel .status-card {
+  min-height: 0;
+}
+
+.turicum-review-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.turicum-review-quick-actions .secondary-button,
+.turicum-review-quick-actions .turicum-primary-button {
+  min-width: 168px;
+}
+
+.turicum-investor-hero {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(109, 168, 255, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(14, 20, 30, 0.98), rgba(10, 14, 22, 0.98));
+  border-color: rgba(88, 166, 255, 0.16);
+}
+
+.turicum-investor-hero-grid {
+  align-items: stretch;
+}
+
+.turicum-investor-aside,
+.turicum-investor-member-aside {
+  gap: 14px;
+}
+
+.turicum-investor-art {
+  min-height: 300px;
+}
+
+.turicum-investor-signin-panel,
+.turicum-investor-proof-panel,
+.turicum-investor-preview-panel,
+.turicum-investor-matters-panel {
+  border-color: rgba(88, 166, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(17, 24, 34, 0.96), rgba(12, 17, 25, 0.96)),
+    var(--surface);
+}
+
+.turicum-investor-auth-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.turicum-investor-inquiry-panel {
+  gap: 14px;
+}
+
+.turicum-tight-list {
+  gap: 12px;
+}
+
+.turicum-tight-list li {
+  line-height: 1.55;
+}
+
+.turicum-investor-stats {
+  grid-template-columns: 1fr;
+}
+
+.turicum-investor-member-note {
+  border-color: rgba(88, 166, 255, 0.16);
+  background: rgba(10, 15, 23, 0.72);
+}
+
+.turicum-investor-matters-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.turicum-investor-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.turicum-investor-preview-window {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid #27272a;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.94), rgba(16, 16, 19, 0.96));
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.04), 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+.turicum-investor-preview-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.turicum-investor-preview-head strong {
+  line-height: 1.35;
+}
+
+.turicum-investor-preview-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.turicum-investor-preview-metric,
+.turicum-investor-preview-list-item {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid rgba(39, 39, 42, 0.94);
+  border-radius: 16px;
+  background: rgba(9, 9, 11, 0.56);
+}
+
+.turicum-investor-preview-metric span,
+.turicum-investor-preview-list-item span {
+  color: #a1a1aa;
+  font-size: 0.8rem;
+}
+
+.turicum-investor-preview-card {
+  padding: 16px;
+  border: 1px solid rgba(39, 39, 42, 0.94);
+  border-radius: 18px;
+  background: rgba(9, 9, 11, 0.56);
+}
+
+.turicum-investor-preview-card p {
+  margin: 0;
+}
+
+.turicum-investor-preview-list {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-investor-preview-blur {
+  filter: blur(2.4px);
+  opacity: 0.82;
+  user-select: none;
+}
+
+.turicum-investor-matter-card {
+  gap: 14px;
+  border-color: rgba(88, 166, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(18, 25, 35, 0.96), rgba(13, 18, 27, 0.96)),
+    var(--surface-strong);
+}
+
+.turicum-investor-matter-card strong {
+  line-height: 1.35;
+}
+
+
+.turicum-team-queue-panel {
+  border-color: rgba(88, 166, 255, 0.16);
+  background:
+    radial-gradient(circle at top left, rgba(88, 166, 255, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(16, 23, 33, 0.97), rgba(11, 17, 25, 0.97));
+}
+
+.turicum-team-queue-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.turicum-team-queue-card strong {
+  line-height: 1.35;
+}
+
+.turicum-public-shell .turicum-role-card,
+.turicum-public-shell .turicum-proof-panel,
+.turicum-public-shell .turicum-process-strip,
+.turicum-public-shell .turicum-investor-signin-panel,
+.turicum-public-shell .turicum-investor-proof-panel,
+.turicum-public-shell .turicum-investor-preview-panel,
+.turicum-public-shell .turicum-investor-matters-panel {
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.2);
+}
+
+.turicum-public-shell .turicum-role-card,
+.turicum-public-shell .turicum-proof-panel,
+.turicum-public-shell .turicum-process-strip {
+  border-color: rgba(204, 218, 236, 0.1);
+}
+
+.turicum-public-shell .turicum-role-card strong,
+.turicum-public-shell .turicum-proof-panel strong,
+.turicum-public-shell .turicum-investor-proof-panel strong,
+.turicum-public-shell .turicum-investor-matter-card strong {
+  letter-spacing: -0.01em;
+}
+
+.turicum-public-shell .turicum-process-strip h2,
+.turicum-public-shell .turicum-proof-panel h2,
+.turicum-public-shell .turicum-investor-proof-panel h2 {
+  max-width: 20ch;
+}
+
+.turicum-public-shell .turicum-home-footer {
+  max-width: 72ch;
+  padding-top: 8px;
+}
+
+.turicum-public-shell .turicum-home-footer .helper {
+  color: rgba(203, 215, 229, 0.74);
+  font-size: 0.92rem;
+}
+
+.turicum-public-shell .turicum-aside-panel .helper,
+.turicum-public-shell .turicum-investor-member-note .helper {
+  color: rgba(209, 221, 234, 0.76);
+}
+
+
+.turicum-proof-strip-panel {
+  padding: 20px 24px;
+  background:
+    linear-gradient(180deg, rgba(17, 23, 33, 0.92), rgba(12, 18, 27, 0.96)),
+    radial-gradient(circle at top left, rgba(117, 170, 236, 0.08), transparent 26%);
+}
+
+.turicum-proof-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.turicum-proof-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(197, 214, 235, 0.12);
+  background: rgba(16, 23, 33, 0.82);
+  color: rgba(228, 236, 246, 0.88);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.turicum-four-up-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.turicum-why-panel {
+  gap: 18px;
+}
+
+.turicum-public-shell .hero-copy .kicker-row,
+.turicum-public-shell .turicum-classic-hero-main .kicker-row {
+  margin-top: 4px;
+}
+
+.turicum-public-shell .section-head.compact h2 {
+  max-width: 24ch;
+}
+
+.turicum-public-shell .section-head.compact {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 1100px) {
+  .turicum-four-up-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .turicum-four-up-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.turicum-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+}
+
+.turicum-breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.turicum-breadcrumbs a:hover {
+  color: var(--text);
+}
+
+.turicum-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-title-row .secondary-button {
+  flex-shrink: 0;
+}
+
+.turicum-table-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.turicum-table-toolbar .field {
+  max-width: 360px;
+}
+
+.turicum-access-header-panel {
+  padding: 20px;
+}
+
+.turicum-access-tab-panel {
+  padding: 10px 12px;
+}
+
+.turicum-access-tab-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-access-tab {
+  position: relative;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid #27272a;
+  border-radius: 14px;
+  background: #09090b;
+  color: #d4d4d8;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.turicum-access-tab::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 8px;
+  height: 2px;
+  border-radius: 999px;
+  background: transparent;
+  transition: background-color 160ms ease;
+}
+
+.turicum-access-tab:hover,
+.turicum-access-tab:focus-visible {
+  border-color: rgba(37, 99, 235, 0.34);
+  color: #f4f4f5;
+  outline: none;
+}
+
+.turicum-access-tab.is-active {
+  background: #27272a;
+  border-color: rgba(37, 99, 235, 0.42);
+  color: #f4f4f5;
+}
+
+.turicum-access-tab.is-active::after {
+  background: #2563eb;
+}
+
+.turicum-access-header-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.turicum-access-summary-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.turicum-access-summary-card {
+  display: grid;
+  gap: 6px;
+  min-height: 136px;
+  align-content: start;
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 32%),
+    rgba(9, 9, 11, 0.72);
+}
+
+.turicum-access-summary-card strong {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1;
+  color: #f4f4f5;
+}
+
+.turicum-access-create-button {
+  min-width: 260px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 24px;
+  border: 1px solid rgba(37, 99, 235, 0.5);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #2563eb, #1d4ed8);
+  color: #f4f4f5;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 0 24px rgba(37, 99, 235, 0.16);
+  cursor: pointer;
+  transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+}
+
+.turicum-access-create-button:hover,
+.turicum-access-create-button:focus-visible {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.22);
+  outline: none;
+}
+
+.turicum-access-create-button-icon {
+  display: inline-flex;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.turicum-access-create-button-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.turicum-access-workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.72fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.turicum-access-main-column {
+  display: grid;
+  gap: 20px;
+}
+
+.turicum-access-launch-card {
+  gap: 16px;
+}
+
+.turicum-access-inline-launch {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.42);
+  background: rgba(37, 99, 235, 0.14);
+  color: #eff6ff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.turicum-access-inline-launch:hover,
+.turicum-access-inline-launch:focus-visible {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.6);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.turicum-access-table-grid {
+  align-items: start;
+}
+
+.turicum-access-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.turicum-access-modal {
+  width: min(100%, 760px);
+  max-height: min(90vh, 860px);
+  overflow: auto;
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid #27272a;
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 28%),
+    #18181b;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+.turicum-access-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-access-modal-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turicum-access-modal-tab {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #27272a;
+  border-radius: 999px;
+  background: #09090b;
+  color: #d4d4d8;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.turicum-access-modal-tab.is-active {
+  border-color: rgba(37, 99, 235, 0.7);
+  background: rgba(37, 99, 235, 0.16);
+  color: #eff6ff;
+}
+
+.turicum-table-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.turicum-table-toggle input {
+  width: 18px;
+  height: 18px;
+}
+
+.turicum-row-never-signed-in td {
+  background: rgba(245, 158, 11, 0.06);
+  border-top: 1px solid rgba(245, 158, 11, 0.22);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.22);
+  color: rgba(161, 161, 170, 0.88);
+}
+
+.turicum-access-table-wrap tbody tr[role="button"] {
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.turicum-access-table-wrap tbody tr[role="button"]:hover td,
+.turicum-access-table-wrap tbody tr[role="button"]:focus-visible td {
+  background-color: rgba(37, 99, 235, 0.06);
+}
+
+.turicum-row-never-signed-in td:first-child {
+  box-shadow: inset 3px 0 0 rgba(245, 158, 11, 0.45);
+}
+
+.turicum-row-never-signed-in strong,
+.turicum-row-never-signed-in a,
+.turicum-row-never-signed-in .secondary-button,
+.turicum-row-never-signed-in .turicum-destructive-button {
+  opacity: 0.82;
+}
+
+.turicum-user-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.turicum-user-avatar {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(39, 39, 42, 0.95);
+  background: linear-gradient(180deg, rgba(39, 39, 42, 0.92), rgba(24, 24, 27, 0.98));
+  color: #f4f4f5;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.turicum-user-copy {
+  min-width: 0;
+}
+
+.turicum-user-copy strong {
+  display: block;
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.turicum-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+.turicum-status-indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.02);
+}
+
+.turicum-status-indicator.is-active {
+  color: #4ade80;
+}
+
+.turicum-status-indicator.is-inactive {
+  color: #f87171;
+}
+
+.turicum-never-signed-in-label {
+  color: rgba(161, 161, 170, 0.88);
+  font-size: 0.88rem;
+}
+
+.turicum-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.turicum-status-pill.is-active {
+  background: rgba(74, 222, 128, 0.12);
+  border-color: rgba(74, 222, 128, 0.24);
+  color: #4ade80;
+}
+
+.turicum-status-pill.is-inactive {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.22);
+  color: #f87171;
+}
+
+.turicum-status-pill.is-pending {
+  background: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.24);
+  color: #fbbf24;
+}
+
+.turicum-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.turicum-status-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  min-width: 280px;
+  max-width: 360px;
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(63, 185, 80, 0.28);
+  background: rgba(13, 27, 18, 0.96);
+  color: #f0fdf4;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.turicum-status-toast.is-error {
+  border-color: rgba(255, 107, 107, 0.28);
+  background: rgba(35, 17, 18, 0.96);
+  color: #fff1f2;
+}
+
+.turicum-status-toast span {
+  color: inherit;
+  opacity: 0.88;
+}
+
+.turicum-history-trigger {
+  gap: 8px;
+  padding: 10px 14px;
+  border-color: #27272a;
+  background: transparent;
+}
+
+.turicum-history-trigger-icon {
+  display: inline-flex;
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.turicum-history-trigger-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.turicum-audit-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(9, 9, 11, 0.58);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.turicum-audit-drawer {
+  width: min(100%, 420px);
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  padding: 24px 22px;
+  background: #18181b;
+  border-left: 1px solid #27272a;
+  box-shadow: -14px 0 40px rgba(0, 0, 0, 0.28);
+}
+
+.turicum-audit-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-audit-drawer-head h3 {
+  margin: 0;
+  max-width: 18rem;
+}
+
+.turicum-audit-close {
+  flex-shrink: 0;
+}
+
+.turicum-audit-drawer-body {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
+.turicum-audit-timeline-shell {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #27272a;
+  border-radius: var(--radius-md);
+  background: #09090b;
+}
+
+.turicum-audit-timeline {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-user-case-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-user-case-list li {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #27272a;
+  background: rgba(24, 24, 27, 0.92);
+}
+
+.turicum-delete-drawer-button {
+  width: 100%;
+  justify-content: center;
+  background: rgba(127, 29, 29, 0.9) !important;
+  border-color: rgba(248, 113, 113, 0.38) !important;
+  color: #fff1f2 !important;
+}
+
+.turicum-delete-drawer-button:hover:not(:disabled) {
+  background: rgba(153, 27, 27, 0.96) !important;
+  border-color: rgba(248, 113, 113, 0.52) !important;
+}
+
+@media (max-width: 640px) {
+  .turicum-audit-drawer {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 16px;
+  }
+
+  .turicum-audit-drawer-head {
+    gap: 12px;
+  }
+
+  .turicum-audit-close {
+    width: 100%;
+  }
+}
+
+.turicum-audit-timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.turicum-case-workspace-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.turicum-diligence-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.turicum-diligence-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.turicum-diligence-panel {
+  background: #18181b;
+  border: 1px solid #27272a;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.1);
+}
+
+.turicum-diligence-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.turicum-diligence-sections {
+  display: grid;
+  gap: 18px;
+}
+
+.turicum-diligence-section {
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-diligence-section h3 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+}
+
+.turicum-diligence-definition-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.turicum-diligence-definition-list div {
+  display: grid;
+  gap: 4px;
+}
+
+.turicum-diligence-definition-list dt {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.turicum-diligence-definition-list dd {
+  margin: 0;
+}
+
+.turicum-diligence-document-list {
+  display: grid;
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.turicum-diligence-document-list li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid #27272a;
+  background: #09090b;
+}
+
+.turicum-diligence-document-copy {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.turicum-diligence-document-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.turicum-diligence-document-actions {
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .turicum-diligence-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .turicum-diligence-callout,
+  .turicum-diligence-panel-head,
+  .turicum-diligence-document-list li {
+    flex-direction: column;
+  }
+
+  .turicum-diligence-document-actions,
+  .turicum-diligence-document-actions form,
+  .turicum-diligence-document-actions button,
+  .turicum-diligence-callout .form-actions,
+  .turicum-diligence-callout .form-actions a {
+    width: 100%;
+  }
+}
+
+.turicum-audit-timeline-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 18px;
+  bottom: -18px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.55), rgba(39, 39, 42, 0.25));
+}
+
+.turicum-audit-dot {
+  width: 16px;
+  height: 16px;
+  margin-top: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.5);
+  background: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.turicum-audit-entry-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #27272a;
+  border-radius: var(--radius-md);
+  background: rgba(24, 24, 27, 0.92);
+}
+
+.turicum-audit-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.turicum-audit-entry-time {
+  color: #f4f4f5;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.turicum-audit-action-pill {
+  border-color: rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.12);
+  color: #93c5fd;
+}
+
+.turicum-audit-details {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: #a1a1aa;
+}
+
+.turicum-audit-details li {
+  line-height: 1.5;
+}
+
+@media (max-width: 800px) {
+  .turicum-access-header-row,
+  .turicum-access-workspace-grid {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .turicum-access-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-access-tab-switcher {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .turicum-access-tab {
+    width: 100%;
+    text-align: left;
+  }
+
+  .turicum-access-create-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .turicum-access-modal {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .turicum-access-modal-head {
+    flex-direction: column;
+  }
+
+  .turicum-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .turicum-intro-steps,
+  .turicum-intro-stage-grid,
+  .turicum-pre-intake-grid,
+  .turicum-borrower-timeline-track,
+  .turicum-document-command-grid,
+  .turicum-application-balance-sheet,
+  .turicum-application-profile-grid,
+  .turicum-application-profile-detail-grid,
+  .turicum-application-declarations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-investor-preview-grid,
+  .turicum-investor-preview-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-intro-step-actions {
+    justify-content: flex-start;
+  }
+
+  .turicum-borrower-timeline-track::before {
+    left: 1.2rem;
+    right: auto;
+    top: 1.2rem;
+    bottom: 1.2rem;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.18), rgba(37, 99, 235, 0.42), rgba(37, 99, 235, 0.18));
+  }
+
+  .turicum-borrower-timeline-step {
+    padding-left: 18px;
+    justify-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .turicum-lanes-split,
+  .turicum-form-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .turicum-lane,
+  .turicum-form-layout > * {
+    width: 100%;
+  }
+
+  .turicum-lane-actions,
+  .turicum-intro-step-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .turicum-lane-actions .secondary-button,
+  .turicum-lane-actions button,
+  .turicum-intro-step-actions .secondary-button,
+  .turicum-intro-step-actions button,
+  .turicum-intro-stage .field input,
+  .turicum-intro-stage .field select,
+  .turicum-intro-stage .field textarea {
+    width: 100%;
+  }
+
+  .turicum-intro-steps,
+  .turicum-intro-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}

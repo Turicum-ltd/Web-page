@@ -2,6 +2,10 @@
   "name": "turicum-platform",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "engines": {
     "node": "22.x"
   },
@@ -10,7 +14,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "rm -rf .next/types && next typegen && ./node_modules/.bin/tsc --noEmit --incremental false"
+    "typecheck": "rm -rf .next/types && next typegen && ./node_modules/.bin/tsc --noEmit --incremental false",
+    "dev:borrower-portal": "npm --workspace @turicum/borrower-portal run dev",
+    "build:borrower-portal": "npm --workspace @turicum/borrower-portal run build",
+    "start:borrower-portal": "npm --workspace @turicum/borrower-portal run start"
   },
   "dependencies": {
     "@supabase/ssr": "^0.9.0",
