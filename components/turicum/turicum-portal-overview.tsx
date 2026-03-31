@@ -46,7 +46,7 @@ const audienceLanes = [
       "Direct lender conversation"
     ],
     primaryLabel: "Schedule Intro Call",
-    primaryHref: "/#scheduler"
+    primaryHref: "/#request-form"
   },
   {
     eyebrow: "For investors",
@@ -136,7 +136,7 @@ export function TuricumPortalOverview() {
                   Purchase, bridge, and refinance loans move through a direct borrower path. Investors enter a separate lane built around promoted opportunities, first-lien structure, and disciplined servicing visibility.
                 </p>
                 <div className="form-actions turicum-inline-actions">
-                  <Link className="secondary-button turicum-primary-button" href={withBorrowerPortalPath("/#scheduler")}>
+                  <Link className="secondary-button turicum-primary-button" href={withBorrowerPortalPath("/#request-form")}>
                     Schedule Intro Call
                   </Link>
                   <Link className="secondary-button" href={withBasePath("/investors")}>
@@ -246,7 +246,7 @@ export function TuricumPortalOverview() {
               ready for capital.
             </p>
             <div className="form-actions turicum-inline-actions">
-              <Link className="secondary-button turicum-primary-button" href={withBorrowerPortalPath("/#scheduler")}>
+              <Link className="secondary-button turicum-primary-button" href={withBorrowerPortalPath("/#request-form")}>
                 Schedule Intro Call
               </Link>
               <Link className="secondary-button" href={withBasePath("/investors")}>

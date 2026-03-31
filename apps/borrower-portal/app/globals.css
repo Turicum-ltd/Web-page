@@ -5583,3 +5583,204 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+.turicum-borrower-simple-page {
+  width: min(100%, 920px);
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.turicum-simple-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.turicum-simple-header,
+.turicum-simple-card {
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid #d4d4d8;
+  border-radius: 2px;
+  box-shadow: none;
+  padding: 18px;
+}
+
+.turicum-simple-header {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-simple-header .turicum-wordmark,
+.turicum-simple-header svg {
+  color: #111111;
+}
+
+.turicum-simple-kicker {
+  margin: 0;
+  color: #1d4ed8;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.turicum-simple-header h1 {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.turicum-simple-lede,
+.turicum-simple-muted,
+.turicum-simple-card p,
+.turicum-simple-card li {
+  color: #44403c;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.turicum-simple-value-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-simple-card {
+  display: grid;
+  gap: 16px;
+}
+
+.turicum-simple-card-head {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-simple-card h2 {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.turicum-simple-form {
+  display: grid;
+  gap: 16px;
+}
+
+.turicum-simple-form label,
+.turicum-simple-question-block {
+  display: grid;
+  gap: 8px;
+}
+
+.turicum-simple-form span,
+.turicum-simple-question {
+  color: #111111;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.turicum-simple-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.turicum-simple-contact-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.turicum-simple-wide {
+  grid-column: span 2;
+}
+
+.turicum-simple-form input,
+.turicum-simple-form select,
+.turicum-simple-form textarea {
+  width: 100%;
+  border: 1px solid #a1a1aa;
+  border-radius: 2px;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: #111111;
+  font: inherit;
+}
+
+.turicum-simple-form input:focus,
+.turicum-simple-form select:focus,
+.turicum-simple-form textarea:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+  border-color: #2563eb;
+}
+
+.turicum-simple-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.turicum-simple-footer button {
+  border: 1px solid #1d4ed8;
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 2px;
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.turicum-simple-footer button:hover {
+  background: #1d4ed8;
+}
+
+.turicum-simple-success,
+.turicum-simple-error {
+  border: 1px solid #d4d4d8;
+  background: #f8fafc;
+  padding: 14px;
+}
+
+.turicum-simple-success h2 {
+  margin: 0 0 8px;
+}
+
+.turicum-simple-success p,
+.turicum-simple-error {
+  margin: 0;
+}
+
+.turicum-simple-error {
+  color: #991b1b;
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+@media (max-width: 720px) {
+  .turicum-borrower-simple-page {
+    padding-inline: 12px;
+  }
+
+  .turicum-simple-grid,
+  .turicum-simple-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .turicum-simple-wide {
+    grid-column: auto;
+  }
+
+  .turicum-simple-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .turicum-simple-footer button {
+    width: 100%;
+  }
+}

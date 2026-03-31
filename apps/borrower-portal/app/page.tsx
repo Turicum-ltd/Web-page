@@ -4,8 +4,8 @@ import { TuricumBorrowerOverview } from "@/components/turicum/turicum-borrower-o
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Turicum | Asset-Based Borrower Path",
-  description: "Asset-based borrower entry path for first-call intake and secure packet review."
+  title: "Turicum | Borrow Against Real Estate Assets",
+  description: "Plain-English borrower intake for fast asset-based real estate lending."
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -18,36 +18,15 @@ function readString(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-function readPreIntakeState(
-  value: string | string[] | undefined,
-  introRequested: boolean
-): "locked" | "prompt" | "scheduled" | "skip" {
-  const normalized = readString(value);
-
-  if (normalized === "prompt" || normalized === "scheduled" || normalized === "skip") {
-    return normalized;
-  }
-
-  if (introRequested) {
-    return "scheduled";
-  }
-
-  return "locked";
-}
-
 export default async function PortalPage({ searchParams }: { searchParams?: SearchParams }) {
   const params = (await searchParams) ?? {};
-  const applicationSubmitted = readFlag(params.application);
-  const introRequested = readFlag(params.requested);
 
   return (
     <TuricumBorrowerOverview
-      applicationSubmitted={applicationSubmitted}
-      applicationSubmittedEmail={readString(params.applicationEmail)}
-      introRequested={introRequested}
+      introRequested={readFlag(params.requested)}
       introRequestedEmail={readString(params.requestedEmail)}
-      preIntakeState={readPreIntakeState(params.preintake, introRequested)}
       error={readString(params.error)}
+      preIntakeState="locked"
     />
   );
 }

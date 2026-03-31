@@ -1,273 +1,271 @@
-import Link from "next/link";
 import { TuricumWordmark } from "@turicum/ui";
-import { BorrowerPortalEntry } from "@/components/turicum/borrower-portal-entry";
-import { withBasePath, withConfiguredBasePath } from "@/lib/turicum/runtime";
-
-const BORROWER_CALL_PHONE = "+1 561 927 9294";
-const BORROWER_CALL_HREF = "tel:+15619279294";
-
-const borrowerReasons = [
-  {
-    title: "Close in one week on the right file",
-    description:
-      "Turicum is built for speed on the right asset-based deal instead of a conventional bank committee timeline."
-  },
-  {
-    title: "No credit check at the public-entry stage",
-    description:
-      "The first borrower conversation is about the property, the need, and the structure before the secure packet opens."
-  },
-  {
-    title: "Direct decision path",
-    description:
-      "Borrowers deal with a private counterparty, not a layered institutional approval chain."
-  }
-];
-
-const preparationItems = [
-  "Requested amount and timing",
-  "Property type and full location",
-  "Ownership, title, and existing debt",
-  "Current value view and basis"
-];
-
-const nextSteps = [
-  "First call to confirm fit, timeline, and property basics",
-  "Secure borrower packet for forms and supporting documents",
-  "Protected internal review across validation, paper, diligence, and funding"
-];
-
-const borrowerDocumentCommandCenter = [
-  {
-    title: "Core Legal",
-    description: "Entity and authority documents that let us confirm the borrowing structure.",
-    items: [
-      { label: "Articles", status: "verified" as const },
-      { label: "Operating Agreement", status: "in_review" as const },
-      { label: "EIN", status: "action_required" as const }
-    ]
-  },
-  {
-    title: "Title & Collateral",
-    description: "Collateral position, site definition, and current title posture.",
-    items: [
-      { label: "Deed", status: "verified" as const },
-      { label: "Title Commitment", status: "in_review" as const },
-      { label: "Survey", status: "action_required" as const }
-    ]
-  },
-  {
-    title: "Funding",
-    description: "Settlement and disbursement controls before money can move.",
-    items: [
-      { label: "Settlement Statement", status: "in_review" as const },
-      { label: "Wiring Instructions", status: "action_required" as const }
-    ]
-  },
-  {
-    title: "Support",
-    description: "Supporting diligence that rounds out the property file.",
-    items: [
-      { label: "Insurance Binder", status: "verified" as const },
-      { label: "Appraisal", status: "in_review" as const },
-      { label: "Photos", status: "verified" as const }
-    ]
-  }
-];
+import { withConfiguredBasePath } from "@/lib/turicum/runtime";
 
 interface TuricumBorrowerOverviewProps {
-  applicationSubmitted?: boolean;
-  applicationSubmittedEmail?: string;
   introRequested?: boolean;
   introRequestedEmail?: string;
-  preIntakeState: "locked" | "prompt" | "scheduled" | "skip";
   error?: string;
+  preIntakeState?: "locked" | "prompt" | "scheduled" | "skip";
 }
 
+const propertyTypeOptions = [
+  "Single-family rental",
+  "Multifamily",
+  "Mixed-use",
+  "Retail",
+  "Office",
+  "Industrial",
+  "Land",
+  "Hospitality",
+  "Other"
+];
+
+const ownershipOptions = [
+  "Free and clear",
+  "One existing loan or lien",
+  "Multiple loans or liens",
+  "Partial ownership / partnership",
+  "Other"
+];
+
+const titleHeldOptions = [
+  "Personally",
+  "LLC",
+  "Corporation",
+  "Partnership",
+  "Trust",
+  "Other"
+];
+
+const valueBasisOptions = [
+  "Broker opinion",
+  "Recent appraisal",
+  "Recent purchase contract",
+  "Comparable sales",
+  "Internal estimate",
+  "Other"
+];
+
+const timingOptions = [
+  "Immediately",
+  "Within 7 days",
+  "Within 2 weeks",
+  "Within 30 days",
+  "30+ days"
+];
+
 export function TuricumBorrowerOverview({
-  applicationSubmitted,
-  applicationSubmittedEmail,
   introRequested,
   introRequestedEmail,
-  preIntakeState,
   error
 }: TuricumBorrowerOverviewProps) {
-  const heroArt =
-    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80";
-
   return (
-    <main>
-      <div className="shell turicum-borrower-shell turicum-public-shell">
-        <section className="hero turicum-public-hero">
-          <div className="hero-grid turicum-public-hero-grid">
-            <div className="hero-copy">
-              <p className="eyebrow">Borrower Path</p>
-              <div className="hero-brand-lockup">
-                <TuricumWordmark />
-              </div>
-              <h1>A faster way into the right asset-based loan.</h1>
+    <main className="turicum-borrower-simple-page">
+      <div className="turicum-simple-shell">
+        <header className="turicum-simple-header">
+          <TuricumWordmark />
+          <p className="turicum-simple-kicker">asset-based lending</p>
+          <h1>Money on assets within 1 week.</h1>
+          <p className="turicum-simple-lede">
+            No credit check needed. Tell us about the asset first, and we will call you back within
+            1 hour during business hours if it looks like a fit.
+          </p>
+          <ul className="turicum-simple-value-list">
+            <li>Direct review by a real person</li>
+            <li>Designed for purchase, bridge, and refinance situations</li>
+            <li>Simple first pass before any longer intake packet</li>
+          </ul>
+        </header>
+
+        <section id="request-form" className="turicum-simple-card">
+          {introRequested ? (
+            <div className="turicum-simple-success" role="status" aria-live="polite">
+              <h2>Request received.</h2>
               <p>
-                Turicum is built for property owners and borrowers who need speed, a direct lending
-                conversation, and a cleaner route from first call to secure intake on purchase,
-                bridge, and refinance loans.
+                {introRequestedEmail
+                  ? `We have your request for ${introRequestedEmail}.`
+                  : "We have your request."} We will call back within 1 hour during business hours.
               </p>
-              <div className="kicker-row">
-                <span className="tag">close in one week</span>
-                <span className="tag">no credit check</span>
-                <span className="tag">asset-based lending</span>
-              </div>
-              <div className="form-actions turicum-inline-actions">
-                <Link
-                  className="secondary-button turicum-primary-button"
-                  href={withBasePath("/?preintake=skip#application-profile-details")}
-                >
-                  Skip to Full Application
-                </Link>
-              </div>
+              <p className="turicum-simple-muted">
+                If the deal is a fit, we will tell you what to send next. If not, we will keep it
+                direct and quick.
+              </p>
             </div>
-            <div className="turicum-public-aside">
-              <div
-                className="turicum-aside-art"
-                style={{
-                  backgroundImage: `linear-gradient(180deg, rgba(10, 14, 22, 0.08), rgba(10, 14, 22, 0.58)), url(${heroArt})`
-                }}
-                aria-hidden="true"
-              />
-              <div className="panel subtle turicum-aside-panel">
-                <p className="eyebrow">Right fit</p>
-                <p className="helper">
-                  Purchase, bridge, and refinance requests for property owners who want a direct
-                  answer before the secure packet opens.
+          ) : (
+            <>
+              <div className="turicum-simple-card-head">
+                <h2>Before we call, answer these questions.</h2>
+                <p className="turicum-simple-muted">
+                  Short answers are fine. We only need enough to decide whether this can move fast.
                 </p>
               </div>
-            </div>
-          </div>
-        </section>
 
-        <section className="panel turicum-proof-panel">
-          <div className="section-head compact">
-            <div>
-              <p className="eyebrow">Why borrowers use Turicum</p>
-              <h2>Speed, direct answers, and a cleaner path into the file.</h2>
-            </div>
-          </div>
-          <div className="status-grid turicum-compact-status-grid">
-            {borrowerReasons.map((reason) => (
-              <article key={reason.title} className="status-card turicum-public-card turicum-nested-card">
-                <strong>{reason.title}</strong>
-                <p className="helper">{reason.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+              {error ? (
+                <div className="turicum-simple-error" role="alert">
+                  {error}
+                </div>
+              ) : null}
 
-        <section className="two-up turicum-form-layout">
-          <div className="panel turicum-public-card">
-            <div className="section-head compact">
-              <div>
-                <p className="eyebrow">What to prepare</p>
-                <h2>Have the key asset facts ready before the first call.</h2>
-              </div>
-            </div>
-            <ul className="list compact-list">
-              {preparationItems.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <p className="helper">
-              If you are ready for the next step, Turicum borrower intake is available at{" "}
-              <a href={BORROWER_CALL_HREF}>{BORROWER_CALL_PHONE}</a>.
-            </p>
-          </div>
+              <form className="turicum-simple-form" method="post" action={withConfiguredBasePath("/api/intro-call-requests")}>
+                <div className="turicum-simple-grid turicum-simple-contact-grid">
+                  <label>
+                    <span>Name</span>
+                    <input type="text" name="fullName" autoComplete="name" required />
+                  </label>
+                  <label>
+                    <span>Email</span>
+                    <input type="email" name="email" autoComplete="email" required />
+                  </label>
+                  <label>
+                    <span>Phone</span>
+                    <input type="tel" name="phone" autoComplete="tel" required />
+                  </label>
+                </div>
 
-          <div className="panel lead">
-            <div className="section-head compact">
-              <div>
-                <p className="eyebrow">Commercial loan application</p>
-                <h2>Start with a quick intro call or move directly into the full borrower file.</h2>
-              </div>
-            </div>
-            <BorrowerPortalEntry
-              applicationAction={withConfiguredBasePath("/api/commercial-loan-applications")}
-              introRequestAction={withConfiguredBasePath("/api/intro-call-requests")}
-              applicationSubmitted={applicationSubmitted}
-              applicationSubmittedEmail={applicationSubmittedEmail}
-              introRequested={introRequested}
-              introRequestedEmail={introRequestedEmail}
-              preIntakeState={preIntakeState}
-              error={error}
-            />
-          </div>
-        </section>
+                <label>
+                  <span>1. How much money are you looking to borrow or receive?</span>
+                  <input
+                    type="text"
+                    name="requestedAmount"
+                    placeholder="$500,000"
+                    inputMode="numeric"
+                    required
+                  />
+                </label>
 
-        <section className="panel turicum-document-command-center">
-          <div className="section-head compact">
-            <div>
-              <p className="eyebrow">Document Command Center</p>
-              <h2>See exactly what the borrower packet will organize once secure intake opens.</h2>
-            </div>
-          </div>
-          <p className="helper turicum-document-command-center-note">
-            Turicum groups the file into four clear lanes so borrowers know what is still needed,
-            what is under review, and what is already cleared.
-          </p>
-          <div className="turicum-document-command-grid">
-            {borrowerDocumentCommandCenter.map((category) => {
-              const verifiedCount = category.items.filter((item) => item.status === "verified").length;
-              const reviewCount = category.items.filter((item) => item.status === "in_review").length;
-              const progress = Math.round(
-                ((verifiedCount + reviewCount * 0.5) / category.items.length) * 100
-              );
-
-              return (
-                <article key={category.title} className="turicum-document-command-card">
-                  <div className="turicum-document-command-head">
-                    <div>
-                      <p className="eyebrow">{category.title}</p>
-                      <p className="helper">{category.description}</p>
-                    </div>
-                    <strong>{progress}%</strong>
-                  </div>
-                  <div className="turicum-document-command-progress" aria-hidden="true">
-                    <span
-                      className="turicum-document-command-progress-fill"
-                      style={{ width: `${progress}%` }}
+                <div className="turicum-simple-grid">
+                  <label>
+                    <span>2. What exactly is the asset or property?</span>
+                    <select name="propertyType" defaultValue="" required>
+                      <option value="" disabled>
+                        Select property type
+                      </option>
+                      {propertyTypeOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="turicum-simple-wide">
+                    <span>Full address or location</span>
+                    <input
+                      type="text"
+                      name="assetLocation"
+                      placeholder="123 Main St, Miami, FL"
+                      required
                     />
-                  </div>
-                  <ul className="turicum-document-command-list">
-                    {category.items.map((item) => (
-                      <li key={`${category.title}-${item.label}`} className="turicum-document-command-item">
-                        <span>{item.label}</span>
-                        <span className={`turicum-command-status turicum-command-status-${item.status}`}>
-                          {item.status === "action_required"
-                            ? "Action Required"
-                            : item.status === "in_review"
-                              ? "In Review"
-                              : "Verified"}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              );
-            })}
-          </div>
-        </section>
+                  </label>
+                </div>
 
-        <section className="panel turicum-process-strip">
-          <div className="section-head compact">
-            <div>
-              <p className="eyebrow">What happens next</p>
-              <h2>The underwriting and closing work starts only after the fit is confirmed.</h2>
-            </div>
-          </div>
-          <div className="status-grid turicum-compact-status-grid">
-            {nextSteps.map((step) => (
-              <article key={step} className="status-card turicum-public-card">
-                <p className="helper">{step}</p>
-              </article>
-            ))}
-          </div>
+                <label>
+                  <span>Describe the property.</span>
+                  <textarea
+                    name="assetDescription"
+                    rows={4}
+                    placeholder="Type of asset, condition, tenants or use, square footage, lot size, or anything else that matters."
+                    required
+                  />
+                </label>
+
+                <div className="turicum-simple-question-block">
+                  <p className="turicum-simple-question">
+                    3. How much equity or ownership do you currently have in it?
+                  </p>
+                  <div className="turicum-simple-grid">
+                    <label>
+                      <span>Ownership / lien status</span>
+                      <select name="ownershipStatus" defaultValue="" required>
+                        <option value="" disabled>
+                          Select one
+                        </option>
+                        {ownershipOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      <span>When did you buy it?</span>
+                      <input type="text" name="purchaseDate" placeholder="Month / year or year" required />
+                    </label>
+                    <label>
+                      <span>What did you pay?</span>
+                      <input type="text" name="purchasePrice" placeholder="$350,000" inputMode="numeric" required />
+                    </label>
+                    <label>
+                      <span>How much did you put into it?</span>
+                      <input type="text" name="capitalInvested" placeholder="$75,000" inputMode="numeric" required />
+                    </label>
+                  </div>
+                  <label>
+                    <span>Existing loans or liens</span>
+                    <textarea
+                      name="existingLiens"
+                      rows={3}
+                      placeholder="List current mortgages, private loans, tax liens, judgments, or say none."
+                      required
+                    />
+                  </label>
+                </div>
+
+                <div className="turicum-simple-grid">
+                  <label>
+                    <span>4. How is title held?</span>
+                    <select name="titleHeld" defaultValue="" required>
+                      <option value="" disabled>
+                        Select one
+                      </option>
+                      {titleHeldOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    <span>5. Rough estimate of current value</span>
+                    <input type="text" name="estimatedValue" placeholder="$700,000" inputMode="numeric" required />
+                  </label>
+                  <label className="turicum-simple-wide">
+                    <span>How did you come up with that number?</span>
+                    <select name="valueBasis" defaultValue="" required>
+                      <option value="" disabled>
+                        Select one
+                      </option>
+                      {valueBasisOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <label>
+                  <span>6. When do you need the money?</span>
+                  <select name="preferredTimeline" defaultValue="" required>
+                    <option value="" disabled>
+                      Select timing
+                    </option>
+                    {timingOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <div className="turicum-simple-footer">
+                  <button type="submit">Request call back</button>
+                  <p className="turicum-simple-muted">
+                    Business hours follow-up target: within 1 hour.
+                  </p>
+                </div>
+              </form>
+            </>
+          )}
         </section>
       </div>
     </main>
