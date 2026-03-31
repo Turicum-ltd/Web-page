@@ -1,22 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { withBasePath } from "@/lib/turicum/runtime";
 
-interface LiveOpportunity {
+interface AllocationExample {
   id: string;
-  title: string;
-  location: string;
-  assetType: string;
+  assetClass: string;
+  region: string;
   ltv: number;
-  annualReturn: number;
-  minParticipation: number;
-  maxParticipation: number;
-  step: number;
-  defaultParticipation: number;
-  image: string;
-  summary: string;
+  projectedYield: number;
+  status: "Active" | "Fully Funded";
+  defaultAllocation: number;
 }
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -25,162 +20,312 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0
 });
 
-const returnFormatter = new Intl.NumberFormat("en-US", {
+const percentFormatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1
 });
 
-const liveOpportunities: LiveOpportunity[] = [
+const allocationExamples: AllocationExample[] = [
   {
-    id: "industrial-bridge-example",
-    title: "Industrial Bridge Example",
-    location: "Illustrative Sunbelt market",
-    assetType: "Industrial",
+    id: "infill-industrial-southeast",
+    assetClass: "Infill Industrial",
+    region: "Southeast US",
     ltv: 65,
-    annualReturn: 10.5,
-    minParticipation: 25000,
-    maxParticipation: 250000,
-    step: 25000,
-    defaultParticipation: 100000,
-    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
-    summary: "Illustrative first-lien industrial bridge structure shown to demonstrate leverage, yield posture, and participation sizing before investors enter the secure portal."
+    projectedYield: 10.5,
+    status: "Active",
+    defaultAllocation: 100000
   },
   {
-    id: "multifamily-refinance-example",
-    title: "Multifamily Refinance Example",
-    location: "Illustrative Southeast market",
-    assetType: "Multifamily",
+    id: "workforce-multifamily-midatlantic",
+    assetClass: "Workforce Multifamily",
+    region: "Mid-Atlantic",
     ltv: 62,
-    annualReturn: 10.2,
-    minParticipation: 25000,
-    maxParticipation: 250000,
-    step: 25000,
-    defaultParticipation: 75000,
-    image: "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1200&q=80",
-    summary: "Illustrative multifamily refinance structure with conservative leverage and passive income modeling shown for preview purposes only."
+    projectedYield: 10.2,
+    status: "Active",
+    defaultAllocation: 75000
   },
   {
-    id: "storage-expansion-example",
-    title: "Storage Expansion Example",
-    location: "Illustrative Southwest market",
-    assetType: "Self-Storage",
+    id: "self-storage-southwest",
+    assetClass: "Self-Storage",
+    region: "Southwest US",
     ltv: 68,
-    annualReturn: 11.0,
-    minParticipation: 25000,
-    maxParticipation: 250000,
-    step: 25000,
-    defaultParticipation: 125000,
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
-    summary: "Illustrative asset-based expansion profile presented as a sample of the structures investors can evaluate after authentication."
+    projectedYield: 11.0,
+    status: "Fully Funded",
+    defaultAllocation: 125000
   }
 ];
 
-function calculateMonthlyIncome(participation: number, annualReturn: number) {
-  return Math.round((participation * (annualReturn / 100)) / 12);
+const allocationBounds = {
+  min: 25000,
+  max: 250000,
+  step: 25000
+};
+
+function calculateMonthlyIncome(allocation: number, projectedYield: number) {
+  return Math.round((allocation * (projectedYield / 100)) / 12);
 }
 
-function OpportunityCard({ opportunity }: { opportunity: LiveOpportunity }) {
-  const [participation, setParticipation] = useState(opportunity.defaultParticipation);
-  const monthlyIncome = calculateMonthlyIncome(participation, opportunity.annualReturn);
+function InvestorAccessModal({
+  open,
+  onClose
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose, open]);
+
+  if (!open) {
+    return null;
+  }
 
   return (
-    <article className="turicum-opportunity-card">
+    <div className="turicum-underwriting-modal-backdrop" onClick={onClose}>
       <div
-        className="turicum-opportunity-image"
-        style={{
-          backgroundImage: `linear-gradient(180deg, rgba(9, 9, 11, 0.08), rgba(9, 9, 11, 0.62)), url(${opportunity.image})`
-        }}
-        aria-hidden="true"
+        className="turicum-underwriting-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="turicum-underwriting-modal-title"
+        onClick={(event) => event.stopPropagation()}
       >
-        <div className="turicum-opportunity-badges">
-          <span className="turicum-opportunity-badge is-strong">{opportunity.ltv}% LTV</span>
-          <span className="turicum-opportunity-badge">{opportunity.assetType}</span>
+        <div className="turicum-underwriting-modal-head">
+          <div>
+            <p className="eyebrow">Investor Login / Sign-up</p>
+            <h3 id="turicum-underwriting-modal-title">Access the underwriting room.</h3>
+            <p className="helper">
+              Live property files, underwriting memoranda, and current allocation status stay inside
+              the secure investor portal.
+            </p>
+          </div>
+          <button type="button" className="secondary-button" onClick={onClose}>
+            Close
+          </button>
         </div>
-        <div className="turicum-opportunity-image-copy">
-          <p className="eyebrow">Illustrative example</p>
-          <h3>{opportunity.title}</h3>
-          <p className="helper">{opportunity.location}</p>
+
+        <div className="turicum-underwriting-modal-grid">
+          <article className="turicum-underwriting-modal-card">
+            <p className="eyebrow">Existing investors</p>
+            <h4>Enter the secure portal.</h4>
+            <p className="helper">
+              Review live promoted opportunities, allocation status, and monthly servicing updates.
+            </p>
+            <Link className="secondary-button turicum-primary-button" href={withBasePath("/investors#signin")} onClick={onClose}>
+              Investor Login
+            </Link>
+          </article>
+
+          <article className="turicum-underwriting-modal-card">
+            <p className="eyebrow">Prospective partners</p>
+            <h4>Request access credentials.</h4>
+            <p className="helper">
+              Share your profile and check size so Turicum can review fit before opening the room.
+            </p>
+            <Link className="secondary-button" href={withBasePath("/investors#prospective-investor")} onClick={onClose}>
+              Sign Up for Access
+            </Link>
+          </article>
         </div>
       </div>
-
-      <div className="turicum-opportunity-body">
-        <div className="turicum-opportunity-metrics">
-          <div className="turicum-opportunity-metric">
-            <span>Projected Annual Return</span>
-            <strong>{returnFormatter.format(opportunity.annualReturn)}%</strong>
-          </div>
-          <div className="turicum-opportunity-metric">
-            <span>Asset Type</span>
-            <strong>{opportunity.assetType}</strong>
-          </div>
-          <div className="turicum-opportunity-metric">
-            <span>Participation Range</span>
-            <strong>
-              {currencyFormatter.format(opportunity.minParticipation)} - {currencyFormatter.format(opportunity.maxParticipation)}
-            </strong>
-          </div>
-        </div>
-
-        <p className="helper turicum-opportunity-summary">{opportunity.summary}</p>
-
-        <div className="turicum-opportunity-slider-panel">
-          <div className="turicum-opportunity-slider-head">
-            <div>
-              <p className="eyebrow">Participation Slider</p>
-              <strong>{currencyFormatter.format(participation)}</strong>
-            </div>
-            <span className="turicum-opportunity-badge">Login for live details</span>
-          </div>
-
-          <label className="turicum-opportunity-slider" htmlFor={`participation-${opportunity.id}`}>
-            <span className="sr-only">Participation amount for {opportunity.title}</span>
-            <input
-              id={`participation-${opportunity.id}`}
-              type="range"
-              min={opportunity.minParticipation}
-              max={opportunity.maxParticipation}
-              step={opportunity.step}
-              value={participation}
-              onChange={(event) => setParticipation(Number(event.target.value))}
-            />
-          </label>
-
-          <div className="turicum-opportunity-slider-scale" aria-hidden="true">
-            <span>{currencyFormatter.format(opportunity.minParticipation)}</span>
-            <span>{currencyFormatter.format(opportunity.maxParticipation)}</span>
-          </div>
-        </div>
-
-        <div className="turicum-opportunity-income-row">
-          <span>Your Est. Monthly Passive Income:</span>
-          <strong>{currencyFormatter.format(monthlyIncome)}</strong>
-        </div>
-
-        <Link className="secondary-button turicum-primary-button turicum-opportunity-cta" href={withBasePath("/investors")}>
-          Log In to View Live Opportunities
-        </Link>
-      </div>
-    </article>
+    </div>
   );
 }
 
 export function LiveOpportunitiesGallery() {
-  return (
-    <section id="current-opportunities" className="turicum-live-opportunities-section">
-      <div className="turicum-section-intro compact">
-        <p className="eyebrow">Illustrative Examples</p>
-        <h2>Review example structures and model participation before investor login.</h2>
-        <p>
-          The landing page now shows representative examples only. Live promoted opportunities,
-          property names, and current allocations stay inside the secure investor portal.
-        </p>
-      </div>
+  const [selectedExampleId, setSelectedExampleId] = useState(allocationExamples[0]?.id ?? "");
+  const [allocation, setAllocation] = useState(allocationExamples[0]?.defaultAllocation ?? allocationBounds.min);
+  const [isInvestorAccessOpen, setIsInvestorAccessOpen] = useState(false);
 
-      <div className="turicum-live-opportunities-grid">
-        {liveOpportunities.map((opportunity) => (
-          <OpportunityCard key={opportunity.id} opportunity={opportunity} />
-        ))}
-      </div>
-    </section>
+  const selectedExample =
+    allocationExamples.find((example) => example.id === selectedExampleId) ?? allocationExamples[0];
+
+  useEffect(() => {
+    if (!selectedExample) {
+      return;
+    }
+
+    setAllocation(selectedExample.defaultAllocation);
+  }, [selectedExample]);
+
+  if (!selectedExample) {
+    return null;
+  }
+
+  const monthlyIncome = calculateMonthlyIncome(allocation, selectedExample.projectedYield);
+
+  return (
+    <>
+      <section id="current-opportunities" className="turicum-live-opportunities-section">
+        <div className="turicum-section-intro compact">
+          <p className="eyebrow">Yield Terminal</p>
+          <h2>Active Allocation Table</h2>
+          <p>
+            Public teaser data now stays abstracted. Asset class, region, leverage, and status are
+            visible here, while live property files remain inside the underwriting room.
+          </p>
+        </div>
+
+        <div className="turicum-yield-terminal">
+          <div className="turicum-yield-terminal-head">
+            <div>
+              <p className="eyebrow">Example only</p>
+              <p className="turicum-yield-terminal-note">
+                Representative allocation rows shown for institutional preview only. Specific assets,
+                addresses, and live underwriting detail require authentication.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="secondary-button turicum-primary-button"
+              onClick={() => setIsInvestorAccessOpen(true)}
+            >
+              Access Underwriting Room
+            </button>
+          </div>
+
+          <div className="turicum-allocation-table-shell">
+            <table className="turicum-allocation-table">
+              <thead>
+                <tr>
+                  <th>Asset Class</th>
+                  <th>Region</th>
+                  <th>LTV (%)</th>
+                  <th>Projected Yield (%)</th>
+                  <th>Status</th>
+                  <th aria-label="Underwriting room access" />
+                </tr>
+              </thead>
+              <tbody>
+                {allocationExamples.map((example) => {
+                  const isSelected = example.id === selectedExample.id;
+
+                  return (
+                    <tr
+                      key={example.id}
+                      className={isSelected ? "is-selected" : undefined}
+                      onClick={() => setSelectedExampleId(example.id)}
+                    >
+                      <td>{example.assetClass}</td>
+                      <td>{example.region}</td>
+                      <td className="turicum-terminal-mono">{percentFormatter.format(example.ltv)}%</td>
+                      <td className="turicum-terminal-mono">{percentFormatter.format(example.projectedYield)}%</td>
+                      <td>
+                        <span
+                          className={`turicum-allocation-status${
+                            example.status === "Active" ? " is-active" : " is-funded"
+                          }`}
+                        >
+                          {example.status}
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="turicum-allocation-action"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setSelectedExampleId(example.id);
+                            setIsInvestorAccessOpen(true);
+                          }}
+                        >
+                          View Details
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="turicum-allocation-modeler">
+          <div className="turicum-allocation-modeler-head">
+            <div>
+              <p className="eyebrow">Allocation Modeling Tool (Example)</p>
+              <h3>{selectedExample.assetClass} | {selectedExample.region}</h3>
+            </div>
+            <div className="turicum-allocation-modeler-stats">
+              <div>
+                <span>Illustrative Yield</span>
+                <strong className="turicum-terminal-mono">{percentFormatter.format(selectedExample.projectedYield)}%</strong>
+              </div>
+              <div>
+                <span>Status</span>
+                <strong>{selectedExample.status}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="turicum-allocation-slider-wrap">
+            <div className="turicum-allocation-slider-label">
+              <span>Modeled Allocation</span>
+              <strong className="turicum-terminal-mono">{currencyFormatter.format(allocation)}</strong>
+            </div>
+
+            <label className="turicum-modeler-slider" htmlFor="allocation-modeling-tool">
+              <span className="sr-only">Allocation modeling amount</span>
+              <input
+                id="allocation-modeling-tool"
+                type="range"
+                min={allocationBounds.min}
+                max={allocationBounds.max}
+                step={allocationBounds.step}
+                value={allocation}
+                onChange={(event) => setAllocation(Number(event.target.value))}
+              />
+            </label>
+
+            <div className="turicum-allocation-slider-scale" aria-hidden="true">
+              <span>{currencyFormatter.format(allocationBounds.min)}</span>
+              <span>{currencyFormatter.format(allocationBounds.max)}</span>
+            </div>
+          </div>
+
+          <div className="turicum-allocation-modeler-foot">
+            <p className="turicum-allocation-disclaimer">
+              Actual yields vary by specific asset selection. Enter the portal for live data.
+            </p>
+            <div className="turicum-opportunity-income-row turicum-allocation-income-row">
+              <span>Your Est. Monthly Passive Income:</span>
+              <strong className="turicum-terminal-mono">{currencyFormatter.format(monthlyIncome)}</strong>
+            </div>
+          </div>
+
+          <div className="turicum-allocation-actions">
+            <button
+              type="button"
+              className="secondary-button turicum-primary-button"
+              onClick={() => setIsInvestorAccessOpen(true)}
+            >
+              Access Underwriting Room
+            </button>
+            <Link className="secondary-button" href={withBasePath("/investor-handoff")}>
+              Review Partnership Deck
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <InvestorAccessModal open={isInvestorAccessOpen} onClose={() => setIsInvestorAccessOpen(false)} />
+    </>
   );
 }

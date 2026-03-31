@@ -3213,6 +3213,262 @@ code {
   gap: 20px;
 }
 
+.turicum-yield-terminal,
+.turicum-allocation-modeler {
+  display: grid;
+  gap: 22px;
+  padding: 24px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(39, 39, 42, 0.52), rgba(9, 9, 11, 0.88));
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.24);
+}
+
+.turicum-yield-terminal-head,
+.turicum-allocation-modeler-head,
+.turicum-allocation-modeler-foot {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.turicum-yield-terminal-note,
+.turicum-allocation-disclaimer {
+  margin: 0;
+  max-width: 40rem;
+  color: rgba(228, 228, 231, 0.72);
+}
+
+.turicum-allocation-table-shell {
+  overflow-x: auto;
+}
+
+.turicum-allocation-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.turicum-allocation-table thead th {
+  padding: 0 14px 6px;
+  color: rgba(161, 161, 170, 0.72);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.turicum-allocation-table tbody tr {
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.turicum-allocation-table tbody tr:hover {
+  transform: translateY(-1px);
+}
+
+.turicum-allocation-table tbody tr.is-selected td {
+  background: rgba(39, 39, 42, 0.92);
+  box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.18);
+}
+
+.turicum-allocation-table tbody td {
+  padding: 16px 14px;
+  background: rgba(24, 24, 27, 0.84);
+  color: rgba(244, 244, 245, 0.92);
+  white-space: nowrap;
+}
+
+.turicum-allocation-table tbody td:first-child {
+  border-radius: 18px 0 0 18px;
+}
+
+.turicum-allocation-table tbody td:last-child {
+  border-radius: 0 18px 18px 0;
+  text-align: right;
+}
+
+.turicum-terminal-mono {
+  font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.turicum-allocation-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(63, 63, 70, 0.82);
+  color: rgba(244, 244, 245, 0.86);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.turicum-allocation-status.is-active {
+  background: rgba(16, 185, 129, 0.14);
+  color: rgba(167, 243, 208, 0.94);
+}
+
+.turicum-allocation-status.is-funded {
+  background: rgba(113, 113, 122, 0.26);
+  color: rgba(212, 212, 216, 0.82);
+}
+
+.turicum-allocation-action {
+  border: 0;
+  background: transparent;
+  color: rgba(167, 243, 208, 0.94);
+  font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.turicum-allocation-modeler-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.turicum-allocation-modeler-stats div,
+.turicum-allocation-slider-label {
+  display: grid;
+  gap: 6px;
+}
+
+.turicum-allocation-modeler-stats span,
+.turicum-allocation-slider-label span {
+  color: rgba(161, 161, 170, 0.72);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turicum-allocation-modeler-stats strong,
+.turicum-allocation-slider-label strong {
+  line-height: 1.1;
+}
+
+.turicum-allocation-slider-wrap {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(9, 9, 11, 0.28);
+}
+
+.turicum-modeler-slider {
+  display: block;
+}
+
+.turicum-modeler-slider input[type="range"] {
+  width: 100%;
+  appearance: none;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.92);
+  outline: none;
+}
+
+.turicum-modeler-slider input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(16, 185, 129, 0.9);
+  background: #09090b;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+}
+
+.turicum-modeler-slider input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(16, 185, 129, 0.9);
+  background: #09090b;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+}
+
+.turicum-allocation-slider-scale {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(161, 161, 170, 0.72);
+  font-size: 0.8rem;
+}
+
+.turicum-allocation-income-row {
+  min-width: 20rem;
+}
+
+.turicum-allocation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.turicum-underwriting-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(9, 9, 11, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.turicum-underwriting-modal {
+  width: min(100%, 760px);
+  display: grid;
+  gap: 20px;
+  padding: 26px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(24, 24, 27, 0.98), rgba(9, 9, 11, 0.98));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.38);
+}
+
+.turicum-underwriting-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.turicum-underwriting-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.turicum-underwriting-modal-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(24, 24, 27, 0.72);
+}
+
+.turicum-underwriting-modal-card h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.05;
+}
+
 .turicum-opportunity-card {
   display: grid;
   overflow: hidden;
@@ -5906,9 +6162,29 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .turicum-yield-terminal-head,
+  .turicum-allocation-modeler-head,
+  .turicum-allocation-modeler-foot,
+  .turicum-underwriting-modal-head,
   .turicum-opportunity-slider-head,
   .turicum-opportunity-income-row {
     display: grid;
+  }
+
+  .turicum-allocation-table-shell {
+    margin: 0 -8px;
+    padding: 0 8px;
+  }
+
+  .turicum-allocation-modeler-stats,
+  .turicum-underwriting-modal-grid,
+  .turicum-allocation-actions {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .turicum-allocation-income-row {
+    min-width: 0;
   }
 
   .turicum-lane-actions,
@@ -5921,6 +6197,8 @@ code {
 
   .turicum-lane-actions .secondary-button,
   .turicum-lane-actions button,
+  .turicum-allocation-actions .secondary-button,
+  .turicum-underwriting-modal .secondary-button,
   .turicum-opportunity-cta,
   .turicum-intro-step-actions .secondary-button,
   .turicum-intro-step-actions button,
