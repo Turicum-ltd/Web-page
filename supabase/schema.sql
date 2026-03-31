@@ -267,6 +267,24 @@ create table if not exists case_inquiries (
     check (status in ('pending', 'contacted', 'closed'))
 );
 
+create table if not exists borrower_intro_call_requests (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  status text not null default 'new',
+  full_name text not null,
+  email text not null,
+  phone text,
+  requested_amount text,
+  asset_location text,
+  property_type text,
+  preferred_date text,
+  preferred_time_window text,
+  preferred_timeline text,
+  notes text not null default '',
+  constraint borrower_intro_call_requests_status_check
+    check (status in ('new', 'reviewed', 'scheduled'))
+);
+
 create index if not exists idx_cases_state_structure on cases (state, structure_type);
 create index if not exists idx_cases_stage on cases (stage);
 create index if not exists idx_case_documents_case on case_documents (case_id);
@@ -285,10 +303,13 @@ create index if not exists idx_commercial_loan_applications_user_id on commercia
 create index if not exists idx_case_inquiries_investor_id on case_inquiries (investor_id);
 create index if not exists idx_case_inquiries_case_id on case_inquiries (case_id);
 create index if not exists idx_case_inquiries_created_at on case_inquiries (created_at desc);
+create index if not exists idx_borrower_intro_call_requests_created_at on borrower_intro_call_requests (created_at desc);
+create index if not exists idx_borrower_intro_call_requests_email on borrower_intro_call_requests (lower(email));
 
 alter table admin_audit_logs enable row level security;
 alter table commercial_loan_applications enable row level security;
 alter table case_inquiries enable row level security;
+alter table borrower_intro_call_requests enable row level security;
 
 create or replace function public.set_commercial_loan_applications_updated_at()
 returns trigger
@@ -364,6 +385,7 @@ drop policy if exists "investor_select_own_case_inquiries" on public.case_inquir
 drop policy if exists "investor_insert_own_case_inquiries" on public.case_inquiries;
 drop policy if exists "staff_select_case_inquiries" on public.case_inquiries;
 drop policy if exists "staff_update_case_inquiries" on public.case_inquiries;
+drop policy if exists "staff_select_borrower_intro_call_requests" on public.borrower_intro_call_requests;
 
 create policy "staff_admin_select_admin_audit_logs"
 on admin_audit_logs
@@ -452,6 +474,20 @@ using (
   )
 )
 with check (
+  exists (
+    select 1
+    from public.turicum_user_profiles
+    where turicum_user_profiles.user_id = auth.uid()
+      and turicum_user_profiles.role in ('staff_admin', 'staff_ops', 'staff_counsel')
+      and turicum_user_profiles.is_active = true
+  )
+);
+
+create policy "staff_select_borrower_intro_call_requests"
+on public.borrower_intro_call_requests
+for select
+to authenticated
+using (
   exists (
     select 1
     from public.turicum_user_profiles

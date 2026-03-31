@@ -24,6 +24,35 @@ module.exports = {
       listen_timeout: 10000,
       time: true,
       merge_logs: true
+    },
+    {
+      name: "turicum-borrower-portal",
+      cwd: "/Users/hank/Code/web-page/apps/borrower-portal",
+      script: "npm",
+      args: "start -- -p 3200",
+      env: {
+        NODE_ENV: "production",
+        PORT: "3200",
+        APP_ORIGIN: "https://borrow.turicum.us",
+        NEXT_PUBLIC_APP_ORIGIN: "https://borrow.turicum.us",
+        BORROWER_PORTAL_ORIGIN: "https://borrow.turicum.us",
+        NEXT_PUBLIC_BORROWER_PORTAL_ORIGIN: "https://borrow.turicum.us",
+        BORROWER_PORTAL_HOST: "borrow.turicum.us",
+        SUPABASE_URL: process.env.SUPABASE_URL,
+        NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY
+      },
+      instances: 1,
+      exec_mode: "fork",
+      autorestart: true,
+      max_memory_restart: "700M",
+      min_uptime: "10s",
+      restart_delay: 4000,
+      exp_backoff_restart_delay: 200,
+      kill_timeout: 5000,
+      listen_timeout: 10000,
+      time: true,
+      merge_logs: true
     }
   ]
 };
