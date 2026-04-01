@@ -51,7 +51,6 @@ export function TuricumPortalOverview() {
             <div className="turicum-classic-nav">
               <div className="turicum-classic-brand">
                 <TuricumWordmark />
-                <span className="turicum-brand-descriptor">Boutique Private Credit</span>
               </div>
               <div className="turicum-classic-nav-links">
                 <div className="turicum-classic-links">
@@ -72,7 +71,7 @@ export function TuricumPortalOverview() {
                     View Current Opportunities
                   </a>
                   <Link className="secondary-button" href={withBasePath("/investor-handoff")}>
-                    Request Partnership Deck
+                    Inquire for Access
                   </Link>
                 </div>
                 <div className="turicum-hero-facts" aria-label="Turicum highlights">

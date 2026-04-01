@@ -8,12 +8,12 @@ const BORROWER_CALL_HREF = "tel:+15619279294";
 
 const borrowerReasons = [
   {
-    title: "Close in one week on the right file",
+    title: "Direct fit assessment on the right file",
     description:
       "Turicum is built for speed on the right asset-based deal instead of a conventional bank committee timeline."
   },
   {
-    title: "No credit check at the public-entry stage",
+    title: "Asset-first initial review",
     description:
       "The first borrower conversation is about the property, the need, and the structure before the secure packet opens."
   },
@@ -112,8 +112,8 @@ export function TuricumBorrowerOverview({
                 bridge, and refinance loans.
               </p>
               <div className="kicker-row">
-                <span className="tag">close in one week</span>
-                <span className="tag">no credit check</span>
+                <span className="tag">direct fit review</span>
+                <span className="tag">asset-first screen</span>
                 <span className="tag">asset-based lending</span>
               </div>
               <div className="form-actions turicum-inline-actions">

@@ -11,7 +11,7 @@ export function TuricumWordmark({
   showDescriptor?: boolean;
 }) {
   const src = compact || !showDescriptor ? COMPACT_WORDMARK_SRC : FULL_WORDMARK_SRC;
-  const alt = showDescriptor ? "Turicum LLC Lending Operations" : "Turicum LLC";
+  const alt = "Turicum Private Credit";
 
   return (
     <span className={`turicum-wordmark${compact ? " turicum-wordmark-compact" : ""}`}>

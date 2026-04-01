@@ -191,7 +191,7 @@ export function BorrowerPortalEntry({
                 >
                   <div className="section-head compact">
                     <div>
-                      <p className="eyebrow">Schedule intro call</p>
+                      <p className="eyebrow">Inquire for Access</p>
                       <h3>Only the basics for now.</h3>
                     </div>
                   </div>
@@ -221,7 +221,7 @@ export function BorrowerPortalEntry({
                   </div>
                   <div className="form-actions turicum-inline-actions turicum-pre-intake-actions">
                     <button type="submit" className="secondary-button turicum-primary-button">
-                      Schedule
+                      Inquire for Access
                     </button>
                     <Link
                       className="secondary-button"
