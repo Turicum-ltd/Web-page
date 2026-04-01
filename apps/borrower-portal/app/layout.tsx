@@ -1,20 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Manrope, Newsreader } from "next/font/google";
 import "./globals.css";
-
-const bodyFont = Manrope({
-  subsets: ["latin"],
-  variable: "--font-ui",
-  display: "swap"
-});
-
-const displayFont = Newsreader({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-editorial",
-  display: "swap"
-});
 
 export const metadata: Metadata = {
   title: "Turicum Borrower Portal",
@@ -29,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${bodyFont.variable} ${displayFont.variable}`}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -9,12 +9,13 @@ interface TuricumBorrowerOverviewProps {
 }
 
 const propertyTypeOptions = [
-  "Industrial RE",
-  "Multifamily",
+  "Single Family Home",
+  "Industrial Real Estate",
+  "Multifamily (5+ units)",
   "Commercial Land",
-  "Heavy Equipment",
-  "Truck/Fleet",
-  "Marine",
+  "Heavy Equipment / Yellow Iron",
+  "Truck / Fleet",
+  "Marine / Vessel",
   "Other"
 ];
 
@@ -59,10 +60,7 @@ export function TuricumBorrowerOverview({
   return (
     <main className="turicum-quick-page">
       <section id="request-form" className="turicum-quick-intake">
-        <h1 className="turicum-quick-title">TURICUM | QUICK ASSET INTAKE</h1>
-        <p className="turicum-quick-copy">
-          Money on assets within 1 week. No credit check. Fill this out for a call within 1 hour.
-        </p>
+        <h1 className="turicum-quick-title">Turicum quick asset intake</h1>
 
         {introRequested ? (
           <div className="turicum-quick-success" role="status" aria-live="polite">
@@ -125,7 +123,7 @@ export function TuricumBorrowerOverview({
                     <span>Property type</span>
                     <select name="propertyType" defaultValue="" required>
                       <option value="" disabled>
-                        Select property type
+                        Select asset type
                       </option>
                       {propertyTypeOptions.map((option) => (
                         <option key={option} value={option}>

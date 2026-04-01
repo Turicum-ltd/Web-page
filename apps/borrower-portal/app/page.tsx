@@ -4,7 +4,7 @@ import { TuricumBorrowerOverview } from "@/components/turicum/turicum-borrower-o
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "TURICUM | QUICK ASSET INTAKE",
+  title: "Turicum quick asset intake",
   description: "Quick asset intake for borrowers who need fast asset-based lending feedback."
 };
 
