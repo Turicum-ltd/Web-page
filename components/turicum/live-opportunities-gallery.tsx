@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { InvestorAccessGate } from "@/components/turicum/investor-access-gate";
 import { withBasePath } from "@/lib/turicum/runtime";
 
 interface AllocationExample {
@@ -65,94 +66,9 @@ function calculateMonthlyIncome(allocation: number, projectedYield: number) {
   return Math.round((allocation * (projectedYield / 100)) / 12);
 }
 
-function InvestorAccessModal({
-  open,
-  onClose
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
-  useEffect(() => {
-    if (!open) {
-      return undefined;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [onClose, open]);
-
-  if (!open) {
-    return null;
-  }
-
-  return (
-    <div className="turicum-underwriting-modal-backdrop" onClick={onClose}>
-      <div
-        className="turicum-underwriting-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="turicum-underwriting-modal-title"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="turicum-underwriting-modal-head">
-          <div>
-            <p className="eyebrow">Investor Login / Sign-up</p>
-            <h3 id="turicum-underwriting-modal-title">Access the underwriting room.</h3>
-            <p className="helper">
-              Live property files, underwriting memoranda, and current allocation status stay inside
-              the secure investor portal.
-            </p>
-          </div>
-          <button type="button" className="secondary-button" onClick={onClose}>
-            Close
-          </button>
-        </div>
-
-        <div className="turicum-underwriting-modal-grid">
-          <article className="turicum-underwriting-modal-card">
-            <p className="eyebrow">Existing investors</p>
-            <h4>Enter the secure portal.</h4>
-            <p className="helper">
-              Review live promoted opportunities, allocation status, and monthly servicing updates.
-            </p>
-            <Link className="secondary-button turicum-primary-button" href={withBasePath("/investors#signin")} onClick={onClose}>
-              Investor Login
-            </Link>
-          </article>
-
-          <article className="turicum-underwriting-modal-card">
-            <p className="eyebrow">Prospective partners</p>
-            <h4>Request access credentials.</h4>
-            <p className="helper">
-              Share your profile and check size so Turicum can review fit before opening the room.
-            </p>
-            <Link className="secondary-button" href={withBasePath("/investors#prospective-investor")} onClick={onClose}>
-              Sign Up for Access
-            </Link>
-          </article>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function LiveOpportunitiesGallery() {
   const [selectedExampleId, setSelectedExampleId] = useState(allocationExamples[0]?.id ?? "");
   const [allocation, setAllocation] = useState(allocationExamples[0]?.defaultAllocation ?? allocationBounds.min);
-  const [isInvestorAccessOpen, setIsInvestorAccessOpen] = useState(false);
 
   const selectedExample =
     allocationExamples.find((example) => example.id === selectedExampleId) ?? allocationExamples[0];
@@ -192,13 +108,10 @@ export function LiveOpportunitiesGallery() {
                 addresses, and live underwriting detail require authentication.
               </p>
             </div>
-            <button
-              type="button"
+            <InvestorAccessGate
+              label="Access Underwriting Room"
               className="secondary-button turicum-primary-button"
-              onClick={() => setIsInvestorAccessOpen(true)}
-            >
-              Access Underwriting Room
-            </button>
+            />
           </div>
 
           <div className="turicum-allocation-table-shell">
@@ -243,7 +156,8 @@ export function LiveOpportunitiesGallery() {
                           onClick={(event) => {
                             event.stopPropagation();
                             setSelectedExampleId(example.id);
-                            setIsInvestorAccessOpen(true);
+                            const trigger = document.getElementById("view-current-opportunities");
+                            trigger?.click();
                           }}
                         >
                           View Details
@@ -311,21 +225,16 @@ export function LiveOpportunitiesGallery() {
           </div>
 
           <div className="turicum-allocation-actions">
-            <button
-              type="button"
+            <InvestorAccessGate
+              label="Access Underwriting Room"
               className="secondary-button turicum-primary-button"
-              onClick={() => setIsInvestorAccessOpen(true)}
-            >
-              Access Underwriting Room
-            </button>
+            />
             <Link className="secondary-button" href={withBasePath("/investor-handoff")}>
               Review Partnership Deck
             </Link>
           </div>
         </div>
       </section>
-
-      <InvestorAccessModal open={isInvestorAccessOpen} onClose={() => setIsInvestorAccessOpen(false)} />
     </>
   );
 }

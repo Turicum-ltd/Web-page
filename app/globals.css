@@ -3469,6 +3469,135 @@ code {
   line-height: 1.05;
 }
 
+.turicum-gatekeeper-modal {
+  width: min(100%, 680px);
+  background:
+    linear-gradient(180deg, rgba(17, 17, 19, 0.98), rgba(9, 9, 11, 0.98));
+}
+
+.turicum-gatekeeper-modal-head h3,
+.turicum-investor-gate-panel h2,
+.turicum-investor-gate-step h3,
+.turicum-investor-gate-identity-screen h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.turicum-gatekeeper-modal-grid {
+  align-items: stretch;
+}
+
+.turicum-gatekeeper-card {
+  min-height: 100%;
+  border: 1px solid rgba(63, 63, 70, 0.92);
+  background: rgba(18, 18, 20, 0.92);
+}
+
+.turicum-investor-gate-panel {
+  display: grid;
+  gap: 24px;
+}
+
+.turicum-investor-gate-progress-shell {
+  display: grid;
+  gap: 10px;
+}
+
+.turicum-investor-gate-progress-track {
+  position: relative;
+  overflow: hidden;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(39, 39, 42, 0.92);
+}
+
+.turicum-investor-gate-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: #2563eb;
+  transition: width 180ms ease;
+}
+
+.turicum-investor-gate-head,
+.turicum-investor-gate-step,
+.turicum-investor-gate-identity-screen {
+  display: grid;
+  gap: 18px;
+}
+
+.turicum-investor-gate-copy {
+  max-width: 38rem;
+}
+
+.turicum-investor-gate-panel .field span,
+.turicum-investor-step-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(161, 161, 170, 0.9);
+}
+
+.turicum-investor-gate-field input {
+  border-color: rgba(63, 63, 70, 0.92);
+  background: rgba(9, 9, 11, 0.96);
+}
+
+.turicum-investor-choice-grid,
+.turicum-investor-choice-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.turicum-investor-choice-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.turicum-investor-choice {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 16px;
+  border: 1px solid rgba(63, 63, 70, 0.9);
+  border-radius: 16px;
+  background: rgba(9, 9, 11, 0.96);
+  color: #f4f4f5;
+  font: inherit;
+  text-align: left;
+  transition: border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+.turicum-investor-choice:hover {
+  border-color: rgba(96, 165, 250, 0.78);
+}
+
+.turicum-investor-choice.is-active {
+  border-color: rgba(37, 99, 235, 0.96);
+  background: rgba(24, 24, 27, 0.98);
+  transform: translateY(-1px);
+}
+
+.turicum-investor-choice.is-stacked {
+  min-height: 52px;
+}
+
+.turicum-investor-gate-error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 0.92rem;
+}
+
+.turicum-investor-gate-identity-screen {
+  min-height: 280px;
+  align-content: center;
+}
+
+.turicum-investor-gate-identity-screen p {
+  margin: 0;
+  color: rgba(212, 212, 216, 0.8);
+}
+
 .turicum-opportunity-card {
   display: grid;
   overflow: hidden;

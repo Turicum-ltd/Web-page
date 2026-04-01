@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LiveOpportunitiesGallery } from "@/components/turicum/live-opportunities-gallery";
+import { InvestorAccessGate } from "@/components/turicum/investor-access-gate";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { withBasePath } from "@/lib/turicum/runtime";
 
@@ -67,9 +68,11 @@ export function TuricumPortalOverview() {
                 <h1>Boutique Private Credit: High-Yield Capital Preservation.</h1>
                 <p className="turicum-marketing-lede">First-lien, asset-based opportunities for risk-averse partners.</p>
                 <div className="form-actions turicum-inline-actions">
-                  <a className="secondary-button turicum-primary-button" href="#current-opportunities">
-                    View Current Opportunities
-                  </a>
+                  <InvestorAccessGate
+                    label="View Current Opportunities"
+                    className="secondary-button turicum-primary-button"
+                    triggerId="view-current-opportunities"
+                  />
                   <Link className="secondary-button" href={withBasePath("/investor-handoff")}>
                     Inquire for Access
                   </Link>

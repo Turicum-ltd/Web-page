@@ -15,13 +15,19 @@ export interface ProspectiveInvestorInquiryRecord {
   email: string;
   linkedInProfile: string;
   typicalInvestmentSize: string;
+  accreditedInvestor?: string;
+  primaryInvestmentObjective?: string;
+  source?: "legacy_form" | "gatekeeper_questionnaire";
 }
 
 export interface ProspectiveInvestorInquiryInput {
-  fullName: string;
+  fullName?: string;
   email: string;
   linkedInProfile?: string;
   typicalInvestmentSize: string;
+  accreditedInvestor?: string;
+  primaryInvestmentObjective?: string;
+  source?: "legacy_form" | "gatekeeper_questionnaire";
 }
 
 async function ensureFile() {
@@ -62,10 +68,13 @@ export async function createProspectiveInvestorInquiry(
     id: randomUUID(),
     createdAt: new Date().toISOString(),
     status: "new",
-    fullName: requireValue("Name", input.fullName),
+    fullName: input.fullName?.trim() ?? "",
     email: requireValue("Email", input.email).toLowerCase(),
     linkedInProfile: input.linkedInProfile?.trim() ?? "",
-    typicalInvestmentSize: requireValue("Typical investment size", input.typicalInvestmentSize)
+    typicalInvestmentSize: requireValue("Typical investment size", input.typicalInvestmentSize),
+    accreditedInvestor: input.accreditedInvestor?.trim() ?? "",
+    primaryInvestmentObjective: input.primaryInvestmentObjective?.trim() ?? "",
+    source: input.source ?? "legacy_form"
   };
 
   const items = await readInquiries();

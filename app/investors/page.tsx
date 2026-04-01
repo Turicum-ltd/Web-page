@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { InvestorRequestAccessFlow } from "@/components/turicum/investor-request-access-flow";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
 import { listCases } from "@/lib/turicum/cases";
 import { resolveSupabaseInvestorSessionFromCookies } from "@/lib/turicum/investor-supabase-auth";
@@ -44,14 +45,6 @@ const portalScope = [
   "Promoted matter summaries once the file is cleared for investor review",
   "Servicing posture, reserve notes, and distribution updates after funding",
   "Resolution tracking across payoff, extension, refinance, and rollover"
-];
-
-const typicalInvestmentSizeOptions = [
-  "$100k-$250k",
-  "$250k-$500k",
-  "$500k-$1M",
-  "$1M-$3M",
-  "$3M+"
 ];
 
 const investorPreviewMetrics = [
@@ -96,9 +89,6 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
   if (!investorUser) {
     const error = readString(params.error);
     const loggedOut = readString(params.logged_out) === "1";
-    const inquirySubmitted = readString(params.inquiry) === "1";
-    const inquiryError = readString(params.inquiry_error);
-
     return (
       <main>
         <div className="shell turicum-investor-shell turicum-public-shell">
@@ -233,74 +223,8 @@ export default async function InvestorsPage({ searchParams }: { searchParams?: S
               </ul>
             </div>
 
-            <div className="turicum-investor-auth-stack">
-              <div id="prospective-investor" className="panel turicum-public-card turicum-investor-inquiry-panel">
-                <div className="section-head compact">
-                  <div>
-                    <p className="eyebrow">Prospective investor</p>
-                    <h2>Request review before portal access</h2>
-                  </div>
-                </div>
-                <p className="helper">
-                  Share your profile and typical check size. Turicum reviews new investor leads
-                  before granting secure portal access.
-                </p>
-                {inquirySubmitted ? (
-                  <div className="panel subtle">
-                    <strong>Investor inquiry received.</strong>
-                    <p className="helper">
-                      Turicum has your details and can review fit before issuing full investor
-                      portal access.
-                    </p>
-                  </div>
-                ) : null}
-                {inquiryError ? (
-                  <div className="panel subtle">
-                    <strong>We could not submit the inquiry.</strong>
-                    <p className="helper">{inquiryError}</p>
-                  </div>
-                ) : null}
-                {!inquirySubmitted ? (
-                  <form
-                    className="form-grid"
-                    method="post"
-                    action={withConfiguredBasePath("/api/prospective-investor-inquiries")}
-                  >
-                    <label className="field">
-                      <span>Name</span>
-                      <input name="fullName" type="text" required />
-                    </label>
-                    <label className="field">
-                      <span>Email</span>
-                      <input name="email" type="email" autoComplete="email" required />
-                    </label>
-                    <label className="field">
-                      <span>LinkedIn Profile</span>
-                      <input
-                        name="linkedInProfile"
-                        type="url"
-                        placeholder="Optional"
-                      />
-                    </label>
-                    <label className="field">
-                      <span>Typical Investment Size</span>
-                      <select name="typicalInvestmentSize" defaultValue="" required>
-                        <option value="" disabled>
-                          Select a range
-                        </option>
-                        {typicalInvestmentSizeOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <div className="form-actions turicum-inline-actions">
-                      <button className="turicum-primary-button" type="submit">Request review</button>
-                    </div>
-                  </form>
-                ) : null}
-              </div>
+              <div className="turicum-investor-auth-stack">
+              <InvestorRequestAccessFlow />
 
               <div id="signin" className="panel lead turicum-investor-signin-panel">
                 <div className="section-head compact">
