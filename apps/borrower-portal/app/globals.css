@@ -5858,12 +5858,19 @@ main {
 }
 
 .turicum-quick-form input,
-.turicum-quick-form select,
 .turicum-quick-form textarea {
   width: 100%;
-  border: 1px solid #000000;
-  border-radius: 0;
-  padding: 2px 4px;
+  border: 0;
+  border-bottom: 1px solid #000000;
+  padding: 2px 0;
+  background: #ffffff;
+  color: #000000;
+  font: inherit;
+  line-height: 1.4;
+}
+
+.turicum-quick-form select {
+  width: 100%;
   background: #ffffff;
   color: #000000;
   font: inherit;
@@ -5871,7 +5878,6 @@ main {
 }
 
 .turicum-quick-form input:focus,
-.turicum-quick-form select:focus,
 .turicum-quick-form textarea:focus {
   outline: 1px solid #000000;
   outline-offset: 0;
