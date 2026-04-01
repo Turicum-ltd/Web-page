@@ -61,6 +61,9 @@ export function TuricumBorrowerOverview({
     <main className="turicum-quick-page">
       <section id="request-form" className="turicum-quick-intake">
         <h1 className="turicum-quick-title">Turicum quick asset intake</h1>
+        <p className="turicum-quick-copy">
+          Fill it in and get a call back within 1 hour during business hours.
+        </p>
 
         {introRequested ? (
           <div className="turicum-quick-success" role="status" aria-live="polite">
