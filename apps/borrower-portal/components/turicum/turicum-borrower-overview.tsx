@@ -62,12 +62,12 @@ const timingOptions = [
 ];
 
 const programHighlights = [
-  "11.99% Starting Rates",
-  "5-10 Day Closing",
-  "Up to 70% LTV",
-  "Nationwide Lending",
-  "No Credit Checks",
-  "First-Lien Focus"
+  { label: "Rates", value: "From 11.99%" },
+  { label: "Closing", value: "5-10 Days" },
+  { label: "Loan Size", value: "$250k-$10M" },
+  { label: "Terms", value: "1-3 Years" },
+  { label: "LTV", value: "Up to 70%" },
+  { label: "States", value: "Nationwide" }
 ];
 
 export function TuricumBorrowerOverview({
@@ -77,17 +77,14 @@ export function TuricumBorrowerOverview({
 }: TuricumBorrowerOverviewProps) {
   return (
     <main className="turicum-quick-page">
-      <section className="turicum-quick-speed-bar" aria-label="Callback guarantee">
-        <p>
-          <span aria-hidden="true">⚡</span> 1-HOUR CALLBACK GUARANTEED | DIRECT CAPITAL
-        </p>
-      </section>
-
       <section className="turicum-quick-hero">
         <div className="turicum-quick-hero-layout">
           <div className="turicum-quick-hero-copy">
             <p className="turicum-quick-eyebrow">Turicum Private Lending</p>
             <h1 className="turicum-quick-title">Asset-Based Funding. No Red Tape.</h1>
+            <p className="turicum-quick-speed-badge">
+              <span aria-hidden="true">⚡</span> 1-Hour Callback Guaranteed (Business Hours)
+            </p>
             <p className="turicum-quick-copy">
               Direct private capital for real estate and hard assets. We fund the deals banks
               won&apos;t touch.
@@ -95,9 +92,9 @@ export function TuricumBorrowerOverview({
           </div>
           <div className="turicum-quick-highlights" aria-label="Loan program highlights">
             {programHighlights.map((highlight) => (
-              <article key={highlight} className="turicum-quick-highlight">
-                <span className="turicum-quick-highlight-icon" aria-hidden="true" />
-                <strong>{highlight}</strong>
+              <article key={highlight.label} className="turicum-quick-highlight">
+                <strong>{highlight.value}</strong>
+                <span className="turicum-quick-highlight-label">{highlight.label}</span>
               </article>
             ))}
           </div>
@@ -108,7 +105,7 @@ export function TuricumBorrowerOverview({
         <div className="turicum-quick-form-card">
           <div className="turicum-quick-form-header">
             <p className="turicum-quick-form-kicker">Loan Request Form</p>
-            <h2>Tell us about the borrower, the asset, and the timing.</h2>
+            <h2>Quick asset intake</h2>
           </div>
 
           {introRequested ? (

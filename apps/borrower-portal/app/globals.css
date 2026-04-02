@@ -5970,57 +5970,57 @@ body::before {
 .turicum-quick-page {
   width: min(100%, 1040px);
   margin: 0 auto;
-  padding: 10px 20px 40px;
+  padding: 0 20px 40px;
   display: grid;
   gap: 0;
 }
 
-.turicum-quick-speed-bar {
-  padding: 10px 14px;
-  background: #16a34a;
-  border-radius: 4px 4px 0 0;
-}
-
-.turicum-quick-speed-bar p {
-  margin: 0;
-  color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 800;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-  text-align: center;
-}
-
-.turicum-quick-speed-bar p span {
-  color: #facc15;
-}
-
 .turicum-quick-hero {
   display: grid;
-  gap: 12px;
-  padding: 13px 20px 15px;
+  gap: 8px;
+  padding: 6px 20px 8px;
   border-radius: 0 0 4px 4px;
   background: #002147;
   box-shadow: 0 18px 38px rgba(0, 33, 71, 0.14);
 }
 
 .turicum-quick-hero-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.6fr) minmax(0, 0.4fr);
-  gap: 20px;
-  align-items: start;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
 }
 
 .turicum-quick-hero-copy {
+  flex: 0 0 60%;
   display: grid;
-  gap: 6px;
+  gap: 4px;
   justify-items: start;
   text-align: left;
 }
 
+.turicum-quick-speed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #002147;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 18px rgba(0, 12, 32, 0.18);
+}
+
+.turicum-quick-speed-badge span {
+  color: #f59e0b;
+}
+
 .turicum-quick-eyebrow,
-.turicum-quick-form-kicker,
-.turicum-quick-highlight-label {
+.turicum-quick-form-kicker {
   margin: 0;
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.76rem;
@@ -6030,26 +6030,26 @@ body::before {
 }
 
 .turicum-quick-highlights {
+  flex: 0 0 40%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
   width: 100%;
-  border: 1px solid rgba(186, 204, 224, 0.26);
-  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 32, 58, 0.86);
   overflow: hidden;
 }
 
 .turicum-quick-highlight {
   display: grid;
-  gap: 0;
+  gap: 2px;
   min-height: auto;
   padding: 12px 14px;
-  border-right: 1px solid rgba(186, 204, 224, 0.22);
-  border-bottom: 1px solid rgba(186, 204, 224, 0.22);
   align-content: center;
-  justify-items: center;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.06);
+  text-align: left;
+  background: rgba(12, 34, 61, 0.55);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .turicum-quick-highlight:nth-child(2n) {
@@ -6060,28 +6060,27 @@ body::before {
   border-bottom: 0;
 }
 
-.turicum-quick-highlight-icon {
-  width: 0.62rem;
-  height: 0.62rem;
-  border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
-  margin-bottom: 6px;
-}
-
 .turicum-quick-highlight strong {
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.2;
   letter-spacing: 0;
   color: #ffffff;
+}
+
+.turicum-quick-highlight-label {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .turicum-quick-intake {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: -10px;
+  margin-top: -2px;
   padding: 0;
   background: #f4f7f9;
   border-radius: 4px;
@@ -6091,7 +6090,7 @@ body::before {
 
 .turicum-quick-form-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   width: min(100%, 860px);
   padding: clamp(14px, 3vw, 20px);
   border: 1px solid rgba(190, 203, 216, 0.9);
@@ -6102,17 +6101,17 @@ body::before {
 
 .turicum-quick-form-header {
   display: grid;
-  gap: 4px;
+  gap: 2px;
   text-align: left;
   justify-items: start;
 }
 
 .turicum-quick-form-header h2 {
   margin: 0;
-  max-width: 18ch;
+  max-width: none;
   font-family: var(--font-body);
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
-  line-height: 1.05;
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  line-height: 1.1;
   letter-spacing: -0.02em;
   color: #002147;
 }
@@ -6146,7 +6145,7 @@ body::before {
 
 .turicum-quick-form {
   display: grid;
-  gap: 10px;
+  gap: 4px;
   width: 100%;
 }
 
@@ -6154,7 +6153,7 @@ body::before {
 .turicum-quick-block {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .turicum-quick-form span,
@@ -6168,8 +6167,8 @@ body::before {
 
 .turicum-quick-section {
   display: grid;
-  gap: 12px;
-  padding: 14px;
+  gap: 8px;
+  padding: 12px;
   border: 1px solid #d7e0e7;
   border-radius: 4px;
   background: #f4f7f9;
@@ -6178,7 +6177,7 @@ body::before {
 .turicum-quick-section-fields,
 .turicum-quick-contact-group {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .turicum-quick-compact-grid {
@@ -6188,7 +6187,7 @@ body::before {
 .turicum-quick-section-kicker {
   margin: 0;
   color: #6b7d90;
-  font-size: 0.76rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -6197,7 +6196,7 @@ body::before {
 .turicum-quick-section-title {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 1.3rem;
+  font-size: 1.06rem;
   line-height: 1.25;
   letter-spacing: -0.015em;
 }
@@ -6212,8 +6211,8 @@ body::before {
 
 .turicum-quick-address-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: 3fr 9fr 4fr 4fr;
+  gap: 8px;
 }
 
 .turicum-quick-address-unit {
@@ -6239,7 +6238,7 @@ body::before {
   width: 100%;
   border: 2px solid #bfd3e6;
   border-radius: 4px;
-  padding: 16px 17px;
+  padding: 7px 10px;
   background: #ffffff;
   color: #111827;
   font: inherit;
@@ -6255,7 +6254,7 @@ body::before {
 
 .turicum-quick-form textarea {
   resize: vertical;
-  min-height: 132px;
+  min-height: 112px;
 }
 
 .turicum-quick-prefix-input {
@@ -6276,7 +6275,7 @@ body::before {
 }
 
 .turicum-quick-prefix-input input {
-  padding-left: 32px;
+  padding-left: 28px;
 }
 
 .turicum-quick-form select {
@@ -6391,14 +6390,17 @@ body::before {
     grid-template-columns: 1fr;
   }
 
-  .turicum-quick-highlight {
-    min-height: auto;
-    border-right: 0;
-    border-bottom: 1px solid rgba(186, 204, 224, 0.22);
+  .turicum-quick-hero-layout {
+    display: grid;
   }
 
-  .turicum-quick-highlight:last-child {
-    border-bottom: 0;
+  .turicum-quick-hero-copy,
+  .turicum-quick-highlights {
+    flex: auto;
+  }
+
+  .turicum-quick-highlight {
+    min-height: auto;
   }
 
   .turicum-quick-address-grid {
@@ -6415,12 +6417,8 @@ body::before {
 
 @media (max-width: 720px) {
   .turicum-quick-page {
-    padding: 8px 12px 28px;
+    padding: 0 12px 28px;
     gap: 0;
-  }
-
-  .turicum-quick-speed-bar {
-    padding: 10px 12px;
   }
 
   .turicum-quick-hero {
