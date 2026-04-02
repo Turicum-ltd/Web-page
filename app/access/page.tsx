@@ -34,6 +34,36 @@ function readString(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
+function buildAccessPathForCase(
+  currentCaseId?: string,
+  nextStatus?: string,
+  nextMessage?: string,
+  extra?: Record<string, string>
+) {
+  const search = new URLSearchParams();
+
+  if (currentCaseId) {
+    search.set("caseId", currentCaseId);
+  }
+
+  if (nextStatus) {
+    search.set("status", nextStatus);
+  }
+
+  if (nextMessage) {
+    search.set("message", nextMessage);
+  }
+
+  for (const [key, value] of Object.entries(extra ?? {})) {
+    if (value) {
+      search.set(key, value);
+    }
+  }
+
+  const query = search.toString();
+  return withBasePath(`/access${query ? `?${query}` : ""}`);
+}
+
 const staffRoleOptions: Array<{ value: StaffRole; label: string }> = [
   { value: "staff_admin", label: "Staff admin" },
   { value: "staff_ops", label: "Staff ops" },
@@ -104,31 +134,6 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       (item) => item.stage !== "closed" && item.stage !== "declined" && item.status !== "archive"
     ) ?? [];
 
-  function buildAccessPath(nextStatus?: string, nextMessage?: string, extra?: Record<string, string>) {
-    const search = new URLSearchParams();
-
-    if (currentCaseId) {
-      search.set("caseId", currentCaseId);
-    }
-
-    if (nextStatus) {
-      search.set("status", nextStatus);
-    }
-
-    if (nextMessage) {
-      search.set("message", nextMessage);
-    }
-
-    for (const [key, value] of Object.entries(extra ?? {})) {
-      if (value) {
-        search.set(key, value);
-      }
-    }
-
-    const query = search.toString();
-    return withBasePath(`/access${query ? `?${query}` : ""}`);
-  }
-
   async function saveStaffUser(formData: FormData) {
     "use server";
     try {
@@ -141,11 +146,11 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       });
 
       revalidatePath(withBasePath("/access"));
-      redirect(buildAccessPath("staff-saved"));
+      redirect(buildAccessPathForCase(currentCaseId, "staff-saved"));
     } catch (error) {
       rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Staff account could not be saved.";
-      redirect(buildAccessPath("error", errorMessage));
+      redirect(buildAccessPathForCase(currentCaseId, "error", errorMessage));
     }
   }
 
@@ -160,11 +165,11 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       });
 
       revalidatePath(withBasePath("/access"));
-      redirect(buildAccessPath("investor-saved"));
+      redirect(buildAccessPathForCase(currentCaseId, "investor-saved"));
     } catch (error) {
       rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Investor account could not be saved.";
-      redirect(buildAccessPath("error", errorMessage));
+      redirect(buildAccessPathForCase(currentCaseId, "error", errorMessage));
     }
   }
 
@@ -208,11 +213,15 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       });
 
       revalidatePath(withBasePath("/access"));
-      redirect(buildAccessPath("borrower-saved", undefined, { borrowerToken: portal.accessToken }));
+      redirect(
+        buildAccessPathForCase(currentCaseId, "borrower-saved", undefined, {
+          borrowerToken: portal.accessToken
+        })
+      );
     } catch (error) {
       rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Borrower invite could not be created.";
-      redirect(buildAccessPath("error", errorMessage));
+      redirect(buildAccessPathForCase(currentCaseId, "error", errorMessage));
     }
   }
 
@@ -223,7 +232,7 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
     const nextIsActive = String(formData.get("nextIsActive") ?? "") === "true";
 
     if (userId === adminUserId && !nextIsActive) {
-      redirect(buildAccessPath("self-blocked"));
+      redirect(buildAccessPathForCase(currentCaseId, "self-blocked"));
     }
 
     try {
@@ -233,11 +242,16 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
       });
 
       revalidatePath(withBasePath("/access"));
-      redirect(buildAccessPath(nextIsActive ? "user-activated" : "user-deactivated"));
+      redirect(
+        buildAccessPathForCase(
+          currentCaseId,
+          nextIsActive ? "user-activated" : "user-deactivated"
+        )
+      );
     } catch (error) {
       rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "User status could not be updated.";
-      redirect(buildAccessPath("error", errorMessage));
+      redirect(buildAccessPathForCase(currentCaseId, "error", errorMessage));
     }
   }
 
@@ -246,11 +260,11 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
     try {
       await revokeInvestorCaseAccess(String(formData.get("grantId") ?? ""));
       revalidatePath(withBasePath("/access"));
-      redirect(buildAccessPath("grant-revoked"));
+      redirect(buildAccessPathForCase(currentCaseId, "grant-revoked"));
     } catch (error) {
       rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Investor access could not be revoked.";
-      redirect(buildAccessPath("error", errorMessage));
+      redirect(buildAccessPathForCase(currentCaseId, "error", errorMessage));
     }
   }
 
@@ -259,11 +273,11 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
     try {
       await revokeBorrowerInvite(String(formData.get("inviteId") ?? ""));
       revalidatePath(withBasePath("/access"));
-      redirect(buildAccessPath("invite-revoked"));
+      redirect(buildAccessPathForCase(currentCaseId, "invite-revoked"));
     } catch (error) {
       rethrowRedirectError(error);
       const errorMessage = error instanceof Error ? error.message : "Borrower invite could not be revoked.";
-      redirect(buildAccessPath("error", errorMessage));
+      redirect(buildAccessPathForCase(currentCaseId, "error", errorMessage));
     }
   }
 
