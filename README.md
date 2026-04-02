@@ -37,31 +37,44 @@ Phase 1 target states:
 ## Run Locally
 
 ```bash
+git clone https://github.com/Turicum-ltd/Web-page.git
+cd Web-page
 npm install
 npm run dev
+npm run dev:borrower-portal
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
+Then open:
+
+- [http://localhost:3000](http://localhost:3000) for the main Turicum app
+- [http://localhost:3001](http://localhost:3001) for the standalone borrower app if the borrower workspace uses the default Next port fallback
+
+Copy `.env.local.example` to `.env.local` and fill the real values before using auth or Supabase-backed flows.
 
 ## Supabase Mode
 
-Turicum LLC runs against local JSON by default. To switch the repository layer to Supabase, set:
+Turicum now expects the shared Turicum Supabase project for investor auth, staff auth, access admin, borrower pre-intake leads, and commercial loan applications.
+
+At minimum, set:
 
 ```bash
 SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
 SUPABASE_STORAGE_BUCKET=turicum-documents
 TURICUM_BASE_PATH=
 APP_ORIGIN=https://turicum.us
 NEXT_PUBLIC_BASE_PATH=
 NEXT_PUBLIC_APP_ORIGIN=https://turicum.us
+BORROWER_PORTAL_ORIGIN=https://borrow.turicum.us
+NEXT_PUBLIC_BORROWER_PORTAL_ORIGIN=https://borrow.turicum.us
+BORROWER_PORTAL_HOST=borrow.turicum.us
 ```
 
-Use `TURICUM_BASE_PATH` and `APP_ORIGIN` as the server-side source of truth. Keep the `NEXT_PUBLIC_*` values aligned only because client-side path/origin helpers need a safe public fallback.
+Use `TURICUM_BASE_PATH` and `APP_ORIGIN` as the main-app server-side source of truth. Keep the `NEXT_PUBLIC_*` values aligned because client-side auth and origin helpers need them.
 
 `SUPABASE_STORAGE_BUCKET` is optional. If omitted, Turicum LLC uses `turicum-documents`.
-
-The app will automatically use Supabase for case reads and writes when both credential values are present.
 
 An env template is available at [deploy/digitalocean/.env.production.example](deploy/digitalocean/.env.production.example).
 
@@ -86,7 +99,7 @@ Quick setup notes are in [scripts/setup-supabase.md](scripts/setup-supabase.md).
 ## Current App Routes
 
 - `/`: Turicum public landing page
-- `/portal`: borrower public path
+- `/portal`: redirect to `https://borrow.turicum.us`
 - `/investors`: investor portal
 - `/investor-handoff`: investor-safe summary surface
 - `/review`: protected team hub
@@ -95,7 +108,8 @@ Quick setup notes are in [scripts/setup-supabase.md](scripts/setup-supabase.md).
 - `/cases/new`: create case
 - `/cases/[id]`: case detail and packet workspace
 - `/cases/[id]/intake`: internal borrower-intake and signature workspace
-- `/borrower/[token]`: borrower-facing intake portal
+- `borrow.turicum.us`: standalone borrower quick-intake portal
+- `borrow.turicum.us/apply/[token]`: borrower application handoff
 - `/library`: precedent library
 - `/state-packs`: state-pack overview
 - `/state-packs/[state]`: state-pack detail
@@ -105,18 +119,12 @@ Quick setup notes are in [scripts/setup-supabase.md](scripts/setup-supabase.md).
 - `/api/document-types`: JSON feed of document types
 - `/api/state-packs`: JSON feed of all state packs
 
-## Borrower Intake and Signature Mode
+## Surface Ownership
 
-Turicum LLC now has a first-pass borrower access model:
+- Main app: investor lane, admin lane, review, cases, flows, library
+- Borrower app: quick intake plus secure application handoff
 
-- create or open a case
-- go to `/cases/[id]/intake`
-- assign which borrower-facing forms belong in the packet
-- copy the generated borrower portal link
-- let the borrower complete the intake at `/borrower/[token]`
-- queue formal signature requests from the same internal intake workspace
-
-The current signature layer is a routing and tracking system. Turicum LLC stores the request status and provider choice, but it does not yet send or legally execute the signature itself.
+The current source-of-truth split is documented in [docs/turicum-surface-ownership.md](docs/turicum-surface-ownership.md).
 
 ## Notes
 
@@ -129,18 +137,19 @@ Turicum LLC currently supports:
 - optional case document uploads to local storage or Supabase Storage depending on configuration
 - local JSON persistence for borrower intake packets and signature request staging
 
-## Packaging For Another Machine
+## Moving To Another Machine
 
-Create a deployment bundle with:
+Recommended path:
+
+1. Clone fresh from GitHub
+2. Copy `.env.local`
+3. Install Node 22
+4. Run:
 
 ```bash
-./scripts/package-turicum.sh
+npm install
+npm run build
+npm run build:borrower-portal
 ```
 
-Mac Studio / OpenClaw deployment notes are in [docs/turicum/macstudio-openclaw-deploy.md](docs/turicum/macstudio-openclaw-deploy.md).
-
-## Simplest Move
-
-1. Copy the whole `turicum-platform` repo folder to the target machine.
-2. Double-click [start-turicum.command](start-turicum.command) to run Turicum locally on port `3100`.
-3. If you want the legacy MarketShift-mounted version under `/turicum`, double-click [start-turicum-marketshift.command](start-turicum-marketshift.command) instead.
+Use [docs/turicum/digitalocean-transfer.md](docs/turicum/digitalocean-transfer.md) for server deployment. The old OpenClaw/MarketShift notes are legacy-only and should not be treated as the default path.
