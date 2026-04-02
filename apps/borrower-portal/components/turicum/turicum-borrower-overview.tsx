@@ -69,15 +69,13 @@ export function TuricumBorrowerOverview({
   return (
     <main className="turicum-quick-page">
       <section className="turicum-quick-hero">
-        <div className="turicum-quick-hero-copy">
-          <p className="turicum-quick-eyebrow">Turicum Private Lending</p>
-          <h1 className="turicum-quick-title">Fast asset-based loans for borrowers who need direct answers.</h1>
-          <p className="turicum-quick-copy">
-            Submit the intake below and we will review the asset, requested structure, and timing.
-            This page is designed for quick borrower intake, not a bank-style application maze.
-          </p>
-        </div>
-
+        <p className="turicum-quick-eyebrow">Turicum Private Lending</p>
+        <h1 className="turicum-quick-title">Asset-Based Loan Request Form</h1>
+        <p className="turicum-quick-copy">
+          Direct private lending on real estate and business-purpose collateral. No credit check.
+          Fill this out and a Turicum director will review the asset and call you back within 1 hour
+          during business hours.
+        </p>
         <div className="turicum-quick-highlights" aria-label="Loan program highlights">
           {programHighlights.map((highlight) => (
             <article key={highlight.label} className="turicum-quick-highlight">
@@ -91,11 +89,12 @@ export function TuricumBorrowerOverview({
       <section id="request-form" className="turicum-quick-intake">
         <div className="turicum-quick-form-card">
           <div className="turicum-quick-form-header">
-            <p className="turicum-quick-form-kicker">Borrower Intake Form</p>
-            <h2>Tell us about the asset and the loan request.</h2>
+            <p className="turicum-quick-form-kicker">Quick Intake</p>
+            <h2>Before we call, answer these questions.</h2>
             <p>
-              Use the form below to share the basics. We need the property or asset details, your
-              existing position, and your timeline so we can review the deal quickly.
+              Start with the loan amount, the asset, your current equity or liens, rough value,
+              and how quickly you need funds. We use this to tell you quickly whether the asset
+              fits our lending box.
             </p>
           </div>
 
@@ -300,7 +299,7 @@ export function TuricumBorrowerOverview({
                 </section>
 
                 <div className="turicum-quick-actions">
-                  <button type="submit">Submit borrower intake</button>
+                  <button type="submit">Request call back</button>
                 </div>
               </form>
             </>
