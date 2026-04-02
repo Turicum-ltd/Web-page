@@ -53,12 +53,10 @@ const timingOptions = [
 ];
 
 const programHighlights = [
-  { label: "Rates", value: "Starting at 11.99%" },
-  { label: "Average Closing Time", value: "5-10 Days" },
-  { label: "Loan Sizes", value: "$250,000 to $10,000,000" },
-  { label: "Terms", value: "1-3 Years" },
-  { label: "Loan to Value", value: "up to 70% LTV" },
-  { label: "States", value: "Nationwide" }
+  "11.99% Starting Rates",
+  "5-10 Day Closing",
+  "Up to 70% LTV",
+  "Nationwide Lending"
 ];
 
 export function TuricumBorrowerOverview({
@@ -68,19 +66,23 @@ export function TuricumBorrowerOverview({
 }: TuricumBorrowerOverviewProps) {
   return (
     <main className="turicum-quick-page">
+      <section className="turicum-quick-speed-bar" aria-label="Callback guarantee">
+        <p>⚡ 1-HOUR CALLBACK GUARANTEED ON ALL NEW INTAKES</p>
+      </section>
+
       <section className="turicum-quick-hero">
         <div className="turicum-quick-hero-copy">
           <p className="turicum-quick-eyebrow">Turicum Private Lending</p>
-          <h1 className="turicum-quick-title">DIRECT ASSET-BASED LENDING</h1>
+          <h1 className="turicum-quick-title">Asset-Based Funding. No Red Tape.</h1>
           <p className="turicum-quick-copy">
-            Real Estate &amp; Hard Asset Funding | Nationwide | 5-10 Day Closing
+            Direct private capital for real estate and hard assets. We fund the deals banks
+            won&apos;t touch.
           </p>
         </div>
         <div className="turicum-quick-highlights" aria-label="Loan program highlights">
           {programHighlights.map((highlight) => (
-            <article key={highlight.label} className="turicum-quick-highlight">
-              <span className="turicum-quick-highlight-label">{highlight.label}</span>
-              <strong>{highlight.value}</strong>
+            <article key={highlight} className="turicum-quick-highlight">
+              <strong>{highlight}</strong>
             </article>
           ))}
         </div>
