@@ -1,6 +1,6 @@
 # Turicum LLC DigitalOcean Dry Run
 
-This directory contains the production handoff files for moving Turicum LLC from the Mac Studio environment to a DigitalOcean VPS.
+This directory contains the production handoff files for running Turicum LLC on a DigitalOcean VPS.
 
 ## Files
 

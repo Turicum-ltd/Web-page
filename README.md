@@ -152,4 +152,4 @@ npm run build
 npm run build:borrower-portal
 ```
 
-Use [docs/turicum/digitalocean-transfer.md](docs/turicum/digitalocean-transfer.md) for server deployment. The old OpenClaw/MarketShift notes are legacy-only and should not be treated as the default path.
+Use [docs/turicum/digitalocean-transfer.md](docs/turicum/digitalocean-transfer.md) for server deployment. Historical OpenClaw/MarketShift notes live under [docs/turicum/legacy](docs/turicum/legacy) and should not be treated as the default path.

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This note is the deployment handoff for moving the Turicum LLC platform from the Mac Studio / OpenClaw environment to a DigitalOcean VPS while keeping Google Drive as the document system of record.
+This note is the deployment handoff for moving the Turicum LLC platform onto a DigitalOcean VPS while keeping Google Drive as the document system of record.
 
 The hosted shape should preserve the current split:
 
