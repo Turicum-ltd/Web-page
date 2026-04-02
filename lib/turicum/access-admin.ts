@@ -513,17 +513,21 @@ export async function createOrUpdateInvestorUser(input: {
     fullName: input.fullName
   });
 
-  await enqueueOutboundEmail({
-    templateKey: "investor_welcome",
-    to: email,
-    subject: welcomeEmail.subject,
-    text: welcomeEmail.text,
-    metadata: {
-      investorEmail: email,
-      fullName: input.fullName.trim(),
-      portalUrl: "https://turicum.us/investors"
-    }
-  });
+  try {
+    await enqueueOutboundEmail({
+      templateKey: "investor_welcome",
+      to: email,
+      subject: welcomeEmail.subject,
+      text: welcomeEmail.text,
+      metadata: {
+        investorEmail: email,
+        fullName: input.fullName.trim(),
+        portalUrl: "https://turicum.us/investors"
+      }
+    });
+  } catch (error) {
+    console.warn("Turicum investor welcome email queue failed", error);
+  }
 
   return data.user.id;
 }
