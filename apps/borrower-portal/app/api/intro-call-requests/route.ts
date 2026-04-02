@@ -9,6 +9,8 @@ import {
 import { buildAppUrl } from "@/lib/turicum/runtime";
 
 function buildLeadSummaryEmailText(formData: FormData) {
+  const location = readAssetLocation(formData);
+
   return [
     `Hi ${String(formData.get("fullName") ?? "").trim() || "there"},`,
     "",
@@ -16,7 +18,7 @@ function buildLeadSummaryEmailText(formData: FormData) {
     "",
     `Requested amount: ${String(formData.get("requestedAmount") ?? "").trim()}`,
     `Property type: ${String(formData.get("propertyType") ?? "").trim()}`,
-    `Location: ${String(formData.get("assetLocation") ?? "").trim()}`,
+    `Location: ${location}`,
     `Ownership / liens: ${String(formData.get("ownershipStatus") ?? "").trim()}`,
     `Purchase date: ${String(formData.get("purchaseDate") ?? "").trim()}`,
     `Purchase price: ${String(formData.get("purchasePrice") ?? "").trim()}`,
@@ -34,17 +36,36 @@ function buildLeadSummaryEmailText(formData: FormData) {
   ].join("\n");
 }
 
+function readAssetLocation(formData: FormData) {
+  const direct = String(formData.get("assetLocation") ?? "").trim();
+
+  if (direct) {
+    return direct;
+  }
+
+  const street = String(formData.get("assetStreet") ?? "").trim();
+  const city = String(formData.get("assetCity") ?? "").trim();
+  const state = String(formData.get("assetState") ?? "").trim().toUpperCase();
+  const postalCode = String(formData.get("assetPostalCode") ?? "").trim();
+
+  return [street, [city, state].filter(Boolean).join(", "), postalCode]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const email = String(formData.get("email") ?? "").trim().toLowerCase();
+    const assetLocation = readAssetLocation(formData);
 
     const lead = await createPreIntakeLead({
       fullName: String(formData.get("fullName") ?? ""),
       email,
       phone: String(formData.get("phone") ?? ""),
       requestedAmount: String(formData.get("requestedAmount") ?? ""),
-      assetLocation: String(formData.get("assetLocation") ?? ""),
+      assetLocation,
       propertyType: String(formData.get("propertyType") ?? ""),
       assetDescription: String(formData.get("assetDescription") ?? ""),
       ownershipStatus: String(formData.get("ownershipStatus") ?? ""),

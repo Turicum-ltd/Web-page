@@ -185,11 +185,39 @@ export function TuricumBorrowerOverview({
                       </select>
                     </label>
                     <label className="turicum-quick-field-wide">
-                      <span>Full address or location</span>
+                      <span>Property street address</span>
                       <input
                         type="text"
-                        name="assetLocation"
-                        placeholder="123 Main St, Miami, FL"
+                        name="assetStreet"
+                        placeholder="123 Main St"
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>City</span>
+                      <input
+                        type="text"
+                        name="assetCity"
+                        placeholder="Miami"
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>State</span>
+                      <input
+                        type="text"
+                        name="assetState"
+                        placeholder="FL"
+                        maxLength={2}
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>ZIP code</span>
+                      <input
+                        type="text"
+                        name="assetPostalCode"
+                        placeholder="33131"
                         required
                       />
                     </label>
