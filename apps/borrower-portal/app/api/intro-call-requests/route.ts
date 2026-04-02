@@ -44,11 +44,13 @@ function readAssetLocation(formData: FormData) {
   }
 
   const street = String(formData.get("assetStreet") ?? "").trim();
+  const unit = String(formData.get("assetUnit") ?? "").trim();
   const city = String(formData.get("assetCity") ?? "").trim();
   const state = String(formData.get("assetState") ?? "").trim().toUpperCase();
   const postalCode = String(formData.get("assetPostalCode") ?? "").trim();
+  const streetLine = [street, unit].filter(Boolean).join(", ");
 
-  return [street, [city, state].filter(Boolean).join(", "), postalCode]
+  return [streetLine, [city, state].filter(Boolean).join(", "), postalCode]
     .filter(Boolean)
     .join(" ")
     .trim();

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { withConfiguredBasePath } from "@/lib/turicum/runtime";
+import { withConfiguredBasePath, withMainAppPath } from "@/lib/turicum/runtime";
 
 interface TuricumBorrowerOverviewProps {
   introRequested?: boolean;
@@ -44,6 +44,15 @@ const valueBasisOptions = [
   "Internal estimate",
 ];
 
+const stateOptions = [
+  "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+  "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+  "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+  "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+  "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+  "DC"
+];
+
 const timingOptions = [
   "Immediately",
   "Within 7 days",
@@ -56,7 +65,9 @@ const programHighlights = [
   "11.99% Starting Rates",
   "5-10 Day Closing",
   "Up to 70% LTV",
-  "Nationwide Lending"
+  "Nationwide Lending",
+  "No Credit Checks",
+  "First-Lien Focus"
 ];
 
 export function TuricumBorrowerOverview({
@@ -73,20 +84,23 @@ export function TuricumBorrowerOverview({
       </section>
 
       <section className="turicum-quick-hero">
-        <div className="turicum-quick-hero-copy">
-          <p className="turicum-quick-eyebrow">Turicum Private Lending</p>
-          <h1 className="turicum-quick-title">Asset-Based Funding. No Red Tape.</h1>
-          <p className="turicum-quick-copy">
-            Direct private capital for real estate and hard assets. We fund the deals banks
-            won&apos;t touch.
-          </p>
-        </div>
-        <div className="turicum-quick-highlights" aria-label="Loan program highlights">
-          {programHighlights.map((highlight) => (
-            <article key={highlight} className="turicum-quick-highlight">
-              <strong>{highlight}</strong>
-            </article>
-          ))}
+        <div className="turicum-quick-hero-layout">
+          <div className="turicum-quick-hero-copy">
+            <p className="turicum-quick-eyebrow">Turicum Private Lending</p>
+            <h1 className="turicum-quick-title">Asset-Based Funding. No Red Tape.</h1>
+            <p className="turicum-quick-copy">
+              Direct private capital for real estate and hard assets. We fund the deals banks
+              won&apos;t touch.
+            </p>
+          </div>
+          <div className="turicum-quick-highlights" aria-label="Loan program highlights">
+            {programHighlights.map((highlight) => (
+              <article key={highlight} className="turicum-quick-highlight">
+                <span className="turicum-quick-highlight-icon" aria-hidden="true" />
+                <strong>{highlight}</strong>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -193,34 +207,47 @@ export function TuricumBorrowerOverview({
                         required
                       />
                     </label>
-                    <label>
-                      <span>City</span>
-                      <input
-                        type="text"
-                        name="assetCity"
-                        placeholder="Miami"
-                        required
-                      />
-                    </label>
-                    <label>
-                      <span>State</span>
-                      <input
-                        type="text"
-                        name="assetState"
-                        placeholder="FL"
-                        maxLength={2}
-                        required
-                      />
-                    </label>
-                    <label>
-                      <span>ZIP code</span>
-                      <input
-                        type="text"
-                        name="assetPostalCode"
-                        placeholder="33131"
-                        required
-                      />
-                    </label>
+                    <div className="turicum-quick-address-grid turicum-quick-field-wide">
+                      <label className="turicum-quick-address-unit">
+                        <span>Unit / Suite</span>
+                        <input
+                          type="text"
+                          name="assetUnit"
+                          placeholder="Suite 200"
+                        />
+                      </label>
+                      <label className="turicum-quick-address-city">
+                        <span>City</span>
+                        <input
+                          type="text"
+                          name="assetCity"
+                          placeholder="Miami"
+                          required
+                        />
+                      </label>
+                      <label className="turicum-quick-address-state">
+                        <span>State</span>
+                        <select name="assetState" defaultValue="" required>
+                          <option value="" disabled>
+                            State
+                          </option>
+                          {stateOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label className="turicum-quick-address-zip">
+                        <span>ZIP Code</span>
+                        <input
+                          type="text"
+                          name="assetPostalCode"
+                          placeholder="33131"
+                          required
+                        />
+                      </label>
+                    </div>
                     <label className="turicum-quick-field-wide">
                       <span>Describe the property</span>
                       <textarea
@@ -332,7 +359,7 @@ export function TuricumBorrowerOverview({
       </section>
 
       <footer className="turicum-quick-footer">
-        <Link href="https://turicum.us">turicum.us</Link>
+        <Link href={withMainAppPath("/")}>turicum.us</Link>
       </footer>
     </main>
   );
