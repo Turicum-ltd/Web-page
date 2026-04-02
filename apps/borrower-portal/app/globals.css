@@ -1,29 +1,29 @@
 @import "@xyflow/react/dist/style.css";
 
 :root {
-  --bg: #ffffff;
-  --surface: #ffffff;
+  --bg: #f7f8fb;
+  --surface: rgba(255, 255, 255, 0.96);
   --surface-strong: #ffffff;
-  --surface-ink: #ffffff;
-  --text: #000000;
-  --muted: #000000;
-  --line: #000000;
-  --line-strong: #000000;
-  --accent: #d4d4d4;
-  --accent-strong: #d4d4d4;
-  --accent-soft: transparent;
-  --success: #000000;
-  --warning: #000000;
-  --danger: #000000;
-  --shadow: none;
-  --shadow-soft: none;
-  --radius-xl: 0;
-  --radius-lg: 0;
-  --radius-md: 0;
-  --radius-sm: 0;
-  --max-width: 100%;
-  --font-body: "Times New Roman", Times, serif;
-  --font-display: "Times New Roman", Times, serif;
+  --surface-ink: #eef2f8;
+  --text: #111827;
+  --muted: #5b6474;
+  --line: rgba(71, 85, 105, 0.18);
+  --line-strong: rgba(71, 85, 105, 0.28);
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.09);
+  --success: #166534;
+  --warning: #92400e;
+  --danger: #b91c1c;
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.06);
+  --radius-xl: 24px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --max-width: 1200px;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   --type-eyebrow-size: 0.72rem;
   --type-eyebrow-tracking: 0;
   --type-body-size: 0.96rem;
@@ -43,9 +43,6 @@
 
 * {
   box-sizing: border-box;
-  border-radius: 0 !important;
-  letter-spacing: normal !important;
-  text-shadow: none !important;
 }
 
 html {
@@ -62,18 +59,25 @@ body {
 }
 
 body::before {
-  display: none;
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(247, 248, 251, 0));
+  opacity: 1;
 }
 
 a {
-  color: #000000;
-  text-decoration: underline;
+  color: var(--accent-strong);
+  text-decoration: none;
 }
 
 main {
   width: 100%;
   margin: 0;
-  padding: 8px;
+  padding: 16px;
   position: relative;
   z-index: 1;
 }
@@ -91,6 +95,7 @@ main {
   background: var(--surface);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
+  border-radius: var(--radius-xl);
 }
 
 .hero {
@@ -5792,57 +5797,59 @@ body::before {
 }
 
 .turicum-quick-page {
-  width: min(100%, 980px);
+  width: min(100%, 1080px);
   margin: 0 auto;
-  padding: 36px 20px 64px;
+  padding: 44px 20px 72px;
   display: grid;
-  gap: 28px;
+  gap: 34px;
 }
 
 .turicum-quick-hero {
   display: grid;
-  gap: 18px;
+  gap: 20px;
   justify-items: center;
   text-align: center;
-  padding: 0;
+  padding: 18px 0 6px;
 }
 
 .turicum-quick-eyebrow,
 .turicum-quick-form-kicker,
 .turicum-quick-highlight-label {
   margin: 0;
-  color: #4b5563;
-  font-size: 0.82rem;
+  color: #64748b;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .turicum-quick-highlights {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
+  gap: 14px;
   width: 100%;
-  max-width: 860px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
+  max-width: 920px;
 }
 
 .turicum-quick-highlight {
   display: grid;
-  gap: 6px;
-  min-height: 96px;
-  padding: 18px 20px;
-  border-right: 1px solid #d1d5db;
-  border-bottom: 1px solid #d1d5db;
+  gap: 8px;
+  min-height: 112px;
+  padding: 18px 20px 20px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 18px;
   align-content: start;
-  background: #ffffff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 248, 251, 0.96)),
+    #ffffff;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
 }
 
 .turicum-quick-highlight strong {
-  font-size: 1.18rem;
-  line-height: 1.35;
-  letter-spacing: 0;
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: #111827;
 }
 
@@ -5854,55 +5861,59 @@ body::before {
 
 .turicum-quick-form-card {
   display: grid;
-  gap: 28px;
-  width: min(100%, 760px);
-  padding: clamp(28px, 4vw, 44px);
-  border: 1px solid #111827;
-  background: #ffffff;
-  box-shadow: 0 18px 36px rgba(17, 24, 39, 0.08);
+  gap: 30px;
+  width: min(100%, 820px);
+  padding: clamp(30px, 4vw, 48px);
+  border: 1px solid rgba(71, 85, 105, 0.18);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98)),
+    #ffffff;
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.09);
 }
 
 .turicum-quick-form-header {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   text-align: center;
   justify-items: center;
 }
 
 .turicum-quick-form-header h2 {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(2rem, 4vw, 3.1rem);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
+  max-width: 13ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.3rem, 4vw, 3.35rem);
+  line-height: 0.98;
+  letter-spacing: -0.032em;
   color: #111827;
 }
 
 .turicum-quick-form-header > p:not(.turicum-quick-form-kicker) {
   margin: 0;
-  max-width: 60ch;
-  color: #374151;
+  max-width: 62ch;
+  color: #475569;
   font-size: 1.08rem;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .turicum-quick-title {
   margin: 0;
-  max-width: 12ch;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(2.8rem, 5vw, 4.5rem);
-  font-weight: 700;
+  max-width: 11ch;
+  font-family: var(--font-display);
+  font-size: clamp(3.1rem, 5.2vw, 5rem);
+  font-weight: 600;
   line-height: 0.96;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.038em;
   color: #111827;
 }
 
 .turicum-quick-copy {
   margin: 0;
   max-width: 58ch;
-  color: #374151;
-  font-size: 1.14rem;
-  line-height: 1.75;
+  color: #475569;
+  font-size: 1.16rem;
+  line-height: 1.78;
 }
 
 .turicum-quick-form {
@@ -5922,7 +5933,7 @@ body::before {
 .turicum-quick-question,
 .turicum-quick-section-title {
   color: #111827;
-  font-size: 1.05rem;
+  font-size: 1.06rem;
   font-weight: 700;
   line-height: 1.5;
 }
@@ -5931,8 +5942,11 @@ body::before {
   display: grid;
   gap: 18px;
   padding: 24px;
-  border: 1px solid #d1d5db;
-  background: #fafafa;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(241, 245, 249, 0.78)),
+    #f8fafc;
 }
 
 .turicum-quick-section-fields,
@@ -5943,8 +5957,10 @@ body::before {
 
 .turicum-quick-section-title {
   margin: 0;
-  font-size: 1.28rem;
-  line-height: 1.4;
+  font-family: var(--font-display);
+  font-size: 1.42rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
 .turicum-quick-contact-group {
@@ -5963,16 +5979,18 @@ body::before {
 .turicum-quick-form select,
 .turicum-quick-form textarea {
   width: 100%;
-  border: 1px solid #9ca3af;
+  border: 1px solid rgba(100, 116, 139, 0.36);
+  border-radius: 14px;
   padding: 17px 18px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.92);
   color: #111827;
   font: inherit;
   font-size: 1.08rem;
   line-height: 1.5;
   transition:
     border-color 160ms ease,
-    box-shadow 160ms ease;
+    box-shadow 160ms ease,
+    background-color 160ms ease;
 }
 
 .turicum-quick-form textarea {
@@ -5982,15 +6000,16 @@ body::before {
 
 .turicum-quick-form input::placeholder,
 .turicum-quick-form textarea::placeholder {
-  color: #6b7280;
+  color: #94a3b8;
 }
 
 .turicum-quick-form input:focus,
 .turicum-quick-form select:focus,
 .turicum-quick-form textarea:focus {
   outline: none;
-  border-color: #111827;
-  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+  border-color: rgba(37, 99, 235, 0.5);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
 .turicum-quick-actions {
@@ -6000,8 +6019,9 @@ body::before {
 
 .turicum-quick-actions button {
   width: min(100%, 360px);
-  border: 1px solid #111827;
-  background: #111827;
+  border: 1px solid #1e3a5f;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #1f4f85, #173b63);
   color: #ffffff;
   padding: 18px 24px;
   font: inherit;
@@ -6009,12 +6029,17 @@ body::before {
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: background-color 160ms ease, color 160ms ease;
+  box-shadow: 0 18px 34px rgba(30, 58, 95, 0.18);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
 }
 
 .turicum-quick-actions button:hover {
-  background: #ffffff;
-  color: #111827;
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow: 0 22px 42px rgba(30, 58, 95, 0.22);
 }
 
 .turicum-quick-success,
@@ -6022,12 +6047,14 @@ body::before {
   padding: 20px 22px;
   width: 100%;
   border: 1px solid;
+  border-radius: 18px;
   background: #ffffff;
 }
 
 .turicum-quick-success {
-  border-color: #9ca3af;
+  border-color: rgba(37, 99, 235, 0.18);
   color: #111827;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.88));
 }
 
 .turicum-quick-success p {
@@ -6055,7 +6082,7 @@ body::before {
 }
 
 .turicum-quick-footer a {
-  color: #111827;
+  color: #2563eb;
   text-decoration: underline;
   font-size: 0.96rem;
   font-weight: 600;
@@ -6069,7 +6096,7 @@ body::before {
   }
 
   .turicum-quick-highlight {
-    border-right: 0;
+    min-height: auto;
   }
 }
 
