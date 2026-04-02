@@ -526,11 +526,11 @@ export function CommercialLoanApplicationForm({
     : null;
 
   return (
-    <form className="form-grid turicum-intro-call-form" method="post" action={action}>
+    <form className="form-grid turicum-intro-call-form turicum-application-form-shell" method="post" action={action}>
       {preIntakeSummary?.length ? (
-        <div className="panel subtle">
+        <div className="turicum-application-prefill-bar">
           <p className="eyebrow">Prefilled from quick intake</p>
-          <ul className="list compact-list">
+          <ul className="list compact-list turicum-application-prefill-list">
             {preIntakeSummary.map((item) => (
               <li key={item}>{item}</li>
             ))}

@@ -3812,9 +3812,85 @@ code {
   margin: 0;
 }
 
+.turicum-application-page {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 16px 16px 40px;
+  gap: 12px;
+}
+
+.turicum-application-hero {
+  display: grid;
+  gap: 6px;
+  padding: 18px 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(186, 204, 224, 0.22);
+  background: #002147;
+  box-shadow: 0 18px 38px rgba(0, 33, 71, 0.14);
+}
+
+.turicum-application-hero .eyebrow {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.turicum-application-hero h1 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 3.8vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.turicum-application-hero .helper {
+  margin: 0;
+  max-width: 68ch;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.5;
+}
+
+.turicum-application-form-shell {
+  gap: 12px;
+}
+
+.turicum-application-prefill-bar {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid #d7e0e7;
+  border-radius: 4px;
+  background: #f4f7f9;
+}
+
+.turicum-application-prefill-bar .eyebrow {
+  margin: 0;
+  color: #6b7d90;
+}
+
+.turicum-application-prefill-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turicum-application-prefill-list li {
+  padding: 10px 12px;
+  border: 1px solid #d7e0e7;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #243447;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 .turicum-intro-steps {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -3822,11 +3898,11 @@ code {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: 1px solid rgba(39, 39, 42, 0.92);
-  background: rgba(9, 9, 11, 0.46);
-  color: rgba(161, 161, 170, 0.92);
+  padding: 12px 14px;
+  border-radius: 4px;
+  border: 1px solid #d7e0e7;
+  background: #ffffff;
+  color: #6b7280;
 }
 
 .turicum-intro-step strong,
@@ -3835,7 +3911,7 @@ code {
 }
 
 .turicum-intro-step strong {
-  color: #f4f4f5;
+  color: #002147;
   font-size: 0.95rem;
 }
 
@@ -3846,10 +3922,10 @@ code {
 
 .turicum-intro-step.is-active,
 .turicum-intro-step.is-complete {
-  border-color: rgba(37, 99, 235, 0.38);
-  background: rgba(24, 24, 27, 0.92);
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.08), 0 0 18px rgba(37, 99, 235, 0.08);
-  color: rgba(191, 219, 254, 0.9);
+  border-color: #bfd3e6;
+  background: #f4f7f9;
+  box-shadow: none;
+  color: #1f3d5b;
 }
 
 .turicum-intro-step-index {
@@ -3860,26 +3936,27 @@ code {
   justify-content: center;
   flex-shrink: 0;
   border-radius: 999px;
-  border: 1px solid rgba(63, 63, 70, 0.92);
-  background: rgba(24, 24, 27, 0.94);
-  color: #f4f4f5;
+  border: 1px solid #bfd3e6;
+  background: #ffffff;
+  color: #002147;
   font-weight: 700;
 }
 
 .turicum-intro-step.is-active .turicum-intro-step-index,
 .turicum-intro-step.is-complete .turicum-intro-step-index {
-  border-color: rgba(37, 99, 235, 0.46);
-  background: rgba(37, 99, 235, 0.18);
-  box-shadow: 0 0 14px rgba(37, 99, 235, 0.14);
+  border-color: #002147;
+  background: #002147;
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .turicum-intro-stage {
   display: grid;
-  gap: 18px;
-  padding: 18px;
-  border: 1px solid rgba(39, 39, 42, 0.9);
-  border-radius: 22px;
-  background: rgba(9, 9, 11, 0.38);
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #d7e0e7;
+  border-radius: 4px;
+  background: #f4f7f9;
 }
 
 .turicum-application-step-shell {
@@ -3893,9 +3970,9 @@ code {
   display: inline-flex;
   align-items: flex-start;
   justify-content: center;
-  color: #2563eb;
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: #002147;
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 4vw, 2.6rem);
   font-weight: 800;
   line-height: 1;
 }
@@ -3908,18 +3985,18 @@ code {
 }
 
 .turicum-intro-stage .field.is-invalid input {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.18);
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.1);
 }
 
 .turicum-intro-stage .field.is-invalid input:focus {
-  outline-color: rgba(239, 68, 68, 0.34);
-  border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+  outline-color: rgba(220, 38, 38, 0.24);
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
 }
 
 .turicum-field-error {
-  color: #f87171;
+  color: #b91c1c;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -3929,6 +4006,21 @@ code {
 .turicum-intro-stage-head {
   display: grid;
   gap: 6px;
+}
+
+.turicum-intro-stage-head .eyebrow,
+.turicum-intro-stage-head .helper,
+.turicum-intro-stage-head h3 {
+  margin: 0;
+}
+
+.turicum-intro-stage-head h3 {
+  color: #002147;
+}
+
+.turicum-intro-stage-head .helper {
+  color: #425466;
+  line-height: 1.5;
 }
 
 .turicum-intro-stage-head h3,
@@ -3950,9 +4042,9 @@ code {
   display: grid;
   gap: 12px;
   padding: 16px;
-  border-radius: 18px;
-  border: 1px solid rgba(39, 39, 42, 0.92);
-  background: rgba(24, 24, 27, 0.68);
+  border-radius: 4px;
+  border: 1px solid #d7e0e7;
+  background: #ffffff;
   scroll-margin-top: 120px;
 }
 
@@ -3974,9 +4066,9 @@ code {
   display: grid;
   gap: 12px;
   padding: 16px;
-  border-radius: 18px;
-  border: 1px solid #27272a;
-  background: rgba(9, 9, 11, 0.62);
+  border-radius: 4px;
+  border: 1px solid #d7e0e7;
+  background: #ffffff;
 }
 
 .turicum-application-balance-column .eyebrow {
@@ -3987,10 +4079,10 @@ code {
   display: grid;
   gap: 18px;
   padding: 20px;
-  border-radius: 22px;
-  border: 1px solid #27272a;
-  background: #18181b;
-  box-shadow: 0 0 0 1px rgba(24, 24, 27, 0.45), 0 24px 54px rgba(0, 0, 0, 0.24);
+  border-radius: 4px;
+  border: 1px solid #d7e0e7;
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
 }
 
 .turicum-application-section-head {
@@ -4001,6 +4093,10 @@ code {
 .turicum-application-section-head .eyebrow,
 .turicum-application-section-head h4 {
   margin: 0;
+}
+
+.turicum-application-section-head h4 {
+  color: #002147;
 }
 
 .turicum-application-property-grid {
@@ -4035,10 +4131,10 @@ code {
   appearance: none;
   min-height: 46px;
   padding: 0 16px;
-  border-radius: 999px;
-  border: 1px solid #27272a;
-  background: #09090b;
-  color: #d4d4d8;
+  border-radius: 4px;
+  border: 2px solid #bfd3e6;
+  background: #ffffff;
+  color: #002147;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -4047,26 +4143,26 @@ code {
 
 .turicum-purpose-toggle:hover,
 .turicum-purpose-toggle:focus-visible {
-  border-color: rgba(37, 99, 235, 0.72);
-  color: #f4f4f5;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  border-color: #002147;
+  color: #002147;
+  box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.08);
   outline: none;
 }
 
 .turicum-purpose-toggle.is-active {
-  border-color: rgba(37, 99, 235, 0.82);
-  background: rgba(37, 99, 235, 0.16);
-  color: #eff6ff;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2), 0 0 16px rgba(37, 99, 235, 0.14);
+  border-color: #002147;
+  background: #002147;
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .turicum-ownership-shell {
   display: grid;
   gap: 14px;
   padding: 18px;
-  border-radius: 18px;
-  border: 1px solid #27272a;
-  background: #09090b;
+  border-radius: 4px;
+  border: 1px solid #d7e0e7;
+  background: #f4f7f9;
 }
 
 .turicum-ownership-head {
@@ -4096,7 +4192,7 @@ code {
 
 .turicum-ownership-table-head {
   padding: 0 4px;
-  color: #a1a1aa;
+  color: #6b7d90;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -4105,9 +4201,9 @@ code {
 
 .turicum-ownership-table-row {
   padding: 14px;
-  border-radius: 16px;
-  border: 1px solid #27272a;
-  background: #18181b;
+  border-radius: 4px;
+  border: 1px solid #d7e0e7;
+  background: #ffffff;
 }
 
 .turicum-ownership-remove {
@@ -4119,7 +4215,7 @@ code {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  color: #d4d4d8;
+  color: #243447;
   font-size: 0.94rem;
 }
 
@@ -4135,18 +4231,78 @@ code {
   display: grid;
   gap: 14px;
   padding: 18px;
-  border-radius: 18px;
-  border: 1px solid #27272a;
-  background: #09090b;
+  border-radius: 4px;
+  border: 1px solid #d7e0e7;
+  background: #f4f7f9;
 }
 
 .turicum-consent-card .helper {
   margin: 0;
   max-width: 72ch;
+  color: #425466;
+  line-height: 1.5;
 }
 
 .turicum-intro-step-actions {
   justify-content: space-between;
+}
+
+.turicum-application-form-shell input,
+.turicum-application-form-shell select,
+.turicum-application-form-shell textarea {
+  border: 2px solid #bfd3e6;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #111827;
+  line-height: 1.5;
+}
+
+.turicum-application-form-shell input:focus,
+.turicum-application-form-shell select:focus,
+.turicum-application-form-shell textarea:focus {
+  outline: none;
+  border-color: #002147;
+  box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.08);
+}
+
+.turicum-application-form-shell label span {
+  color: #002147;
+  font-weight: 700;
+}
+
+.turicum-application-form-shell .secondary-button,
+.turicum-application-form-shell .form-actions button {
+  border-radius: 4px;
+}
+
+.turicum-application-form-shell .secondary-button {
+  background: #ffffff;
+  color: #002147;
+  border: 1px solid #bfd3e6;
+}
+
+.turicum-application-form-shell .secondary-button:hover {
+  background: #f4f7f9;
+  border-color: #9fb7cf;
+}
+
+.turicum-application-form-shell .turicum-primary-button {
+  background: #1b5e20;
+  border-color: #1b5e20;
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(27, 94, 32, 0.18);
+}
+
+.turicum-application-form-shell .turicum-primary-button:hover {
+  background: #1f6d25;
+  border-color: #1f6d25;
+}
+
+@media (max-width: 920px) {
+  .turicum-application-prefill-list,
+  .turicum-intro-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .turicum-public-shell .turicum-role-grid {
@@ -5547,6 +5703,21 @@ code {
 }
 
 @media (max-width: 768px) {
+  .turicum-application-page {
+    padding: 12px 12px 28px;
+  }
+
+  .turicum-application-hero,
+  .turicum-intro-stage,
+  .turicum-application-section-card {
+    padding: 14px;
+  }
+
+  .turicum-application-prefill-list,
+  .turicum-intro-steps {
+    grid-template-columns: 1fr;
+  }
+
   .turicum-lanes-split,
   .turicum-form-layout {
     display: flex;

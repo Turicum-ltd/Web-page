@@ -27,8 +27,8 @@ export default async function PrefilledApplicationPage({
 
   return (
     <main>
-      <div className="shell" style={{ maxWidth: 980, margin: "0 auto", padding: "24px 16px 48px" }}>
-        <section className="panel">
+      <div className="shell turicum-application-page">
+        <section className="panel turicum-application-hero">
           <p className="eyebrow">Turicum application</p>
           <h1>Complete the full commercial loan application</h1>
           <p className="helper">
