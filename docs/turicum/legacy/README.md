@@ -15,3 +15,9 @@ Current source-of-truth setup docs:
 - [Project README](../../../README.md)
 - [DigitalOcean transfer](../digitalocean-transfer.md)
 - [Surface ownership](../../turicum-surface-ownership.md)
+
+Archived legacy artifacts in this repo include:
+
+- `legacy/start-turicum-marketshift.command`
+- `legacy/ecosystem.config.cjs`
+- `docs/turicum/legacy/macstudio-openclaw-deploy.md`

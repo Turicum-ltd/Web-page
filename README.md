@@ -100,6 +100,7 @@ Quick setup notes are in [scripts/setup-supabase.md](scripts/setup-supabase.md).
 
 - `/`: Turicum public landing page
 - `/portal`: redirect to `https://borrow.turicum.us`
+- `/borrower/[token]`: case-issued borrower packet from the internal case workspace
 - `/investors`: investor portal
 - `/investor-handoff`: investor-safe summary surface
 - `/review`: protected team hub

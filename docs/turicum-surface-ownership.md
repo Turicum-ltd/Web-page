@@ -28,11 +28,25 @@ It owns:
 
 This is the borrower-only intake surface.
 
+### Case-Issued Borrower Packet
+
+The main app still owns:
+
+- `https://turicum.us/borrower/[token]`
+
+This route is not the public borrower marketing or pre-intake surface.
+
+It is the case-issued packet that comes out of:
+
+- `/cases/[id]/intake`
+
+Keep this route in the main app unless the case workspace is redesigned too.
+
 ### Redirect Boundary
 
 The main-app `/portal` route is only a redirect shim to the borrower app.
 
-Do not build new borrower UI in the main app.
+Do not build new public borrower intake UI in the main app.
 
 ### Borrower Data Flow
 
@@ -55,4 +69,7 @@ The live investor path is:
 
 ### Cleanup Rule
 
-If a feature is borrower-facing, it belongs in `apps/borrower-portal` unless it is strictly an admin handoff or reporting surface.
+If a feature is borrower-facing, it belongs in `apps/borrower-portal` unless it is:
+
+- the case-issued `/borrower/[token]` packet
+- strictly an admin handoff or reporting surface
