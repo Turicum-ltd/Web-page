@@ -340,7 +340,7 @@ export async function markPreIntakeLeadApplicationSubmitted(input: {
 }) {
   const supabase = getSupabaseAdmin();
   const now = new Date().toISOString();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from(PRE_INTAKE_LEADS_TABLE)
     .update({
       updated_at: now,
@@ -348,9 +348,13 @@ export async function markPreIntakeLeadApplicationSubmitted(input: {
       application_submitted_at: now,
       application_id: input.applicationId
     })
-    .eq("id", input.leadId);
+    .eq("id", input.leadId)
+    .select(PRE_INTAKE_LEAD_SELECT)
+    .single();
 
   if (error) {
     throw new Error(`Failed to update pre-intake lead submission status: ${error.message}`);
   }
+
+  return mapLeadRow(data as PreIntakeLeadRow);
 }
