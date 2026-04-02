@@ -156,6 +156,12 @@ export function TuricumPortalOverview() {
                 Visit the Borrower Intake
               </a>
             </p>
+            <p className="helper turicum-footer-note">
+              Team admin?{" "}
+              <Link href={withBasePath("/team-login?next=%2Faccess")}>
+                Open Access Admin
+              </Link>
+            </p>
           </footer>
         </div>
       </div>
