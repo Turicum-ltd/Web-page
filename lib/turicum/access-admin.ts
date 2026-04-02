@@ -1,13 +1,17 @@
 import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
+import { buildBorrowerApplicationAccessEmail } from "@/lib/turicum/borrower-application-access-email-template";
 import { buildInvestorWelcomeEmail } from "@/lib/turicum/investor-welcome-email-template";
+import { withBorrowerPortalPath } from "@/lib/turicum/borrower-portal";
 import { listCases } from "@/lib/turicum/cases";
 import { getBorrowerPortalForCase, saveBorrowerPortalSetup } from "@/lib/turicum/intake";
 import { enqueueOutboundEmail } from "@/lib/turicum/outbound-email-queue";
 import {
   generatePreIntakeLeadApplicationLink,
   listPreIntakeLeads,
+  type PreIntakeLeadInput,
+  updatePreIntakeLead,
   type PreIntakeLeadRecord
 } from "@/lib/turicum/pre-intake-leads";
 import type { CaseRecord } from "@/lib/turicum/types";
@@ -747,4 +751,73 @@ export async function createOrUpdateBorrowerInvite(input: {
 
 export async function createPreIntakeApplicationLink(leadId: string) {
   return generatePreIntakeLeadApplicationLink(leadId);
+}
+
+export async function savePreIntakeLeadReview(input: {
+  actorEmail: string;
+  leadId: string;
+  lead: PreIntakeLeadInput;
+}) {
+  const updatedLead = await updatePreIntakeLead({
+    leadId: input.leadId,
+    lead: input.lead,
+    status: "reviewed_post_call"
+  });
+
+  await insertAdminAuditLog({
+    actorEmail: input.actorEmail,
+    targetUserEmail: updatedLead.email,
+    actionType: "UPDATE_PRE_INTAKE_LEAD",
+    metadata: {
+      leadId: updatedLead.id,
+      status: updatedLead.status
+    }
+  });
+
+  return updatedLead;
+}
+
+export async function saveAndSendPreIntakeApplicationAccess(input: {
+  actorEmail: string;
+  leadId: string;
+  lead: PreIntakeLeadInput;
+}) {
+  const updatedLead = await updatePreIntakeLead({
+    leadId: input.leadId,
+    lead: input.lead,
+    status: "reviewed_post_call"
+  });
+  const leadWithLink = await generatePreIntakeLeadApplicationLink(updatedLead.id);
+  const applicationUrl = withBorrowerPortalPath(`/apply/${leadWithLink.applicationToken}`);
+  const welcomeEmail = buildBorrowerApplicationAccessEmail({
+    borrowerName: leadWithLink.fullName,
+    applicationUrl
+  });
+
+  await enqueueOutboundEmail({
+    templateKey: "borrower_application_access",
+    to: leadWithLink.email,
+    subject: welcomeEmail.subject,
+    text: welcomeEmail.text,
+    metadata: {
+      leadId: leadWithLink.id,
+      applicationUrl
+    }
+  });
+
+  await insertAdminAuditLog({
+    actorEmail: input.actorEmail,
+    targetUserEmail: leadWithLink.email,
+    actionType: "SEND_PRE_INTAKE_APPLICATION_ACCESS",
+    metadata: {
+      leadId: leadWithLink.id,
+      applicationUrl,
+      status: leadWithLink.status
+    }
+  });
+
+  return {
+    lead: leadWithLink,
+    applicationUrl
+  };
 }

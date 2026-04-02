@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { TuricumNav } from "@/components/turicum/nav";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
+import { withBorrowerPortalPath } from "@/lib/turicum/borrower-portal";
 import { isSupabaseConfigured, listCases } from "@/lib/turicum/cases";
 import { pipelineCards } from "@/lib/turicum/sample-data";
 import { getStatePacks, summarizePack } from "@/lib/turicum/state-packs";
-import { listBorrowerIntroCallRequests } from "@/lib/turicum/borrower-intro-requests";
 import { getCaseDealProfile } from "@/lib/turicum/deal-intake";
 import { getBorrowerPortalByCaseId, getExecutionReadiness } from "@/lib/turicum/intake";
+import { listPreIntakeLeads } from "@/lib/turicum/pre-intake-leads";
 import { withBasePath } from "@/lib/turicum/runtime";
 import type { CaseRecord } from "@/lib/turicum/types";
 
@@ -117,8 +118,8 @@ const reviewSurfaces = [
   {
     eyebrow: "Borrower path",
     title: "Borrower portal",
-    description: "First-call request flow, process explanation, and secure-intake boundary.",
-    href: "/portal",
+    description: "Standalone quick-asset intake on borrow.turicum.us plus the secure application link handoff.",
+    href: withBorrowerPortalPath("/"),
     label: "Open borrower portal"
   },
   {
@@ -147,7 +148,7 @@ const deploymentNotes = [
 export async function TuricumReviewOverview() {
   const statePacks = getStatePacks();
   const cases = await listCases();
-  const introRequests = await listBorrowerIntroCallRequests();
+  const preIntakeLeads = await listPreIntakeLeads();
   const summary = statePacks.map((statePack) => ({
     ...statePack,
     counts: summarizePack(statePack)
@@ -180,8 +181,12 @@ export async function TuricumReviewOverview() {
   );
 
   const activeQueueMetrics = queueMetrics.filter((item): item is NonNullable<typeof item> => item !== null);
-  const introNewCount = introRequests.filter((item) => item.status === "new").length;
-  const introScheduledCount = introRequests.filter((item) => item.status === "scheduled").length;
+  const introNewCount = preIntakeLeads.filter(
+    (item) => item.status !== "application_submitted" && item.status !== "closed"
+  ).length;
+  const introScheduledCount = preIntakeLeads.filter(
+    (item) => item.status === "application_link_generated" || item.status === "reviewed_post_call"
+  ).length;
   const pendingSignatureFiles = activeQueueMetrics.filter(
     (item) => item.signatureRequiredForms > 0 && !item.executionComplete
   ).length;
@@ -279,14 +284,14 @@ export async function TuricumReviewOverview() {
               <h2>What is waiting in the staff lane right now</h2>
             </div>
             <p className="muted page-note">
-              This pulls from live intro-call requests and case execution state so the team hub starts with actual operational pressure.
+              This pulls from live borrower pre-intake leads and case execution state so the team hub starts with actual operational pressure.
             </p>
           </div>
           <div className="status-grid turicum-team-queue-grid">
             <article className="status-card turicum-review-card turicum-team-queue-card">
               <p className="eyebrow">Borrower intake</p>
-              <strong>{introNewCount} new intro-call request{introNewCount === 1 ? "" : "s"}</strong>
-              <p className="helper">{introScheduledCount} already scheduled and waiting on the next conversation or packet launch.</p>
+              <strong>{introNewCount} incoming call lead{introNewCount === 1 ? "" : "s"}</strong>
+              <p className="helper">{introScheduledCount} already reviewed or holding a generated application link.</p>
             </article>
             <article className="status-card turicum-review-card turicum-team-queue-card">
               <p className="eyebrow">Execution</p>

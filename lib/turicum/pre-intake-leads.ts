@@ -80,6 +80,8 @@ export interface PreIntakeLeadRecord {
 }
 
 const PRE_INTAKE_LEADS_TABLE = "pre_intake_leads";
+const PRE_INTAKE_LEAD_SELECT =
+  "id, created_at, updated_at, status, full_name, email, phone, requested_amount, asset_location, property_type, asset_description, ownership_status, purchase_date, purchase_price, capital_invested, existing_liens, title_held, estimated_value, value_basis, preferred_timeline, application_token, application_link_generated_at, application_started_at, application_submitted_at, application_id, summary_email_queued_at";
 
 function readFirstEnv(...names: string[]) {
   for (const name of names) {
@@ -158,6 +160,27 @@ function mapLeadRow(row: PreIntakeLeadRow): PreIntakeLeadRecord {
   };
 }
 
+function buildLeadPayload(input: PreIntakeLeadInput) {
+  return {
+    full_name: requireValue("Name", input.fullName),
+    email: normalizeEmail(input.email),
+    phone: requireValue("Phone", input.phone),
+    requested_amount: requireValue("Requested amount", input.requestedAmount),
+    asset_location: requireValue("Asset location", input.assetLocation),
+    property_type: requireValue("Property type", input.propertyType),
+    asset_description: requireValue("Asset description", input.assetDescription),
+    ownership_status: requireValue("Ownership status", input.ownershipStatus),
+    purchase_date: requireValue("Purchase date", input.purchaseDate),
+    purchase_price: requireValue("Purchase price", input.purchasePrice),
+    capital_invested: requireValue("Capital invested", input.capitalInvested),
+    existing_liens: requireValue("Existing liens", input.existingLiens),
+    title_held: requireValue("Title held", input.titleHeld),
+    estimated_value: requireValue("Estimated value", input.estimatedValue),
+    value_basis: requireValue("Value basis", input.valueBasis),
+    preferred_timeline: requireValue("Preferred timeline", input.preferredTimeline)
+  };
+}
+
 export async function createPreIntakeLead(input: PreIntakeLeadInput) {
   const supabase = getSupabaseAdmin();
   const now = new Date().toISOString();
@@ -166,26 +189,9 @@ export async function createPreIntakeLead(input: PreIntakeLeadInput) {
     .insert({
       created_at: now,
       updated_at: now,
-      full_name: requireValue("Name", input.fullName),
-      email: normalizeEmail(input.email),
-      phone: requireValue("Phone", input.phone),
-      requested_amount: requireValue("Requested amount", input.requestedAmount),
-      asset_location: requireValue("Asset location", input.assetLocation),
-      property_type: requireValue("Property type", input.propertyType),
-      asset_description: requireValue("Asset description", input.assetDescription),
-      ownership_status: requireValue("Ownership status", input.ownershipStatus),
-      purchase_date: requireValue("Purchase date", input.purchaseDate),
-      purchase_price: requireValue("Purchase price", input.purchasePrice),
-      capital_invested: requireValue("Capital invested", input.capitalInvested),
-      existing_liens: requireValue("Existing liens", input.existingLiens),
-      title_held: requireValue("Title held", input.titleHeld),
-      estimated_value: requireValue("Estimated value", input.estimatedValue),
-      value_basis: requireValue("Value basis", input.valueBasis),
-      preferred_timeline: requireValue("Preferred timeline", input.preferredTimeline)
+      ...buildLeadPayload(input)
     })
-    .select(
-      "id, created_at, updated_at, status, full_name, email, phone, requested_amount, asset_location, property_type, asset_description, ownership_status, purchase_date, purchase_price, capital_invested, existing_liens, title_held, estimated_value, value_basis, preferred_timeline, application_token, application_link_generated_at, application_started_at, application_submitted_at, application_id, summary_email_queued_at"
-    )
+    .select(PRE_INTAKE_LEAD_SELECT)
     .single();
 
   if (error) {
@@ -199,9 +205,7 @@ export async function listPreIntakeLeads() {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from(PRE_INTAKE_LEADS_TABLE)
-    .select(
-      "id, created_at, updated_at, status, full_name, email, phone, requested_amount, asset_location, property_type, asset_description, ownership_status, purchase_date, purchase_price, capital_invested, existing_liens, title_held, estimated_value, value_basis, preferred_timeline, application_token, application_link_generated_at, application_started_at, application_submitted_at, application_id, summary_email_queued_at"
-    )
+    .select(PRE_INTAKE_LEAD_SELECT)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -216,6 +220,31 @@ export async function listPreIntakeLeads() {
   return ((data ?? []) as PreIntakeLeadRow[]).map(mapLeadRow);
 }
 
+export async function updatePreIntakeLead(input: {
+  leadId: string;
+  lead: PreIntakeLeadInput;
+  status?: string;
+}) {
+  const supabase = getSupabaseAdmin();
+  const now = new Date().toISOString();
+  const { data, error } = await supabase
+    .from(PRE_INTAKE_LEADS_TABLE)
+    .update({
+      updated_at: now,
+      ...buildLeadPayload(input.lead),
+      ...(input.status ? { status: input.status } : {})
+    })
+    .eq("id", input.leadId)
+    .select(PRE_INTAKE_LEAD_SELECT)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to update pre-intake lead: ${error.message}`);
+  }
+
+  return mapLeadRow(data as PreIntakeLeadRow);
+}
+
 export async function generatePreIntakeLeadApplicationLink(leadId: string) {
   const supabase = getSupabaseAdmin();
   const now = new Date().toISOString();
@@ -227,9 +256,7 @@ export async function generatePreIntakeLeadApplicationLink(leadId: string) {
       application_link_generated_at: now
     })
     .eq("id", leadId)
-    .select(
-      "id, created_at, updated_at, status, full_name, email, phone, requested_amount, asset_location, property_type, asset_description, ownership_status, purchase_date, purchase_price, capital_invested, existing_liens, title_held, estimated_value, value_basis, preferred_timeline, application_token, application_link_generated_at, application_started_at, application_submitted_at, application_id, summary_email_queued_at"
-    )
+    .select(PRE_INTAKE_LEAD_SELECT)
     .single();
 
   if (error) {
@@ -248,9 +275,7 @@ export async function getPreIntakeLeadByApplicationToken(token: string) {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from(PRE_INTAKE_LEADS_TABLE)
-    .select(
-      "id, created_at, updated_at, status, full_name, email, phone, requested_amount, asset_location, property_type, asset_description, ownership_status, purchase_date, purchase_price, capital_invested, existing_liens, title_held, estimated_value, value_basis, preferred_timeline, application_token, application_link_generated_at, application_started_at, application_submitted_at, application_id, summary_email_queued_at"
-    )
+    .select(PRE_INTAKE_LEAD_SELECT)
     .eq("application_token", nextToken)
     .maybeSingle();
 
@@ -283,9 +308,7 @@ export async function markPreIntakeLeadApplicationStarted(token: string) {
       application_started_at: now
     })
     .eq("id", lead.id)
-    .select(
-      "id, created_at, updated_at, status, full_name, email, phone, requested_amount, asset_location, property_type, asset_description, ownership_status, purchase_date, purchase_price, capital_invested, existing_liens, title_held, estimated_value, value_basis, preferred_timeline, application_token, application_link_generated_at, application_started_at, application_submitted_at, application_id, summary_email_queued_at"
-    )
+    .select(PRE_INTAKE_LEAD_SELECT)
     .single();
 
   if (error) {

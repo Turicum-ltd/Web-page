@@ -19,6 +19,8 @@ import {
   refreshBorrowerInvite,
   revokeBorrowerInvite,
   revokeInvestorCaseAccess,
+  saveAndSendPreIntakeApplicationAccess,
+  savePreIntakeLeadReview,
   setUserProfileActiveState,
   type StaffRole
 } from "@/lib/turicum/access-admin";
@@ -42,6 +44,27 @@ function rethrowRedirectError(error: unknown) {
   if (isRedirectError(error)) {
     throw error;
   }
+}
+
+function readPreIntakeLeadInput(formData: FormData) {
+  return {
+    fullName: String(formData.get("fullName") ?? ""),
+    email: String(formData.get("email") ?? ""),
+    phone: String(formData.get("phone") ?? ""),
+    requestedAmount: String(formData.get("requestedAmount") ?? ""),
+    assetLocation: String(formData.get("assetLocation") ?? ""),
+    propertyType: String(formData.get("propertyType") ?? ""),
+    assetDescription: String(formData.get("assetDescription") ?? ""),
+    ownershipStatus: String(formData.get("ownershipStatus") ?? ""),
+    purchaseDate: String(formData.get("purchaseDate") ?? ""),
+    purchasePrice: String(formData.get("purchasePrice") ?? ""),
+    capitalInvested: String(formData.get("capitalInvested") ?? ""),
+    existingLiens: String(formData.get("existingLiens") ?? ""),
+    titleHeld: String(formData.get("titleHeld") ?? ""),
+    estimatedValue: String(formData.get("estimatedValue") ?? ""),
+    valueBasis: String(formData.get("valueBasis") ?? ""),
+    preferredTimeline: String(formData.get("preferredTimeline") ?? "")
+  };
 }
 
 export default async function AccessAdminPage({ searchParams }: { searchParams?: SearchParams }) {
@@ -290,6 +313,64 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
     }
   }
 
+  async function saveBorrowerLeadReview(formData: FormData) {
+    "use server";
+
+    try {
+      if (!adminActorEmail) {
+        throw new Error("Active admin email is unavailable for borrower review logging.");
+      }
+
+      const lead = await savePreIntakeLeadReview({
+        actorEmail: adminActorEmail,
+        leadId: String(formData.get("leadId") ?? ""),
+        lead: readPreIntakeLeadInput(formData)
+      });
+
+      revalidatePath(withBasePath("/access"));
+      return {
+        ok: true,
+        lead
+      };
+    } catch (error) {
+      rethrowRedirectError(error);
+      return {
+        ok: false,
+        message: error instanceof Error ? error.message : "Borrower lead could not be updated."
+      };
+    }
+  }
+
+  async function sendBorrowerApplicationAccess(formData: FormData) {
+    "use server";
+
+    try {
+      if (!adminActorEmail) {
+        throw new Error("Active admin email is unavailable for borrower invite logging.");
+      }
+
+      const result = await saveAndSendPreIntakeApplicationAccess({
+        actorEmail: adminActorEmail,
+        leadId: String(formData.get("leadId") ?? ""),
+        lead: readPreIntakeLeadInput(formData)
+      });
+
+      revalidatePath(withBasePath("/access"));
+      return {
+        ok: true,
+        lead: result.lead,
+        url: result.applicationUrl
+      };
+    } catch (error) {
+      rethrowRedirectError(error);
+      return {
+        ok: false,
+        message:
+          error instanceof Error ? error.message : "Borrower application access email could not be queued."
+      };
+    }
+  }
+
   return (
     <main>
       <div className="shell">
@@ -405,6 +486,8 @@ export default async function AccessAdminPage({ searchParams }: { searchParams?:
             revokeInvite={revokeInvite}
             revokeGrant={revokeGrant}
             generateApplicationLink={generateApplicationLink}
+            saveBorrowerLeadReview={saveBorrowerLeadReview}
+            sendBorrowerApplicationAccess={sendBorrowerApplicationAccess}
             staffRoleOptions={staffRoleOptions}
           />
         )}

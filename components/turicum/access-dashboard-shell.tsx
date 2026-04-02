@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AccessUserTable } from "@/components/turicum/access-user-table";
@@ -48,11 +48,104 @@ interface AccessDashboardShellProps {
     url?: string;
     message?: string;
   }>;
+  saveBorrowerLeadReview: (formData: FormData) => Promise<{
+    ok: boolean;
+    lead?: AccessAdminSnapshot["preIntakeLeads"][number];
+    message?: string;
+  }>;
+  sendBorrowerApplicationAccess: (formData: FormData) => Promise<{
+    ok: boolean;
+    lead?: AccessAdminSnapshot["preIntakeLeads"][number];
+    url?: string;
+    message?: string;
+  }>;
   staffRoleOptions: Array<{ value: StaffRole; label: string }>;
 }
 
 type CreateUserMode = "staff" | "investor";
 type AccessTab = "team" | "investor" | "borrower";
+type BorrowerLead = AccessAdminSnapshot["preIntakeLeads"][number];
+type BorrowerLeadDraft = {
+  fullName: string;
+  email: string;
+  phone: string;
+  requestedAmount: string;
+  assetLocation: string;
+  propertyType: string;
+  assetDescription: string;
+  ownershipStatus: string;
+  purchaseDate: string;
+  purchasePrice: string;
+  capitalInvested: string;
+  existingLiens: string;
+  titleHeld: string;
+  estimatedValue: string;
+  valueBasis: string;
+  preferredTimeline: string;
+};
+
+const BORROWER_REVIEW_FIELDS: Array<{
+  name: keyof BorrowerLeadDraft;
+  label: string;
+  type?: "text" | "email" | "tel";
+  multiline?: boolean;
+}> = [
+  { name: "fullName", label: "Borrower name" },
+  { name: "email", label: "Email", type: "email" },
+  { name: "phone", label: "Phone", type: "tel" },
+  { name: "requestedAmount", label: "Requested amount" },
+  { name: "assetLocation", label: "Asset location" },
+  { name: "propertyType", label: "Property type" },
+  { name: "preferredTimeline", label: "Timeline" },
+  { name: "ownershipStatus", label: "Ownership status" },
+  { name: "purchaseDate", label: "Purchase date" },
+  { name: "purchasePrice", label: "Purchase price" },
+  { name: "capitalInvested", label: "Capital invested" },
+  { name: "estimatedValue", label: "Estimated value" },
+  { name: "valueBasis", label: "Value basis" },
+  { name: "titleHeld", label: "Title held" },
+  { name: "existingLiens", label: "Existing liens", multiline: true },
+  { name: "assetDescription", label: "Asset description", multiline: true }
+];
+
+function buildBorrowerLeadDraft(lead: BorrowerLead): BorrowerLeadDraft {
+  return {
+    fullName: lead.fullName,
+    email: lead.email,
+    phone: lead.phone,
+    requestedAmount: lead.requestedAmount,
+    assetLocation: lead.assetLocation,
+    propertyType: lead.propertyType,
+    assetDescription: lead.assetDescription,
+    ownershipStatus: lead.ownershipStatus,
+    purchaseDate: lead.purchaseDate,
+    purchasePrice: lead.purchasePrice,
+    capitalInvested: lead.capitalInvested,
+    existingLiens: lead.existingLiens,
+    titleHeld: lead.titleHeld,
+    estimatedValue: lead.estimatedValue,
+    valueBasis: lead.valueBasis,
+    preferredTimeline: lead.preferredTimeline
+  };
+}
+
+function buildLeadDraftMap(leads: BorrowerLead[]) {
+  return Object.fromEntries(leads.map((lead) => [lead.id, buildBorrowerLeadDraft(lead)])) as Record<
+    string,
+    BorrowerLeadDraft
+  >;
+}
+
+function buildBorrowerLeadFormData(leadId: string, draft: BorrowerLeadDraft) {
+  const formData = new FormData();
+  formData.set("leadId", leadId);
+
+  for (const [key, value] of Object.entries(draft)) {
+    formData.set(key, value);
+  }
+
+  return formData;
+}
 
 function PlusIcon() {
   return (
@@ -84,13 +177,22 @@ export function AccessDashboardShell({
   revokeInvite,
   revokeGrant,
   generateApplicationLink,
+  saveBorrowerLeadReview,
+  sendBorrowerApplicationAccess,
   staffRoleOptions
 }: AccessDashboardShellProps) {
   const router = useRouter();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createMode, setCreateMode] = useState<CreateUserMode>("staff");
   const [activeTab, setActiveTab] = useState<AccessTab>("team");
-  const [leadActionState, setLeadActionState] = useState<Record<string, { url?: string; message?: string }>>({});
+  const [leadRecords, setLeadRecords] = useState<BorrowerLead[]>(snapshot.preIntakeLeads);
+  const [leadDrafts, setLeadDrafts] = useState<Record<string, BorrowerLeadDraft>>(
+    buildLeadDraftMap(snapshot.preIntakeLeads)
+  );
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(snapshot.preIntakeLeads[0]?.id ?? null);
+  const [leadActionState, setLeadActionState] = useState<
+    Record<string, { url?: string; success?: string; message?: string }>
+  >({});
   const [activeLeadId, setActiveLeadId] = useState<string | null>(null);
 
   const activeStaffCount = useMemo(
@@ -101,6 +203,130 @@ export function AccessDashboardShell({
     () => snapshot.investorUsers.filter((user) => user.isActive).length,
     [snapshot.investorUsers]
   );
+  const selectedLead = useMemo(
+    () => leadRecords.find((lead) => lead.id === selectedLeadId) ?? leadRecords[0] ?? null,
+    [leadRecords, selectedLeadId]
+  );
+  const selectedLeadDraft = selectedLead ? leadDrafts[selectedLead.id] ?? buildBorrowerLeadDraft(selectedLead) : null;
+
+  useEffect(() => {
+    setLeadRecords(snapshot.preIntakeLeads);
+    setLeadDrafts(buildLeadDraftMap(snapshot.preIntakeLeads));
+    setSelectedLeadId((current) =>
+      current && snapshot.preIntakeLeads.some((lead) => lead.id === current)
+        ? current
+        : snapshot.preIntakeLeads[0]?.id ?? null
+    );
+  }, [snapshot.preIntakeLeads]);
+
+  function syncLeadRecord(updatedLead: BorrowerLead) {
+    setLeadRecords((current) =>
+      current.map((lead) => (lead.id === updatedLead.id ? updatedLead : lead))
+    );
+    setLeadDrafts((current) => ({
+      ...current,
+      [updatedLead.id]: buildBorrowerLeadDraft(updatedLead)
+    }));
+  }
+
+  async function handleLeadSave(leadId: string) {
+    const draft = leadDrafts[leadId];
+
+    if (!draft) {
+      return;
+    }
+
+    setActiveLeadId(leadId);
+    const result = await saveBorrowerLeadReview(buildBorrowerLeadFormData(leadId, draft));
+
+    if (result.ok && result.lead) {
+      syncLeadRecord(result.lead);
+      setLeadActionState((current) => ({
+        ...current,
+        [leadId]: {
+          ...current[leadId],
+          success: "Answers updated after the call.",
+          message: undefined
+        }
+      }));
+      router.refresh();
+    } else {
+      setLeadActionState((current) => ({
+        ...current,
+        [leadId]: {
+          ...current[leadId],
+          success: undefined,
+          message: result.message ?? "Borrower lead could not be updated."
+        }
+      }));
+    }
+
+    setActiveLeadId(null);
+  }
+
+  async function handleLeadSend(leadId: string) {
+    const draft = leadDrafts[leadId];
+
+    if (!draft) {
+      return;
+    }
+
+    setActiveLeadId(leadId);
+    const result = await sendBorrowerApplicationAccess(buildBorrowerLeadFormData(leadId, draft));
+
+    if (result.ok && result.lead) {
+      syncLeadRecord(result.lead);
+      setLeadActionState((current) => ({
+        ...current,
+        [leadId]: {
+          ...current[leadId],
+          url: result.url,
+          success: "Application login email queued for the borrower.",
+          message: undefined
+        }
+      }));
+      router.refresh();
+    } else {
+      setLeadActionState((current) => ({
+        ...current,
+        [leadId]: {
+          ...current[leadId],
+          success: undefined,
+          message: result.message ?? "Borrower application access email could not be queued."
+        }
+      }));
+    }
+
+    setActiveLeadId(null);
+  }
+
+  async function handleGenerateLink(leadId: string) {
+    setActiveLeadId(leadId);
+    const result = await generateApplicationLink(leadId);
+
+    setLeadActionState((current) => ({
+      ...current,
+      [leadId]: result.ok
+        ? {
+            ...current[leadId],
+            url: result.url,
+            success: "Application link refreshed.",
+            message: undefined
+          }
+        : {
+            ...current[leadId],
+            success: undefined,
+            message: result.message ?? "Application link could not be generated."
+          }
+    }));
+
+    if (result.ok && navigator.clipboard?.writeText && result.url) {
+      void navigator.clipboard.writeText(result.url);
+      router.refresh();
+    }
+
+    setActiveLeadId(null);
+  }
 
   return (
     <div className="turicum-access-dashboard-shell">
@@ -318,16 +544,16 @@ export function AccessDashboardShell({
             <div className="section-head">
               <div>
                 <p className="eyebrow">Incoming calls</p>
-                <h2>Quick-intake leads waiting for a callback or a full application link</h2>
+                <h2>Open the supplied answers, then move each borrower into the full application</h2>
               </div>
               <Link className="secondary-button" href={caseWorkspaceHref}>
                 Back to Case
               </Link>
             </div>
             <div className="turicum-access-incoming-calls">
-              {snapshot.preIntakeLeads.length ? (
+              {leadRecords.length ? (
                 <ul className="turicum-access-lead-list">
-                  {snapshot.preIntakeLeads.map((lead) => (
+                  {leadRecords.map((lead) => (
                     <li key={lead.id} className="turicum-access-lead-card">
                       <div className="turicum-access-lead-head">
                         <div>
@@ -349,33 +575,26 @@ export function AccessDashboardShell({
                         <button
                           type="button"
                           className="secondary-button"
-                          onClick={async () => {
-                            setActiveLeadId(lead.id);
-                            const result = await generateApplicationLink(lead.id);
-                            setLeadActionState((current) => ({
-                              ...current,
-                              [lead.id]: result.ok ? { url: result.url } : { message: result.message }
-                            }));
-                            setActiveLeadId(null);
-                            if (result.ok) {
-                              router.refresh();
-                              if (navigator.clipboard?.writeText && result.url) {
-                                void navigator.clipboard.writeText(result.url);
-                              }
-                            }
-                          }}
+                          onClick={() => setSelectedLeadId(lead.id)}
+                        >
+                          {selectedLeadId === lead.id ? "Reviewing answers" : "Open supplied answers"}
+                        </button>
+                        <button
+                          type="button"
+                          className="secondary-button"
+                          onClick={() => handleGenerateLink(lead.id)}
                           disabled={activeLeadId === lead.id}
                         >
-                          {activeLeadId === lead.id ? "Generating..." : "Generate Application Link"}
+                          {activeLeadId === lead.id ? "Working..." : "Copy application link"}
                         </button>
-                        {leadActionState[lead.id]?.url ? (
-                          <a href={leadActionState[lead.id]?.url} target="_blank" rel="noreferrer">
-                            Open link
-                          </a>
-                        ) : null}
                       </div>
                       {leadActionState[lead.id]?.url ? (
                         <p className="helper turicum-access-link-output">{leadActionState[lead.id]?.url}</p>
+                      ) : null}
+                      {leadActionState[lead.id]?.success ? (
+                        <p className="helper turicum-form-callout-success">
+                          {leadActionState[lead.id]?.success}
+                        </p>
                       ) : null}
                       {leadActionState[lead.id]?.message ? (
                         <p className="helper turicum-form-callout-error">{leadActionState[lead.id]?.message}</p>
@@ -392,8 +611,115 @@ export function AccessDashboardShell({
           <section className="panel turicum-access-card turicum-access-card-active">
             <div className="section-head">
               <div>
-                <p className="eyebrow">Borrower intake</p>
-                <h2>Invite ledger and direct portal link management</h2>
+                <p className="eyebrow">Post-call review</p>
+                <h2>Update the supplied answers, then email secure application access</h2>
+              </div>
+            </div>
+            {selectedLead && selectedLeadDraft ? (
+              <div className="turicum-access-review-shell">
+                <div className="turicum-access-review-header">
+                  <div>
+                    <strong>{selectedLead.fullName}</strong>
+                    <p className="helper">
+                      {selectedLead.email} · {selectedLead.phone}
+                    </p>
+                  </div>
+                  <span className="status-chip">{selectedLead.status.replace(/_/g, " ")}</span>
+                </div>
+                <p className="helper">
+                  Review the borrower’s supplied answers, correct them after the call, and then send the secure
+                  application login email from here.
+                </p>
+                <div className="form-grid turicum-access-review-grid">
+                  {BORROWER_REVIEW_FIELDS.map((field) => (
+                    <label
+                      key={field.name}
+                      className={`field${field.multiline ? " turicum-access-review-field-full" : ""}`}
+                    >
+                      <span>{field.label}</span>
+                      {field.multiline ? (
+                        <textarea
+                          rows={4}
+                          value={selectedLeadDraft[field.name]}
+                          onChange={(event) =>
+                            setLeadDrafts((current) => ({
+                              ...current,
+                              [selectedLead.id]: {
+                                ...current[selectedLead.id],
+                                [field.name]: event.target.value
+                              }
+                            }))
+                          }
+                        />
+                      ) : (
+                        <input
+                          type={field.type ?? "text"}
+                          value={selectedLeadDraft[field.name]}
+                          onChange={(event) =>
+                            setLeadDrafts((current) => ({
+                              ...current,
+                              [selectedLead.id]: {
+                                ...current[selectedLead.id],
+                                [field.name]: event.target.value
+                              }
+                            }))
+                          }
+                        />
+                      )}
+                    </label>
+                  ))}
+                </div>
+                <div className="form-actions turicum-access-review-actions">
+                  <button
+                    type="button"
+                    onClick={() => void handleLeadSave(selectedLead.id)}
+                    disabled={activeLeadId === selectedLead.id}
+                  >
+                    {activeLeadId === selectedLead.id ? "Saving..." : "Save updates"}
+                  </button>
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() => void handleLeadSend(selectedLead.id)}
+                    disabled={activeLeadId === selectedLead.id}
+                  >
+                    {activeLeadId === selectedLead.id ? "Sending..." : "Send application login"}
+                  </button>
+                  <button
+                    type="button"
+                    className="secondary-button"
+                    onClick={() => void handleGenerateLink(selectedLead.id)}
+                    disabled={activeLeadId === selectedLead.id}
+                  >
+                    {activeLeadId === selectedLead.id ? "Working..." : "Copy application link"}
+                  </button>
+                </div>
+                {leadActionState[selectedLead.id]?.url ? (
+                  <p className="helper turicum-access-link-output">
+                    {leadActionState[selectedLead.id]?.url}
+                  </p>
+                ) : null}
+                {leadActionState[selectedLead.id]?.success ? (
+                  <p className="helper turicum-form-callout-success">
+                    {leadActionState[selectedLead.id]?.success}
+                  </p>
+                ) : null}
+                {leadActionState[selectedLead.id]?.message ? (
+                  <p className="helper turicum-form-callout-error">
+                    {leadActionState[selectedLead.id]?.message}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className="helper">Select a borrower lead to review the supplied answers.</p>
+            )}
+
+            <div className="turicum-access-inline-divider" />
+
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Borrower portal ledger</p>
+                <h2>Direct borrower invite management</h2>
               </div>
             </div>
             <BorrowerInviteLedger

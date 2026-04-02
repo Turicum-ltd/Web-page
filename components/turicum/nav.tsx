@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { TuricumGlobalSearch } from '@/components/turicum/global-search';
 import { TuricumWordmark } from '@/components/turicum/turicum-wordmark';
+import { withBorrowerPortalPath } from '@/lib/turicum/borrower-portal';
 import { withBasePath } from '@/lib/turicum/runtime';
 
 const links = [
   { href: withBasePath('/'), label: 'Home' },
-  { href: withBasePath('/portal'), label: 'Borrower Intake' },
+  { href: withBorrowerPortalPath('/'), label: 'Borrower Intake' },
   { href: withBasePath('/investors'), label: 'Investor Portal' },
   { href: withBasePath('/review'), label: 'Review' },
   { href: withBasePath('/access'), label: 'Access' },
