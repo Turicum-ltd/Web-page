@@ -67,7 +67,9 @@ export function TuricumBorrowerOverview({
   return (
     <main className="turicum-quick-page">
       <section className="turicum-quick-speed-bar" aria-label="Callback guarantee">
-        <p>⚡ 1-HOUR CALLBACK GUARANTEED ON ALL NEW INTAKES</p>
+        <p>
+          <span aria-hidden="true">⚡</span> 1-HOUR CALLBACK GUARANTEED | DIRECT CAPITAL
+        </p>
       </section>
 
       <section className="turicum-quick-hero">
@@ -93,11 +95,6 @@ export function TuricumBorrowerOverview({
           <div className="turicum-quick-form-header">
             <p className="turicum-quick-form-kicker">Loan Request Form</p>
             <h2>Tell us about the borrower, the asset, and the timing.</h2>
-            <p>
-              We use this information to determine whether your asset qualifies for a quick
-              pre-approval review. Start with the contact details and requested amount, then walk
-              us through the property, your existing position, and how soon you need funds.
-            </p>
           </div>
 
           {introRequested ? (
@@ -141,13 +138,18 @@ export function TuricumBorrowerOverview({
                     </label>
                     <label>
                       <span>Amount requested</span>
-                      <input
-                        type="text"
-                        name="requestedAmount"
-                        placeholder="$500,000"
-                        inputMode="numeric"
-                        required
-                      />
+                      <div className="turicum-quick-prefix-input">
+                        <span className="turicum-quick-prefix-symbol" aria-hidden="true">
+                          $
+                        </span>
+                        <input
+                          type="text"
+                          name="requestedAmount"
+                          placeholder="500,000"
+                          inputMode="numeric"
+                          required
+                        />
+                      </div>
                     </label>
                   </div>
                 </section>

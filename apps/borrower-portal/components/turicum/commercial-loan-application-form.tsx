@@ -70,12 +70,11 @@ type FieldKey =
   | "consentFullLegalName";
 
 const propertyTypeOptions = [
+  "Single Family Home",
   "Industrial",
-  "Retail",
   "Office",
   "Mixed-Use",
   "Multifamily",
-  "Hospitality",
   "Land",
   "Other"
 ];
