@@ -83,7 +83,7 @@ export function InvestorRequestAccessFlow() {
           <p className="eyebrow">Identity Verification</p>
           <h2>Thank you. A Turicum Principal will review your credentials.</h2>
           <p>
-            Access to the Underwriting Room is usually granted within 4 hours.
+            Accredited-investor confirmation and portal access are usually handled within 4 hours.
           </p>
         </div>
       ) : (
@@ -91,14 +91,14 @@ export function InvestorRequestAccessFlow() {
           <div className="section-head compact turicum-investor-gate-head">
             <div>
               <p className="eyebrow">Request Access</p>
-              <h2>Request a partnership deck.</h2>
+              <h2>Request investor login.</h2>
             </div>
           </div>
 
           {step === 0 ? (
             <div className="turicum-investor-gate-step">
               <p className="helper turicum-investor-gate-copy">
-                Enter your work email to request a partnership deck.
+                Enter your work email to request investor credentials. Example: `analyst@realtymogul.com`.
               </p>
               <label className="field turicum-investor-gate-field">
                 <span>Work email</span>
@@ -106,6 +106,7 @@ export function InvestorRequestAccessFlow() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  placeholder="analyst@realtymogul.com"
                   value={state.email}
                   onChange={(event) => updateState("email", event.target.value)}
                   required
@@ -128,6 +129,10 @@ export function InvestorRequestAccessFlow() {
             <div className="turicum-investor-gate-step">
               <p className="turicum-investor-step-label">Step 1</p>
               <h3>Are you an Accredited Investor?</h3>
+              <p className="helper turicum-investor-gate-copy">
+                Turicum issues portal credentials only after confirming accredited-investor eligibility
+                for private offerings. This step helps route the correct follow-up.
+              </p>
               <div className="turicum-investor-choice-grid" role="radiogroup" aria-label="Accredited investor">
                 {(["Yes", "No"] as const).map((option) => (
                   <button

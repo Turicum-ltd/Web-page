@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LiveOpportunitiesGallery } from "@/components/turicum/live-opportunities-gallery";
 import { InvestorAccessGate } from "@/components/turicum/investor-access-gate";
 import { TuricumWordmark } from "@/components/turicum/turicum-wordmark";
+import { withBorrowerPortalPath } from "@/lib/turicum/borrower-portal";
 import { withBasePath } from "@/lib/turicum/runtime";
 
 const investmentPrinciples = [
@@ -152,7 +153,7 @@ export function TuricumPortalOverview() {
           <footer className="turicum-home-footer">
             <p className="helper turicum-footer-note">
               Looking for a loan?{" "}
-              <a href="https://borrow.turicum.us" target="_blank" rel="noreferrer">
+              <a href={withBorrowerPortalPath("/")} target="_blank" rel="noreferrer">
                 Visit the Borrower Intake
               </a>
             </p>

@@ -1,4 +1,5 @@
 const DEFAULT_BORROWER_PORTAL_ORIGIN = "https://borrow.turicum.us";
+const DEFAULT_MAIN_APP_ORIGIN = "https://turicum.us";
 
 function normalizeOrigin(input: string | undefined) {
   const trimmed = input?.trim();
@@ -17,6 +18,14 @@ function getConfiguredOrigin() {
   }
 
   return normalizeOrigin(process.env.NEXT_PUBLIC_BORROWER_PORTAL_ORIGIN);
+}
+
+function getConfiguredMainAppOrigin() {
+  if (typeof window === "undefined") {
+    return normalizeOrigin(process.env.APP_ORIGIN ?? process.env.NEXT_PUBLIC_APP_ORIGIN ?? DEFAULT_MAIN_APP_ORIGIN);
+  }
+
+  return normalizeOrigin(process.env.NEXT_PUBLIC_APP_ORIGIN ?? DEFAULT_MAIN_APP_ORIGIN);
 }
 
 export function withBasePath(pathname: string) {
@@ -51,4 +60,12 @@ export function buildAppUrl(source: Headers | Request, pathname: string) {
   }
 
   return `${forwardedProto}://${forwardedHost}${pathname}`;
+}
+
+export function withMainAppPath(pathname: string = "/") {
+  if (!pathname.startsWith("/")) {
+    throw new Error(`Expected a main-app path to start with '/', received: ${pathname}`);
+  }
+
+  return `${getConfiguredMainAppOrigin()}${pathname}`;
 }
